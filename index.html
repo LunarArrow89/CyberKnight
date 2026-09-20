@@ -3133,126 +3133,107 @@ function resetGame() {
 
 function openShop(){
 
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "shopScreen"
-    ).style.display = "block";
-
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
 
     hideShopSections();
 
 }
 
 
-
 function closeShop(){
 
-    document.getElementById(
-        "shopScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
+    document.getElementById("shopScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 
     updatePlayerDisplay();
 
 }
 
 
-function openPetShop(){
+function hideShopSections(){
 
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
-
-    renderPetShop();
+    document.getElementById("shopMainMenu").style.display = "flex";
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "none";
 
 }
 
+
+function openPetShop(){
+
+    hideShopSections();
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "flex";
+
+    renderShop();
+
+}
 
 
 function openBlacksmith(){
 
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
+    hideShopSections();
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("gearShop").style.display = "flex";
 
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
-
-    renderGearShop();
+    renderShop();
 
 }
 
-    gear.forEach(function(item){
 
-        const button =
-            document.createElement(
-                "button"
-            );
+function openInventory(){
+
+    hideShopSections();
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("inventory").style.display = "flex";
+
+    renderInventory();
+
+}
 
 
-        button.className =
-            "action-btn";
+function renderShop(){
 
+    const petBox = document.getElementById("petShop");
+    const gearBox = document.getElementById("gearShop");
+
+    petBox.innerHTML = "<h3>🐾 Pet Shop</h3>";
+    gearBox.innerHTML = "<h3>⚔️ Blacksmith</h3>";
+
+    pets.forEach(function(item){
+
+        const button = document.createElement("button");
+        button.className = "action-btn";
 
         button.innerHTML =
-
-            "⚔️ " +
-            item.name +
-            "<br>" +
-
-            item.cost +
-            " Gold<br>" +
-
+            item.name + "<br>" +
+            item.cost + " Gold<br>" +
             item.bonus;
 
+        button.onclick = function(){
+            buyPet(item);
+        };
+
+        petBox.appendChild(button);
+
+    });
 
 
-        button.onclick =
-            function(){
+    gear.forEach(function(item){
 
-                buyGear(item);
+        const button = document.createElement("button");
+        button.className = "action-btn";
 
-            };
-        
+        button.innerHTML =
+            item.name + "<br>" +
+            item.cost + " Gold<br>" +
+            item.bonus;
 
+        button.onclick = function(){
+            buyGear(item);
+        };
 
         gearBox.appendChild(button);
 
@@ -3260,6 +3241,29 @@ function openBlacksmith(){
 
 }
 
+
+function renderInventory(){
+
+    const box = document.getElementById("inventory");
+
+    box.innerHTML = "<h3>🎒 Inventory</h3>";
+
+    if(!player.inventory || player.inventory.length === 0){
+
+        box.innerHTML += "<p>Your inventory is empty.</p>";
+        return;
+
+    }
+
+    player.inventory.forEach(function(item){
+
+        box.innerHTML +=
+            "<p>⚔️ " + item.name +
+            "<br>" + item.bonus + "</p>";
+
+    });
+
+}
 
 
 function buyPet(pet){
@@ -3276,25 +3280,27 @@ function buyPet(pet){
 
     }
 
-
     player.gold -= pet.cost;
-
-
     player.pets.push(pet);
 
+    if(pet.atk){
+        player.atk += pet.atk;
+    }
+
+    if(pet.hp){
+        player.maxHp += pet.hp;
+        player.hp += pet.hp;
+    }
 
     logMessage(
-        "> 🐾 Purchased " +
-        pet.name +
-        "!"
+        "> 🐾 Purchased " + pet.name + "!"
     );
 
-
     saveGame();
-
     updatePlayerDisplay();
 
 }
+
 
 function buyGear(item){
 
@@ -3310,176 +3316,29 @@ function buyGear(item){
 
     }
 
+    player.gold -= item.cost;
 
-    if(item.hp){
-
-        player.maxHp += item.hp;
-
-        player.hp += item.hp;
-
+    if(item.atk){
+        player.atk += item.atk;
     }
 
+    if(item.hp){
+        player.maxHp += item.hp;
+        player.hp += item.hp;
+    }
 
     player.inventory.push(item);
 
-
     logMessage(
-        "> ⚔️ Bought " +
-        item.name +
-        "!"
+        "> ⚔️ Bought " + item.name + "!"
     );
 
-
     saveGame();
-
     updatePlayerDisplay();
 
 }
 
 
-    player.gold -= item.cost;
-
-
-    if(item.atk){
-
-        player.atk += item.atk;
-
-    }
-
-
-    if(item.hp){
-
-        player.maxHp += item.hp;
-
-        player.hp += item.hp;
-
-    }
-
-
-    logMessage(
-        "> ⚔️ Bought " +
-        item.name +
-        "!"
-    );
-
-
-    saveGame();
-
-    updatePlayerDisplay();
-
-}
-
-
-// 👇 PASTE THE NEW FUNCTIONS RIGHT HERE
-
-function hideShopSections(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
-}
-
-
-
-function openPetShop(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "flex";
-
-
-    renderShop();
-
-}
-
-
-
-function openBlacksmith(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "flex";
-
-
-    renderShop();
-
-}
-
-
-
-function openInventory(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "flex";
-
-
-    renderInventory();
-
-}
-
-    player.gold -= item.cost;
-
-
-    if(item.atk){
-
-        player.atk += item.atk;
-
-    }
-
-
-    if(item.hp){
-
-        player.maxHp += item.hp;
-
-        player.hp += item.hp;
-
-    }
-
-
-    logMessage(
-        "> ⚔️ Bought " +
-        item.name +
-        "!"
-    );
-
-
-    saveGame();
-
-    updatePlayerDisplay();
-
-}
 // ==========================================
 // START
 // ==========================================
