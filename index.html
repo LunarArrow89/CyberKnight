@@ -618,7 +618,8 @@ function chooseClass(className) {
 
         level: 1,
 
-        activity: null
+        activity: null,
+        mustRest: false
 
     };
 
@@ -733,6 +734,10 @@ function updateActivityButtons() {
         !!player.activity;
 
 
+    const forcedRest =
+        player.mustRest;
+
+
     const exploreButton =
         document.getElementById(
             "exploreButton"
@@ -760,7 +765,7 @@ function updateActivityButtons() {
     if (exploreButton) {
 
         exploreButton.disabled =
-            busy;
+            busy || forcedRest;
 
     }
 
@@ -768,7 +773,15 @@ function updateActivityButtons() {
     if (workButton) {
 
         workButton.disabled =
-            busy;
+            busy || forcedRest;
+
+    }
+
+
+    if (travelButton) {
+
+        travelButton.disabled =
+            busy || forcedRest;
 
     }
 
@@ -778,19 +791,24 @@ function updateActivityButtons() {
         restButton.disabled =
             busy;
 
-    }
 
+        if (forcedRest) {
 
-    if (travelButton) {
+            restButton.innerHTML =
+                "💤 Forced Rest Required";
 
-        travelButton.disabled =
-            busy;
+        }
+
+        else {
+
+            restButton.innerHTML =
+                "Rest";
+
+        }
 
     }
 
 }
-
-
 
 // ==========================================
 // SKILL BUTTON DISPLAY
@@ -1372,11 +1390,12 @@ function playerDefeated() {
         "battleLog"
     ).textContent =
 
-        "> SYSTEM FAILURE. YOU WERE DEFEATED.";
+        "> SYSTEM FAILURE. YOU WERE DEFEATED. REST REQUIRED.";
 
 
     setTimeout(
         function() {
+
 
             currentEnemy = null;
 
@@ -1393,19 +1412,24 @@ function playerDefeated() {
                 "block";
 
 
-            player.hp =
-                player.maxHp;
+            player.hp = 1;
+
+
+            // FORCE REST
+            player.mustRest = true;
 
 
             logMessage(
-                "> You were defeated. HP restored."
+                "> You were defeated. You must Rest before fighting again."
             );
 
 
             updatePlayerDisplay();
 
+            updateActivityButtons();
 
             saveGame();
+
 
         },
         1200
@@ -2036,14 +2060,26 @@ function startActivity(type) {
 
 
     if (
-        type === "rest"
-    ) {
+    type === "rest"
+) {
 
-        logMessage(
-            "> 💤 Rest started. 1 minute remaining. Completing Rest restores HP and refreshes your skill 3 times."
-        );
+    player.hp =
+        player.maxHp;
 
-    }
+
+    player.skillUses =
+        MAX_SKILL_USES;
+
+
+    player.mustRest =
+        false;
+
+
+    logMessage(
+        "> 💤 REST COMPLETE! HP FULLY RESTORED. SKILL REFRESHED: 3/3."
+    );
+
+}
 
 
     updateActivityButtons();
