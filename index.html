@@ -2699,6 +2699,22 @@ function loadGame() {
 
         player =
             data.player;
+        // FIX OLD SAVES
+if (typeof player.exp !== "number") {
+    player.exp = 0;
+}
+
+if (typeof player.expNeeded !== "number") {
+    player.expNeeded = 50;
+}
+
+if (typeof player.level !== "number") {
+    player.level = 1;
+}
+
+if (typeof player.gold !== "number") {
+    player.gold = 0;
+}
 
 
         if (
