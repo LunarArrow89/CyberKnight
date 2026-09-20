@@ -6,286 +6,1442 @@
     <title>CyberKnight: Neon Text RPG</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="game-container">
+
     <h1>CYBERKNIGHT</h1>
     <p class="subtitle">A Neon Text RPG</p>
 
     <!-- CLASS SELECTION SCREEN -->
     <div id="classScreen">
+
         <h2>Choose Your Class</h2>
+
         <div class="class-grid">
-            <div class="class-card warrior-select" onclick="chooseClass('Warrior')">
+
+            <div class="class-card warrior-select"
+                 onclick="chooseClass('Warrior')">
+
                 <h3>⚔️ WARRIOR</h3>
+
                 <p>
                     Strong and durable armor.<br>
-                    <strong>HP:</strong> 130 | <strong>ATK:</strong> 14<br>
-                    <span class="skill-label">Skill: Power Strike</span>
+                    <strong>HP:</strong> 130 |
+                    <strong>ATK:</strong> 14<br>
+
+                    <span class="skill-label">
+                        Skill: Power Strike
+                    </span>
                 </p>
+
             </div>
 
-            <div class="class-card rogue-select" onclick="chooseClass('Rogue')">
+
+            <div class="class-card rogue-select"
+                 onclick="chooseClass('Rogue')">
+
                 <h3>🗡️ ROGUE</h3>
+
                 <p>
                     Fast and deadly optimization.<br>
-                    <strong>HP:</strong> 100 | <strong>ATK:</strong> 12<br>
-                    <span class="skill-label">Skill: Critical Strike</span>
+                    <strong>HP:</strong> 100 |
+                    <strong>ATK:</strong> 12<br>
+
+                    <span class="skill-label">
+                        Skill: Critical Strike
+                    </span>
                 </p>
+
             </div>
 
-            <div class="class-card mage-select" onclick="chooseClass('Mage')">
+
+            <div class="class-card mage-select"
+                 onclick="chooseClass('Mage')">
+
                 <h3>⚡ MAGE</h3>
+
                 <p>
                     Powerful system code hacks.<br>
-                    <strong>HP:</strong> 85 | <strong>ATK:</strong> 9<br>
-                    <span class="skill-label">Skill: Energy Blast</span>
+                    <strong>HP:</strong> 85 |
+                    <strong>ATK:</strong> 9<br>
+
+                    <span class="skill-label">
+                        Skill: Energy Blast
+                    </span>
                 </p>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- MAIN GAME MAIN DASHBOARD -->
+
+    <!-- MAIN GAME DASHBOARD -->
     <div id="gameScreen" style="display:none;">
+
         <div class="card player-card">
+
             <h2 id="playerTitle"></h2>
+
             <p id="stats"></p>
+
         </div>
+
 
         <div class="action-tray">
-            <button class="action-btn" onclick="explore()">Explore</button>
-            <button class="action-btn work-btn" onclick="work()">Work</button>
-            <button class="action-btn rest-btn" onclick="rest()">Rest</button>
-            <button class="action-btn battle-btn" onclick="startBattle()">Battle</button>
-            <button class="action-btn reset-btn" onclick="resetGame()">Reset Save</button>
+
+            <button class="action-btn"
+                    onclick="explore()">
+                Explore Sector
+            </button>
+
+            <button class="action-btn work-btn"
+                    onclick="work()">
+                Work
+            </button>
+
+            <button class="action-btn rest-btn"
+                    onclick="rest()">
+                Rest
+            </button>
+
+            <button class="action-btn battle-btn"
+                    onclick="openTravelMenu()">
+                Travel Map
+            </button>
+
+            <button class="action-btn reset-btn"
+                    onclick="resetGame()">
+                Reset Save
+            </button>
+
         </div>
 
-        <div id="terminalLog" class="terminal-feed">> System Initialized. Awaiting user tactical command inputs...</div>
+
+        <div id="terminalLog"
+             class="terminal-feed">
+
+            &gt; System Initialized.
+            Awaiting user tactical command inputs...
+
+        </div>
+
     </div>
 
-    <!-- BATTLE OVERLAY THEATRE -->
+
+    <!-- TRAVEL MAP -->
+    <div id="travelScreen" style="display:none;">
+
+        <div class="card">
+
+            <h2>Global Navigation Subnets</h2>
+
+            <p>
+                Gather all 3 cryptographic fragments
+                in your current area to unlock
+                the next network node gateway.
+            </p>
+
+
+            <div class="action-tray"
+                 id="areaListTray"
+                 style="flex-direction: column; align-items: stretch;">
+
+            </div>
+
+
+            <div class="action-tray"
+                 style="margin-top:20px;">
+
+                <button class="action-btn reset-btn"
+                        onclick="closeTravelMenu()">
+
+                    Return to Dashboard
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BATTLE SCREEN -->
     <div id="battleScreen" style="display:none;">
+
         <div class="card battle-card">
+
             <h2>Combat Area Matrix Active</h2>
+
             <h3 id="enemyName"></h3>
+
             <p id="enemyStats"></p>
+
             <p id="battleLog"></p>
 
+
             <div class="action-tray">
-                <button class="action-btn battle-btn" onclick="attack()">Attack</button>
-                <button class="action-btn skill-btn" onclick="skillAttack()">Skill</button>
-                <button class="action-btn reset-btn" onclick="runAway()">Run</button>
+
+                <button class="action-btn battle-btn"
+                        onclick="attack()">
+
+                    Attack
+
+                </button>
+
+
+                <button class="action-btn skill-btn"
+                        onclick="skillAttack()">
+
+                    Skill
+
+                </button>
+
+
+                <button class="action-btn reset-btn"
+                        onclick="runAway()">
+
+                    Run
+
+                </button>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
 
+
+
 <script>
-    let player = {
-        name: "", class: "", hp: 100, maxHp: 100, attack: 10, gold: 25, level: 1, xp: 0
-    };
 
-    let enemy = null;
 
-    const classes = {
-        Warrior: { hp: 130, attack: 14, skill: "Power Strike" },
-        Rogue: { hp: 100, attack: 12, skill: "Critical Strike" },
-        Mage: { hp: 85, attack: 9, skill: "Energy Blast" }
-    };
+// ==========================================
+// CYBERKNIGHT GAME DATA
+// ==========================================
 
-    function saveGame() {
-        localStorage.setItem("CyberKnightSave", JSON.stringify(player));
+let player = null;
+
+let currentEnemy = null;
+
+let currentArea = 0;
+
+
+// ==========================================
+// AREAS
+// ==========================================
+
+const areas = [
+
+    {
+        name: "Neon Outskirts",
+
+        difficulty: "Easy",
+
+        enemies: [
+            {
+                name: "Glitch Rat",
+                hp: 20,
+                atk: 5
+            },
+
+            {
+                name: "Broken Drone",
+                hp: 25,
+                atk: 6
+            },
+
+            {
+                name: "Street Hacker",
+                hp: 30,
+                atk: 7
+            }
+        ],
+
+        fragments: [false, false, false]
+    },
+
+
+    {
+        name: "Cyber District",
+
+        difficulty: "Normal",
+
+        enemies: [
+            {
+                name: "Combat Drone",
+                hp: 40,
+                atk: 10
+            },
+
+            {
+                name: "Cyber Thief",
+                hp: 45,
+                atk: 11
+            },
+
+            {
+                name: "Security Bot",
+                hp: 55,
+                atk: 12
+            }
+        ],
+
+        fragments: [false, false, false]
+    },
+
+
+    {
+        name: "Neon Wasteland",
+
+        difficulty: "Hard",
+
+        enemies: [
+            {
+                name: "Mutant Machine",
+                hp: 65,
+                atk: 15
+            },
+
+            {
+                name: "Wasteland Raider",
+                hp: 75,
+                atk: 17
+            },
+
+            {
+                name: "Cyber Beast",
+                hp: 85,
+                atk: 19
+            }
+        ],
+
+        fragments: [false, false, false]
+    },
+
+
+    {
+        name: "The Dark Network",
+
+        difficulty: "Very Hard",
+
+        enemies: [
+            {
+                name: "Dark Knight",
+                hp: 100,
+                atk: 22
+            },
+
+            {
+                name: "Void Hacker",
+                hp: 115,
+                atk: 24
+            },
+
+            {
+                name: "Network Guardian",
+                hp: 130,
+                atk: 27
+            }
+        ],
+
+        fragments: [false, false, false]
+    },
+
+
+    {
+        name: "Cyber Core",
+
+        difficulty: "Extreme",
+
+        enemies: [
+            {
+                name: "Core Defender",
+                hp: 150,
+                atk: 30
+            },
+
+            {
+                name: "System Destroyer",
+                hp: 175,
+                atk: 33
+            },
+
+            {
+                name: "Cyber Overlord",
+                hp: 200,
+                atk: 36
+            }
+        ],
+
+        fragments: [false, false, false]
     }
 
-    function loadGame() {
-        let save = localStorage.getItem("CyberKnightSave");
-        if(save) {
-            player = JSON.parse(save);
-            document.getElementById("classScreen").style.display = "none";
-            document.getElementById("gameScreen").style.display = "block";
-            updateStats();
-        }
-    }
-
-    function logTerminal(message) {
-        const logger = document.getElementById("terminalLog");
-        if(logger) {
-            logger.innerHTML = `> ${message}`;
-        }
-    }
-
-    function chooseClass(type) {
-        let c = classes[type];
-        player.class = type;
-        player.hp = c.hp;
-        player.maxHp = c.hp;
-        player.attack = c.attack;
-        saveGame();
-        document.getElementById("classScreen").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-        updateStats();
-        logTerminal(`Class initialized as ${type.toUpperCase()}. Welcome, CyberKnight.`);
-    }
-
-    function updateStats() {
-        document.getElementById("playerTitle").innerHTML = `${player.class.toUpperCase()} // CYBERKNIGHT LEVEL [0${player.level}]`;
-        document.getElementById("stats").innerHTML = `
-            <strong>CORE HEALTH UNITS:</strong> ${player.hp} / ${player.maxHp}<br>
-            <strong>OFFENSIVE MATRIX:</strong> ${player.attack} AP<br>
-            <strong>SYSTEM ARCHITECTURE LEVEL:</strong> ${player.level}<br>
-            <strong>CORE PROGRAM DATA XP:</strong> ${player.xp}<br>
-            <strong>CRYPTO GOLD NANOCREDITS:</strong> ${player.gold}₡
-        `;
-    }
-
-    function work() {
-        logTerminal("ACCESSING JOB DIRECTORY... Performing security sweep tasks. Standby 10 seconds...");
-        setTimeout(() => {
-            let money = Math.floor(Math.random() * 20) + 10;
-            player.gold += money;
-            saveGame();
-            updateStats();
-            logTerminal(`SECURE CREDIT TRANSFER NODE COMPLETED. Gained +${money} NanoCredits.`);
-        }, 10000);
-    }
-
-    function rest() {
-        logTerminal("ACTIVATING DEFENSIVE BARRIER MATRIX REGENERATION CYCLES... Sleeping 5 seconds...");
-        setTimeout(() => {
-            let heal = 25;
-            player.hp += heal;
-            if(player.hp > player.maxHp) player.hp = player.maxHp;
-            saveGame();
-            updateStats();
-            logTerminal("SYSTEM DATA INTEGRITY RECONSTRUCTED. Core parameters restored successfully.");
-        }, 5000);
-    }
-
-    function explore() {
-        let xp = Math.floor(Math.random() * 20) + 5;
-        player.xp += xp;
-        player.gold += 5;
-        saveGame();
-        updateStats();
-        logTerminal(`Scanned structural nodes. Uncovered +${xp} core data points & collected +5 bonus NanoCredits.`);
-    }
-
-    function startBattle() {
-        document.getElementById("gameScreen").style.display = "none";
-        document.getElementById("battleScreen").style.display = "block";
-        // Keep your existing player variable...
-let player = {
-    name: "", class: "", hp: 100, maxHp: 100, attack: 10, gold: 25, level: 1, xp: 0
-};
-
-// 1. Keep this global placeholder variable
-let enemy = null; 
-
-// 2. Add this new Array containing all your unique cyber enemies
-const enemyDatabase = [
-    { name: "CORRUPT_SECTOR_SLIME.EXE", hp: 45, attack: 7, rewardGold: 20, rewardXp: 15 },
-    { name: "ROGUE_SURVEILLANCE_DRONE", hp: 60, attack: 10, rewardGold: 35, rewardXp: 25 },
-    { name: "NETRUNNER_PHANTOM_BOT", hp: 80, attack: 14, rewardGold: 50, rewardXp: 35 },
-    { name: "CYBER_YAKUZA_STRIKER", hp: 110, attack: 18, rewardGold: 75, rewardXp: 50 }
 ];
 
-// ... (keep classes, saveGame, loadGame, etc. the same) ...
 
-// 3. Replace your existing startBattle() function with this randomized system
-function startBattle() {
-    document.getElementById("gameScreen").style.display = "none";
-    document.getElementById("battleScreen").style.display = "block";
+// ==========================================
+// CLASS SELECTION
+// ==========================================
 
-    // Selects a completely random enemy from your database array
-    const randomIndex = Math.floor(Math.random() * enemyDatabase.length);
-    const selectedEnemy = enemyDatabase[randomIndex];
+function chooseClass(className) {
 
-    // Creates a fresh copy of the enemy object so we don't overwrite the original database
-    enemy = {
-        name: selectedEnemy.name,
-        hp: selectedEnemy.hp,
-        attack: selectedEnemy.attack,
-        rewardGold: selectedEnemy.rewardGold,
-        rewardXp: selectedEnemy.rewardXp
+    const classStats = {
+
+        Warrior: {
+            hp: 130,
+            maxHp: 130,
+            atk: 14,
+            skill: "Power Strike"
+        },
+
+        Rogue: {
+            hp: 100,
+            maxHp: 100,
+            atk: 12,
+            skill: "Critical Strike"
+        },
+
+        Mage: {
+            hp: 85,
+            maxHp: 85,
+            atk: 9,
+            skill: "Energy Blast"
+        }
+
     };
 
-    updateBattle();
-}
 
-// 4. Update your winBattle() function to give dynamic rewards instead of flat numbers
-function winBattle() {
-    // Uses the specific enemy's rewards instead of a static number
-    let goldReward = enemy.rewardGold;
-    let xpReward = enemy.rewardXp;
+    player = {
 
-    player.gold += goldReward;
-    player.xp += xpReward;
+        className: className,
+
+        hp: classStats[className].hp,
+
+        maxHp: classStats[className].maxHp,
+
+        atk: classStats[className].atk,
+
+        skill: classStats[className].skill,
+
+        gold: 0,
+
+        level: 1
+
+    };
+
+
+    currentArea = 0;
+
+
+    document.getElementById("classScreen").style.display =
+        "none";
+
+    document.getElementById("gameScreen").style.display =
+        "block";
+
+
+    updatePlayerDisplay();
+
+
+    logMessage(
+        "> Class selected: " +
+        className +
+        ". Welcome to CyberKnight."
+    );
+
 
     saveGame();
-    document.getElementById("battleScreen").style.display = "none";
-    document.getElementById("gameScreen").style.display = "block";
-    updateStats();
-    
-    logTerminal(`THREAT SECTOR PURGED. Harvested +${goldReward} NanoCredits and processed +${xpReward} core architecture data points.`);
+
 }
 
-        updateBattle();
+
+// ==========================================
+// PLAYER DISPLAY
+// ==========================================
+
+function updatePlayerDisplay() {
+
+    if (!player) return;
+
+
+    document.getElementById("playerTitle").textContent =
+        player.className + " // CyberKnight";
+
+
+    document.getElementById("stats").innerHTML =
+
+        "<strong>HP:</strong> " +
+
+        player.hp +
+
+        "/" +
+
+        player.maxHp +
+
+        " | <strong>ATK:</strong> " +
+
+        player.atk +
+
+        " | <strong>Level:</strong> " +
+
+        player.level +
+
+        " | <strong>Gold:</strong> " +
+
+        player.gold +
+
+        " | <strong>Area:</strong> " +
+
+        areas[currentArea].name;
+
+}
+
+
+// ==========================================
+// TERMINAL LOG
+// ==========================================
+
+function logMessage(message) {
+
+    const log =
+        document.getElementById("terminalLog");
+
+
+    log.innerHTML +=
+        "<br>" + message;
+
+
+    log.scrollTop =
+        log.scrollHeight;
+
+}
+
+
+// ==========================================
+// TRAVEL MAP
+// ==========================================
+
+function openTravelMenu() {
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+
+    document.getElementById("travelScreen").style.display =
+        "block";
+
+
+    renderTravelMap();
+
+}
+
+
+function closeTravelMenu() {
+
+    document.getElementById("travelScreen").style.display =
+        "none";
+
+
+    document.getElementById("gameScreen").style.display =
+        "block";
+
+
+    updatePlayerDisplay();
+
+}
+
+
+// ==========================================
+// DRAW TRAVEL MAP
+// ==========================================
+
+function renderTravelMap() {
+
+    const tray =
+        document.getElementById("areaListTray");
+
+
+    tray.innerHTML = "";
+
+
+    areas.forEach((area, index) => {
+
+        const button =
+            document.createElement("button");
+
+
+        button.className =
+            "action-btn";
+
+
+        // CURRENT AREA
+        if (index === currentArea) {
+
+            button.innerHTML =
+
+                "📍 " +
+
+                area.name +
+
+                " — CURRENT AREA<br>" +
+
+                "Difficulty: " +
+
+                area.difficulty +
+
+                "<br>" +
+
+                getFragmentDisplay(area);
+
+
+            button.onclick =
+                function () {
+
+                    travelToArea(index);
+
+                };
+
+        }
+
+
+        // PREVIOUSLY UNLOCKED AREA
+        else if (index < currentArea) {
+
+            button.innerHTML =
+
+                "🗺️ " +
+
+                area.name +
+
+                "<br>" +
+
+                "Difficulty: " +
+
+                area.difficulty;
+
+
+            button.onclick =
+                function () {
+
+                    travelToArea(index);
+
+                };
+
+        }
+
+
+        // NEXT AREA
+        else if (index === currentArea + 1) {
+
+            const unlocked =
+                area.fragments.every(
+                    fragment => fragment
+                );
+
+
+            if (unlocked) {
+
+                button.innerHTML =
+
+                    "🔓 " +
+
+                    area.name +
+
+                    "<br>" +
+
+                    "Difficulty: " +
+
+                    area.difficulty +
+
+                    "<br>" +
+
+                    "NEXT AREA UNLOCKED";
+
+
+                button.onclick =
+                    function () {
+
+                        travelToArea(index);
+
+                    };
+
+            }
+
+            else {
+
+                button.disabled = true;
+
+
+                button.innerHTML =
+
+                    "🔒 " +
+
+                    area.name +
+
+                    "<br>" +
+
+                    "LOCKED — Collect all 3 fragments from " +
+
+                    areas[currentArea].name;
+
+            }
+
+        }
+
+
+        // FUTURE AREAS
+        else {
+
+            button.disabled = true;
+
+
+            button.innerHTML =
+
+                "🔒 " +
+
+                area.name +
+
+                "<br>" +
+
+                "LOCKED";
+
+        }
+
+
+        tray.appendChild(button);
+
+    });
+
+}
+
+
+// ==========================================
+// FRAGMENT DISPLAY
+// ==========================================
+
+function getFragmentDisplay(area) {
+
+    let text =
+        "Key Fragments: ";
+
+
+    for (let i = 0; i < 3; i++) {
+
+        if (area.fragments[i]) {
+
+            text += "🔑 ";
+
+        }
+
+        else {
+
+            text += "▫️ ";
+
+        }
+
     }
 
-    function updateBattle() {
-        document.getElementById("enemyName").innerHTML = `⚠️ THREAT INBOUND: ${enemy.name}`;
-        document.getElementById("enemyStats").innerHTML = `<strong>TARGET LIFE REQUISITES:</strong> ${enemy.hp} CORE UNITS`;
-        document.getElementById("battleLog").innerHTML = "Awaiting execution sequence instruction updates...";
+
+    const complete =
+        area.fragments.every(
+            fragment => fragment
+        );
+
+
+    if (complete) {
+
+        text +=
+            "<br>✓ ALL FRAGMENTS COLLECTED";
+
     }
 
-    function attack() {
-        enemy.hp -= player.attack;
-        if(enemy.hp <= 0) { winBattle(); return; }
-        enemyTurn();
+
+    return text;
+
+}
+
+
+// ==========================================
+// TRAVEL TO AREA
+// ==========================================
+
+function travelToArea(index) {
+
+    if (index > currentArea + 1) {
+        return;
     }
 
-    function skillAttack() {
-        enemy.hp -= (player.attack * 2);
-        if(enemy.hp <= 0) { winBattle(); return; }
-        enemyTurn();
-    }
 
-    function enemyTurn() {
-        player.hp -= enemy.attack;
-        if(player.hp <= 0) {
-            alert("CRITICAL FATAL FAULT ERROR: Core health components completely flatlined.");
-            resetGame();
+    // NEXT AREA MUST HAVE ALL FRAGMENTS
+    if (index === currentArea + 1) {
+
+        const unlocked =
+            areas[currentArea].fragments.every(
+                fragment => fragment
+            );
+
+
+        if (!unlocked) {
+
+            logMessage(
+                "> ACCESS DENIED. Three key fragments required."
+            );
+
             return;
         }
-        saveGame();
-        updateStats();
-        updateBattle();
-        document.getElementById("battleLog").innerHTML = `Threat execution sequence structural payload hit you for ${enemy.attack} integrity damage!`;
+
     }
 
-    function winBattle() {
-        let reward = 25;
-        player.gold += reward;
-        player.xp += 20;
-        saveGame();
-        document.getElementById("battleScreen").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-        updateStats();
-        logTerminal(`THREAT SECTOR PURGED. Harvested +25 NanoCredits and processed +20 core architecture data points.`);
+
+    currentArea = index;
+
+
+    logMessage(
+
+        "> Traveling to " +
+
+        areas[currentArea].name +
+
+        "..."
+
+    );
+
+
+    logMessage(
+
+        "> Enemy difficulty: " +
+
+        areas[currentArea].difficulty
+
+    );
+
+
+    closeTravelMenu();
+
+
+    saveGame();
+
+}
+
+
+// ==========================================
+// EXPLORE
+// ==========================================
+
+function explore() {
+
+    if (!player) return;
+
+
+    const area =
+        areas[currentArea];
+
+
+    const enemyTemplate =
+        area.enemies[
+            Math.floor(
+                Math.random() *
+                area.enemies.length
+            )
+        ];
+
+
+    currentEnemy = {
+
+        name: enemyTemplate.name,
+
+        hp: enemyTemplate.hp,
+
+        maxHp: enemyTemplate.hp,
+
+        atk: enemyTemplate.atk
+
+    };
+
+
+    document.getElementById("gameScreen").style.display =
+        "none";
+
+
+    document.getElementById("battleScreen").style.display =
+        "block";
+
+
+    updateBattleDisplay();
+
+
+    document.getElementById("battleLog").textContent =
+
+        "A " +
+
+        currentEnemy.name +
+
+        " has appeared in " +
+
+        area.name +
+
+        "!";
+
+}
+
+
+// ==========================================
+// BATTLE DISPLAY
+// ==========================================
+
+function updateBattleDisplay() {
+
+    if (!currentEnemy) return;
+
+
+    document.getElementById("enemyName").textContent =
+        currentEnemy.name;
+
+
+    document.getElementById("enemyStats").textContent =
+
+        "Enemy HP: " +
+
+        currentEnemy.hp +
+
+        "/" +
+
+        currentEnemy.maxHp +
+
+        " | ATK: " +
+
+        currentEnemy.atk;
+
+}
+
+
+// ==========================================
+// NORMAL ATTACK
+// ==========================================
+
+function attack() {
+
+    if (!currentEnemy) return;
+
+
+    const damage =
+        player.atk;
+
+
+    currentEnemy.hp -=
+        damage;
+
+
+    document.getElementById("battleLog").textContent =
+
+        "> You attacked for " +
+
+        damage +
+
+        " damage.";
+
+
+    if (currentEnemy.hp <= 0) {
+
+        winBattle();
+
+        return;
+
     }
 
-    function runAway() {
-        document.getElementById("battleScreen").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-        logTerminal("TACTICAL ABORT RETREAT INITIALIZED. Scrambled structural signature trace protocols.");
+
+    enemyAttack();
+
+
+    updateBattleDisplay();
+
+}
+
+
+// ==========================================
+// SKILL ATTACK
+// ==========================================
+
+function skillAttack() {
+
+    if (!currentEnemy) return;
+
+
+    let damage =
+        player.atk * 2;
+
+
+    if (player.className === "Rogue") {
+
+        damage =
+            Math.floor(player.atk * 2.5);
+
     }
 
-    function resetGame() {
-        localStorage.removeItem("CyberKnightSave");
-        location.reload();
+
+    if (player.className === "Mage") {
+
+        damage =
+            Math.floor(player.atk * 2.25);
+
     }
 
-    loadGame();
+
+    if (player.className === "Warrior") {
+
+        damage =
+            Math.floor(player.atk * 2);
+
+    }
+
+
+    currentEnemy.hp -=
+        damage;
+
+
+    document.getElementById("battleLog").textContent =
+
+        "> " +
+
+        player.skill +
+
+        " dealt " +
+
+        damage +
+
+        " damage!";
+
+
+    if (currentEnemy.hp <= 0) {
+
+        winBattle();
+
+        return;
+
+    }
+
+
+    enemyAttack();
+
+
+    updateBattleDisplay();
+
+}
+
+
+// ==========================================
+// ENEMY ATTACK
+// ==========================================
+
+function enemyAttack() {
+
+    player.hp -=
+        currentEnemy.atk;
+
+
+    if (player.hp < 0) {
+
+        player.hp = 0;
+
+    }
+
+
+    updatePlayerDisplay();
+
+
+    if (player.hp <= 0) {
+
+        document.getElementById("battleLog").textContent =
+
+            "> SYSTEM FAILURE. You were defeated.";
+
+
+        setTimeout(
+            returnFromBattle,
+            1200
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// WIN BATTLE
+// ==========================================
+
+function winBattle() {
+
+    const area =
+        areas[currentArea];
+
+
+    player.gold += 5;
+
+
+    document.getElementById("battleLog").textContent =
+
+        "> " +
+
+        currentEnemy.name +
+
+        " defeated! +5 Gold";
+
+
+    // ======================================
+    // 15% FRAGMENT DROP
+    // ======================================
+
+    const fragmentDrop =
+        Math.random() < 0.15;
+
+
+    if (fragmentDrop) {
+
+        giveFragment(area);
+
+    }
+
+
+    updatePlayerDisplay();
+
+
+    saveGame();
+
+
+    setTimeout(
+        returnFromBattle,
+        1200
+    );
+
+}
+
+
+// ==========================================
+// GIVE RANDOM MISSING FRAGMENT
+// ==========================================
+
+function giveFragment(area) {
+
+    const missingFragments = [];
+
+
+    for (let i = 0; i < 3; i++) {
+
+        if (!area.fragments[i]) {
+
+            missingFragments.push(i);
+
+        }
+
+    }
+
+
+    // All fragments already collected
+    if (missingFragments.length === 0) {
+
+        logMessage(
+            "> Fragment drop detected, but all fragments from this area have already been collected."
+        );
+
+        return;
+
+    }
+
+
+    const randomIndex =
+        Math.floor(
+            Math.random() *
+            missingFragments.length
+        );
+
+
+    const fragment =
+        missingFragments[randomIndex];
+
+
+    area.fragments[fragment] =
+        true;
+
+
+    logMessage(
+
+        "> 🔑 KEY FRAGMENT " +
+
+        (fragment + 1) +
+
+        " RECOVERED!"
+
+    );
+
+
+    const complete =
+        area.fragments.every(
+            fragment => fragment
+        );
+
+
+    if (complete) {
+
+        logMessage(
+
+            "> 🔓 ALL 3 KEY FRAGMENTS COLLECTED!"
+
+        );
+
+
+        if (currentArea < areas.length - 1) {
+
+            logMessage(
+
+                "> " +
+
+                areas[currentArea + 1].name +
+
+                " IS NOW UNLOCKED!"
+
+            );
+
+        }
+
+    }
+
+}
+
+
+// ==========================================
+// RUN AWAY
+// ==========================================
+
+function runAway() {
+
+    document.getElementById("battleLog").textContent =
+        "> Retreat successful.";
+
+
+    setTimeout(
+        returnFromBattle,
+        500
+    );
+
+}
+
+
+// ==========================================
+// RETURN FROM BATTLE
+// ==========================================
+
+function returnFromBattle() {
+
+    currentEnemy = null;
+
+
+    document.getElementById("battleScreen").style.display =
+        "none";
+
+
+    document.getElementById("gameScreen").style.display =
+        "block";
+
+
+    updatePlayerDisplay();
+
+}
+
+
+// ==========================================
+// WORK
+// ==========================================
+
+function work() {
+
+    if (!player) return;
+
+
+    player.gold += 10;
+
+
+    logMessage(
+        "> You worked a shift. +10 Gold."
+    );
+
+
+    updatePlayerDisplay();
+
+
+    saveGame();
+
+}
+
+
+// ==========================================
+// REST
+// ==========================================
+
+function rest() {
+
+    if (!player) return;
+
+
+    player.hp =
+        player.maxHp;
+
+
+    logMessage(
+        "> Systems repaired. HP fully restored."
+    );
+
+
+    updatePlayerDisplay();
+
+
+    saveGame();
+
+}
+
+
+// ==========================================
+// SAVE GAME
+// ==========================================
+
+function saveGame() {
+
+    if (!player) return;
+
+
+    const saveData = {
+
+        player: player,
+
+        currentArea: currentArea,
+
+        areas: areas
+
+    };
+
+
+    localStorage.setItem(
+        "cyberKnightSave",
+        JSON.stringify(saveData)
+    );
+
+}
+
+
+// ==========================================
+// LOAD GAME
+// ==========================================
+
+function loadGame() {
+
+    const saved =
+        localStorage.getItem(
+            "cyberKnightSave"
+        );
+
+
+    if (!saved) return;
+
+
+    try {
+
+        const data =
+            JSON.parse(saved);
+
+
+        player =
+            data.player;
+
+
+        currentArea =
+            data.currentArea || 0;
+
+
+        if (data.areas) {
+
+            data.areas.forEach(
+                (savedArea, index) => {
+
+                    if (areas[index]) {
+
+                        areas[index].fragments =
+                            savedArea.fragments;
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        document.getElementById("classScreen").style.display =
+            "none";
+
+
+        document.getElementById("gameScreen").style.display =
+            "block";
+
+
+        updatePlayerDisplay();
+
+
+        logMessage(
+            "> Save data restored."
+        );
+
+    }
+
+    catch (error) {
+
+        console.log(
+            "Save data could not be loaded."
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// RESET GAME
+// ==========================================
+
+function resetGame() {
+
+    const confirmed =
+        confirm(
+            "Delete your CyberKnight save?"
+        );
+
+
+    if (!confirmed) return;
+
+
+    localStorage.removeItem(
+        "cyberKnightSave"
+    );
+
+
+    location.reload();
+
+}
+
+
+// ==========================================
+// START GAME
+// ==========================================
+
+loadGame();
+
 </script>
+
 </body>
 </html>
