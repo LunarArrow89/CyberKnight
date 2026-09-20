@@ -146,6 +146,12 @@
             Shopping Center
 
                 </button>
+            <button class="action-btn"
+        onclick="openInventory()">
+
+    🎒 Inventory
+
+</button>
 
 
             <button class="action-btn reset-btn"
@@ -294,8 +300,57 @@
         </div>
 
 
+<div style="margin-top:25px;">
+
+<button class="action-btn reset-btn"
+        onclick="closeShop()"
+        style="margin-top:25px;">
+
+    Return
+
+</button>
+
+</div>
+
+    </div>
+
+</div>
+
+    <!-- INVENTORY SCREEN -->
+
+<div id="inventoryScreen"
+     style="display:none;">
+
+    <div class="card">
+
+        <h2>
+            🎒 Inventory
+        </h2>
+
+        <h3>
+            🐾 Pets
+        </h3>
+
+        <div id="inventoryPets"
+             class="action-tray"
+             style="flex-direction:column;">
+        </div>
+
+
+        <h3>
+            ⚔️ Gear
+        </h3>
+
+        <div id="inventoryGear"
+             class="action-tray"
+             style="flex-direction:column;">
+        </div>
+
+
+        <br><br>
+
         <button class="action-btn reset-btn"
-                onclick="closeShop()">
+                onclick="closeInventory()">
 
             Return
 
@@ -304,7 +359,6 @@
     </div>
 
 </div>
-
 
 
     <!-- BATTLE SCREEN -->
@@ -709,32 +763,37 @@ function chooseClass(className) {
     };
 
 
-    player = {
+player = {
 
-        className: className,
+    className: className,
 
-        hp: classStats[className].hp,
+    hp: classStats[className].hp,
 
-        maxHp: classStats[className].maxHp,
+    maxHp: classStats[className].maxHp,
 
-        atk: classStats[className].atk,
+    atk: classStats[className].atk,
 
-        skill: classStats[className].skill,
+    skill: classStats[className].skill,
 
-        skillUses: MAX_SKILL_USES,
+    skillUses: MAX_SKILL_USES,
 
-        gold: 0,
+    gold: 0,
 
-        level: 1,
+    level: 1,
 
-        exp: 0,
+    exp: 0,
 
-        expNeeded: 50,
+    expNeeded: 50,
 
-        activity: null,
-        mustRest: false
+    pets: [],
 
-    };
+    gear: [],
+
+    activity: null,
+
+    mustRest: false
+
+};
 
 
     currentArea = 0;
@@ -3140,40 +3199,29 @@ function renderShop(){
 
 function buyPet(pet){
 
-    if(player.gold < pet.cost){
+if(player.gold < pet.cost){
 
-        logMessage(
-            "> Not enough gold."
-        );
+    logMessage(
+        "> ❌ PURCHASE FAILED: You need " +
+        (pet.cost - player.gold) +
+        " more gold."
+    );
 
-        return;
+    return;
 
-    }
+}
 
 
     player.gold -= pet.cost;
 
 
-    if(pet.atk){
-
-        player.atk += pet.atk;
-
-    }
-
-
-    if(pet.hp){
-
-        player.maxHp += pet.hp;
-
-        player.hp += pet.hp;
-
-    }
+    player.pets.push(pet);
 
 
     logMessage(
         "> 🐾 Purchased " +
         pet.name +
-        "!"
+        "! Equip it in Inventory."
     );
 
 
@@ -3187,15 +3235,17 @@ function buyPet(pet){
 
 function buyGear(item){
 
-    if(player.gold < item.cost){
+if(player.gold < item.cost){
 
-        logMessage(
-            "> Not enough gold."
-        );
+    logMessage(
+        "> ❌ PURCHASE FAILED: You need " +
+        (item.cost - player.gold) +
+        " more gold."
+    );
 
-        return;
+    return;
 
-    }
+}
 
 
     player.gold -= item.cost;
