@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>CyberKnight: Neon Text RPG</title>
+
     <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
@@ -12,9 +19,14 @@
 <div class="game-container">
 
     <h1>CYBERKNIGHT</h1>
-    <p class="subtitle">A Neon Text RPG</p>
+
+    <p class="subtitle">
+        A Neon Text RPG
+    </p>
+
 
     <!-- CLASS SELECTION SCREEN -->
+
     <div id="classScreen">
 
         <h2>Choose Your Class</h2>
@@ -30,7 +42,6 @@
                     Strong and durable armor.<br>
                     <strong>HP:</strong> 130 |
                     <strong>ATK:</strong> 14<br>
-
                     <span class="skill-label">
                         Skill: Power Strike
                     </span>
@@ -48,7 +59,6 @@
                     Fast and deadly optimization.<br>
                     <strong>HP:</strong> 100 |
                     <strong>ATK:</strong> 12<br>
-
                     <span class="skill-label">
                         Skill: Critical Strike
                     </span>
@@ -66,7 +76,6 @@
                     Powerful system code hacks.<br>
                     <strong>HP:</strong> 85 |
                     <strong>ATK:</strong> 9<br>
-
                     <span class="skill-label">
                         Skill: Energy Blast
                     </span>
@@ -79,8 +88,11 @@
     </div>
 
 
+
     <!-- MAIN GAME DASHBOARD -->
-    <div id="gameScreen" style="display:none;">
+
+    <div id="gameScreen"
+         style="display:none;">
 
         <div class="card player-card">
 
@@ -95,28 +107,51 @@
 
             <button class="action-btn"
                     onclick="explore()">
+
                 Explore Sector
+
             </button>
+
 
             <button class="action-btn work-btn"
                     onclick="work()">
+
                 Work
+
             </button>
+
 
             <button class="action-btn rest-btn"
                     onclick="rest()">
+
                 Rest
+
             </button>
+
 
             <button class="action-btn battle-btn"
                     onclick="openTravelMenu()">
+
                 Travel Map
+
             </button>
+
 
             <button class="action-btn reset-btn"
                     onclick="resetGame()">
+
                 Reset Save
+
             </button>
+
+        </div>
+
+
+        <!-- ACTIVITY TIME BAR -->
+
+        <div id="activityStatus"
+             class="terminal-feed"
+             style="display:none;">
 
         </div>
 
@@ -132,12 +167,59 @@
     </div>
 
 
-    <!-- TRAVEL MAP -->
-    <div id="travelScreen" style="display:none;">
+
+    <!-- ENEMY SELECTION -->
+
+    <div id="enemySelectScreen"
+         style="display:none;">
 
         <div class="card">
 
-            <h2>Global Navigation Subnets</h2>
+            <h2>
+                Sector Enemy Database
+            </h2>
+
+            <p id="enemySelectDescription">
+                Select an enemy to engage.
+            </p>
+
+
+            <div id="enemyList"
+                 class="action-tray"
+                 style="flex-direction:column;
+                        align-items:stretch;">
+
+            </div>
+
+
+            <div class="action-tray"
+                 style="margin-top:20px;">
+
+                <button class="action-btn reset-btn"
+                        onclick="closeEnemySelection()">
+
+                    Return to Dashboard
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- TRAVEL MAP -->
+
+    <div id="travelScreen"
+         style="display:none;">
+
+        <div class="card">
+
+            <h2>
+                Global Navigation Subnets
+            </h2>
 
             <p>
                 Gather all 3 cryptographic fragments
@@ -146,9 +228,10 @@
             </p>
 
 
-            <div class="action-tray"
-                 id="areaListTray"
-                 style="flex-direction: column; align-items: stretch;">
+            <div id="areaListTray"
+                 class="action-tray"
+                 style="flex-direction:column;
+                        align-items:stretch;">
 
             </div>
 
@@ -170,18 +253,68 @@
     </div>
 
 
+
     <!-- BATTLE SCREEN -->
-    <div id="battleScreen" style="display:none;">
+
+    <div id="battleScreen"
+         style="display:none;">
 
         <div class="card battle-card">
 
-            <h2>Combat Area Matrix Active</h2>
+            <h2>
+                Combat Area Matrix Active
+            </h2>
 
-            <h3 id="enemyName"></h3>
 
-            <p id="enemyStats"></p>
+            <!-- PLAYER BATTLE HP -->
 
-            <p id="battleLog"></p>
+            <div class="battle-character">
+
+                <h3>
+                    🛡️ CYBERKNIGHT
+                </h3>
+
+                <p id="battlePlayerHP">
+                    HP: 0 / 0
+                </p>
+
+                <div class="hp-bar">
+
+                    <div id="playerHPBar"
+                         class="hp-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ENEMY BATTLE HP -->
+
+            <div class="battle-character">
+
+                <h3 id="enemyName">
+                    Enemy
+                </h3>
+
+                <p id="enemyStats">
+                    HP: 0 / 0
+                </p>
+
+                <div class="hp-bar">
+
+                    <div id="enemyHPBar"
+                         class="enemy-hp-fill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <p id="battleLog">
+                Battle initialized.
+            </p>
 
 
             <div class="action-tray">
@@ -223,7 +356,7 @@
 
 
 // ==========================================
-// CYBERKNIGHT GAME DATA
+// CYBERKNIGHT GAME
 // ==========================================
 
 let player = null;
@@ -232,36 +365,47 @@ let currentEnemy = null;
 
 let currentArea = 0;
 
+let activityTimer = null;
+
+const ACTIVITY_TIME =
+    30 * 60 * 1000;
+
+
 
 // ==========================================
-// AREAS
+// AREA DATA
 // ==========================================
 
 const areas = [
 
     {
         name: "Neon Outskirts",
-
         difficulty: "Easy",
+        levelRange: "Levels 1–5",
 
         enemies: [
+
             {
                 name: "Glitch Rat",
-                hp: 20,
-                atk: 5
+                level: 1,
+                baseHp: 20,
+                baseAtk: 5
             },
 
             {
                 name: "Broken Drone",
-                hp: 25,
-                atk: 6
+                level: 3,
+                baseHp: 25,
+                baseAtk: 6
             },
 
             {
                 name: "Street Hacker",
-                hp: 30,
-                atk: 7
+                level: 5,
+                baseHp: 30,
+                baseAtk: 7
             }
+
         ],
 
         fragments: [false, false, false]
@@ -270,27 +414,32 @@ const areas = [
 
     {
         name: "Cyber District",
-
         difficulty: "Normal",
+        levelRange: "Levels 6–10",
 
         enemies: [
+
             {
                 name: "Combat Drone",
-                hp: 40,
-                atk: 10
+                level: 6,
+                baseHp: 40,
+                baseAtk: 10
             },
 
             {
                 name: "Cyber Thief",
-                hp: 45,
-                atk: 11
+                level: 8,
+                baseHp: 48,
+                baseAtk: 12
             },
 
             {
                 name: "Security Bot",
-                hp: 55,
-                atk: 12
+                level: 10,
+                baseHp: 58,
+                baseAtk: 14
             }
+
         ],
 
         fragments: [false, false, false]
@@ -299,27 +448,32 @@ const areas = [
 
     {
         name: "Neon Wasteland",
-
         difficulty: "Hard",
+        levelRange: "Levels 11–15",
 
         enemies: [
+
             {
                 name: "Mutant Machine",
-                hp: 65,
-                atk: 15
+                level: 11,
+                baseHp: 70,
+                baseAtk: 16
             },
 
             {
                 name: "Wasteland Raider",
-                hp: 75,
-                atk: 17
+                level: 13,
+                baseHp: 82,
+                baseAtk: 19
             },
 
             {
                 name: "Cyber Beast",
-                hp: 85,
-                atk: 19
+                level: 15,
+                baseHp: 95,
+                baseAtk: 22
             }
+
         ],
 
         fragments: [false, false, false]
@@ -328,27 +482,32 @@ const areas = [
 
     {
         name: "The Dark Network",
-
         difficulty: "Very Hard",
+        levelRange: "Levels 16–20",
 
         enemies: [
+
             {
                 name: "Dark Knight",
-                hp: 100,
-                atk: 22
+                level: 16,
+                baseHp: 110,
+                baseAtk: 25
             },
 
             {
                 name: "Void Hacker",
-                hp: 115,
-                atk: 24
+                level: 18,
+                baseHp: 125,
+                baseAtk: 28
             },
 
             {
                 name: "Network Guardian",
-                hp: 130,
-                atk: 27
+                level: 20,
+                baseHp: 145,
+                baseAtk: 31
             }
+
         ],
 
         fragments: [false, false, false]
@@ -357,33 +516,39 @@ const areas = [
 
     {
         name: "Cyber Core",
-
         difficulty: "Extreme",
+        levelRange: "Levels 21–25",
 
         enemies: [
+
             {
                 name: "Core Defender",
-                hp: 150,
-                atk: 30
+                level: 21,
+                baseHp: 165,
+                baseAtk: 34
             },
 
             {
                 name: "System Destroyer",
-                hp: 175,
-                atk: 33
+                level: 23,
+                baseHp: 190,
+                baseAtk: 38
             },
 
             {
                 name: "Cyber Overlord",
-                hp: 200,
-                atk: 36
+                level: 25,
+                baseHp: 225,
+                baseAtk: 42
             }
+
         ],
 
         fragments: [false, false, false]
     }
 
 ];
+
 
 
 // ==========================================
@@ -432,7 +597,9 @@ function chooseClass(className) {
 
         gold: 0,
 
-        level: 1
+        level: 1,
+
+        activity: null
 
     };
 
@@ -440,11 +607,25 @@ function chooseClass(className) {
     currentArea = 0;
 
 
-    document.getElementById("classScreen").style.display =
-        "none";
+    areas.forEach(function(area) {
 
-    document.getElementById("gameScreen").style.display =
-        "block";
+        area.fragments = [
+            false,
+            false,
+            false
+        ];
+
+    });
+
+
+    document.getElementById(
+        "classScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
 
 
     updatePlayerDisplay();
@@ -462,46 +643,48 @@ function chooseClass(className) {
 }
 
 
+
 // ==========================================
 // PLAYER DISPLAY
 // ==========================================
 
 function updatePlayerDisplay() {
 
-    if (!player) return;
+    if (!player) {
+        return;
+    }
 
 
-    document.getElementById("playerTitle").textContent =
-        player.className + " // CyberKnight";
+    document.getElementById(
+        "playerTitle"
+    ).textContent =
+        player.className +
+        " // CyberKnight";
 
 
-    document.getElementById("stats").innerHTML =
+    document.getElementById(
+        "stats"
+    ).innerHTML =
 
         "<strong>HP:</strong> " +
-
         player.hp +
-
         "/" +
-
         player.maxHp +
 
         " | <strong>ATK:</strong> " +
-
         player.atk +
 
         " | <strong>Level:</strong> " +
-
         player.level +
 
         " | <strong>Gold:</strong> " +
-
         player.gold +
 
         " | <strong>Area:</strong> " +
-
         areas[currentArea].name;
 
 }
+
 
 
 // ==========================================
@@ -511,7 +694,9 @@ function updatePlayerDisplay() {
 function logMessage(message) {
 
     const log =
-        document.getElementById("terminalLog");
+        document.getElementById(
+            "terminalLog"
+        );
 
 
     log.innerHTML +=
@@ -524,312 +709,6 @@ function logMessage(message) {
 }
 
 
-// ==========================================
-// TRAVEL MAP
-// ==========================================
-
-function openTravelMenu() {
-
-    document.getElementById("gameScreen").style.display =
-        "none";
-
-
-    document.getElementById("travelScreen").style.display =
-        "block";
-
-
-    renderTravelMap();
-
-}
-
-
-function closeTravelMenu() {
-
-    document.getElementById("travelScreen").style.display =
-        "none";
-
-
-    document.getElementById("gameScreen").style.display =
-        "block";
-
-
-    updatePlayerDisplay();
-
-}
-
-
-// ==========================================
-// DRAW TRAVEL MAP
-// ==========================================
-
-function renderTravelMap() {
-
-    const tray =
-        document.getElementById("areaListTray");
-
-
-    tray.innerHTML = "";
-
-
-    areas.forEach((area, index) => {
-
-        const button =
-            document.createElement("button");
-
-
-        button.className =
-            "action-btn";
-
-
-        // CURRENT AREA
-        if (index === currentArea) {
-
-            button.innerHTML =
-
-                "📍 " +
-
-                area.name +
-
-                " — CURRENT AREA<br>" +
-
-                "Difficulty: " +
-
-                area.difficulty +
-
-                "<br>" +
-
-                getFragmentDisplay(area);
-
-
-            button.onclick =
-                function () {
-
-                    travelToArea(index);
-
-                };
-
-        }
-
-
-        // PREVIOUSLY UNLOCKED AREA
-        else if (index < currentArea) {
-
-            button.innerHTML =
-
-                "🗺️ " +
-
-                area.name +
-
-                "<br>" +
-
-                "Difficulty: " +
-
-                area.difficulty;
-
-
-            button.onclick =
-                function () {
-
-                    travelToArea(index);
-
-                };
-
-        }
-
-
-        // NEXT AREA
-        else if (index === currentArea + 1) {
-
-            const unlocked =
-                area.fragments.every(
-                    fragment => fragment
-                );
-
-
-            if (unlocked) {
-
-                button.innerHTML =
-
-                    "🔓 " +
-
-                    area.name +
-
-                    "<br>" +
-
-                    "Difficulty: " +
-
-                    area.difficulty +
-
-                    "<br>" +
-
-                    "NEXT AREA UNLOCKED";
-
-
-                button.onclick =
-                    function () {
-
-                        travelToArea(index);
-
-                    };
-
-            }
-
-            else {
-
-                button.disabled = true;
-
-
-                button.innerHTML =
-
-                    "🔒 " +
-
-                    area.name +
-
-                    "<br>" +
-
-                    "LOCKED — Collect all 3 fragments from " +
-
-                    areas[currentArea].name;
-
-            }
-
-        }
-
-
-        // FUTURE AREAS
-        else {
-
-            button.disabled = true;
-
-
-            button.innerHTML =
-
-                "🔒 " +
-
-                area.name +
-
-                "<br>" +
-
-                "LOCKED";
-
-        }
-
-
-        tray.appendChild(button);
-
-    });
-
-}
-
-
-// ==========================================
-// FRAGMENT DISPLAY
-// ==========================================
-
-function getFragmentDisplay(area) {
-
-    let text =
-        "Key Fragments: ";
-
-
-    for (let i = 0; i < 3; i++) {
-
-        if (area.fragments[i]) {
-
-            text += "🔑 ";
-
-        }
-
-        else {
-
-            text += "▫️ ";
-
-        }
-
-    }
-
-
-    const complete =
-        area.fragments.every(
-            fragment => fragment
-        );
-
-
-    if (complete) {
-
-        text +=
-            "<br>✓ ALL FRAGMENTS COLLECTED";
-
-    }
-
-
-    return text;
-
-}
-
-
-// ==========================================
-// TRAVEL TO AREA
-// ==========================================
-
-function travelToArea(index) {
-
-    if (index > currentArea + 1) {
-        return;
-    }
-
-
-    // NEXT AREA MUST HAVE ALL FRAGMENTS
-    if (index === currentArea + 1) {
-
-        const unlocked =
-            areas[currentArea].fragments.every(
-                fragment => fragment
-            );
-
-
-        if (!unlocked) {
-
-            logMessage(
-                "> ACCESS DENIED. Three key fragments required."
-            );
-
-            return;
-        }
-
-    }
-
-
-    currentArea = index;
-
-
-    logMessage(
-
-        "> Traveling to " +
-
-        areas[currentArea].name +
-
-        "..."
-
-    );
-
-
-    logMessage(
-
-        "> Enemy difficulty: " +
-
-        areas[currentArea].difficulty
-
-    );
-
-
-    closeTravelMenu();
-
-
-    saveGame();
-
-}
-
 
 // ==========================================
 // EXPLORE
@@ -837,59 +716,186 @@ function travelToArea(index) {
 
 function explore() {
 
-    if (!player) return;
+    if (!player) {
 
+        logMessage(
+            "> ERROR: No character loaded."
+        );
+
+        return;
+    }
+
+
+    openEnemySelection();
+
+}
+
+
+
+// ==========================================
+// ENEMY SELECTION
+// ==========================================
+
+function openEnemySelection() {
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "enemySelectScreen"
+    ).style.display = "block";
+
+
+    renderEnemySelection();
+
+}
+
+
+
+function closeEnemySelection() {
+
+    document.getElementById(
+        "enemySelectScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
+
+}
+
+
+
+function renderEnemySelection() {
 
     const area =
         areas[currentArea];
 
 
-    const enemyTemplate =
-        area.enemies[
-            Math.floor(
-                Math.random() *
-                area.enemies.length
-            )
-        ];
+    const list =
+        document.getElementById(
+            "enemyList"
+        );
+
+
+    list.innerHTML = "";
+
+
+    document.getElementById(
+        "enemySelectDescription"
+    ).innerHTML =
+
+        "Area: <strong>" +
+        area.name +
+        "</strong><br>" +
+
+        "Enemy Range: <strong>" +
+        area.levelRange +
+        "</strong><br>" +
+
+        "Choose your opponent.";
+
+
+    area.enemies.forEach(
+        function(enemy, index) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "action-btn";
+
+
+            button.innerHTML =
+
+                "⚔️ " +
+                enemy.name +
+
+                "<br>" +
+
+                "Level " +
+                enemy.level +
+
+                " | HP " +
+                enemy.baseHp +
+
+                " | ED " +
+                enemy.baseAtk;
+
+
+            button.onclick =
+                function() {
+
+                    selectEnemy(index);
+
+                };
+
+
+            list.appendChild(button);
+
+        }
+    );
+
+}
+
+
+
+// ==========================================
+// SELECT ENEMY
+// ==========================================
+
+function selectEnemy(index) {
+
+    const area =
+        areas[currentArea];
+
+
+    const enemy =
+        area.enemies[index];
 
 
     currentEnemy = {
 
-        name: enemyTemplate.name,
+        name: enemy.name,
 
-        hp: enemyTemplate.hp,
+        level: enemy.level,
 
-        maxHp: enemyTemplate.hp,
+        hp: enemy.baseHp,
 
-        atk: enemyTemplate.atk
+        maxHp: enemy.baseHp,
+
+        atk: enemy.baseAtk
 
     };
 
 
-    document.getElementById("gameScreen").style.display =
-        "none";
+    document.getElementById(
+        "enemySelectScreen"
+    ).style.display = "none";
 
 
-    document.getElementById("battleScreen").style.display =
-        "block";
+    document.getElementById(
+        "battleScreen"
+    ).style.display = "block";
 
 
     updateBattleDisplay();
 
 
-    document.getElementById("battleLog").textContent =
+    document.getElementById(
+        "battleLog"
+    ).textContent =
 
-        "A " +
-
-        currentEnemy.name +
-
-        " has appeared in " +
-
-        area.name +
-
-        "!";
+        "> Battle started! You attack first.";
 
 }
+
 
 
 // ==========================================
@@ -898,37 +904,76 @@ function explore() {
 
 function updateBattleDisplay() {
 
-    if (!currentEnemy) return;
+    if (!currentEnemy || !player) {
+        return;
+    }
 
 
-    document.getElementById("enemyName").textContent =
-        currentEnemy.name;
+    document.getElementById(
+        "enemyName"
+    ).textContent =
+
+        currentEnemy.name +
+        " — LEVEL " +
+        currentEnemy.level;
 
 
-    document.getElementById("enemyStats").textContent =
+    document.getElementById(
+        "enemyStats"
+    ).textContent =
 
-        "Enemy HP: " +
-
+        "HP: " +
         currentEnemy.hp +
-
         "/" +
-
         currentEnemy.maxHp +
 
-        " | ATK: " +
-
+        " | ED: " +
         currentEnemy.atk;
+
+
+    document.getElementById(
+        "battlePlayerHP"
+    ).textContent =
+
+        "HP: " +
+        player.hp +
+        " / " +
+        player.maxHp;
+
+
+    document.getElementById(
+        "playerHPBar"
+    ).style.width =
+
+        Math.max(
+            0,
+            (player.hp / player.maxHp) * 100
+        ) + "%";
+
+
+    document.getElementById(
+        "enemyHPBar"
+    ).style.width =
+
+        Math.max(
+            0,
+            (currentEnemy.hp /
+             currentEnemy.maxHp) * 100
+        ) + "%";
 
 }
 
 
+
 // ==========================================
-// NORMAL ATTACK
+// PLAYER ATTACK
 // ==========================================
 
 function attack() {
 
-    if (!currentEnemy) return;
+    if (!player || !currentEnemy) {
+        return;
+    }
 
 
     const damage =
@@ -939,30 +984,40 @@ function attack() {
         damage;
 
 
-    document.getElementById("battleLog").textContent =
+    if (currentEnemy.hp < 0) {
+        currentEnemy.hp = 0;
+    }
 
-        "> You attacked for " +
 
+    document.getElementById(
+        "battleLog"
+    ).textContent =
+
+        "> YOU ATTACKED! " +
         damage +
+        " damage dealt.";
 
-        " damage.";
 
+    updateBattleDisplay();
+
+
+    // Enemy is defeated BEFORE
+    // it gets its turn
 
     if (currentEnemy.hp <= 0) {
 
         winBattle();
 
         return;
-
     }
 
 
-    enemyAttack();
+    // ENEMY'S TURN
 
-
-    updateBattleDisplay();
+    enemyTurn();
 
 }
+
 
 
 // ==========================================
@@ -971,52 +1026,65 @@ function attack() {
 
 function skillAttack() {
 
-    if (!currentEnemy) return;
+    if (!player || !currentEnemy) {
+        return;
+    }
 
 
     let damage =
         player.atk * 2;
 
 
-    if (player.className === "Rogue") {
+    if (
+        player.className === "Rogue"
+    ) {
 
         damage =
-            Math.floor(player.atk * 2.5);
+            Math.floor(
+                player.atk * 2.5
+            );
 
     }
 
 
-    if (player.className === "Mage") {
+    if (
+        player.className === "Mage"
+    ) {
 
         damage =
-            Math.floor(player.atk * 2.25);
+            Math.floor(
+                player.atk * 2.25
+            );
 
     }
 
 
-    if (player.className === "Warrior") {
-
-        damage =
-            Math.floor(player.atk * 2);
-
-    }
+    damage =
+        Math.floor(damage);
 
 
     currentEnemy.hp -=
         damage;
 
 
-    document.getElementById("battleLog").textContent =
+    if (currentEnemy.hp < 0) {
+        currentEnemy.hp = 0;
+    }
+
+
+    document.getElementById(
+        "battleLog"
+    ).textContent =
 
         "> " +
-
         player.skill +
-
-        " dealt " +
-
+        "!" +
+        " " +
         damage +
+        " damage dealt.";
 
-        " damage!";
+
+    updateBattleDisplay();
 
 
     if (currentEnemy.hp <= 0) {
@@ -1024,33 +1092,53 @@ function skillAttack() {
         winBattle();
 
         return;
-
     }
 
 
-    enemyAttack();
+    // ENEMY'S TURN
 
-
-    updateBattleDisplay();
+    enemyTurn();
 
 }
 
 
+
 // ==========================================
-// ENEMY ATTACK
+// ENEMY TURN
 // ==========================================
 
-function enemyAttack() {
+function enemyTurn() {
 
-    player.hp -=
+    if (!player || !currentEnemy) {
+        return;
+    }
+
+
+    const ED =
         currentEnemy.atk;
 
 
+    player.hp -=
+        ED;
+
+
     if (player.hp < 0) {
-
         player.hp = 0;
-
     }
+
+
+    document.getElementById(
+        "battleLog"
+    ).textContent =
+
+        "> ENEMY ATTACKS! " +
+        currentEnemy.name +
+        " dealt " +
+        ED +
+        " ED damage.";
+
+
+    updateBattleDisplay();
 
 
     updatePlayerDisplay();
@@ -1058,19 +1146,65 @@ function enemyAttack() {
 
     if (player.hp <= 0) {
 
-        document.getElementById("battleLog").textContent =
-
-            "> SYSTEM FAILURE. You were defeated.";
-
-
-        setTimeout(
-            returnFromBattle,
-            1200
-        );
+        playerDefeated();
 
     }
 
 }
+
+
+
+// ==========================================
+// PLAYER DEFEATED
+// ==========================================
+
+function playerDefeated() {
+
+    document.getElementById(
+        "battleLog"
+    ).textContent =
+
+        "> SYSTEM FAILURE. YOU WERE DEFEATED.";
+
+
+    setTimeout(
+        function() {
+
+            currentEnemy = null;
+
+
+            document.getElementById(
+                "battleScreen"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "gameScreen"
+            ).style.display =
+                "block";
+
+
+            player.hp =
+                player.maxHp;
+
+
+            logMessage(
+                "> You were defeated. HP restored."
+            );
+
+
+            updatePlayerDisplay();
+
+
+            saveGame();
+
+        },
+        1200
+    );
+
+}
+
 
 
 // ==========================================
@@ -1079,6 +1213,15 @@ function enemyAttack() {
 
 function winBattle() {
 
+    if (!currentEnemy) {
+        return;
+    }
+
+
+    const defeatedEnemy =
+        currentEnemy.name;
+
+
     const area =
         areas[currentArea];
 
@@ -1086,24 +1229,20 @@ function winBattle() {
     player.gold += 5;
 
 
-    document.getElementById("battleLog").textContent =
+    document.getElementById(
+        "battleLog"
+    ).textContent =
 
         "> " +
-
-        currentEnemy.name +
-
-        " defeated! +5 Gold";
+        defeatedEnemy +
+        " defeated! +5 Gold.";
 
 
-    // ======================================
-    // 15% FRAGMENT DROP
-    // ======================================
+    // 2% FRAGMENT CHANCE
 
-    const fragmentDrop =
-        Math.random() < 0.15;
-
-
-    if (fragmentDrop) {
+    if (
+        Math.random() < 0.02
+    ) {
 
         giveFragment(area);
 
@@ -1117,15 +1256,35 @@ function winBattle() {
 
 
     setTimeout(
-        returnFromBattle,
+        function() {
+
+            currentEnemy = null;
+
+
+            document.getElementById(
+                "battleScreen"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "gameScreen"
+            ).style.display =
+                "block";
+
+
+            updatePlayerDisplay();
+
+        },
         1200
     );
 
 }
 
 
+
 // ==========================================
-// GIVE RANDOM MISSING FRAGMENT
+// GIVE FRAGMENT
 // ==========================================
 
 function giveFragment(area) {
@@ -1133,7 +1292,11 @@ function giveFragment(area) {
     const missingFragments = [];
 
 
-    for (let i = 0; i < 3; i++) {
+    for (
+        let i = 0;
+        i < 3;
+        i++
+    ) {
 
         if (!area.fragments[i]) {
 
@@ -1144,15 +1307,15 @@ function giveFragment(area) {
     }
 
 
-    // All fragments already collected
-    if (missingFragments.length === 0) {
+    if (
+        missingFragments.length === 0
+    ) {
 
         logMessage(
-            "> Fragment drop detected, but all fragments from this area have already been collected."
+            "> Fragment found, but all 3 are already collected."
         );
 
         return;
-
     }
 
 
@@ -1174,37 +1337,34 @@ function giveFragment(area) {
     logMessage(
 
         "> 🔑 KEY FRAGMENT " +
-
         (fragment + 1) +
-
         " RECOVERED!"
 
     );
 
 
-    const complete =
-        area.fragments.every(
-            fragment => fragment
-        );
+    if (
 
+        area.fragments[0] &&
+        area.fragments[1] &&
+        area.fragments[2]
 
-    if (complete) {
+    ) {
 
         logMessage(
-
             "> 🔓 ALL 3 KEY FRAGMENTS COLLECTED!"
-
         );
 
 
-        if (currentArea < areas.length - 1) {
+        if (
+            currentArea <
+            areas.length - 1
+        ) {
 
             logMessage(
 
                 "> " +
-
                 areas[currentArea + 1].name +
-
                 " IS NOW UNLOCKED!"
 
             );
@@ -1213,47 +1373,727 @@ function giveFragment(area) {
 
     }
 
+
+    saveGame();
+
 }
 
 
+
 // ==========================================
-// RUN AWAY
+// RUN
 // ==========================================
 
 function runAway() {
 
-    document.getElementById("battleLog").textContent =
-        "> Retreat successful.";
+    currentEnemy = null;
 
 
-    setTimeout(
-        returnFromBattle,
-        500
+    document.getElementById(
+        "battleScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
+
+
+    logMessage(
+        "> Retreat successful."
     );
 
 }
 
 
+
 // ==========================================
-// RETURN FROM BATTLE
+// TRAVEL
 // ==========================================
 
-function returnFromBattle() {
+function openTravelMenu() {
 
-    currentEnemy = null;
-
-
-    document.getElementById("battleScreen").style.display =
-        "none";
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "none";
 
 
-    document.getElementById("gameScreen").style.display =
-        "block";
+    document.getElementById(
+        "travelScreen"
+    ).style.display = "block";
+
+
+    renderTravelMap();
+
+}
+
+
+
+function closeTravelMenu() {
+
+    document.getElementById(
+        "travelScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
 
 
     updatePlayerDisplay();
 
 }
+
+
+
+function renderTravelMap() {
+
+    const tray =
+        document.getElementById(
+            "areaListTray"
+        );
+
+
+    tray.innerHTML = "";
+
+
+    areas.forEach(
+        function(area, index) {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "action-btn";
+
+
+            if (
+                index === currentArea
+            ) {
+
+                button.innerHTML =
+
+                    "📍 " +
+                    area.name +
+                    " — CURRENT AREA<br>" +
+
+                    "Difficulty: " +
+                    area.difficulty +
+                    "<br>" +
+
+                    area.levelRange +
+                    "<br>" +
+
+                    getFragmentDisplay(area);
+
+
+                button.onclick =
+                    closeTravelMenu;
+
+            }
+
+
+            else if (
+                index < currentArea
+            ) {
+
+                button.innerHTML =
+
+                    "🗺️ " +
+                    area.name +
+                    "<br>" +
+
+                    "Difficulty: " +
+                    area.difficulty +
+                    " | " +
+
+                    area.levelRange;
+
+
+                button.onclick =
+                    function() {
+
+                        travelToArea(index);
+
+                    };
+
+            }
+
+
+            else if (
+                index === currentArea + 1
+            ) {
+
+                const unlocked =
+                    areas[currentArea]
+                    .fragments
+                    .every(
+                        function(fragment) {
+
+                            return fragment === true;
+
+                        }
+                    );
+
+
+                if (unlocked) {
+
+                    button.innerHTML =
+
+                        "🔓 " +
+                        area.name +
+                        "<br>" +
+
+                        "Difficulty: " +
+                        area.difficulty +
+                        " | " +
+
+                        area.levelRange +
+                        "<br>" +
+
+                        "NEXT AREA UNLOCKED";
+
+
+                    button.onclick =
+                        function() {
+
+                            travelToArea(index);
+
+                        };
+
+                }
+
+                else {
+
+                    button.disabled = true;
+
+
+                    button.innerHTML =
+
+                        "🔒 " +
+                        area.name +
+                        "<br>" +
+
+                        "LOCKED — Collect all 3 fragments";
+
+                }
+
+            }
+
+
+            else {
+
+                button.disabled = true;
+
+
+                button.innerHTML =
+
+                    "🔒 " +
+                    area.name +
+                    "<br>" +
+
+                    "LOCKED";
+
+            }
+
+
+            tray.appendChild(button);
+
+        }
+    );
+
+}
+
+
+
+// ==========================================
+// FRAGMENT DISPLAY
+// ==========================================
+
+function getFragmentDisplay(area) {
+
+    let text =
+        "Key Fragments: ";
+
+
+    for (
+        let i = 0;
+        i < 3;
+        i++
+    ) {
+
+        text +=
+            area.fragments[i]
+                ? "🔑 "
+                : "▫️ ";
+
+    }
+
+
+    if (
+
+        area.fragments[0] &&
+        area.fragments[1] &&
+        area.fragments[2]
+
+    ) {
+
+        text +=
+            "<br>✓ ALL 3 FRAGMENTS COLLECTED";
+
+    }
+
+
+    return text;
+
+}
+
+
+
+// ==========================================
+// TRAVEL TO AREA
+// ==========================================
+
+function travelToArea(index) {
+
+    if (
+        index < 0 ||
+        index >= areas.length
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        index === currentArea + 1
+    ) {
+
+        const unlocked =
+            areas[currentArea]
+            .fragments
+            .every(
+                function(fragment) {
+
+                    return fragment === true;
+
+                }
+            );
+
+
+        if (!unlocked) {
+
+            logMessage(
+                "> ACCESS DENIED. Collect all 3 key fragments first."
+            );
+
+            return;
+
+        }
+
+    }
+
+
+    if (
+        index > currentArea + 1
+    ) {
+
+        return;
+
+    }
+
+
+    currentArea =
+        index;
+
+
+    logMessage(
+
+        "> Traveling to " +
+        areas[currentArea].name +
+        "..."
+
+    );
+
+
+    logMessage(
+
+        "> Enemy range: " +
+        areas[currentArea].levelRange
+
+    );
+
+
+    closeTravelMenu();
+
+
+    updatePlayerDisplay();
+
+
+    saveGame();
+
+}
+
+
+
+// ==========================================
+// ACTIVITY SYSTEM
+// ==========================================
+
+function startActivity(type) {
+
+    if (!player) {
+
+        return;
+
+    }
+
+
+    checkActivity();
+
+
+    if (player.activity) {
+
+        logMessage(
+            "> You are already busy."
+        );
+
+        return;
+
+    }
+
+
+    player.activity = {
+
+        type: type,
+
+        startTime: Date.now(),
+
+        finishTime:
+            Date.now() +
+            ACTIVITY_TIME
+
+    };
+
+
+    if (
+        type === "work"
+    ) {
+
+        logMessage(
+            "> 💼 Work started. 30 minutes remaining."
+        );
+
+    }
+
+
+    if (
+        type === "rest"
+    ) {
+
+        logMessage(
+            "> 💤 Rest started. 30 minutes remaining."
+        );
+
+    }
+
+
+    saveGame();
+
+
+    startActivityTimer();
+
+}
+
+
+
+// ==========================================
+// CHECK ACTIVITY
+// ==========================================
+
+function checkActivity() {
+
+    if (
+        !player ||
+        !player.activity
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        Date.now() >=
+        player.activity.finishTime
+    ) {
+
+        finishActivity();
+
+    }
+
+}
+
+
+
+// ==========================================
+// FINISH ACTIVITY
+// ==========================================
+
+function finishActivity() {
+
+    if (
+        !player ||
+        !player.activity
+    ) {
+
+        return;
+
+    }
+
+
+    const type =
+        player.activity.type;
+
+
+    player.activity =
+        null;
+
+
+    if (
+        type === "work"
+    ) {
+
+        player.gold += 10;
+
+
+        logMessage(
+            "> 💼 WORK COMPLETE! +10 Gold."
+        );
+
+    }
+
+
+    if (
+        type === "rest"
+    ) {
+
+        player.hp =
+            player.maxHp;
+
+
+        logMessage(
+            "> 💤 REST COMPLETE! HP FULLY RESTORED."
+        );
+
+    }
+
+
+    saveGame();
+
+
+    updatePlayerDisplay();
+
+
+    updateActivityDisplay();
+
+
+    if (activityTimer) {
+
+        clearInterval(
+            activityTimer
+        );
+
+        activityTimer = null;
+
+    }
+
+}
+
+
+
+// ==========================================
+// ACTIVITY TIMER
+// ==========================================
+
+function startActivityTimer() {
+
+    if (activityTimer) {
+
+        clearInterval(
+            activityTimer
+        );
+
+    }
+
+
+    activityTimer =
+        setInterval(
+            function() {
+
+                checkActivity();
+
+                updateActivityDisplay();
+
+            },
+            1000
+        );
+
+
+    updateActivityDisplay();
+
+}
+
+
+
+// ==========================================
+// ACTIVITY TIME BAR
+// ==========================================
+
+function updateActivityDisplay() {
+
+    const box =
+        document.getElementById(
+            "activityStatus"
+        );
+
+
+    if (
+        !player ||
+        !player.activity
+    ) {
+
+        box.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    box.style.display =
+        "block";
+
+
+    const now =
+        Date.now();
+
+
+    const start =
+        player.activity.startTime;
+
+
+    const finish =
+        player.activity.finishTime;
+
+
+    const total =
+        finish - start;
+
+
+    const remaining =
+        Math.max(
+            0,
+            finish - now
+        );
+
+
+    const progress =
+        Math.min(
+            100,
+            Math.max(
+                0,
+                ((total - remaining) /
+                 total) * 100
+            )
+        );
+
+
+    const totalSeconds =
+        Math.ceil(
+            remaining / 1000
+        );
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    const timeText =
+
+        String(minutes).padStart(
+            2,
+            "0"
+        ) +
+
+        ":" +
+
+        String(seconds).padStart(
+            2,
+            "0"
+        );
+
+
+    const activityName =
+        player.activity.type === "work"
+            ? "💼 WORK"
+            : "💤 REST";
+
+
+    const reward =
+        player.activity.type === "work"
+            ? "+10 Gold"
+            : "Full HP";
+
+
+    box.innerHTML =
+
+        "<strong>" +
+        activityName +
+        " IN PROGRESS</strong><br>" +
+
+        "Time Remaining: " +
+        "<strong>" +
+        timeText +
+        "</strong><br>" +
+
+        "<div style=\"" +
+        "width:100%;" +
+        "height:18px;" +
+        "background:#111;" +
+        "border:2px solid #ff1493;" +
+        "border-radius:8px;" +
+        "overflow:hidden;" +
+        "margin-top:8px;" +
+        "\">" +
+
+        "<div style=\"" +
+        "height:100%;" +
+        "width:" +
+        progress +
+        "%;" +
+        "background:#ff1493;" +
+        "transition:width 1s linear;" +
+        "\"></div>" +
+
+        "</div>" +
+
+        "<br>Reward: " +
+        reward;
+
+}
+
 
 
 // ==========================================
@@ -1262,23 +2102,10 @@ function returnFromBattle() {
 
 function work() {
 
-    if (!player) return;
-
-
-    player.gold += 10;
-
-
-    logMessage(
-        "> You worked a shift. +10 Gold."
-    );
-
-
-    updatePlayerDisplay();
-
-
-    saveGame();
+    startActivity("work");
 
 }
+
 
 
 // ==========================================
@@ -1287,56 +2114,61 @@ function work() {
 
 function rest() {
 
-    if (!player) return;
-
-
-    player.hp =
-        player.maxHp;
-
-
-    logMessage(
-        "> Systems repaired. HP fully restored."
-    );
-
-
-    updatePlayerDisplay();
-
-
-    saveGame();
+    startActivity("rest");
 
 }
 
 
+
 // ==========================================
-// SAVE GAME
+// SAVE
 // ==========================================
 
 function saveGame() {
 
-    if (!player) return;
+    if (!player) {
+
+        return;
+
+    }
 
 
     const saveData = {
+
+        version: 5,
 
         player: player,
 
         currentArea: currentArea,
 
-        areas: areas
+        fragments:
+            areas.map(
+                function(area) {
+
+                    return area.fragments;
+
+                }
+            )
 
     };
 
 
     localStorage.setItem(
+
         "cyberKnightSave",
-        JSON.stringify(saveData)
+
+        JSON.stringify(
+            saveData
+        )
+
     );
 
 }
 
 
+
 // ==========================================
-// LOAD GAME
+// LOAD
 // ==========================================
 
 function loadGame() {
@@ -1347,7 +2179,11 @@ function loadGame() {
         );
 
 
-    if (!saved) return;
+    if (!saved) {
+
+        return;
+
+    }
 
 
     try {
@@ -1356,23 +2192,73 @@ function loadGame() {
             JSON.parse(saved);
 
 
+        if (
+            !data.player
+        ) {
+
+            return;
+
+        }
+
+
         player =
             data.player;
 
 
+        if (
+            !player.activity
+        ) {
+
+            player.activity =
+                null;
+
+        }
+
+
         currentArea =
-            data.currentArea || 0;
+            Number.isInteger(
+                data.currentArea
+            )
+                ? data.currentArea
+                : 0;
 
 
-        if (data.areas) {
+        if (
+            currentArea < 0 ||
+            currentArea >= areas.length
+        ) {
 
-            data.areas.forEach(
-                (savedArea, index) => {
+            currentArea = 0;
 
-                    if (areas[index]) {
+        }
 
-                        areas[index].fragments =
-                            savedArea.fragments;
+
+        if (
+            data.fragments
+        ) {
+
+            data.fragments.forEach(
+                function(
+                    fragmentList,
+                    index
+                ) {
+
+                    if (
+                        areas[index] &&
+                        Array.isArray(
+                            fragmentList
+                        )
+                    ) {
+
+                        areas[index].fragments = [
+
+                            !!fragmentList[0],
+
+                            !!fragmentList[1],
+
+                            !!fragmentList[2]
+
+                        ];
 
                     }
 
@@ -1382,12 +2268,14 @@ function loadGame() {
         }
 
 
-        document.getElementById("classScreen").style.display =
-            "none";
+        document.getElementById(
+            "classScreen"
+        ).style.display = "none";
 
 
-        document.getElementById("gameScreen").style.display =
-            "block";
+        document.getElementById(
+            "gameScreen"
+        ).style.display = "block";
 
 
         updatePlayerDisplay();
@@ -1397,12 +2285,26 @@ function loadGame() {
             "> Save data restored."
         );
 
+
+        checkActivity();
+
+
+        if (
+            player.activity
+        ) {
+
+            startActivityTimer();
+
+        }
+
     }
 
     catch (error) {
 
-        console.log(
-            "Save data could not be loaded."
+        console.log(error);
+
+        localStorage.removeItem(
+            "cyberKnightSave"
         );
 
     }
@@ -1410,19 +2312,35 @@ function loadGame() {
 }
 
 
+
 // ==========================================
-// RESET GAME
+// RESET
 // ==========================================
 
 function resetGame() {
 
     const confirmed =
         confirm(
-            "Delete your CyberKnight save?"
+            "Delete your CyberKnight save and start over?"
         );
 
 
-    if (!confirmed) return;
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    if (activityTimer) {
+
+        clearInterval(
+            activityTimer
+        );
+
+        activityTimer = null;
+
+    }
 
 
     localStorage.removeItem(
@@ -1435,13 +2353,32 @@ function resetGame() {
 }
 
 
+
 // ==========================================
-// START GAME
+// START
 // ==========================================
 
 loadGame();
 
+
+if (
+    player &&
+    player.activity
+) {
+
+    checkActivity();
+
+    if (player.activity) {
+
+        startActivityTimer();
+
+    }
+
+}
+
+
 </script>
 
 </body>
+
 </html>
