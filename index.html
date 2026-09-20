@@ -3,639 +3,1108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CYBERKNIGHT</title>
-
+    <title>CyberKnight</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div id="app">
+    <!-- START SCREEN -->
+    <div id="startScreen" class="screen active">
+        <div class="start-box">
+            <h1>CYBERKNIGHT</h1>
+            <p class="subtitle">A Neon Text RPG</p>
 
-        <header class="header">
+            <h2>Choose Your Class</h2>
 
-            <div class="title">
-                CYBER//RPG
+            <div class="class-grid">
+
+                <button class="class-card" onclick="chooseClass('warrior')">
+                    <h3>⚔️ WARRIOR</h3>
+                    <p>Strong and durable.</p>
+                    <p>HP: 130</p>
+                    <p>Attack: 14</p>
+                    <p>Skill: Power Strike</p>
+                </button>
+
+                <button class="class-card" onclick="chooseClass('rogue')">
+                    <h3>🗡️ ROGUE</h3>
+                    <p>Fast and deadly.</p>
+                    <p>HP: 100</p>
+                    <p>Attack: 12</p>
+                    <p>Skill: Critical Strike</p>
+                </button>
+
+                <button class="class-card" onclick="chooseClass('mage')">
+                    <h3>⚡ MAGE</h3>
+                    <p>Weak physically, powerful magically.</p>
+                    <p>HP: 85</p>
+                    <p>Attack: 9</p>
+                    <p>Skill: Energy Blast</p>
+                </button>
+
             </div>
+        </div>
+    </div>
 
-            <div class="subtitle">
-                NEON DISTRICT // SYSTEM ONLINE
-            </div>
 
+    <!-- MAIN SCREEN -->
+    <div id="mainScreen" class="screen">
+
+        <header class="game-header">
+            <h1>CYBERKNIGHT</h1>
+            <p id="locationText">NEON DISTRICT</p>
         </header>
 
+        <main>
 
-        <!-- CLASS SELECTION -->
+            <!-- PLAYER STATUS -->
+            <section class="panel">
+                <h2 id="playerName">CyberKnight</h2>
+                <p id="classText">Class</p>
 
-        <main id="startScreen" class="screen active">
-
-            <section class="panel center">
-
-                <h1 class="big-title">
-                    CHOOSE YOUR CLASS
-                </h1>
-
-                <p class="description">
-                    Your class determines your combat style.
-                </p>
-
-                <div class="class-grid">
-
-                    <button
-                        class="class-button warrior"
-                        data-class="Warrior">
-
-                        <span class="class-name">
-                            ⚔ WARRIOR
-                        </span>
-
-                        <span class="class-description">
-                            High HP and powerful physical attacks.
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        class="class-button rogue"
-                        data-class="Rogue">
-
-                        <span class="class-name">
-                            ◈ ROGUE
-                        </span>
-
-                        <span class="class-description">
-                            Fast attacks with a chance to deal critical damage.
-                        </span>
-
-                    </button>
-
-
-                    <button
-                        class="class-button mage"
-                        data-class="Mage">
-
-                        <span class="class-name">
-                            ✦ MAGE
-                        </span>
-
-                        <span class="class-description">
-                            Lower HP, but devastating energy abilities.
-                        </span>
-
-                    </button>
-
+                <div class="stat">
+                    <span>HP</span>
+                    <span id="hpText">0 / 0</span>
                 </div>
 
+                <div class="bar">
+                    <div id="hpBar" class="hp-bar"></div>
+                </div>
+
+                <div class="stat">
+                    <span>XP</span>
+                    <span id="xpText">0 / 100</span>
+                </div>
+
+                <div class="bar">
+                    <div id="xpBar" class="xp-bar"></div>
+                </div>
+
+                <div class="stats-row">
+                    <div>
+                        <strong>Level</strong>
+                        <span id="levelText">1</span>
+                    </div>
+
+                    <div>
+                        <strong>Attack</strong>
+                        <span id="attackText">0</span>
+                    </div>
+
+                    <div>
+                        <strong>Gold</strong>
+                        <span id="goldText">0</span>
+                    </div>
+
+                    <div>
+                        <strong>Potions</strong>
+                        <span id="potionText">0</span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- ACTIONS -->
+            <section class="panel">
+                <h2>NEON DISTRICT</h2>
+
+                <button class="game-button" onclick="explore()">
+                    🔍 Explore
+                </button>
+
+                <button class="game-button" onclick="showScreen('workScreen')">
+                    💼 Work
+                </button>
+
+                <button class="game-button" onclick="showScreen('restScreen')">
+                    💤 Rest
+                </button>
+
+                <button class="game-button" onclick="showScreen('characterScreen')">
+                    👤 Character
+                </button>
+            </section>
+
+
+            <!-- SYSTEM LOG -->
+            <section class="panel">
+                <h2>System Log</h2>
+                <div id="log" class="log"></div>
             </section>
 
         </main>
+    </div>
 
 
-        <!-- MAIN SCREEN -->
+    <!-- BATTLE SCREEN -->
+    <div id="battleScreen" class="screen">
 
-        <main id="mainScreen" class="screen">
+        <header class="game-header">
+            <h1>⚔️ BATTLE</h1>
+            <p id="enemyName">Enemy</p>
+        </header>
 
+        <main>
+
+            <!-- ENEMY -->
+            <section class="panel enemy-panel">
+
+                <h2 id="battleEnemyName">Enemy</h2>
+
+                <div class="stat">
+                    <span>HP</span>
+                    <span id="enemyHpText">0 / 0</span>
+                </div>
+
+                <div class="bar">
+                    <div id="enemyHpBar" class="enemy-bar"></div>
+                </div>
+
+                <p id="enemyDescription"></p>
+
+            </section>
+
+
+            <!-- PLAYER -->
             <section class="panel">
 
-                <div class="panel-title">
-                    PLAYER STATUS
+                <h2 id="battlePlayerName">CyberKnight</h2>
+
+                <div class="stat">
+                    <span>HP</span>
+                    <span id="battleHpText">0 / 0</span>
                 </div>
 
-                <div class="stats">
-
-                    <div class="stat">
-                        <div class="stat-name">
-                            CLASS
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="className">
-                            -
-                        </div>
-                    </div>
-
-
-                    <div class="stat">
-                        <div class="stat-name">
-                            LEVEL
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="level">
-                            1
-                        </div>
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            HP
-                        </div>
-
-                        <div class="stat-value hp">
-                            <span id="hp">100</span>/<span id="maxHp">100</span>
-                        </div>
-
-                        <div class="bar">
-                            <div
-                                id="hpBar"
-                                class="bar-fill hp-fill">
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            ATTACK
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="attack">
-                            10
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            GOLD
-                        </div>
-
-                        <div
-                            class="stat-value gold"
-                            id="gold">
-                            25
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            POTIONS
-                        </div>
-
-                        <div
-                            class="stat-value neon-green"
-                            id="potions">
-                            3
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="xp-section">
-
-                    <div class="stat-name">
-                        EXPERIENCE
-                    </div>
-
-                    <div class="stat-value xp">
-                        <span id="xp">0</span>/<span id="xpNeeded">100</span>
-                    </div>
-
-                    <div class="bar">
-                        <div
-                            id="xpBar"
-                            class="bar-fill xp-fill">
-                        </div>
-                    </div>
-
+                <div class="bar">
+                    <div id="battleHpBar" class="hp-bar"></div>
                 </div>
 
             </section>
 
 
+            <!-- COMBAT OPTIONS -->
             <section class="panel">
 
-                <div class="panel-title">
-                    NEON DISTRICT
-                </div>
+                <h2>Combat Options</h2>
 
-                <div class="neon-pink">
-                    ◆ CITY SECTOR 01
-                </div>
+                <button class="game-button" onclick="attackEnemy()">
+                    ⚔️ Attack
+                </button>
 
-                <p class="description">
-                    Rain falls through the neon lights.
-                    Explore the district and discover what is waiting.
-                </p>
+                <button class="game-button" onclick="useSkill()">
+                    ✨ Class Skill
+                </button>
 
-                <button id="exploreButton">
-                    EXPLORE
+                <button class="game-button" onclick="defend()">
+                    🛡️ Defend
+                </button>
+
+                <button class="game-button" onclick="usePotion()">
+                    🧪 Use Potion
+                </button>
+
+                <button class="game-button danger" onclick="runAway()">
+                    🏃 Run Away
                 </button>
 
             </section>
 
 
+            <!-- BATTLE LOG -->
             <section class="panel">
-
-                <div class="panel-title">
-                    ACTIVITIES
-                </div>
-
-                <div class="activity-grid">
-
-                    <button
-                        id="workButton"
-                        class="work-button">
-                        WORK
-                    </button>
-
-                    <button
-                        id="restButton"
-                        class="rest-button">
-                        REST
-                    </button>
-
-                    <button
-                        id="characterButton">
-                        CHARACTER
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    SYSTEM LOG
-                </div>
-
-                <div
-                    id="log"
-                    class="log">
-                </div>
-
+                <h2>Battle Log</h2>
+                <div id="battleLog" class="log"></div>
             </section>
 
         </main>
-
-
-        <!-- BATTLE SCREEN -->
-
-        <main id="battleScreen" class="screen">
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    ⚠ COMBAT MODE
-                </div>
-
-                <div class="enemy-box">
-
-                    <div
-                        id="enemyName"
-                        class="enemy-name">
-                        ENEMY
-                    </div>
-
-                    <div class="enemy-hp">
-                        HP:
-                        <span id="enemyHp">0</span>
-                    </div>
-
-                    <div class="bar">
-                        <div
-                            id="enemyHpBar"
-                            class="bar-fill hp-fill">
-                        </div>
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    YOUR STATUS
-                </div>
-
-                <div class="stats">
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            HP
-                        </div>
-
-                        <div class="stat-value hp">
-                            <span id="battleHp">100</span>/<span id="battleMaxHp">100</span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-name">
-                            ATTACK
-                        </div>
-
-                        <div
-                            id="battleAttack"
-                            class="stat-value">
-                            10
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    COMBAT ACTIONS
-                </div>
-
-                <div class="battle-actions">
-
-                    <button
-                        id="attackButton"
-                        class="attack-button">
-                        ATTACK
-                    </button>
-
-                    <button
-                        id="skillButton"
-                        class="skill-button">
-                        CLASS SKILL
-                    </button>
-
-                    <button
-                        id="defendButton"
-                        class="defend-button">
-                        DEFEND
-                    </button>
-
-                    <button
-                        id="potionButton"
-                        class="potion-button">
-                        USE POTION
-                    </button>
-
-                    <button
-                        id="runButton"
-                        class="run-button">
-                        RUN AWAY
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    BATTLE LOG
-                </div>
-
-                <div
-                    id="battleLog"
-                    class="log">
-                </div>
-
-            </section>
-
-        </main>
-
-
-        <!-- WORK SCREEN -->
-
-        <main id="workScreen" class="screen">
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    ◆ JOB TERMINAL
-                </div>
-
-                <div class="neon-yellow">
-                    SELECT A JOB
-                </div>
-
-                <p class="description">
-                    Complete jobs to earn credits.
-                </p>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="job">
-
-                    <div class="job-name">
-                        DATA ENTRY
-                    </div>
-
-                    <div class="job-description">
-                        Easy work. Small payment.
-                    </div>
-
-                    <button
-                        data-job="Data Entry"
-                        data-reward="8"
-                        class="work-button">
-                        WORK — +8 GOLD
-                    </button>
-
-                </div>
-
-
-                <div class="job">
-
-                    <div class="job-name">
-                        TECH REPAIR
-                    </div>
-
-                    <div class="job-description">
-                        Repair damaged cybernetic equipment.
-                    </div>
-
-                    <button
-                        data-job="Tech Repair"
-                        data-reward="15"
-                        class="work-button">
-                        WORK — +15 GOLD
-                    </button>
-
-                </div>
-
-
-                <div class="job">
-
-                    <div class="job-name">
-                        NIGHT COURIER
-                    </div>
-
-                    <div class="job-description">
-                        Deliver a package through dangerous streets.
-                    </div>
-
-                    <button
-                        data-job="Night Courier"
-                        data-reward="22"
-                        class="work-button">
-                        WORK — +22 GOLD
-                    </button>
-
-                </div>
-
-
-                <div class="job">
-
-                    <div class="job-name">
-                        CORPORATE SECURITY
-                    </div>
-
-                    <div class="job-description">
-                        Protect a corporation's valuable data.
-                    </div>
-
-                    <button
-                        data-job="Corporate Security"
-                        data-reward="35"
-                        class="work-button">
-                        WORK — +35 GOLD
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <button
-                class="back"
-                data-back="mainScreen">
-                ← BACK
-            </button>
-
-        </main>
-
-
-        <!-- REST SCREEN -->
-
-        <main id="restScreen" class="screen">
-
-            <section class="panel center">
-
-                <h1 class="big-title">
-                    REST TERMINAL
-                </h1>
-
-                <p class="description">
-                    Recover your HP and prepare for your next mission.
-                </p>
-
-            </section>
-
-
-            <section class="panel">
-
-                <div class="job">
-
-                    <div class="job-name neon-green">
-                        QUICK REST
-                    </div>
-
-                    <div class="job-description">
-                        Take a short break and recover 25% of your maximum HP.
-                    </div>
-
-                    <button
-                        id="quickRestButton"
-                        class="rest-button">
-                        REST — RECOVER 25% HP
-                    </button>
-
-                </div>
-
-
-                <div class="job">
-
-                    <div class="job-name neon-green">
-                        FULL RECOVERY
-                    </div>
-
-                    <div class="job-description">
-                        Spend time fully recovering.
-                    </div>
-
-                    <button
-                        id="fullRestButton"
-                        class="rest-button">
-                        RECOVER TO FULL HP
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <button
-                class="back"
-                data-back="mainScreen">
-                ← BACK
-            </button>
-
-        </main>
-
-
-        <!-- CHARACTER SCREEN -->
-
-        <main id="characterScreen" class="screen">
-
-            <section class="panel">
-
-                <div class="panel-title">
-                    CHARACTER DATA
-                </div>
-
-                <div id="characterInfo"></div>
-
-            </section>
-
-
-            <button
-                class="back"
-                data-back="mainScreen">
-                ← BACK
-            </button>
-
-        </main>
-
-
-        <footer class="footer">
-            CYBER//RPG ENGINE
-        </footer>
-
     </div>
 
 
-    <script src="index.js"></script>
+    <!-- WORK SCREEN -->
+    <div id="workScreen" class="screen">
+
+        <header class="game-header">
+            <h1>💼 WORK</h1>
+            <p>Earn some credits.</p>
+        </header>
+
+        <main>
+
+            <section class="panel">
+
+                <h2>Available Jobs</h2>
+
+                <button class="game-button" onclick="doWork('Data Entry', 8)">
+                    Data Entry
+                    <span>+8 Gold</span>
+                </button>
+
+                <button class="game-button" onclick="doWork('Tech Repair', 15)">
+                    Tech Repair
+                    <span>+15 Gold</span>
+                </button>
+
+                <button class="game-button" onclick="doWork('Night Courier', 22)">
+                    Night Courier
+                    <span>+22 Gold</span>
+                </button>
+
+                <button class="game-button" onclick="doWork('Corporate Security', 35)">
+                    Corporate Security
+                    <span>+35 Gold</span>
+                </button>
+
+                <button class="back-button" onclick="showScreen('mainScreen')">
+                    ← Back
+                </button>
+
+            </section>
+
+        </main>
+    </div>
+
+
+    <!-- REST SCREEN -->
+    <div id="restScreen" class="screen">
+
+        <header class="game-header">
+            <h1>💤 REST</h1>
+            <p>Recover your HP.</p>
+        </header>
+
+        <main>
+
+            <section class="panel">
+
+                <h2>Recovery Options</h2>
+
+                <button class="game-button" onclick="quickRest()">
+                    Quick Rest
+                    <span>Recover 25% HP</span>
+                </button>
+
+                <button class="game-button" onclick="fullRest()">
+                    Full Recovery
+                    <span>Restore all HP</span>
+                </button>
+
+                <button class="back-button" onclick="showScreen('mainScreen')">
+                    ← Back
+                </button>
+
+            </section>
+
+        </main>
+    </div>
+
+
+    <!-- CHARACTER SCREEN -->
+    <div id="characterScreen" class="screen">
+
+        <header class="game-header">
+            <h1>👤 CHARACTER</h1>
+            <p>Your CyberKnight profile.</p>
+        </header>
+
+        <main>
+
+            <section class="panel">
+
+                <h2>Character Information</h2>
+
+                <div class="character-stat">
+                    <strong>Class</strong>
+                    <span id="characterClass">---</span>
+                </div>
+
+                <div class="character-stat">
+                    <strong>Level</strong>
+                    <span id="characterLevel">1</span>
+                </div>
+
+                <div class="character-stat">
+                    <strong>Attack</strong>
+                    <span id="characterAttack">0</span>
+                </div>
+
+                <div class="character-stat">
+                    <strong>Maximum HP</strong>
+                    <span id="characterMaxHp">0</span>
+                </div>
+
+                <div class="character-stat">
+                    <strong>Gold</strong>
+                    <span id="characterGold">0</span>
+                </div>
+
+                <div class="character-stat">
+                    <strong>Potions</strong>
+                    <span id="characterPotions">0</span>
+                </div>
+
+                <button class="back-button" onclick="showScreen('mainScreen')">
+                    ← Back
+                </button>
+
+            </section>
+
+        </main>
+    </div>
+
+
+    <script>
+
+        // ==============================
+        // GAME DATA
+        // ==============================
+
+        const classes = {
+
+            warrior: {
+                name: "Warrior",
+                maxHp: 130,
+                attack: 14,
+                skill: "Power Strike"
+            },
+
+            rogue: {
+                name: "Rogue",
+                maxHp: 100,
+                attack: 12,
+                skill: "Critical Strike"
+            },
+
+            mage: {
+                name: "Mage",
+                maxHp: 85,
+                attack: 9,
+                skill: "Energy Blast"
+            }
+
+        };
+
+
+        const enemies = [
+
+            {
+                name: "DATA SLIME",
+                maxHp: 25,
+                attack: 5,
+                xp: 15,
+                gold: 5,
+                description: "A corrupted blob of digital data."
+            },
+
+            {
+                name: "ROGUE DRONE",
+                maxHp: 35,
+                attack: 8,
+                xp: 25,
+                gold: 8,
+                description: "A hostile security drone."
+            },
+
+            {
+                name: "NEON WOLF",
+                maxHp: 45,
+                attack: 11,
+                xp: 35,
+                gold: 12,
+                description: "A cybernetic predator stalking the streets."
+            },
+
+            {
+                name: "STREET BANDIT",
+                maxHp: 60,
+                attack: 14,
+                xp: 50,
+                gold: 20,
+                description: "A dangerous criminal from the lower district."
+            }
+
+        ];
+
+
+        let player = {
+
+            class: null,
+
+            level: 1,
+
+            maxHp: 0,
+
+            hp: 0,
+
+            attack: 0,
+
+            xp: 0,
+
+            xpNeeded: 100,
+
+            gold: 20,
+
+            potions: 3
+
+        };
+
+
+        let currentEnemy = null;
+
+        let defending = false;
+
+
+        // ==============================
+        // CLASS SELECTION
+        // ==============================
+
+        function chooseClass(className) {
+
+            const selectedClass = classes[className];
+
+            player.class = className;
+
+            player.maxHp = selectedClass.maxHp;
+
+            player.hp = selectedClass.maxHp;
+
+            player.attack = selectedClass.attack;
+
+            player.level = 1;
+
+            player.xp = 0;
+
+            player.xpNeeded = 100;
+
+            player.gold = 20;
+
+            player.potions = 3;
+
+            document.getElementById("startScreen").classList.remove("active");
+
+            document.getElementById("mainScreen").classList.add("active");
+
+            addLog(
+                "Welcome, " + selectedClass.name + ". Your CyberKnight journey begins."
+            );
+
+            update();
+
+        }
+
+
+        // ==============================
+        // SCREEN SYSTEM
+        // ==============================
+
+        function showScreen(screenId) {
+
+            document.querySelectorAll(".screen").forEach(screen => {
+
+                screen.classList.remove("active");
+
+            });
+
+            document.getElementById(screenId).classList.add("active");
+
+            update();
+
+        }
+
+
+        // ==============================
+        // UPDATE UI
+        // ==============================
+
+        function update() {
+
+            if (!player.class) {
+                return;
+            }
+
+
+            const classData = classes[player.class];
+
+
+            // Main status
+
+            document.getElementById("classText").textContent =
+                classData.name;
+
+            document.getElementById("hpText").textContent =
+                `${player.hp} / ${player.maxHp}`;
+
+            document.getElementById("xpText").textContent =
+                `${player.xp} / ${player.xpNeeded}`;
+
+            document.getElementById("levelText").textContent =
+                player.level;
+
+            document.getElementById("attackText").textContent =
+                player.attack;
+
+            document.getElementById("goldText").textContent =
+                player.gold;
+
+            document.getElementById("potionText").textContent =
+                player.potions;
+
+
+            // HP bar
+
+            const hpPercent =
+                Math.max(0, (player.hp / player.maxHp) * 100);
+
+            document.getElementById("hpBar").style.width =
+                hpPercent + "%";
+
+
+            // XP bar
+
+            const xpPercent =
+                Math.min(100, (player.xp / player.xpNeeded) * 100);
+
+            document.getElementById("xpBar").style.width =
+                xpPercent + "%";
+
+
+            // Character screen
+
+            document.getElementById("characterClass").textContent =
+                classData.name;
+
+            document.getElementById("characterLevel").textContent =
+                player.level;
+
+            document.getElementById("characterAttack").textContent =
+                player.attack;
+
+            document.getElementById("characterMaxHp").textContent =
+                player.maxHp;
+
+            document.getElementById("characterGold").textContent =
+                player.gold;
+
+            document.getElementById("characterPotions").textContent =
+                player.potions;
+
+
+            // Battle screen
+
+            if (currentEnemy) {
+
+                document.getElementById("battleEnemyName").textContent =
+                    currentEnemy.name;
+
+                document.getElementById("enemyHpText").textContent =
+                    `${currentEnemy.hp} / ${currentEnemy.maxHp}`;
+
+                document.getElementById("enemyDescription").textContent =
+                    currentEnemy.description;
+
+
+                const enemyPercent =
+                    Math.max(
+                        0,
+                        (currentEnemy.hp / currentEnemy.maxHp) * 100
+                    );
+
+                document.getElementById("enemyHpBar").style.width =
+                    enemyPercent + "%";
+
+
+                document.getElementById("battleHpText").textContent =
+                    `${player.hp} / ${player.maxHp}`;
+
+                const battleHpPercent =
+                    Math.max(
+                        0,
+                        (player.hp / player.maxHp) * 100
+                    );
+
+                document.getElementById("battleHpBar").style.width =
+                    battleHpPercent + "%";
+
+            }
+
+        }
+
+
+        // ==============================
+        // LOGGING
+        // ==============================
+
+        function addLog(message) {
+
+            const log = document.getElementById("log");
+
+            const entry = document.createElement("p");
+
+            entry.textContent = "> " + message;
+
+            log.prepend(entry);
+
+        }
+
+
+        function addBattleLog(message) {
+
+            const log = document.getElementById("battleLog");
+
+            const entry = document.createElement("p");
+
+            entry.textContent = "> " + message;
+
+            log.prepend(entry);
+
+        }
+
+
+        // ==============================
+        // EXPLORATION
+        // ==============================
+
+        function explore() {
+
+            const enemy =
+                enemies[Math.floor(Math.random() * enemies.length)];
+
+
+            currentEnemy = {
+
+                ...enemy,
+
+                hp: enemy.maxHp
+
+            };
+
+
+            defending = false;
+
+
+            document.getElementById("battleLog").innerHTML = "";
+
+
+            addBattleLog(
+                `You encountered ${currentEnemy.name}!`
+            );
+
+
+            showScreen("battleScreen");
+
+        }
+
+
+        // ==============================
+        // PLAYER ATTACK
+        // ==============================
+
+        function attackEnemy() {
+
+            if (!currentEnemy) {
+                return;
+            }
+
+
+            let damage = player.attack;
+
+
+            // Rogue critical chance
+
+            if (
+                player.class === "rogue" &&
+                Math.random() < 0.25
+            ) {
+
+                damage *= 2;
+
+                addBattleLog("CRITICAL HIT!");
+
+            }
+
+
+            currentEnemy.hp -= damage;
+
+
+            addBattleLog(
+                `You dealt ${damage} damage.`
+            );
+
+
+            if (currentEnemy.hp <= 0) {
+
+                winBattle();
+
+                return;
+
+            }
+
+
+            enemyAttack();
+
+            update();
+
+        }
+
+
+        // ==============================
+        // CLASS SKILL
+        // ==============================
+
+        function useSkill() {
+
+            if (!currentEnemy) {
+                return;
+            }
+
+
+            let damage = 0;
+
+
+            if (player.class === "warrior") {
+
+                damage =
+                    player.attack * 2 +
+                    Math.floor(Math.random() * 6);
+
+            }
+
+
+            else if (player.class === "rogue") {
+
+                damage =
+                    player.attack * 3;
+
+            }
+
+
+            else if (player.class === "mage") {
+
+                damage =
+                    player.attack * 4 +
+                    Math.floor(Math.random() * 10);
+
+            }
+
+
+            currentEnemy.hp -= damage;
+
+
+            addBattleLog(
+                `${classes[player.class].skill} dealt ${damage} damage!`
+            );
+
+
+            if (currentEnemy.hp <= 0) {
+
+                winBattle();
+
+                return;
+
+            }
+
+
+            enemyAttack();
+
+            update();
+
+        }
+
+
+        // ==============================
+        // DEFEND
+        // ==============================
+
+        function defend() {
+
+            defending = true;
+
+            addBattleLog(
+                "You brace yourself for the enemy attack."
+            );
+
+
+            enemyAttack();
+
+            update();
+
+        }
+
+
+        // ==============================
+        // ENEMY ATTACK
+        // ==============================
+
+        function enemyAttack() {
+
+            let damage = currentEnemy.attack;
+
+
+            if (defending) {
+
+                damage =
+                    Math.max(
+                        1,
+                        Math.floor(damage / 2)
+                    );
+
+                addBattleLog(
+                    "Your defense reduced the damage!"
+                );
+
+            }
+
+
+            player.hp -= damage;
+
+
+            addBattleLog(
+                `${currentEnemy.name} dealt ${damage} damage.`
+            );
+
+
+            defending = false;
+
+
+            if (player.hp <= 0) {
+
+                player.hp = 1;
+
+                addBattleLog(
+                    "You barely survived the attack."
+                );
+
+                showScreen("mainScreen");
+
+            }
+
+        }
+
+
+        // ==============================
+        // POTION
+        // ==============================
+
+        function usePotion() {
+
+            if (player.potions <= 0) {
+
+                addBattleLog(
+                    "You don't have any potions."
+                );
+
+                return;
+
+            }
+
+
+            if (player.hp >= player.maxHp) {
+
+                addBattleLog(
+                    "Your HP is already full."
+                );
+
+                return;
+
+            }
+
+
+            const healing =
+                Math.floor(player.maxHp * 0.35);
+
+
+            player.hp =
+                Math.min(
+                    player.maxHp,
+                    player.hp + healing
+                );
+
+
+            player.potions--;
+
+
+            addBattleLog(
+                `You recovered ${healing} HP.`
+            );
+
+
+            enemyAttack();
+
+            update();
+
+        }
+
+
+        // ==============================
+        // RUN AWAY
+        // ==============================
+
+        function runAway() {
+
+            if (Math.random() < 0.70) {
+
+                addBattleLog(
+                    "You escaped successfully!"
+                );
+
+                currentEnemy = null;
+
+                showScreen("mainScreen");
+
+            }
+
+            else {
+
+                addBattleLog(
+                    "You failed to escape!"
+                );
+
+                enemyAttack();
+
+                update();
+
+            }
+
+        }
+
+
+        // ==============================
+        // WIN BATTLE
+        // ==============================
+
+        function winBattle() {
+
+            const xpReward = currentEnemy.xp;
+
+            const goldReward = currentEnemy.gold;
+
+
+            player.xp += xpReward;
+
+            player.gold += goldReward;
+
+
+            addBattleLog(
+                `Victory! +${xpReward} XP and +${goldReward} Gold.`
+            );
+
+
+            checkLevelUp();
+
+
+            currentEnemy = null;
+
+
+            setTimeout(() => {
+
+                showScreen("mainScreen");
+
+            }, 900);
+
+        }
+
+
+        // ==============================
+        // LEVEL UP
+        // ==============================
+
+        function checkLevelUp() {
+
+            while (player.xp >= player.xpNeeded) {
+
+                player.xp -= player.xpNeeded;
+
+                player.level++;
+
+                player.maxHp += 20;
+
+                player.attack += 4;
+
+                player.hp = player.maxHp;
+
+                player.xpNeeded =
+                    Math.floor(
+                        player.xpNeeded * 1.5
+                    );
+
+
+                addBattleLog(
+                    `LEVEL UP! You are now level ${player.level}!`
+                );
+
+            }
+
+        }
+
+
+        // ==============================
+        // WORK
+        // ==============================
+
+        function doWork(job, reward) {
+
+            player.gold += reward;
+
+
+            addLog(
+                `You worked as a ${job} and earned ${reward} gold.`
+            );
+
+
+            showScreen("mainScreen");
+
+        }
+
+
+        // ==============================
+        // REST
+        // ==============================
+
+        function quickRest() {
+
+            const healing =
+                Math.floor(player.maxHp * 0.25);
+
+
+            player.hp =
+                Math.min(
+                    player.maxHp,
+                    player.hp + healing
+                );
+
+
+            addLog(
+                `You took a quick rest and recovered ${healing} HP.`
+            );
+
+
+            showScreen("mainScreen");
+
+        }
+
+
+        function fullRest() {
+
+            player.hp = player.maxHp;
+
+
+            addLog(
+                "You took a full rest and restored all HP."
+            );
+
+
+            showScreen("mainScreen");
+
+        }
+
+
+        // ==============================
+        // START GAME
+        // ==============================
+
+        update();
+
+    </script>
 
 </body>
 </html>
