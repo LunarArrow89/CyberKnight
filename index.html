@@ -3,14 +3,14 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-    <title>CyberKnight: Neon Text RPG</title>
+<title>CyberKnight: Neon Text RPG</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
@@ -18,340 +18,347 @@
 
 <div class="game-container">
 
-    <h1>CYBERKNIGHT</h1>
+<h1>CYBERKNIGHT</h1>
 
-    <p class="subtitle">
-        A Neon Text RPG
-    </p>
+<p class="subtitle">
+A Neon Text RPG
+</p>
 
 
-    <!-- CLASS SELECTION SCREEN -->
+<div id="classScreen">
 
-    <div id="classScreen">
+<h2>Choose Your Class</h2>
 
-        <h2>Choose Your Class</h2>
+<div class="class-grid">
 
-        <div class="class-grid">
+<div class="class-card warrior-select"
+onclick="chooseClass('Warrior')">
 
-            <div class="class-card warrior-select"
-                 onclick="chooseClass('Warrior')">
+<h3>⚔️ WARRIOR</h3>
 
-                <h3>⚔️ WARRIOR</h3>
+<p>
+Strong and durable armor.<br>
 
-                <p>
-                    Strong and durable armor.<br>
-                    <strong>HP:</strong> 20 |
-                    <strong>ATK:</strong> 5<br>
-                    <span class="skill-label">
-                        Skill: Power Strike
-                    </span>
-                </p>
+<strong>HP:</strong> 20 |
+<strong>ATK:</strong> 5<br>
 
-            </div>
+<span class="skill-label">
+Skill: Power Strike
+</span>
 
+</p>
 
-            <div class="class-card rogue-select"
-                 onclick="chooseClass('Rogue')">
+</div>
 
-                <h3>🗡️ ROGUE</h3>
 
-                <p>
-                    Fast and deadly optimization.<br>
-                    <strong>HP:</strong> 15 |
-                    <strong>ATK:</strong> 6<br>
-                    <span class="skill-label">
-                        Skill: Critical Strike
-                    </span>
-                </p>
+<div class="class-card rogue-select"
+onclick="chooseClass('Rogue')">
 
-            </div>
+<h3>🗡️ ROGUE</h3>
 
+<p>
+Fast and deadly optimization.<br>
 
-            <div class="class-card mage-select"
-                 onclick="chooseClass('Mage')">
+<strong>HP:</strong> 15 |
+<strong>ATK:</strong> 6<br>
 
-                <h3>⚡ MAGE</h3>
+<span class="skill-label">
+Skill: Critical Strike
+</span>
 
-                <p>
-                    Powerful system code hacks.<br>
-                    <strong>HP:</strong> 25 |
-                    <strong>ATK:</strong> 3<br>
-                    <span class="skill-label">
-                        Skill: Energy Blast
-                    </span>
-                </p>
+</p>
 
-            </div>
+</div>
 
-        </div>
 
-    </div>
+<div class="class-card mage-select"
+onclick="chooseClass('Mage')">
 
+<h3>⚡ MAGE</h3>
 
+<p>
+Powerful system code hacks.<br>
 
-    <!-- MAIN GAME DASHBOARD -->
+<strong>HP:</strong> 25 |
+<strong>ATK:</strong> 3<br>
 
-    <div id="gameScreen"
-         style="display:none;">
+<span class="skill-label">
+Skill: Energy Blast
+</span>
 
-        <div class="card player-card">
+</p>
 
-            <h2 id="playerTitle"></h2>
+</div>
 
-            <p id="stats"></p>
+</div>
 
-        </div>
+</div>
 
 
-        <div class="action-tray">
 
-            <button id="exploreButton"
-                    class="action-btn"
-                    onclick="explore()">
+<div id="gameScreen"
+style="display:none;">
 
-                Explore Sector
 
-            </button>
+<div class="card player-card">
 
+<h2 id="playerTitle"></h2>
 
-            <button id="workButton"
-                    class="action-btn work-btn"
-                    onclick="work()">
+<p id="stats"></p>
 
-                Work
+</div>
 
-            </button>
 
 
-            <button id="restButton"
-                    class="action-btn rest-btn"
-                    onclick="rest()">
+<div class="action-tray">
 
-                Rest
+<button id="exploreButton"
+class="action-btn"
+onclick="explore()">
 
-            </button>
+Explore Sector
 
+</button>
 
-            <button id="travelButton"
-                    class="action-btn battle-btn"
-                    onclick="openTravelMenu()">
 
-                Travel Map
+<button id="workButton"
+class="action-btn work-btn"
+onclick="work()">
 
-            </button>
+Work
 
+</button>
 
-            <button class="action-btn reset-btn"
-                    onclick="resetGame()">
 
-                Reset Save
+<button id="restButton"
+class="action-btn rest-btn"
+onclick="rest()">
 
-            </button>
+Rest
 
-        </div>
+</button>
 
 
-        <!-- ACTIVITY TIME BAR -->
+<button id="travelButton"
+class="action-btn battle-btn"
+onclick="openTravelMenu()">
 
-        <div id="activityStatus"
-             class="terminal-feed"
-             style="display:none;">
+Travel Map
 
-        </div>
+</button>
 
 
-        <div id="terminalLog"
-             class="terminal-feed">
+<button class="action-btn reset-btn"
+onclick="resetGame()">
 
-            &gt; System Initialized.
-            Awaiting user tactical command inputs...
+Reset Save
 
-        </div>
+</button>
 
-    </div>
+</div>
 
 
 
-    <!-- ENEMY SELECTION -->
+<div id="activityStatus"
+class="terminal-feed"
+style="display:none;">
 
-    <div id="enemySelectScreen"
-         style="display:none;">
+</div>
 
-        <div class="card">
 
-            <h2>
-                Sector Enemy Database
-            </h2>
+<div id="terminalLog"
+class="terminal-feed">
 
-            <p id="enemySelectDescription">
-                Select an enemy to engage.
-            </p>
+&gt; System Initialized.
+Awaiting user tactical command inputs...
 
+</div>
 
-            <div id="enemyList"
-                 class="action-tray"
-                 style="flex-direction:column;
-                        align-items:stretch;">
+<!-- ENEMY SELECTION -->
 
-            </div>
+<div id="enemySelectScreen"
+style="display:none;">
 
+<div class="card">
 
-            <div class="action-tray"
-                 style="margin-top:20px;">
+<h2>
+Sector Enemy Database
+</h2>
 
-                <button class="action-btn reset-btn"
-                        onclick="closeEnemySelection()">
 
-                    Return to Dashboard
+<p id="enemySelectDescription">
+Select an enemy to engage.
+</p>
 
-                </button>
 
-            </div>
+<div id="enemyList"
+class="action-tray"
+style="flex-direction:column;
+align-items:stretch;">
 
-        </div>
+</div>
 
-    </div>
 
+<div class="action-tray">
 
+<button class="action-btn reset-btn"
+onclick="closeEnemySelection()">
 
-    <!-- TRAVEL MAP -->
+Return to Dashboard
 
-    <div id="travelScreen"
-         style="display:none;">
+</button>
 
-        <div class="card">
+</div>
 
-            <h2>
-                Global Navigation Subnets
-            </h2>
+</div>
 
-            <p>
-                Gather all 3 cryptographic fragments
-                in your current area to unlock
-                the next network node gateway.
-            </p>
+</div>
 
 
-            <div id="areaListTray"
-                 class="action-tray"
-                 style="flex-direction:column;
-                        align-items:stretch;">
 
-            </div>
+<!-- TRAVEL -->
 
+<div id="travelScreen"
+style="display:none;">
 
-            <div class="action-tray"
-                 style="margin-top:20px;">
+<div class="card">
 
-                <button class="action-btn reset-btn"
-                        onclick="closeTravelMenu()">
+<h2>
+Global Navigation Subnets
+</h2>
 
-                    Return to Dashboard
 
-                </button>
+<p>
+Gather all 3 cryptographic fragments
+in your current area to unlock
+the next network node gateway.
+</p>
 
-            </div>
 
-        </div>
+<div id="areaListTray"
+class="action-tray"
+style="flex-direction:column;
+align-items:stretch;">
 
-    </div>
+</div>
 
 
+<button class="action-btn reset-btn"
+onclick="closeTravelMenu()">
 
-    <!-- BATTLE SCREEN -->
+Return to Dashboard
 
-    <div id="battleScreen"
-         style="display:none;">
+</button>
 
-        <div class="card battle-card">
+</div>
 
-            <h2>
-                Combat Area Matrix Active
-            </h2>
+</div>
 
 
-            <!-- PLAYER BATTLE HP -->
 
-            <div class="battle-character">
 
-                <h3>
-                    🛡️ CYBERKNIGHT
-                </h3>
+<!-- BATTLE -->
 
-                <p id="battlePlayerHP">
-                    HP: 0 / 0
-                </p>
+<div id="battleScreen"
+style="display:none;">
 
-                <div class="hp-bar">
+<div class="card battle-card">
 
-                    <div id="playerHPBar"
-                         class="hp-fill">
-                    </div>
 
-                </div>
+<h2>
+Combat Area Matrix Active
+</h2>
 
-            </div>
 
+<div class="battle-character">
 
-            <!-- ENEMY BATTLE HP -->
+<h3>
+🛡️ CYBERKNIGHT
+</h3>
 
-            <div class="battle-character">
 
-                <h3 id="enemyName">
-                    Enemy
-                </h3>
+<p id="battlePlayerHP">
+HP: 0 / 0
+</p>
 
-                <p id="enemyStats">
-                    HP: 0 / 0
-                </p>
 
-                <div class="hp-bar">
+<div class="hp-bar">
 
-                    <div id="enemyHPBar"
-                         class="enemy-hp-fill">
-                    </div>
+<div id="playerHPBar"
+class="hp-fill">
 
-                </div>
+</div>
 
-            </div>
+</div>
 
+</div>
 
-            <p id="battleLog">
-                Battle initialized.
-            </p>
 
 
-            <div class="action-tray">
+<div class="battle-character">
 
-                <button class="action-btn battle-btn"
-                        onclick="attack()">
+<h3 id="enemyName">
+Enemy
+</h3>
 
-                    Attack
 
-                </button>
+<p id="enemyStats">
+HP: 0 / 0
+</p>
 
 
-                <button id="skillButton"
-                        class="action-btn skill-btn"
-                        onclick="skillAttack()">
+<div class="hp-bar">
 
-                    Skill
+<div id="enemyHPBar"
+class="enemy-hp-fill">
 
-                </button>
+</div>
 
+</div>
 
-                <button class="action-btn reset-btn"
-                        onclick="runAway()">
+</div>
 
-                    Run
 
-                </button>
+<p id="battleLog">
+Battle initialized.
+</p>
 
-            </div>
 
-        </div>
 
-    </div>
+<div class="action-tray">
+
+<button class="action-btn battle-btn"
+onclick="attack()">
+
+Attack
+
+</button>
+
+
+<button id="skillButton"
+class="action-btn skill-btn"
+onclick="skillAttack()">
+
+Skill
+
+</button>
+
+
+<button class="action-btn reset-btn"
+onclick="runAway()">
+
+Run
+
+</button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
 
 </div>
 
@@ -364,6 +371,7 @@
 // CYBERKNIGHT GAME
 // ==========================================
 
+
 let player = null;
 
 let currentEnemy = null;
@@ -372,14 +380,17 @@ let currentArea = 0;
 
 let activityTimer = null;
 
+
 const REST_TIME =
-    1 * 60 * 1000;
+1 * 60 * 1000;
+
 
 const WORK_TIME =
-    30 * 60 * 1000;
+30 * 60 * 1000;
+
 
 const MAX_SKILL_USES =
-    3;
+3;
 
 
 
@@ -387,293 +398,204 @@ const MAX_SKILL_USES =
 // AREA DATA
 // ==========================================
 
+
 const areas = [
 
-    {
-        name: "Neon Outskirts",
-        difficulty: "Easy",
-        levelRange: "Levels 1–5",
+{
+name:"Neon Outskirts",
 
-        enemies: [
+difficulty:"Easy",
 
-            {
-                name: "Glitch Rat",
-                level: 1,
-                baseHp: 10,
-                baseAtk: 5
-            },
-            {
-                name: "Drunk Dude",
-                level: 1,
-                baseHp: 15,
-                baseAtk: 7
-            },
-            {
-                name: "Giraffe on a Skateboard",
-                level: 2,
-                baseHp: 20,
-                baseAtk: 8
-            },
-
-            {
-                name: "Broken Drone",
-                level: 3,
-                baseHp: 25,
-                baseAtk: 6
-            },
-            {
-                name: "Doug the Bellpepper",
-                level: 4,
-                baseHp: 25,
-                baseAtk: 7
-            }
-
-            {
-                name: "Street Hacker",
-                level: 5,
-                baseHp: 30,
-                baseAtk: 7
-            }
-
-        ],
-
-        fragments: [false, false, false]
-    },
+levelRange:"Levels 1-5",
 
 
-    {
-        name: "Cyber District",
-        difficulty: "Normal",
-        levelRange: "Levels 6–10",
+enemies:[
 
-        enemies: [
-
-            {
-                name: "Combat Drone",
-                level: 6,
-                baseHp: 40,
-                baseAtk: 10
-            },
-
-            {
-                name: "Cyber Thief",
-                level: 8,
-                baseHp: 48,
-                baseAtk: 12
-            },
-
-            {
-                name: "Security Bot",
-                level: 10,
-                baseHp: 58,
-                baseAtk: 14
-            }
-
-        ],
-
-        fragments: [false, false, false]
-    },
+{
+name:"Glitch Rat",
+level:1,
+baseHp:10,
+baseAtk:5
+},
 
 
-    {
-        name: "Neon Wasteland",
-        difficulty: "Hard",
-        levelRange: "Levels 11–15",
-
-        enemies: [
-
-            {
-                name: "Mutant Machine",
-                level: 11,
-                baseHp: 70,
-                baseAtk: 16
-            },
-
-            {
-                name: "Wasteland Raider",
-                level: 13,
-                baseHp: 82,
-                baseAtk: 19
-            },
-
-            {
-                name: "Cyber Beast",
-                level: 15,
-                baseHp: 95,
-                baseAtk: 22
-            }
-
-        ],
-
-        fragments: [false, false, false]
-    },
+{
+name:"Drunk Dude",
+level:1,
+baseHp:15,
+baseAtk:7
+},
 
 
-    {
-        name: "The Dark Network",
-        difficulty: "Very Hard",
-        levelRange: "Levels 16–20",
-
-        enemies: [
-
-            {
-                name: "Dark Knight",
-                level: 16,
-                baseHp: 110,
-                baseAtk: 25
-            },
-
-            {
-                name: "Void Hacker",
-                level: 18,
-                baseHp: 125,
-                baseAtk: 28
-            },
-
-            {
-                name: "Network Guardian",
-                level: 20,
-                baseHp: 145,
-                baseAtk: 31
-            }
-
-        ],
-
-        fragments: [false, false, false]
-    },
+{
+name:"Giraffe on a Skateboard",
+level:2,
+baseHp:20,
+baseAtk:8
+},
 
 
-    {
-        name: "Cyber Core",
-        difficulty: "Extreme",
-        levelRange: "Levels 21–25",
+{
+name:"Broken Drone",
+level:3,
+baseHp:25,
+baseAtk:6
+},
 
-        enemies: [
 
-            {
-                name: "Core Defender",
-                level: 21,
-                baseHp: 165,
-                baseAtk: 34
-            },
+{
+name:"Doug the Bellpepper",
+level:4,
+baseHp:25,
+baseAtk:7
+},
 
-            {
-                name: "System Destroyer",
-                level: 23,
-                baseHp: 190,
-                baseAtk: 38
-            },
 
-            {
-                name: "Cyber Overlord",
-                level: 25,
-                baseHp: 225,
-                baseAtk: 42
-            }
+{
+name:"Street Hacker",
+level:5,
+baseHp:30,
+baseAtk:7
+}
 
-        ],
+],
 
-        fragments: [false, false, false]
-    }
+
+fragments:[
+false,
+false,
+false
+]
+
+},
+
+
+{
+name:"Cyber District",
+
+difficulty:"Normal",
+
+levelRange:"Levels 6-10",
+
+enemies:[
+
+{
+name:"Combat Drone",
+level:6,
+baseHp:40,
+baseAtk:10
+},
+
+{
+name:"Cyber Thief",
+level:8,
+baseHp:48,
+baseAtk:12
+},
+
+{
+name:"Security Bot",
+level:10,
+baseHp:58,
+baseAtk:14
+}
+
+],
+
+fragments:[
+false,
+false,
+false
+]
+
+}
 
 ];
-
-
-
-// ==========================================
+    // ==========================================
 // CLASS SELECTION
 // ==========================================
 
-function chooseClass(className) {
+function chooseClass(className){
 
-    const classStats = {
+const classStats = {
 
-        Warrior: {
-            hp: 20,
-            maxHp: 20,
-            atk: 5,
-            skill: "Power Strike"
-        },
+Warrior:{
+hp:20,
+maxHp:20,
+atk:5,
+skill:"Power Strike"
+},
 
-        Rogue: {
-            hp: 15,
-            maxHp: 15,
-            atk: 6,
-            skill: "Critical Strike"
-        },
+Rogue:{
+hp:15,
+maxHp:15,
+atk:6,
+skill:"Critical Strike"
+},
 
-        Mage: {
-            hp: 10,
-            maxHp: 25,
-            atk: 3,
-            skill: "Energy Blast"
-        }
+Mage:{
+hp:25,
+maxHp:25,
+atk:3,
+skill:"Energy Blast"
+}
 
-    };
-
-
-    player = {
-
-        className: className,
-
-        hp: classStats[className].hp,
-
-        maxHp: classStats[className].maxHp,
-
-        atk: classStats[className].atk,
-
-        skill: classStats[className].skill,
-
-        skillUses: MAX_SKILL_USES,
-
-        gold: 0,
-
-        level: 1,
-
-        activity: null
-
-    };
+};
 
 
-    currentArea = 0;
+player = {
+
+className:className,
+
+hp:classStats[className].hp,
+
+maxHp:classStats[className].maxHp,
+
+atk:classStats[className].atk,
+
+skill:classStats[className].skill,
+
+skillUses:MAX_SKILL_USES,
+
+gold:0,
+
+level:1,
+
+activity:null,
+
+// NEW: death requires rest
+mustRest:false
+
+};
 
 
-    areas.forEach(function(area) {
 
-        area.fragments = [
-            false,
-            false,
-            false
-        ];
-
-    });
+currentArea=0;
 
 
-    document.getElementById(
-        "classScreen"
-    ).style.display = "none";
+document.getElementById(
+"classScreen"
+).style.display="none";
 
 
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
+document.getElementById(
+"gameScreen"
+).style.display="block";
 
 
-    updatePlayerDisplay();
+updatePlayerDisplay();
 
-    updateActivityButtons();
+updateActivityButtons();
 
-    updateSkillButton();
-
-
-    logMessage(
-        "> Class selected: " +
-        className +
-        ". Welcome to CyberKnight."
-    );
+updateSkillButton();
 
 
-    saveGame();
+logMessage(
+"> Class selected: "+className
+);
+
+
+saveGame();
 
 }
 
@@ -683,1417 +605,343 @@ function chooseClass(className) {
 // PLAYER DISPLAY
 // ==========================================
 
-function updatePlayerDisplay() {
 
-    if (!player) {
-        return;
-    }
+function updatePlayerDisplay(){
 
-
-    document.getElementById(
-        "playerTitle"
-    ).textContent =
-        player.className +
-        " // CyberKnight";
+if(!player){
+return;
+}
 
 
-    document.getElementById(
-        "stats"
-    ).innerHTML =
-
-        "<strong>HP:</strong> " +
-        player.hp +
-        "/" +
-        player.maxHp +
-
-        " | <strong>ATK:</strong> " +
-        player.atk +
-
-        " | <strong>Level:</strong> " +
-        player.level +
-
-        " | <strong>Gold:</strong> " +
-        player.gold +
-
-        " | <strong>Skill:</strong> " +
-        player.skillUses +
-        "/" +
-        MAX_SKILL_USES +
-
-        " | <strong>Area:</strong> " +
-        areas[currentArea].name;
+document.getElementById(
+"playerTitle"
+).textContent =
+player.className+
+" // CyberKnight";
 
 
-    updateActivityButtons();
+document.getElementById(
+"stats"
+).innerHTML =
+
+"HP: "+
+player.hp+
+"/"+
+player.maxHp+
+
+" | ATK: "+
+player.atk+
+
+" | Gold: "+
+player.gold+
+
+" | Skill: "+
+player.skillUses+
+"/"+
+MAX_SKILL_USES+
+
+" | Area: "+
+areas[currentArea].name;
+
+
+updateActivityButtons();
 
 }
 
 
 
 // ==========================================
-// ACTIVITY BUTTON LOCK
+// BUTTON LOCKS
 // ==========================================
 
-function updateActivityButtons() {
 
-    if (!player) {
-        return;
-    }
+function updateActivityButtons(){
 
-
-    const busy =
-        !!player.activity;
+if(!player){
+return;
+}
 
 
-    const exploreButton =
-        document.getElementById(
-            "exploreButton"
-        );
+let busy =
+!!player.activity;
 
 
-    const workButton =
-        document.getElementById(
-            "workButton"
-        );
+let forcedRest =
+player.mustRest;
 
 
-    const restButton =
-        document.getElementById(
-            "restButton"
-        );
+
+let explore =
+document.getElementById(
+"exploreButton"
+);
 
 
-    const travelButton =
-        document.getElementById(
-            "travelButton"
-        );
+let work =
+document.getElementById(
+"workButton"
+);
 
 
-    if (exploreButton) {
-
-        exploreButton.disabled =
-            busy;
-
-    }
+let rest =
+document.getElementById(
+"restButton"
+);
 
 
-    if (workButton) {
-
-        workButton.disabled =
-            busy;
-
-    }
+let travel =
+document.getElementById(
+"travelButton"
+);
 
 
-    if (restButton) {
 
-        restButton.disabled =
-            busy;
+if(explore){
 
-    }
+explore.disabled =
+busy || forcedRest;
+
+}
 
 
-    if (travelButton) {
 
-        travelButton.disabled =
-            busy;
+if(work){
 
-    }
+work.disabled =
+busy || forcedRest;
+
+}
+
+
+
+if(travel){
+
+travel.disabled =
+busy || forcedRest;
+
+}
+
+
+
+if(rest){
+
+rest.disabled =
+busy;
+
+
+if(forcedRest){
+
+rest.innerHTML =
+"💤 Forced Rest Required";
+
+}
+else{
+
+rest.innerHTML =
+"Rest";
+
+}
+
+}
 
 }
 
 
 
 // ==========================================
-// SKILL BUTTON DISPLAY
+// BATTLE START
 // ==========================================
 
-function updateSkillButton() {
 
-    const button =
-        document.getElementById(
-            "skillButton"
-        );
+function selectEnemy(index){
 
+if(player.mustRest){
 
-    if (!button || !player) {
-        return;
-    }
+logMessage(
+"> You must Rest before fighting again."
+);
 
+closeEnemySelection();
 
-    button.innerHTML =
-        "Skill (" +
-        player.skillUses +
-        "/" +
-        MAX_SKILL_USES +
-        ")";
+return;
+
+}
 
 
-    button.disabled =
-        player.skillUses <= 0;
+
+let enemy =
+areas[currentArea].enemies[index];
+
+
+currentEnemy={
+
+name:enemy.name,
+
+level:enemy.level,
+
+hp:enemy.baseHp,
+
+maxHp:enemy.baseHp,
+
+atk:enemy.baseAtk
+
+};
+
+
+
+document.getElementById(
+"enemySelectScreen"
+).style.display="none";
+
+
+document.getElementById(
+"battleScreen"
+).style.display="block";
+
+
+updateBattleDisplay();
+
+
+document.getElementById(
+"battleLog"
+).textContent =
+"> Battle started! You attack first.";
 
 }
 
 
 
 // ==========================================
-// TERMINAL LOG
+// ENEMY ATTACK
 // ==========================================
 
-function logMessage(message) {
 
-    const log =
-        document.getElementById(
-            "terminalLog"
-        );
+function enemyTurn(){
 
-
-    log.innerHTML +=
-        "<br>" + message;
+if(!player || !currentEnemy){
+return;
+}
 
 
-    log.scrollTop =
-        log.scrollHeight;
+player.hp -= currentEnemy.atk;
+
+
+if(player.hp < 0){
+
+player.hp=0;
+
+}
+
+
+
+document.getElementById(
+"battleLog"
+).textContent =
+
+"> "+
+currentEnemy.name+
+" attacked for "+
+currentEnemy.atk+
+" damage.";
+
+
+updateBattleDisplay();
+
+
+if(player.hp <= 0){
+
+playerDefeated();
+
+}
 
 }
 
 
 
 // ==========================================
-// EXPLORE
+// PLAYER DEATH
 // ==========================================
 
-function explore() {
 
-    if (!player) {
-
-        logMessage(
-            "> ERROR: No character loaded."
-        );
-
-        return;
-    }
+function playerDefeated(){
 
 
-    checkActivity();
+document.getElementById(
+"battleLog"
+).textContent =
+
+"> SYSTEM FAILURE. REST REQUIRED.";
 
 
-    if (player.activity) {
 
-        logMessage(
-            "> ACCESS DENIED. You are currently busy."
-        );
-
-        return;
-
-    }
+setTimeout(function(){
 
 
-    openEnemySelection();
+currentEnemy=null;
+
+
+document.getElementById(
+"battleScreen"
+).style.display="none";
+
+
+document.getElementById(
+"gameScreen"
+).style.display="block";
+
+
+
+// Leave player weak
+player.hp=1;
+
+
+// LOCK COMBAT
+player.mustRest=true;
+
+
+
+logMessage(
+"> You were defeated. Rest before fighting again."
+);
+
+
+
+updatePlayerDisplay();
+
+updateActivityButtons();
+
+
+saveGame();
+
+
+
+},1200);
+
+
+}
+    // ==========================================
+// REST SYSTEM
+// ==========================================
+
+function rest(){
+
+if(!player){
+return;
+}
+
+
+if(player.activity){
+
+logMessage(
+"> You are already busy."
+);
+
+return;
 
 }
 
 
-
-// ==========================================
-// ENEMY SELECTION
-// ==========================================
-
-function openEnemySelection() {
-
-    if (player && player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. Finish your current activity first."
-        );
-
-        return;
-
-    }
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "block";
-
-
-    renderEnemySelection();
-
-}
-
-
-
-function closeEnemySelection() {
-
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
-}
-
-
-
-function renderEnemySelection() {
-
-    const area =
-        areas[currentArea];
-
-
-    const list =
-        document.getElementById(
-            "enemyList"
-        );
-
-
-    list.innerHTML = "";
-
-
-    document.getElementById(
-        "enemySelectDescription"
-    ).innerHTML =
-
-        "Area: <strong>" +
-        area.name +
-        "</strong><br>" +
-
-        "Enemy Range: <strong>" +
-        area.levelRange +
-        "</strong><br>" +
-
-        "Choose your opponent.";
-
-
-    area.enemies.forEach(
-        function(enemy, index) {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "action-btn";
-
-
-            button.innerHTML =
-
-                "⚔️ " +
-                enemy.name +
-
-                "<br>" +
-
-                "Level " +
-                enemy.level +
-
-                " | HP " +
-                enemy.baseHp +
-
-                " | ED " +
-                enemy.baseAtk;
-
-
-            button.onclick =
-                function() {
-
-                    selectEnemy(index);
-
-                };
-
-
-            list.appendChild(button);
-
-        }
-    );
-
-}
-
-
-
-// ==========================================
-// SELECT ENEMY
-// ==========================================
-
-function selectEnemy(index) {
-
-    if (player && player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. You are currently busy."
-        );
-
-        closeEnemySelection();
-
-        return;
-
-    }
-
-
-    const area =
-        areas[currentArea];
-
-
-    const enemy =
-        area.enemies[index];
-
-
-    currentEnemy = {
-
-        name: enemy.name,
-
-        level: enemy.level,
-
-        hp: enemy.baseHp,
-
-        maxHp: enemy.baseHp,
-
-        atk: enemy.baseAtk
-
-    };
-
-
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "battleScreen"
-    ).style.display = "block";
-
-
-    updateBattleDisplay();
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> Battle started! You attack first.";
-
-}
-
-
-
-// ==========================================
-// BATTLE DISPLAY
-// ==========================================
-
-function updateBattleDisplay() {
-
-    if (!currentEnemy || !player) {
-        return;
-    }
-
-
-    document.getElementById(
-        "enemyName"
-    ).textContent =
-
-        currentEnemy.name +
-        " — LEVEL " +
-        currentEnemy.level;
-
-
-    document.getElementById(
-        "enemyStats"
-    ).textContent =
-
-        "HP: " +
-        currentEnemy.hp +
-        "/" +
-        currentEnemy.maxHp +
-
-        " | ED: " +
-        currentEnemy.atk;
-
-
-    document.getElementById(
-        "battlePlayerHP"
-    ).textContent =
-
-        "HP: " +
-        player.hp +
-        " / " +
-        player.maxHp;
-
-
-    document.getElementById(
-        "playerHPBar"
-    ).style.width =
-
-        Math.max(
-            0,
-            (player.hp / player.maxHp) * 100
-        ) + "%";
-
-
-    document.getElementById(
-        "enemyHPBar"
-    ).style.width =
-
-        Math.max(
-            0,
-            (currentEnemy.hp /
-             currentEnemy.maxHp) * 100
-        ) + "%";
-
-
-    updateSkillButton();
-
-}
-
-
-
-// ==========================================
-// PLAYER ATTACK
-// ==========================================
-
-function attack() {
-
-    if (!player || !currentEnemy) {
-        return;
-    }
-
-
-    if (player.activity) {
-
-        return;
-
-    }
-
-
-    const damage =
-        player.atk;
-
-
-    currentEnemy.hp -=
-        damage;
-
-
-    if (currentEnemy.hp < 0) {
-        currentEnemy.hp = 0;
-    }
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> YOU ATTACKED! " +
-        damage +
-        " damage dealt.";
-
-
-    updateBattleDisplay();
-
-
-    if (currentEnemy.hp <= 0) {
-
-        winBattle();
-
-        return;
-    }
-
-
-    enemyTurn();
-
-}
-
-
-
-// ==========================================
-// SKILL ATTACK
-// ==========================================
-
-function skillAttack() {
-
-    if (!player || !currentEnemy) {
-        return;
-    }
-
-
-    if (player.activity) {
-
-        return;
-
-    }
-
-
-    if (player.skillUses <= 0) {
-
-        document.getElementById(
-            "battleLog"
-        ).textContent =
-
-            "> NO SKILL USES REMAINING. REST TO REFRESH YOUR SKILL.";
-
-        return;
-
-    }
-
-
-    player.skillUses--;
-
-
-    let damage =
-        player.atk * 2;
-
-
-    if (
-        player.className === "Rogue"
-    ) {
-
-        damage =
-            Math.floor(
-                player.atk * 2.5
-            );
-
-    }
-
-
-    if (
-        player.className === "Mage"
-    ) {
-
-        damage =
-            Math.floor(
-                player.atk * 2.25
-            );
-
-    }
-
-
-    damage =
-        Math.floor(damage);
-
-
-    currentEnemy.hp -=
-        damage;
-
-
-    if (currentEnemy.hp < 0) {
-        currentEnemy.hp = 0;
-    }
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> " +
-        player.skill +
-        "!" +
-        " " +
-        damage +
-        " damage dealt." +
-        " Skill uses left: " +
-        player.skillUses +
-        "/" +
-        MAX_SKILL_USES;
-
-
-    updateBattleDisplay();
-
-
-    saveGame();
-
-
-    if (currentEnemy.hp <= 0) {
-
-        winBattle();
-
-        return;
-    }
-
-
-    enemyTurn();
-
-}
-
-
-
-// ==========================================
-// ENEMY TURN
-// ==========================================
-
-function enemyTurn() {
-
-    if (!player || !currentEnemy) {
-        return;
-    }
-
-
-    const ED =
-        currentEnemy.atk;
-
-
-    player.hp -=
-        ED;
-
-
-    if (player.hp < 0) {
-        player.hp = 0;
-    }
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> ENEMY ATTACKS! " +
-        currentEnemy.name +
-        " dealt " +
-        ED +
-        " ED damage.";
-
-
-    updateBattleDisplay();
-
-
-    updatePlayerDisplay();
-
-
-    if (player.hp <= 0) {
-
-        playerDefeated();
-
-    }
-
-}
-
-
-
-// ==========================================
-// PLAYER DEFEATED
-// ==========================================
-
-function playerDefeated() {
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> SYSTEM FAILURE. YOU WERE DEFEATED.";
-
-
-    setTimeout(
-        function() {
-
-            currentEnemy = null;
-
-
-            document.getElementById(
-                "battleScreen"
-            ).style.display =
-                "none";
-
-
-            document.getElementById(
-                "gameScreen"
-            ).style.display =
-                "block";
-
-
-            player.hp =
-                player.maxHp;
-
-
-            logMessage(
-                "> You were defeated. HP restored."
-            );
-
-
-            updatePlayerDisplay();
-
-
-            saveGame();
-
-        },
-        1200
-    );
-
-}
-
-
-
-// ==========================================
-// WIN BATTLE
-// ==========================================
-
-function winBattle() {
-
-    if (!currentEnemy) {
-        return;
-    }
-
-
-    const defeatedEnemy =
-        currentEnemy.name;
-
-
-    const area =
-        areas[currentArea];
-
-
-    player.gold += 5;
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
-        "> " +
-        defeatedEnemy +
-        " defeated! +5 Gold.";
-
-
-    // 5% FRAGMENT CHANCE
-
-    if (
-        Math.random() < 0.05
-    ) {
-
-        giveFragment(area);
-
-    }
-
-
-    updatePlayerDisplay();
-
-
-    saveGame();
-
-
-    setTimeout(
-        function() {
-
-            currentEnemy = null;
-
-
-            document.getElementById(
-                "battleScreen"
-            ).style.display =
-                "none";
-
-
-            document.getElementById(
-                "gameScreen"
-            ).style.display =
-                "block";
-
-
-            updatePlayerDisplay();
-
-        },
-        1200
-    );
-
-}
-
-
-
-// ==========================================
-// GIVE FRAGMENT
-// ==========================================
-
-function giveFragment(area) {
-
-    const missingFragments = [];
-
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
-
-        if (!area.fragments[i]) {
-
-            missingFragments.push(i);
-
-        }
-
-    }
-
-
-    if (
-        missingFragments.length === 0
-    ) {
-
-        logMessage(
-            "> Fragment found, but all 3 are already collected."
-        );
-
-        return;
-    }
-
-
-    const randomIndex =
-        Math.floor(
-            Math.random() *
-            missingFragments.length
-        );
-
-
-    const fragment =
-        missingFragments[randomIndex];
-
-
-    area.fragments[fragment] =
-        true;
-
-
-    logMessage(
-
-        "> 🔑 KEY FRAGMENT " +
-        (fragment + 1) +
-        " RECOVERED!"
-
-    );
-
-
-    if (
-
-        area.fragments[0] &&
-        area.fragments[1] &&
-        area.fragments[2]
-
-    ) {
-
-        logMessage(
-            "> 🔓 ALL 3 KEY FRAGMENTS COLLECTED!"
-        );
-
-
-        if (
-            currentArea <
-            areas.length - 1
-        ) {
-
-            logMessage(
-
-                "> " +
-                areas[currentArea + 1].name +
-                " IS NOW UNLOCKED!"
-
-            );
-
-        }
-
-    }
-
-
-    saveGame();
-
-}
-
-
-
-// ==========================================
-// RUN
-// ==========================================
-
-function runAway() {
-
-    currentEnemy = null;
-
-
-    document.getElementById(
-        "battleScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
-
-    logMessage(
-        "> Retreat successful."
-    );
-
-}
-
-
-
-// ==========================================
-// TRAVEL
-// ==========================================
-
-function openTravelMenu() {
-
-    if (player) {
-
-        checkActivity();
-
-
-        if (player.activity) {
-
-            logMessage(
-                "> ACCESS DENIED. You are currently busy."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "travelScreen"
-    ).style.display = "block";
-
-
-    renderTravelMap();
-
-}
-
-
-
-function closeTravelMenu() {
-
-    document.getElementById(
-        "travelScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
-
-    updatePlayerDisplay();
-
-}
-
-
-
-function renderTravelMap() {
-
-    const tray =
-        document.getElementById(
-            "areaListTray"
-        );
-
-
-    tray.innerHTML = "";
-
-
-    areas.forEach(
-        function(area, index) {
-
-            const button =
-                document.createElement(
-                    "button"
-                );
-
-
-            button.className =
-                "action-btn";
-
-
-            if (
-                index === currentArea
-            ) {
-
-                button.innerHTML =
-
-                    "📍 " +
-                    area.name +
-                    " — CURRENT AREA<br>" +
-
-                    "Difficulty: " +
-                    area.difficulty +
-                    "<br>" +
-
-                    area.levelRange +
-                    "<br>" +
-
-                    getFragmentDisplay(area);
-
-
-                button.onclick =
-                    closeTravelMenu;
-
-            }
-
-
-            else if (
-                index < currentArea
-            ) {
-
-                button.innerHTML =
-
-                    "🗺️ " +
-                    area.name +
-                    "<br>" +
-
-                    "Difficulty: " +
-                    area.difficulty +
-                    " | " +
-
-                    area.levelRange;
-
-
-                button.onclick =
-                    function() {
-
-                        travelToArea(index);
-
-                    };
-
-            }
-
-
-            else if (
-                index === currentArea + 1
-            ) {
-
-                const unlocked =
-                    areas[currentArea]
-                    .fragments
-                    .every(
-                        function(fragment) {
-
-                            return fragment === true;
-
-                        }
-                    );
-
-
-                if (unlocked) {
-
-                    button.innerHTML =
-
-                        "🔓 " +
-                        area.name +
-                        "<br>" +
-
-                        "Difficulty: " +
-                        area.difficulty +
-                        " | " +
-
-                        area.levelRange +
-                        "<br>" +
-
-                        "NEXT AREA UNLOCKED";
-
-
-                    button.onclick =
-                        function() {
-
-                            travelToArea(index);
-
-                        };
-
-                }
-
-                else {
-
-                    button.disabled = true;
-
-
-                    button.innerHTML =
-
-                        "🔒 " +
-                        area.name +
-                        "<br>" +
-
-                        "LOCKED — Collect all 3 fragments";
-
-                }
-
-            }
-
-
-            else {
-
-                button.disabled = true;
-
-
-                button.innerHTML =
-
-                    "🔒 " +
-                    area.name +
-                    "<br>" +
-
-                    "LOCKED";
-
-            }
-
-
-            tray.appendChild(button);
-
-        }
-    );
-
-}
-
-
-
-// ==========================================
-// FRAGMENT DISPLAY
-// ==========================================
-
-function getFragmentDisplay(area) {
-
-    let text =
-        "Key Fragments: ";
-
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
-
-        text +=
-            area.fragments[i]
-                ? "🔑 "
-                : "▫️ ";
-
-    }
-
-
-    if (
-
-        area.fragments[0] &&
-        area.fragments[1] &&
-        area.fragments[2]
-
-    ) {
-
-        text +=
-            "<br>✓ ALL 3 FRAGMENTS COLLECTED";
-
-    }
-
-
-    return text;
-
-}
-
-
-
-// ==========================================
-// TRAVEL TO AREA
-// ==========================================
-
-function travelToArea(index) {
-
-    if (player && player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. You are currently busy."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        index < 0 ||
-        index >= areas.length
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        index === currentArea + 1
-    ) {
-
-        const unlocked =
-            areas[currentArea]
-            .fragments
-            .every(
-                function(fragment) {
-
-                    return fragment === true;
-
-                }
-            );
-
-
-        if (!unlocked) {
-
-            logMessage(
-                "> ACCESS DENIED. Collect all 3 key fragments first."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    if (
-        index > currentArea + 1
-    ) {
-
-        return;
-
-    }
-
-
-    currentArea =
-        index;
-
-
-    logMessage(
-
-        "> Traveling to " +
-        areas[currentArea].name +
-        "..."
-
-    );
-
-
-    logMessage(
-
-        "> Enemy range: " +
-        areas[currentArea].levelRange
-
-    );
-
-
-    closeTravelMenu();
-
-
-    updatePlayerDisplay();
-
-
-    saveGame();
-
-}
-
-
-
-// ==========================================
-// ACTIVITY SYSTEM
-// ==========================================
-
-function startActivity(type) {
-
-    if (!player) {
-
-        return;
-
-    }
-
-
-    checkActivity();
-
-
-    if (player.activity) {
-
-        logMessage(
-            "> You are already busy."
-        );
-
-        return;
-
-    }
-
-
-    const activityTime =
-        type === "rest"
-            ? REST_TIME
-            : WORK_TIME;
-
-
-    player.activity = {
-
-        type: type,
-
-        startTime: Date.now(),
-
-        finishTime:
-            Date.now() +
-            activityTime
-
-    };
-
-
-    if (
-        type === "work"
-    ) {
-
-        logMessage(
-            "> 💼 Work started. 30 minutes remaining. You cannot fight or travel while working."
-        );
-
-    }
-
-
-    if (
-        type === "rest"
-    ) {
-
-        logMessage(
-            "> 💤 Rest started. 1 minute remaining. Completing Rest restores HP and refreshes your skill 3 times."
-        );
-
-    }
-
-
-    updateActivityButtons();
-
-
-    saveGame();
-
-
-    startActivityTimer();
-
-}
-
-
-
-// ==========================================
-// CHECK ACTIVITY
-// ==========================================
-
-function checkActivity() {
-
-    if (
-        !player ||
-        !player.activity
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        Date.now() >=
-        player.activity.finishTime
-    ) {
-
-        finishActivity();
-
-    }
+startActivity("rest");
 
 }
 
@@ -2103,409 +951,157 @@ function checkActivity() {
 // FINISH ACTIVITY
 // ==========================================
 
-function finishActivity() {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
+function finishActivity(){
 
-        return;
-
-    }
+if(!player || !player.activity){
+return;
+}
 
 
-    const type =
-        player.activity.type;
+let type =
+player.activity.type;
 
 
-    player.activity =
-        null;
+player.activity=null;
 
 
-    if (
-        type === "work"
-    ) {
 
-        player.gold += 10;
+if(type==="rest"){
 
 
-        logMessage(
-            "> 💼 WORK COMPLETE! +10 Gold."
-        );
-
-    }
+player.hp =
+player.maxHp;
 
 
-    if (
-        type === "rest"
-    ) {
-
-        player.hp =
-            player.maxHp;
+player.skillUses =
+MAX_SKILL_USES;
 
 
-        player.skillUses =
-            MAX_SKILL_USES;
+// UNLOCK FIGHTING AGAIN
+player.mustRest=false;
 
 
-        logMessage(
-            "> 💤 REST COMPLETE! HP FULLY RESTORED. SKILL REFRESHED: 3/3."
-        );
-
-    }
+logMessage(
+"> 💤 Rest complete! HP restored. Combat unlocked."
+);
 
 
-    saveGame();
+}
 
 
-    updatePlayerDisplay();
+
+if(type==="work"){
 
 
-    updateActivityDisplay();
+player.gold += 10;
 
 
-    updateSkillButton();
+logMessage(
+"> 💼 Work complete! +10 Gold."
+);
 
 
-    if (activityTimer) {
+}
 
-        clearInterval(
-            activityTimer
-        );
 
-        activityTimer = null;
 
-    }
+saveGame();
+
+
+updatePlayerDisplay();
+
+updateActivityButtons();
+
+updateSkillButton();
+
+
 
 }
 
 
 
 // ==========================================
-// LEAVE ACTIVITY
+// ACTIVITY START
 // ==========================================
 
-function leaveActivity() {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
-
-        return;
-
-    }
+function startActivity(type){
 
 
-    const type =
-        player.activity.type;
+if(player.activity){
 
+logMessage(
+"> You are already busy."
+);
 
-    player.activity =
-        null;
-
-
-    if (activityTimer) {
-
-        clearInterval(
-            activityTimer
-        );
-
-        activityTimer = null;
-
-    }
-
-
-    if (
-        type === "work"
-    ) {
-
-        logMessage(
-            "> 💼 You left work early. No Gold was earned."
-        );
-
-    }
-
-
-    if (
-        type === "rest"
-    ) {
-
-        logMessage(
-            "> 💤 You stopped resting early. HP and skill uses were not restored."
-        );
-
-    }
-
-
-    saveGame();
-
-
-    updateActivityDisplay();
-
-
-    updateActivityButtons();
-
-
-    updatePlayerDisplay();
-
-
-    updateSkillButton();
+return;
 
 }
 
 
 
-// ==========================================
-// ACTIVITY TIMER
-// ==========================================
+player.activity={
 
-function startActivityTimer() {
+type:type,
 
-    if (activityTimer) {
+finishTime:
+Date.now()+
+(type==="rest"
+? REST_TIME
+: WORK_TIME)
 
-        clearInterval(
-            activityTimer
-        );
-
-    }
+};
 
 
-    activityTimer =
-        setInterval(
-            function() {
 
-                checkActivity();
+logMessage(
 
-                updateActivityDisplay();
+type==="rest"
 
-            },
-            1000
-        );
+?
+
+"> 💤 Rest started."
+
+:
+
+"> 💼 Work started."
+
+);
 
 
-    updateActivityDisplay();
+
+saveGame();
+
+updateActivityButtons();
+
+
+setInterval(function(){
+
+checkActivity();
+
+},1000);
+
 
 }
 
 
 
-// ==========================================
-// ACTIVITY TIME BAR
-// ==========================================
 
-function updateActivityDisplay() {
+function checkActivity(){
 
-    const box =
-        document.getElementById(
-            "activityStatus"
-        );
+if(
+player &&
+player.activity &&
+Date.now() >= player.activity.finishTime
+){
 
-
-    if (
-        !player ||
-        !player.activity
-    ) {
-
-        box.style.display =
-            "none";
-
-        updateActivityButtons();
-
-        return;
-
-    }
-
-
-    box.style.display =
-        "block";
-
-
-    const now =
-        Date.now();
-
-
-    const start =
-        player.activity.startTime;
-
-
-    const finish =
-        player.activity.finishTime;
-
-
-    const total =
-        finish - start;
-
-
-    const remaining =
-        Math.max(
-            0,
-            finish - now
-        );
-
-
-    const progress =
-        Math.min(
-            100,
-            Math.max(
-                0,
-                ((total - remaining) /
-                 total) * 100
-            )
-        );
-
-
-    const totalSeconds =
-        Math.ceil(
-            remaining / 1000
-        );
-
-
-    const minutes =
-        Math.floor(
-            totalSeconds / 60
-        );
-
-
-    const seconds =
-        totalSeconds % 60;
-
-
-    const timeText =
-
-        String(minutes).padStart(
-            2,
-            "0"
-        ) +
-
-        ":" +
-
-        String(seconds).padStart(
-            2,
-            "0"
-        );
-
-
-    const activityName =
-        player.activity.type === "work"
-            ? "💼 WORK"
-            : "💤 REST";
-
-
-    const reward =
-        player.activity.type === "work"
-            ? "+10 Gold"
-            : "Full HP + 3 Skill Uses";
-
-
-    box.innerHTML =
-
-        "<strong>" +
-        activityName +
-        " IN PROGRESS</strong><br>" +
-
-        "Time Remaining: " +
-        "<strong>" +
-        timeText +
-        "</strong><br>" +
-
-        "<div style=\"" +
-        "width:100%;" +
-        "height:18px;" +
-        "background:#111;" +
-        "border:2px solid #ff1493;" +
-        "border-radius:8px;" +
-        "overflow:hidden;" +
-        "margin-top:8px;" +
-        "\">" +
-
-        "<div style=\"" +
-        "height:100%;" +
-        "width:" +
-        progress +
-        "%;" +
-        "background:#ff1493;" +
-        "transition:width 1s linear;" +
-        "\"></div>" +
-
-        "</div>" +
-
-        "<br>Reward: " +
-        reward +
-
-        "<br><br>" +
-
-        "<button " +
-        "class=\"action-btn reset-btn\" " +
-        "onclick=\"leaveActivity()\">" +
-
-        "Leave Activity" +
-
-        "</button>";
-
-
-    updateActivityButtons();
+finishActivity();
 
 }
 
-
-
-// ==========================================
-// WORK
-// ==========================================
-
-function work() {
-
-    if (player) {
-
-        checkActivity();
-
-        if (player.activity) {
-
-            logMessage(
-                "> You cannot start work because you are already busy."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    startActivity("work");
-
 }
 
-
-
-// ==========================================
-// REST
-// ==========================================
-
-function rest() {
-
-    if (player) {
-
-        checkActivity();
-
-        if (player.activity) {
-
-            logMessage(
-                "> You cannot rest because you are already busy."
-            );
-
-            return;
-
-        }
-
-    }
-
-
-    startActivity("rest");
-
-}
 
 
 
@@ -2513,44 +1109,29 @@ function rest() {
 // SAVE
 // ==========================================
 
-function saveGame() {
 
-    if (!player) {
-
-        return;
-
-    }
+function saveGame(){
 
 
-    const saveData = {
-
-        version: 7,
-
-        player: player,
-
-        currentArea: currentArea,
-
-        fragments:
-            areas.map(
-                function(area) {
-
-                    return area.fragments;
-
-                }
-            )
-
-    };
+if(!player){
+return;
+}
 
 
-    localStorage.setItem(
+localStorage.setItem(
 
-        "cyberKnightSave",
+"cyberKnightSave",
 
-        JSON.stringify(
-            saveData
-        )
+JSON.stringify({
 
-    );
+player:player,
+
+currentArea:currentArea
+
+})
+
+);
+
 
 }
 
@@ -2560,169 +1141,87 @@ function saveGame() {
 // LOAD
 // ==========================================
 
-function loadGame() {
 
-    const saved =
-        localStorage.getItem(
-            "cyberKnightSave"
-        );
+function loadGame(){
 
 
-    if (!saved) {
+let saved =
+localStorage.getItem(
+"cyberKnightSave"
+);
 
-        return;
 
-    }
 
+if(!saved){
 
-    try {
+return;
 
-        const data =
-            JSON.parse(saved);
+}
 
 
-        if (
-            !data.player
-        ) {
 
-            return;
+let data =
+JSON.parse(saved);
 
-        }
 
 
-        player =
-            data.player;
+player =
+data.player;
 
 
-        if (
-            typeof player.skillUses !== "number"
-        ) {
 
-            player.skillUses =
-                MAX_SKILL_USES;
+// OLD SAVE FIX
+if(
+typeof player.mustRest !== "boolean"
+){
 
-        }
+player.mustRest=false;
 
+}
 
-        player.skillUses =
-            Math.max(
-                0,
-                Math.min(
-                    MAX_SKILL_USES,
-                    player.skillUses
-                )
-            );
 
 
-        if (
-            !player.activity
-        ) {
+currentArea =
+data.currentArea || 0;
 
-            player.activity =
-                null;
 
-        }
 
+document.getElementById(
+"classScreen"
+).style.display="none";
 
-        currentArea =
-            Number.isInteger(
-                data.currentArea
-            )
-                ? data.currentArea
-                : 0;
 
+document.getElementById(
+"gameScreen"
+).style.display="block";
 
-        if (
-            currentArea < 0 ||
-            currentArea >= areas.length
-        ) {
 
-            currentArea = 0;
 
-        }
+updatePlayerDisplay();
 
+updateActivityButtons();
 
-        if (
-            data.fragments
-        ) {
+updateSkillButton();
 
-            data.fragments.forEach(
-                function(
-                    fragmentList,
-                    index
-                ) {
 
-                    if (
-                        areas[index] &&
-                        Array.isArray(
-                            fragmentList
-                        )
-                    ) {
 
-                        areas[index].fragments = [
+if(player.mustRest){
 
-                            !!fragmentList[0],
+logMessage(
+"> Save loaded. You must Rest before fighting."
+);
 
-                            !!fragmentList[1],
+}
 
-                            !!fragmentList[2]
+else{
 
-                        ];
+logMessage(
+"> Save loaded."
+);
 
-                    }
+}
 
-                }
-            );
 
-        }
-
-
-        document.getElementById(
-            "classScreen"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "gameScreen"
-        ).style.display = "block";
-
-
-        updatePlayerDisplay();
-
-
-        updateSkillButton();
-
-
-        logMessage(
-            "> Save data restored."
-        );
-
-
-        checkActivity();
-
-
-        if (
-            player.activity
-        ) {
-
-            startActivityTimer();
-
-        }
-
-
-        updateActivityButtons();
-
-    }
-
-    catch (error) {
-
-        console.log(error);
-
-        localStorage.removeItem(
-            "cyberKnightSave"
-        );
-
-    }
 
 }
 
@@ -2732,68 +1231,34 @@ function loadGame() {
 // RESET
 // ==========================================
 
-function resetGame() {
 
-    const confirmed =
-        confirm(
-            "Delete your CyberKnight save and start over?"
-        );
+function resetGame(){
 
 
-    if (!confirmed) {
-
-        return;
-
-    }
+if(confirm(
+"Delete your save?"
+)){
 
 
-    if (activityTimer) {
-
-        clearInterval(
-            activityTimer
-        );
-
-        activityTimer = null;
-
-    }
+localStorage.removeItem(
+"cyberKnightSave"
+);
 
 
-    localStorage.removeItem(
-        "cyberKnightSave"
-    );
+location.reload();
 
 
-    location.reload();
+}
 
 }
 
 
 
 // ==========================================
-// START
+// START GAME
 // ==========================================
+
 
 loadGame();
 
-
-if (
-    player &&
-    player.activity
-) {
-
-    checkActivity();
-
-    if (player.activity) {
-
-        startActivityTimer();
-
-    }
-
-}
-
-
-</script>
-
-</body>
-
-</html>
+</div>
