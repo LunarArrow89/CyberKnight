@@ -268,7 +268,7 @@
         </div>
 
     </div>
-    <!-- SHOP SCREEN -->
+<!-- SHOP SCREEN -->
 
 <div id="shopScreen"
      style="display:none;">
@@ -280,11 +280,108 @@
         </h2>
 
         <p>
-            Buy pets and gear using your gold.
+            Upgrade your CyberKnight.
         </p>
 
 
-        <h3>🐾 Pets</h3>
+        <div id="shopMainMenu"
+             class="action-tray">
+
+            <button class="action-btn"
+                    onclick="openPetShop()">
+
+                🐾 Pet Shop
+
+            </button>
+
+
+            <button class="action-btn"
+                    onclick="openBlacksmith()">
+
+                ⚔️ Blacksmith
+
+            </button>
+
+
+            <button class="action-btn"
+                    onclick="openInventory()">
+
+                🎒 Inventory
+
+            </button>
+
+        </div>
+
+
+
+        <div id="petShop"
+             style="display:none;"
+             class="shop-section">
+
+            <h3>
+                🐾 Pet Shop
+            </h3>
+
+        </div>
+
+
+
+        <div id="gearShop"
+             style="display:none;"
+             class="shop-section">
+
+            <h3>
+                ⚔️ Blacksmith
+            </h3>
+
+        </div>
+
+
+
+        <div id="inventory"
+             style="display:none;"
+             class="shop-section">
+
+            <h3>
+                🎒 Inventory
+            </h3>
+
+        </div>
+
+
+
+        <br><br>
+
+
+        <button class="action-btn reset-btn"
+                onclick="closeShop()">
+
+            Return To Dashboard
+
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<!-- PET SHOP -->
+
+<div id="petShopScreen"
+     style="display:none;">
+
+    <div class="card">
+
+        <h2>
+            🐾 Pet Shop
+        </h2>
+
+
+        <p>
+            Buy helpful companions.
+        </p>
+
 
         <div id="petShop"
              class="action-tray"
@@ -292,7 +389,36 @@
         </div>
 
 
-        <h3>⚔️ Gear</h3>
+        <button class="action-btn reset-btn"
+                onclick="backToShoppingCenter()"
+                style="margin-top:25px;">
+
+            Back
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- BLACKSMITH -->
+
+<div id="blacksmithScreen"
+     style="display:none;">
+
+    <div class="card">
+
+        <h2>
+            ⚔️ Blacksmith
+        </h2>
+
+
+        <p>
+            Upgrade your CyberKnight with powerful gear.
+        </p>
+
 
         <div id="gearShop"
              class="action-tray"
@@ -300,59 +426,11 @@
         </div>
 
 
-<div style="margin-top:25px;">
-
-<button class="action-btn reset-btn"
-        onclick="closeShop()"
-        style="margin-top:25px;">
-
-    Return
-
-</button>
-
-</div>
-
-    </div>
-
-</div>
-
-    <!-- INVENTORY SCREEN -->
-
-<div id="inventoryScreen"
-     style="display:none;">
-
-    <div class="card">
-
-        <h2>
-            🎒 Inventory
-        </h2>
-
-        <h3>
-            🐾 Pets
-        </h3>
-
-        <div id="inventoryPets"
-             class="action-tray"
-             style="flex-direction:column;">
-        </div>
-
-
-        <h3>
-            ⚔️ Gear
-        </h3>
-
-        <div id="inventoryGear"
-             class="action-tray"
-             style="flex-direction:column;">
-        </div>
-
-
-        <br><br>
-
         <button class="action-btn reset-btn"
-                onclick="closeInventory()">
+                onclick="backToShoppingCenter()"
+                style="margin-top:25px;">
 
-            Return
+            Back
 
         </button>
 
@@ -764,33 +842,20 @@ function chooseClass(className) {
 
 
 player = {
-
+    inventory: [],
     className: className,
-
     hp: classStats[className].hp,
-
     maxHp: classStats[className].maxHp,
-
     atk: classStats[className].atk,
-
     skill: classStats[className].skill,
-
     skillUses: MAX_SKILL_USES,
-
     gold: 0,
-
     level: 1,
-
     exp: 0,
-
     expNeeded: 50,
-
     pets: [],
-
     gear: [],
-
     activity: null,
-
     mustRest: false
 
 };
@@ -2879,6 +2944,11 @@ if (typeof player.gold !== "number") {
 if (!Array.isArray(player.gear)) {
 
     player.gear = [];
+    if (!Array.isArray(player.inventory)) {
+
+    player.inventory = [];
+
+}
 
 }
 
@@ -3073,7 +3143,7 @@ function openShop(){
     ).style.display = "block";
 
 
-    renderShop();
+    hideShopSections();
 
 }
 
@@ -3096,65 +3166,59 @@ function closeShop(){
 }
 
 
+function openPetShop(){
 
-function renderShop(){
-
-    const petBox =
-        document.getElementById(
-            "petShop"
-        );
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
 
 
-    const gearBox =
-        document.getElementById(
-            "gearShop"
-        );
+    document.getElementById(
+        "petShop"
+    ).style.display = "flex";
 
 
-    petBox.innerHTML = "";
-
-    gearBox.innerHTML = "";
-
-
-
-    pets.forEach(function(pet){
-
-        const button =
-            document.createElement(
-                "button"
-            );
+    document.getElementById(
+        "gearShop"
+    ).style.display = "none";
 
 
-        button.className =
-            "action-btn";
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
 
 
-        button.innerHTML =
+    renderPetShop();
 
-            "🐾 " +
-            pet.name +
-            "<br>" +
-
-            pet.cost +
-            " Gold<br>" +
-
-            pet.bonus;
+}
 
 
 
-        button.onclick =
-            function(){
+function openBlacksmith(){
 
-                buyPet(pet);
-
-            };
-
-
-        petBox.appendChild(button);
-
-    });
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
 
 
+    document.getElementById(
+        "petShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
+
+
+    renderGearShop();
+
+}
 
     gear.forEach(function(item){
 
@@ -3187,6 +3251,7 @@ function renderShop(){
                 buyGear(item);
 
             };
+        
 
 
         gearBox.appendChild(button);
@@ -3199,17 +3264,17 @@ function renderShop(){
 
 function buyPet(pet){
 
-if(player.gold < pet.cost){
+    if(player.gold < pet.cost){
 
-    logMessage(
-        "> ❌ PURCHASE FAILED: You need " +
-        (pet.cost - player.gold) +
-        " more gold."
-    );
+        logMessage(
+            "> ❌ CANNOT BUY THIS ITEM! You need " +
+            (pet.cost - player.gold) +
+            " more gold."
+        );
 
-    return;
+        return;
 
-}
+    }
 
 
     player.gold -= pet.cost;
@@ -3221,7 +3286,47 @@ if(player.gold < pet.cost){
     logMessage(
         "> 🐾 Purchased " +
         pet.name +
-        "! Equip it in Inventory."
+        "!"
+    );
+
+
+    saveGame();
+
+    updatePlayerDisplay();
+
+}
+
+function buyGear(item){
+
+    if(player.gold < item.cost){
+
+        logMessage(
+            "> ❌ CANNOT BUY THIS ITEM! You need " +
+            (item.cost - player.gold) +
+            " more gold."
+        );
+
+        return;
+
+    }
+
+
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
+    }
+
+
+    player.inventory.push(item);
+
+
+    logMessage(
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
     );
 
 
@@ -3232,21 +3337,117 @@ if(player.gold < pet.cost){
 }
 
 
+    player.gold -= item.cost;
 
-function buyGear(item){
 
-if(player.gold < item.cost){
+    if(item.atk){
+
+        player.atk += item.atk;
+
+    }
+
+
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
+    }
+
 
     logMessage(
-        "> ❌ PURCHASE FAILED: You need " +
-        (item.cost - player.gold) +
-        " more gold."
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
     );
 
-    return;
+
+    saveGame();
+
+    updatePlayerDisplay();
 
 }
 
+
+// 👇 PASTE THE NEW FUNCTIONS RIGHT HERE
+
+function hideShopSections(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
+
+}
+
+
+
+function openPetShop(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "flex";
+
+
+    renderShop();
+
+}
+
+
+
+function openBlacksmith(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "flex";
+
+
+    renderShop();
+
+}
+
+
+
+function openInventory(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "flex";
+
+
+    renderInventory();
+
+}
 
     player.gold -= item.cost;
 
