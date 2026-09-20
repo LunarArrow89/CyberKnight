@@ -632,6 +632,10 @@ function chooseClass(className) {
 
         level: 1,
 
+        exp: 0,
+
+        expNeeded: 50,
+
         activity: null,
         mustRest: false
 
@@ -714,6 +718,11 @@ function updatePlayerDisplay() {
 
         " | <strong>Level:</strong> " +
         player.level +
+
+        " | <strong>EXP:</strong> " +
+        player.exp +
+        "/" +
+        player.expNeeded +
 
         " | <strong>Gold:</strong> " +
         player.gold +
@@ -1465,6 +1474,21 @@ function winBattle() {
 
 
     player.gold += 5;
+    const gainedExp =
+    currentEnemy.level * 15;
+
+
+player.exp += gainedExp;
+
+
+logMessage(
+    "> +" +
+    gainedExp +
+    " EXP gained!"
+);
+
+
+checkLevelUp();
 
 
     document.getElementById(
@@ -1615,7 +1639,60 @@ function giveFragment(area) {
     saveGame();
 
 }
+// ==========================================
+// LEVEL UP SYSTEM
+// ==========================================
 
+function checkLevelUp() {
+
+    if (!player) {
+        return;
+    }
+
+
+    while (
+        player.exp >= player.expNeeded
+    ) {
+
+        player.exp -=
+            player.expNeeded;
+
+
+        player.level++;
+
+
+        player.maxHp +=
+            5;
+
+
+        player.hp =
+            player.maxHp;
+
+
+        player.atk +=
+            2;
+
+
+        player.expNeeded =
+            Math.floor(
+                player.expNeeded * 1.5
+            );
+
+
+        logMessage(
+            "> 🎉 LEVEL UP! You are now Level " +
+            player.level +
+            "!"
+        );
+
+
+        logMessage(
+            "> +5 Max HP and +2 ATK gained."
+        );
+
+    }
+
+}
 
 
 // ==========================================
