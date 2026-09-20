@@ -105,7 +105,8 @@
 
         <div class="action-tray">
 
-            <button class="action-btn"
+            <button id="exploreButton"
+                    class="action-btn"
                     onclick="explore()">
 
                 Explore Sector
@@ -113,7 +114,8 @@
             </button>
 
 
-            <button class="action-btn work-btn"
+            <button id="workButton"
+                    class="action-btn work-btn"
                     onclick="work()">
 
                 Work
@@ -121,7 +123,8 @@
             </button>
 
 
-            <button class="action-btn rest-btn"
+            <button id="restButton"
+                    class="action-btn rest-btn"
                     onclick="rest()">
 
                 Rest
@@ -129,7 +132,8 @@
             </button>
 
 
-            <button class="action-btn battle-btn"
+            <button id="travelButton"
+                    class="action-btn battle-btn"
                     onclick="openTravelMenu()">
 
                 Travel Map
@@ -327,7 +331,8 @@
                 </button>
 
 
-                <button class="action-btn skill-btn"
+                <button id="skillButton"
+                        class="action-btn skill-btn"
                         onclick="skillAttack()">
 
                     Skill
@@ -367,8 +372,14 @@ let currentArea = 0;
 
 let activityTimer = null;
 
-const ACTIVITY_TIME =
+const REST_TIME =
+    1 * 60 * 1000;
+
+const WORK_TIME =
     30 * 60 * 1000;
+
+const MAX_SKILL_USES =
+    3;
 
 
 
@@ -595,6 +606,8 @@ function chooseClass(className) {
 
         skill: classStats[className].skill,
 
+        skillUses: MAX_SKILL_USES,
+
         gold: 0,
 
         level: 1,
@@ -629,6 +642,10 @@ function chooseClass(className) {
 
 
     updatePlayerDisplay();
+
+    updateActivityButtons();
+
+    updateSkillButton();
 
 
     logMessage(
@@ -680,8 +697,122 @@ function updatePlayerDisplay() {
         " | <strong>Gold:</strong> " +
         player.gold +
 
+        " | <strong>Skill:</strong> " +
+        player.skillUses +
+        "/" +
+        MAX_SKILL_USES +
+
         " | <strong>Area:</strong> " +
         areas[currentArea].name;
+
+
+    updateActivityButtons();
+
+}
+
+
+
+// ==========================================
+// ACTIVITY BUTTON LOCK
+// ==========================================
+
+function updateActivityButtons() {
+
+    if (!player) {
+        return;
+    }
+
+
+    const busy =
+        !!player.activity;
+
+
+    const exploreButton =
+        document.getElementById(
+            "exploreButton"
+        );
+
+
+    const workButton =
+        document.getElementById(
+            "workButton"
+        );
+
+
+    const restButton =
+        document.getElementById(
+            "restButton"
+        );
+
+
+    const travelButton =
+        document.getElementById(
+            "travelButton"
+        );
+
+
+    if (exploreButton) {
+
+        exploreButton.disabled =
+            busy;
+
+    }
+
+
+    if (workButton) {
+
+        workButton.disabled =
+            busy;
+
+    }
+
+
+    if (restButton) {
+
+        restButton.disabled =
+            busy;
+
+    }
+
+
+    if (travelButton) {
+
+        travelButton.disabled =
+            busy;
+
+    }
+
+}
+
+
+
+// ==========================================
+// SKILL BUTTON DISPLAY
+// ==========================================
+
+function updateSkillButton() {
+
+    const button =
+        document.getElementById(
+            "skillButton"
+        );
+
+
+    if (!button || !player) {
+        return;
+    }
+
+
+    button.innerHTML =
+        "Skill (" +
+        player.skillUses +
+        "/" +
+        MAX_SKILL_USES +
+        ")";
+
+
+    button.disabled =
+        player.skillUses <= 0;
 
 }
 
@@ -726,6 +857,20 @@ function explore() {
     }
 
 
+    checkActivity();
+
+
+    if (player.activity) {
+
+        logMessage(
+            "> ACCESS DENIED. You are currently busy."
+        );
+
+        return;
+
+    }
+
+
     openEnemySelection();
 
 }
@@ -737,6 +882,17 @@ function explore() {
 // ==========================================
 
 function openEnemySelection() {
+
+    if (player && player.activity) {
+
+        logMessage(
+            "> ACCESS DENIED. Finish your current activity first."
+        );
+
+        return;
+
+    }
+
 
     document.getElementById(
         "gameScreen"
@@ -852,6 +1008,19 @@ function renderEnemySelection() {
 
 function selectEnemy(index) {
 
+    if (player && player.activity) {
+
+        logMessage(
+            "> ACCESS DENIED. You are currently busy."
+        );
+
+        closeEnemySelection();
+
+        return;
+
+    }
+
+
     const area =
         areas[currentArea];
 
@@ -961,6 +1130,9 @@ function updateBattleDisplay() {
              currentEnemy.maxHp) * 100
         ) + "%";
 
+
+    updateSkillButton();
+
 }
 
 
@@ -973,6 +1145,13 @@ function attack() {
 
     if (!player || !currentEnemy) {
         return;
+    }
+
+
+    if (player.activity) {
+
+        return;
+
     }
 
 
@@ -1001,9 +1180,6 @@ function attack() {
     updateBattleDisplay();
 
 
-    // Enemy is defeated BEFORE
-    // it gets its turn
-
     if (currentEnemy.hp <= 0) {
 
         winBattle();
@@ -1011,8 +1187,6 @@ function attack() {
         return;
     }
 
-
-    // ENEMY'S TURN
 
     enemyTurn();
 
@@ -1029,6 +1203,29 @@ function skillAttack() {
     if (!player || !currentEnemy) {
         return;
     }
+
+
+    if (player.activity) {
+
+        return;
+
+    }
+
+
+    if (player.skillUses <= 0) {
+
+        document.getElementById(
+            "battleLog"
+        ).textContent =
+
+            "> NO SKILL USES REMAINING. REST TO REFRESH YOUR SKILL.";
+
+        return;
+
+    }
+
+
+    player.skillUses--;
 
 
     let damage =
@@ -1081,10 +1278,17 @@ function skillAttack() {
         "!" +
         " " +
         damage +
-        " damage dealt.";
+        " damage dealt." +
+        " Skill uses left: " +
+        player.skillUses +
+        "/" +
+        MAX_SKILL_USES;
 
 
     updateBattleDisplay();
+
+
+    saveGame();
 
 
     if (currentEnemy.hp <= 0) {
@@ -1094,8 +1298,6 @@ function skillAttack() {
         return;
     }
 
-
-    // ENEMY'S TURN
 
     enemyTurn();
 
@@ -1238,10 +1440,10 @@ function winBattle() {
         " defeated! +5 Gold.";
 
 
-    // 2% FRAGMENT CHANCE
+    // 5% FRAGMENT CHANCE
 
     if (
-        Math.random() < 0.02
+        Math.random() < 0.05
     ) {
 
         giveFragment(area);
@@ -1412,6 +1614,24 @@ function runAway() {
 // ==========================================
 
 function openTravelMenu() {
+
+    if (player) {
+
+        checkActivity();
+
+
+        if (player.activity) {
+
+            logMessage(
+                "> ACCESS DENIED. You are currently busy."
+            );
+
+            return;
+
+        }
+
+    }
+
 
     document.getElementById(
         "gameScreen"
@@ -1660,6 +1880,17 @@ function getFragmentDisplay(area) {
 
 function travelToArea(index) {
 
+    if (player && player.activity) {
+
+        logMessage(
+            "> ACCESS DENIED. You are currently busy."
+        );
+
+        return;
+
+    }
+
+
     if (
         index < 0 ||
         index >= areas.length
@@ -1768,6 +1999,12 @@ function startActivity(type) {
     }
 
 
+    const activityTime =
+        type === "rest"
+            ? REST_TIME
+            : WORK_TIME;
+
+
     player.activity = {
 
         type: type,
@@ -1776,7 +2013,7 @@ function startActivity(type) {
 
         finishTime:
             Date.now() +
-            ACTIVITY_TIME
+            activityTime
 
     };
 
@@ -1786,7 +2023,7 @@ function startActivity(type) {
     ) {
 
         logMessage(
-            "> 💼 Work started. 30 minutes remaining."
+            "> 💼 Work started. 30 minutes remaining. You cannot fight or travel while working."
         );
 
     }
@@ -1797,10 +2034,13 @@ function startActivity(type) {
     ) {
 
         logMessage(
-            "> 💤 Rest started. 30 minutes remaining."
+            "> 💤 Rest started. 1 minute remaining. Completing Rest restores HP and refreshes your skill 3 times."
         );
 
     }
+
+
+    updateActivityButtons();
 
 
     saveGame();
@@ -1887,8 +2127,12 @@ function finishActivity() {
             player.maxHp;
 
 
+        player.skillUses =
+            MAX_SKILL_USES;
+
+
         logMessage(
-            "> 💤 REST COMPLETE! HP FULLY RESTORED."
+            "> 💤 REST COMPLETE! HP FULLY RESTORED. SKILL REFRESHED: 3/3."
         );
 
     }
@@ -1903,6 +2147,9 @@ function finishActivity() {
     updateActivityDisplay();
 
 
+    updateSkillButton();
+
+
     if (activityTimer) {
 
         clearInterval(
@@ -1912,6 +2159,81 @@ function finishActivity() {
         activityTimer = null;
 
     }
+
+}
+
+
+
+// ==========================================
+// LEAVE ACTIVITY
+// ==========================================
+
+function leaveActivity() {
+
+    if (
+        !player ||
+        !player.activity
+    ) {
+
+        return;
+
+    }
+
+
+    const type =
+        player.activity.type;
+
+
+    player.activity =
+        null;
+
+
+    if (activityTimer) {
+
+        clearInterval(
+            activityTimer
+        );
+
+        activityTimer = null;
+
+    }
+
+
+    if (
+        type === "work"
+    ) {
+
+        logMessage(
+            "> 💼 You left work early. No Gold was earned."
+        );
+
+    }
+
+
+    if (
+        type === "rest"
+    ) {
+
+        logMessage(
+            "> 💤 You stopped resting early. HP and skill uses were not restored."
+        );
+
+    }
+
+
+    saveGame();
+
+
+    updateActivityDisplay();
+
+
+    updateActivityButtons();
+
+
+    updatePlayerDisplay();
+
+
+    updateSkillButton();
 
 }
 
@@ -1970,6 +2292,8 @@ function updateActivityDisplay() {
 
         box.style.display =
             "none";
+
+        updateActivityButtons();
 
         return;
 
@@ -2054,7 +2378,7 @@ function updateActivityDisplay() {
     const reward =
         player.activity.type === "work"
             ? "+10 Gold"
-            : "Full HP";
+            : "Full HP + 3 Skill Uses";
 
 
     box.innerHTML =
@@ -2090,7 +2414,20 @@ function updateActivityDisplay() {
         "</div>" +
 
         "<br>Reward: " +
-        reward;
+        reward +
+
+        "<br><br>" +
+
+        "<button " +
+        "class=\"action-btn reset-btn\" " +
+        "onclick=\"leaveActivity()\">" +
+
+        "Leave Activity" +
+
+        "</button>";
+
+
+    updateActivityButtons();
 
 }
 
@@ -2101,6 +2438,23 @@ function updateActivityDisplay() {
 // ==========================================
 
 function work() {
+
+    if (player) {
+
+        checkActivity();
+
+        if (player.activity) {
+
+            logMessage(
+                "> You cannot start work because you are already busy."
+            );
+
+            return;
+
+        }
+
+    }
+
 
     startActivity("work");
 
@@ -2113,6 +2467,23 @@ function work() {
 // ==========================================
 
 function rest() {
+
+    if (player) {
+
+        checkActivity();
+
+        if (player.activity) {
+
+            logMessage(
+                "> You cannot rest because you are already busy."
+            );
+
+            return;
+
+        }
+
+    }
+
 
     startActivity("rest");
 
@@ -2135,7 +2506,7 @@ function saveGame() {
 
     const saveData = {
 
-        version: 5,
+        version: 7,
 
         player: player,
 
@@ -2203,6 +2574,26 @@ function loadGame() {
 
         player =
             data.player;
+
+
+        if (
+            typeof player.skillUses !== "number"
+        ) {
+
+            player.skillUses =
+                MAX_SKILL_USES;
+
+        }
+
+
+        player.skillUses =
+            Math.max(
+                0,
+                Math.min(
+                    MAX_SKILL_USES,
+                    player.skillUses
+                )
+            );
 
 
         if (
@@ -2281,6 +2672,9 @@ function loadGame() {
         updatePlayerDisplay();
 
 
+        updateSkillButton();
+
+
         logMessage(
             "> Save data restored."
         );
@@ -2296,6 +2690,9 @@ function loadGame() {
             startActivityTimer();
 
         }
+
+
+        updateActivityButtons();
 
     }
 
