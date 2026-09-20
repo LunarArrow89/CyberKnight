@@ -139,6 +139,13 @@
                 Travel Map
 
             </button>
+            
+            <button class="action-btn"
+                onclick="openShop()">
+
+            Shopping Center
+
+                </button>
 
 
             <button class="action-btn reset-btn"
@@ -255,6 +262,48 @@
         </div>
 
     </div>
+    <!-- SHOP SCREEN -->
+
+<div id="shopScreen"
+     style="display:none;">
+
+    <div class="card">
+
+        <h2>
+            🏪 Cyber Shopping Center
+        </h2>
+
+        <p>
+            Buy pets and gear using your gold.
+        </p>
+
+
+        <h3>🐾 Pets</h3>
+
+        <div id="petShop"
+             class="action-tray"
+             style="flex-direction:column;">
+        </div>
+
+
+        <h3>⚔️ Gear</h3>
+
+        <div id="gearShop"
+             class="action-tray"
+             style="flex-direction:column;">
+        </div>
+
+
+        <button class="action-btn reset-btn"
+                onclick="closeShop()">
+
+            Return
+
+        </button>
+
+    </div>
+
+</div>
 
 
 
@@ -386,7 +435,53 @@ const MAX_SKILL_USES =
 // ==========================================
 // AREA DATA
 // ==========================================
+// ==========================================
+// SHOP DATA
+// ==========================================
 
+const pets = [
+
+    {
+        name: "Cyber Cat",
+        cost: 50,
+        bonus: "+2 ATK",
+        atk: 2
+    },
+
+    {
+        name: "Drone Buddy",
+        cost: 100,
+        bonus: "+5 Max HP",
+        hp: 5
+    },
+
+    {
+        name: "Gold Bot",
+        cost: 150,
+        bonus: "+5 Gold after battles",
+        gold: 5
+    }
+
+];
+
+
+const gear = [
+
+    {
+        name: "Laser Sword",
+        cost: 100,
+        bonus: "+5 ATK",
+        atk: 5
+    },
+
+    {
+        name: "Nano Armor",
+        cost: 150,
+        bonus: "+15 Max HP",
+        hp: 15
+    }
+
+];
 const areas = [
 
     {
@@ -1503,7 +1598,7 @@ checkLevelUp();
     // 5% FRAGMENT CHANCE
 
     if (
-        Math.random() < 0.05
+        Math.random() < 0.15
     ) {
 
         giveFragment(area);
@@ -2715,6 +2810,18 @@ if (typeof player.level !== "number") {
 if (typeof player.gold !== "number") {
     player.gold = 0;
 }
+        if (!Array.isArray(player.pets)) {
+
+    player.pets = [];
+
+}
+
+
+if (!Array.isArray(player.gear)) {
+
+    player.gear = [];
+
+}
 
 
         if (
@@ -2891,7 +2998,237 @@ function resetGame() {
 }
 
 
+// ==========================================
+// SHOP SYSTEM
+// ==========================================
 
+function openShop(){
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "shopScreen"
+    ).style.display = "block";
+
+
+    renderShop();
+
+}
+
+
+
+function closeShop(){
+
+    document.getElementById(
+        "shopScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
+
+
+    updatePlayerDisplay();
+
+}
+
+
+
+function renderShop(){
+
+    const petBox =
+        document.getElementById(
+            "petShop"
+        );
+
+
+    const gearBox =
+        document.getElementById(
+            "gearShop"
+        );
+
+
+    petBox.innerHTML = "";
+
+    gearBox.innerHTML = "";
+
+
+
+    pets.forEach(function(pet){
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "action-btn";
+
+
+        button.innerHTML =
+
+            "🐾 " +
+            pet.name +
+            "<br>" +
+
+            pet.cost +
+            " Gold<br>" +
+
+            pet.bonus;
+
+
+
+        button.onclick =
+            function(){
+
+                buyPet(pet);
+
+            };
+
+
+        petBox.appendChild(button);
+
+    });
+
+
+
+    gear.forEach(function(item){
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+
+        button.className =
+            "action-btn";
+
+
+        button.innerHTML =
+
+            "⚔️ " +
+            item.name +
+            "<br>" +
+
+            item.cost +
+            " Gold<br>" +
+
+            item.bonus;
+
+
+
+        button.onclick =
+            function(){
+
+                buyGear(item);
+
+            };
+
+
+        gearBox.appendChild(button);
+
+    });
+
+}
+
+
+
+function buyPet(pet){
+
+    if(player.gold < pet.cost){
+
+        logMessage(
+            "> Not enough gold."
+        );
+
+        return;
+
+    }
+
+
+    player.gold -= pet.cost;
+
+
+    if(pet.atk){
+
+        player.atk += pet.atk;
+
+    }
+
+
+    if(pet.hp){
+
+        player.maxHp += pet.hp;
+
+        player.hp += pet.hp;
+
+    }
+
+
+    logMessage(
+        "> 🐾 Purchased " +
+        pet.name +
+        "!"
+    );
+
+
+    saveGame();
+
+    updatePlayerDisplay();
+
+}
+
+
+
+function buyGear(item){
+
+    if(player.gold < item.cost){
+
+        logMessage(
+            "> Not enough gold."
+        );
+
+        return;
+
+    }
+
+
+    player.gold -= item.cost;
+
+
+    if(item.atk){
+
+        player.atk += item.atk;
+
+    }
+
+
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
+    }
+
+
+    logMessage(
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
+    );
+
+
+    saveGame();
+
+    updatePlayerDisplay();
+
+}
 // ==========================================
 // START
 // ==========================================
