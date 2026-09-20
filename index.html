@@ -1343,7 +1343,235 @@ if(
 
 }
 
+// ==========================================
+// BASIC BUTTON FUNCTIONS
+// ==========================================
 
+function logMessage(message){
+
+    const log = document.getElementById("terminalLog");
+
+    if(log){
+        log.innerHTML += "<br>" + message;
+        log.scrollTop = log.scrollHeight;
+    }
+
+}
+
+
+// ==========================================
+// EXPLORE
+// ==========================================
+
+function explore(){
+
+    if(!player) return;
+
+    openEnemySelection();
+
+}
+
+
+// ==========================================
+// WORK
+// ==========================================
+
+function work(){
+
+    if(!player) return;
+
+    if(player.mustRest){
+
+        logMessage("> You must Rest first.");
+
+        return;
+    }
+
+
+    startActivity("work");
+
+}
+
+
+
+// ==========================================
+// ACTIVITY START
+// ==========================================
+
+function startActivity(type){
+
+    if(player.activity){
+
+        logMessage("> You are already busy.");
+
+        return;
+
+    }
+
+
+    player.activity = {
+
+        type:type,
+
+        endTime:
+            Date.now() +
+            (type === "work" ? WORK_TIME : REST_TIME)
+
+    };
+
+
+    logMessage(
+        type === "work"
+        ? "> 💼 Working for 30 minutes..."
+        : "> 💤 Resting..."
+    );
+
+
+    saveGame();
+
+    updateActivityButtons();
+
+    startActivityTimer();
+
+}
+
+
+
+// ==========================================
+// ACTIVITY TIMER
+// ==========================================
+
+function startActivityTimer(){
+
+    if(activityTimer){
+
+        clearInterval(activityTimer);
+
+    }
+
+
+    activityTimer = setInterval(function(){
+
+        checkActivity();
+
+    },1000);
+
+}
+
+
+
+function checkActivity(){
+
+    if(
+        player &&
+        player.activity &&
+        Date.now() >= player.activity.endTime
+    ){
+
+        finishActivity();
+
+    }
+
+}
+
+
+
+// ==========================================
+// TRAVEL MENU
+// ==========================================
+
+function openTravelMenu(){
+
+    document.getElementById("gameScreen").style.display="none";
+
+    document.getElementById("travelScreen").style.display="block";
+
+}
+
+
+function closeTravelMenu(){
+
+    document.getElementById("travelScreen").style.display="none";
+
+    document.getElementById("gameScreen").style.display="block";
+
+}
+
+
+
+// ==========================================
+// ENEMY MENU
+// ==========================================
+
+function closeEnemySelection(){
+
+    document.getElementById("enemySelectScreen").style.display="none";
+
+    document.getElementById("gameScreen").style.display="block";
+
+}
+
+
+function renderEnemySelection(){
+
+    const list =
+        document.getElementById("enemyList");
+
+
+    list.innerHTML="";
+
+
+    areas[currentArea].enemies.forEach(function(enemy){
+
+        const button =
+            document.createElement("button");
+
+
+        button.className="action-btn battle-btn";
+
+        button.textContent =
+            enemy.name;
+
+
+        button.onclick=function(){
+
+            startBattle(enemy);
+
+        };
+
+
+        list.appendChild(button);
+
+    });
+
+}
+
+
+
+// ==========================================
+// SKILL BUTTON
+// ==========================================
+
+function updateSkillButton(){
+
+    const button =
+        document.getElementById("skillButton");
+
+
+    if(button && player){
+
+        button.textContent =
+            player.skill +
+            " (" +
+            player.skillUses +
+            ")";
+
+        button.disabled =
+            player.skillUses <= 0;
+
+    }
+
+}
 </script>
 
 
