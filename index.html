@@ -173,7 +173,62 @@
     function startBattle() {
         document.getElementById("gameScreen").style.display = "none";
         document.getElementById("battleScreen").style.display = "block";
-        enemy = { name: "CORRUPT_SECTOR_SLIME.EXE", hp: 50, attack: 8 };
+        // Keep your existing player variable...
+let player = {
+    name: "", class: "", hp: 100, maxHp: 100, attack: 10, gold: 25, level: 1, xp: 0
+};
+
+// 1. Keep this global placeholder variable
+let enemy = null; 
+
+// 2. Add this new Array containing all your unique cyber enemies
+const enemyDatabase = [
+    { name: "CORRUPT_SECTOR_SLIME.EXE", hp: 45, attack: 7, rewardGold: 20, rewardXp: 15 },
+    { name: "ROGUE_SURVEILLANCE_DRONE", hp: 60, attack: 10, rewardGold: 35, rewardXp: 25 },
+    { name: "NETRUNNER_PHANTOM_BOT", hp: 80, attack: 14, rewardGold: 50, rewardXp: 35 },
+    { name: "CYBER_YAKUZA_STRIKER", hp: 110, attack: 18, rewardGold: 75, rewardXp: 50 }
+];
+
+// ... (keep classes, saveGame, loadGame, etc. the same) ...
+
+// 3. Replace your existing startBattle() function with this randomized system
+function startBattle() {
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("battleScreen").style.display = "block";
+
+    // Selects a completely random enemy from your database array
+    const randomIndex = Math.floor(Math.random() * enemyDatabase.length);
+    const selectedEnemy = enemyDatabase[randomIndex];
+
+    // Creates a fresh copy of the enemy object so we don't overwrite the original database
+    enemy = {
+        name: selectedEnemy.name,
+        hp: selectedEnemy.hp,
+        attack: selectedEnemy.attack,
+        rewardGold: selectedEnemy.rewardGold,
+        rewardXp: selectedEnemy.rewardXp
+    };
+
+    updateBattle();
+}
+
+// 4. Update your winBattle() function to give dynamic rewards instead of flat numbers
+function winBattle() {
+    // Uses the specific enemy's rewards instead of a static number
+    let goldReward = enemy.rewardGold;
+    let xpReward = enemy.rewardXp;
+
+    player.gold += goldReward;
+    player.xp += xpReward;
+
+    saveGame();
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    updateStats();
+    
+    logTerminal(`THREAT SECTOR PURGED. Harvested +${goldReward} NanoCredits and processed +${xpReward} core architecture data points.`);
+}
+
         updateBattle();
     }
 
