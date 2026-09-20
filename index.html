@@ -12,6 +12,7 @@
     <!-- START SCREEN -->
     <div id="startScreen" class="screen active">
         <div class="start-box">
+
             <h1>CYBERKNIGHT</h1>
             <p class="subtitle">A Neon Text RPG</p>
 
@@ -58,8 +59,8 @@
 
         <main>
 
-            <!-- PLAYER STATUS -->
             <section class="panel">
+
                 <h2 id="playerName">CyberKnight</h2>
                 <p id="classText">Class</p>
 
@@ -82,6 +83,7 @@
                 </div>
 
                 <div class="stats-row">
+
                     <div>
                         <strong>Level</strong>
                         <span id="levelText">1</span>
@@ -101,12 +103,14 @@
                         <strong>Potions</strong>
                         <span id="potionText">0</span>
                     </div>
+
                 </div>
+
             </section>
 
 
-            <!-- ACTIONS -->
             <section class="panel">
+
                 <h2>NEON DISTRICT</h2>
 
                 <button class="game-button" onclick="explore()">
@@ -124,13 +128,16 @@
                 <button class="game-button" onclick="showScreen('characterScreen')">
                     👤 Character
                 </button>
+
             </section>
 
 
-            <!-- SYSTEM LOG -->
             <section class="panel">
+
                 <h2>System Log</h2>
+
                 <div id="log" class="log"></div>
+
             </section>
 
         </main>
@@ -147,7 +154,6 @@
 
         <main>
 
-            <!-- ENEMY -->
             <section class="panel enemy-panel">
 
                 <h2 id="battleEnemyName">Enemy</h2>
@@ -166,10 +172,9 @@
             </section>
 
 
-            <!-- PLAYER -->
             <section class="panel">
 
-                <h2 id="battlePlayerName">CyberKnight</h2>
+                <h2>CyberKnight</h2>
 
                 <div class="stat">
                     <span>HP</span>
@@ -183,7 +188,6 @@
             </section>
 
 
-            <!-- COMBAT OPTIONS -->
             <section class="panel">
 
                 <h2>Combat Options</h2>
@@ -211,10 +215,12 @@
             </section>
 
 
-            <!-- BATTLE LOG -->
             <section class="panel">
+
                 <h2>Battle Log</h2>
+
                 <div id="battleLog" class="log"></div>
+
             </section>
 
         </main>
@@ -355,10 +361,6 @@
 
     <script>
 
-        // ==============================
-        // GAME DATA
-        // ==============================
-
         const classes = {
 
             warrior: {
@@ -454,30 +456,18 @@
         let defending = false;
 
 
-        // ==============================
-        // CLASS SELECTION
-        // ==============================
-
         function chooseClass(className) {
 
             const selectedClass = classes[className];
 
             player.class = className;
-
             player.maxHp = selectedClass.maxHp;
-
             player.hp = selectedClass.maxHp;
-
             player.attack = selectedClass.attack;
-
             player.level = 1;
-
             player.xp = 0;
-
             player.xpNeeded = 100;
-
             player.gold = 20;
-
             player.potions = 3;
 
             document.getElementById("startScreen").classList.remove("active");
@@ -485,17 +475,15 @@
             document.getElementById("mainScreen").classList.add("active");
 
             addLog(
-                "Welcome, " + selectedClass.name + ". Your CyberKnight journey begins."
+                "Welcome, " +
+                selectedClass.name +
+                ". Your CyberKnight journey begins."
             );
 
             update();
 
         }
 
-
-        // ==============================
-        // SCREEN SYSTEM
-        // ==============================
 
         function showScreen(screenId) {
 
@@ -512,21 +500,13 @@
         }
 
 
-        // ==============================
-        // UPDATE UI
-        // ==============================
-
         function update() {
 
             if (!player.class) {
                 return;
             }
 
-
             const classData = classes[player.class];
-
-
-            // Main status
 
             document.getElementById("classText").textContent =
                 classData.name;
@@ -550,25 +530,25 @@
                 player.potions;
 
 
-            // HP bar
-
             const hpPercent =
-                Math.max(0, (player.hp / player.maxHp) * 100);
+                Math.max(
+                    0,
+                    (player.hp / player.maxHp) * 100
+                );
 
             document.getElementById("hpBar").style.width =
                 hpPercent + "%";
 
 
-            // XP bar
-
             const xpPercent =
-                Math.min(100, (player.xp / player.xpNeeded) * 100);
+                Math.min(
+                    100,
+                    (player.xp / player.xpNeeded) * 100
+                );
 
             document.getElementById("xpBar").style.width =
                 xpPercent + "%";
 
-
-            // Character screen
 
             document.getElementById("characterClass").textContent =
                 classData.name;
@@ -588,8 +568,6 @@
             document.getElementById("characterPotions").textContent =
                 player.potions;
 
-
-            // Battle screen
 
             if (currentEnemy) {
 
@@ -616,6 +594,7 @@
                 document.getElementById("battleHpText").textContent =
                     `${player.hp} / ${player.maxHp}`;
 
+
                 const battleHpPercent =
                     Math.max(
                         0,
@@ -629,10 +608,6 @@
 
         }
 
-
-        // ==============================
-        // LOGGING
-        // ==============================
 
         function addLog(message) {
 
@@ -660,14 +635,14 @@
         }
 
 
-        // ==============================
-        // EXPLORATION
-        // ==============================
-
         function explore() {
 
             const enemy =
-                enemies[Math.floor(Math.random() * enemies.length)];
+                enemies[
+                    Math.floor(
+                        Math.random() * enemies.length
+                    )
+                ];
 
 
             currentEnemy = {
@@ -681,23 +656,16 @@
 
             defending = false;
 
-
             document.getElementById("battleLog").innerHTML = "";
-
 
             addBattleLog(
                 `You encountered ${currentEnemy.name}!`
             );
 
-
             showScreen("battleScreen");
 
         }
 
-
-        // ==============================
-        // PLAYER ATTACK
-        // ==============================
 
         function attackEnemy() {
 
@@ -708,8 +676,6 @@
 
             let damage = player.attack;
 
-
-            // Rogue critical chance
 
             if (
                 player.class === "rogue" &&
@@ -747,10 +713,6 @@
         }
 
 
-        // ==============================
-        // CLASS SKILL
-        // ==============================
-
         function useSkill() {
 
             if (!currentEnemy) {
@@ -765,7 +727,9 @@
 
                 damage =
                     player.attack * 2 +
-                    Math.floor(Math.random() * 6);
+                    Math.floor(
+                        Math.random() * 6
+                    );
 
             }
 
@@ -782,7 +746,9 @@
 
                 damage =
                     player.attack * 4 +
-                    Math.floor(Math.random() * 10);
+                    Math.floor(
+                        Math.random() * 10
+                    );
 
             }
 
@@ -811,10 +777,6 @@
         }
 
 
-        // ==============================
-        // DEFEND
-        // ==============================
-
         function defend() {
 
             defending = true;
@@ -823,17 +785,12 @@
                 "You brace yourself for the enemy attack."
             );
 
-
             enemyAttack();
 
             update();
 
         }
 
-
-        // ==============================
-        // ENEMY ATTACK
-        // ==============================
 
         function enemyAttack() {
 
@@ -845,7 +802,9 @@
                 damage =
                     Math.max(
                         1,
-                        Math.floor(damage / 2)
+                        Math.floor(
+                            damage / 2
+                        )
                     );
 
                 addBattleLog(
@@ -881,10 +840,6 @@
         }
 
 
-        // ==============================
-        // POTION
-        // ==============================
-
         function usePotion() {
 
             if (player.potions <= 0) {
@@ -910,7 +865,9 @@
 
 
             const healing =
-                Math.floor(player.maxHp * 0.35);
+                Math.floor(
+                    player.maxHp * 0.35
+                );
 
 
             player.hp =
@@ -934,10 +891,6 @@
 
         }
 
-
-        // ==============================
-        // RUN AWAY
-        // ==============================
 
         function runAway() {
 
@@ -967,10 +920,6 @@
 
         }
 
-
-        // ==============================
-        // WIN BATTLE
-        // ==============================
 
         function winBattle() {
 
@@ -1004,13 +953,11 @@
         }
 
 
-        // ==============================
-        // LEVEL UP
-        // ==============================
-
         function checkLevelUp() {
 
-            while (player.xp >= player.xpNeeded) {
+            while (
+                player.xp >= player.xpNeeded
+            ) {
 
                 player.xp -= player.xpNeeded;
 
@@ -1037,33 +984,25 @@
         }
 
 
-        // ==============================
-        // WORK
-        // ==============================
-
         function doWork(job, reward) {
 
             player.gold += reward;
 
-
             addLog(
                 `You worked as a ${job} and earned ${reward} gold.`
             );
-
 
             showScreen("mainScreen");
 
         }
 
 
-        // ==============================
-        // REST
-        // ==============================
-
         function quickRest() {
 
             const healing =
-                Math.floor(player.maxHp * 0.25);
+                Math.floor(
+                    player.maxHp * 0.25
+                );
 
 
             player.hp =
@@ -1087,20 +1026,14 @@
 
             player.hp = player.maxHp;
 
-
             addLog(
                 "You took a full rest and restored all HP."
             );
-
 
             showScreen("mainScreen");
 
         }
 
-
-        // ==============================
-        // START GAME
-        // ==============================
 
         update();
 
