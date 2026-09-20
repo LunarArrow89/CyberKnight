@@ -16,6 +16,24 @@
 
 <body>
 
+<div id="buyError"
+     style="
+     display:none;
+     position:fixed;
+     top:15px;
+     left:50%;
+     transform:translateX(-50%);
+     background:#ff1744;
+     color:white;
+     padding:12px 25px;
+     border-radius:10px;
+     font-weight:bold;
+     z-index:9999;
+     box-shadow:0 0 15px #ff1744;
+     ">
+</div>
+
+
 <div class="game-container">
 
     <h1>CYBERKNIGHT</h1>
@@ -3270,8 +3288,8 @@ function buyPet(pet){
 
     if(player.gold < pet.cost){
 
-        logMessage(
-            "> ❌ CANNOT BUY THIS ITEM! You need " +
+        showBuyError(
+            "❌ Not enough gold! You need " +
             (pet.cost - player.gold) +
             " more gold."
         );
@@ -3306,8 +3324,8 @@ function buyGear(item){
 
     if(player.gold < item.cost){
 
-        logMessage(
-            "> ❌ CANNOT BUY THIS ITEM! You need " +
+        showBuyError(
+            "❌ Not enough gold! You need " +
             (item.cost - player.gold) +
             " more gold."
         );
@@ -3361,6 +3379,28 @@ if (
 
 }
 
+
+
+function showBuyError(message){
+
+    const errorBox =
+        document.getElementById("buyError");
+
+    if(!errorBox){
+        return;
+    }
+
+    errorBox.textContent = message;
+
+    errorBox.style.display = "block";
+
+    setTimeout(function(){
+
+        errorBox.style.display = "none";
+
+    },3000);
+
+}
 
 </script>
 
