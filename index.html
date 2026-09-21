@@ -1,1467 +1,217 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whispering Woods</title>
-
-    <script src="save.js"></script>
-
     <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-
+        * { box-sizing: border-box; }
         body {
-
             margin: 0;
-
             min-height: 100vh;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    #26352c 0%,
-                    #18231d 40%,
-                    #0d130f 100%
-                );
-
-            color: #e8eee9;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
             padding: 16px;
-
+            background: radial-gradient(circle at top, #26352c 0%, #18231d 40%, #0d130f 100%);
+            color: #e8eee9;
+            font-family: Georgia, "Times New Roman", serif;
         }
-
-
-        .game {
-
-            width: 100%;
-
-            max-width: 560px;
-
-            background: rgba(18, 27, 21, 0.96);
-
-            border: 1px solid #46594b;
-
-            border-radius: 18px;
-
-            box-shadow:
-                0 20px 50px rgba(0, 0, 0, 0.45);
-
-            overflow: hidden;
-
-        }
-
-
-        header {
-
-            text-align: center;
-
-            padding: 18px 18px 14px;
-
-            border-bottom: 1px solid #35463a;
-
-        }
-
-
-        h1 {
-
-            margin: 0;
-
-            font-size: 27px;
-
-            color: #dce9df;
-
-        }
-
-
-        .subtitle {
-
-            margin-top: 5px;
-
-            font-size: 13px;
-
-            color: #8fa594;
-
-        }
-
-
-        .content {
-
-            padding: 14px;
-
-        }
-
-
-        .stats {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 8px;
-
-            margin-bottom: 10px;
-
-        }
-
-
-        .stat {
-
-            background: #202d24;
-
-            border: 1px solid #35463a;
-
-            border-radius: 10px;
-
-            padding: 9px;
-
-            text-align: center;
-
-        }
-
-
-        .stat-label {
-
-            font-size: 11px;
-
-            color: #8fa594;
-
-            margin-bottom: 3px;
-
-        }
-
-
-        .stat-value {
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-        }
-
-
-        .game-box {
-
-            background: #18221b;
-
-            border: 1px solid #35463a;
-
-            border-radius: 13px;
-
-            overflow: hidden;
-
-        }
-
-
-        .section {
-
-            padding: 13px;
-
-            border-bottom: 1px solid #35463a;
-
-        }
-
-
-        .section:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-        .section-title {
-
-            font-size: 15px;
-
-            font-weight: bold;
-
-            margin-bottom: 8px;
-
-            color: #d5e4d8;
-
-        }
-
-
-        .bar {
-
-            width: 100%;
-
-            height: 12px;
-
-            background: #0d130f;
-
-            border: 1px solid #35463a;
-
-            border-radius: 999px;
-
-            overflow: hidden;
-
-        }
-
-
-        .bar-fill {
-
-            height: 100%;
-
-            width: 0%;
-
-            background: #75947c;
-
-            transition: width 0.2s linear;
-
-        }
-
-
-        .hp-fill {
-
-            background: #b56f72;
-
-        }
-
-
-        .rest-fill {
-
-            background: #829f87;
-
-        }
-
-
-        .bar-text {
-
-            text-align: center;
-
-            margin-top: 5px;
-
-            font-size: 12px;
-
-            color: #9cad9f;
-
-        }
-
-
-        .buttons {
-
-            display: flex;
-
-            gap: 8px;
-
-            margin-top: 9px;
-
-        }
-
-
-        button {
-
-            flex: 1;
-
-            border: 1px solid #526856;
-
-            background: #29382d;
-
-            color: #e5eee7;
-
-            border-radius: 9px;
-
-            padding: 9px 10px;
-
-            font-family: inherit;
-
-            font-size: 13px;
-
-            cursor: pointer;
-
-            transition:
-                background 0.15s,
-                transform 0.1s;
-
-        }
-
-
-        button:hover {
-
-            background: #35483a;
-
-        }
-
-
-        button:active {
-
-            transform: scale(0.98);
-
-        }
-
-
-        button:disabled {
-
-            opacity: 0.45;
-
-            cursor: not-allowed;
-
-        }
-
-
-        .danger {
-
-            border-color: #754b4d;
-
-            background: #3a2729;
-
-        }
-
-
-        .danger:hover {
-
-            background: #4a3032;
-
-        }
-
-
-        .log {
-
-            height: 145px;
-
-            overflow-y: auto;
-
-            background: #101710;
-
-            border: 1px solid #29372d;
-
-            border-radius: 9px;
-
-            padding: 8px;
-
-        }
-
-
-        .log-entry {
-
-            padding: 5px 3px;
-
-            font-size: 12px;
-
-            color: #aebcaf;
-
-            border-bottom: 1px solid rgba(
-                255,
-                255,
-                255,
-                0.04
-            );
-
-        }
-
-
-        .log-entry:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-        .victory {
-
-            display: none;
-
-            text-align: center;
-
-            padding: 12px;
-
-            background: #26392b;
-
-            border: 1px solid #4e6b53;
-
-            border-radius: 9px;
-
-            color: #d8eadb;
-
-        }
-
-
-        .hidden {
-
-            display: none !important;
-
-        }
-
-
-        .forced {
-
-            color: #d7a5a5;
-
-            font-size: 12px;
-
-            margin-top: 7px;
-
-        }
-
-
-        @media (max-width: 500px) {
-
-            body {
-
-                padding: 8px;
-
-                align-items: flex-start;
-
-            }
-
-
-            .game {
-
-                margin-top: 8px;
-
-            }
-
-
-            h1 {
-
-                font-size: 24px;
-
-            }
-
-
-            .content {
-
-                padding: 10px;
-
-            }
-
-
-            .section {
-
-                padding: 11px;
-
-            }
-
-        }
-
+        .game { width: min(560px, 100%); margin: 0 auto; }
+        header { text-align: center; margin-bottom: 12px; }
+        h1 { margin: 0; color: #dce9df; font-size: 27px; }
+        .subtitle { margin: 5px 0 0; color: #8fa594; font-size: 13px; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+        .stat { padding: 9px; text-align: center; background: #202d24; border: 1px solid #35463a; border-radius: 10px; }
+        .stat-label { color: #8fa594; font-size: 11px; margin-bottom: 3px; }
+        .stat-value { font-size: 15px; font-weight: bold; }
+        .game-box { overflow: hidden; background: #18221b; border: 1px solid #35463a; border-radius: 13px; }
+        .section { padding: 13px; border-bottom: 1px solid #35463a; }
+        .section:last-child { border-bottom: 0; }
+        .section-title { margin-bottom: 8px; color: #d5e4d8; font-size: 15px; font-weight: bold; }
+        .bar { width: 100%; height: 12px; overflow: hidden; background: #0d130f; border: 1px solid #35463a; border-radius: 999px; }
+        .bar-fill { height: 100%; width: 0; transition: width .2s linear; }
+        #forestBar { background: #75947c; }
+        #hpBar { background: #b56f72; }
+        #restBar { background: #829f87; }
+        .bar-text { margin-top: 5px; color: #9cad9f; font-size: 12px; text-align: center; }
+        .buttons { display: flex; gap: 8px; margin-top: 9px; }
+        button { flex: 1; padding: 9px 10px; color: #e5eee7; background: #29382d; border: 1px solid #526856; border-radius: 9px; font: inherit; cursor: pointer; }
+        button:hover:not(:disabled) { background: #35483a; }
+        button:disabled { opacity: .45; cursor: not-allowed; }
+        .danger { background: #3a2729; border-color: #754b4d; }
+        .log { height: 145px; overflow-y: auto; padding: 8px; background: #101710; border: 1px solid #29372d; border-radius: 9px; }
+        .log-entry { padding: 5px 3px; color: #aebcaf; font-size: 12px; border-bottom: 1px solid rgba(255,255,255,.04); }
+        .victory { display: none; padding: 12px; color: #d8eadb; text-align: center; background: #26392b; border: 1px solid #4e6b53; border-radius: 9px; }
+        @media (max-width: 500px) { body { padding: 8px; } .stats { gap: 4px; } .stat { padding: 7px 3px; } }
     </style>
-
 </head>
-
-
 <body>
-
-
 <div class="game">
-
-
     <header>
-
         <h1>Whispering Woods</h1>
-
-        <div class="subtitle">
-            Walk through the darkness and find your way out.
-        </div>
-
+        <p class="subtitle">Walk through the darkness and find your way out.</p>
     </header>
 
-
-    <div class="content">
-
-
-        <div class="stats">
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    HP
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="hpText"
-                >
-                    40 / 40
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    Attack
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="attackText"
-                >
-                    8
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    Status
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statusText"
-                >
-                    Walking
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="game-box">
-
-
-            <div class="section">
-
-
-                <div class="section-title">
-                    🌲 Forest Journey
-                </div>
-
-
-                <div class="bar">
-
-                    <div
-                        class="bar-fill"
-                        id="forestBar"
-                    ></div>
-
-                </div>
-
-
-                <div
-                    class="bar-text"
-                    id="forestText"
-                >
-                    0:00 / 5:00
-                </div>
-
-
-            </div>
-
-
-            <div class="section">
-
-
-                <div class="section-title">
-                    ❤️ Health
-                </div>
-
-
-                <div class="bar">
-
-                    <div
-                        class="bar-fill hp-fill"
-                        id="hpBar"
-                    ></div>
-
-                </div>
-
-
-                <div
-                    class="bar-text"
-                    id="hpBarText"
-                >
-                    40 / 40 HP
-                </div>
-
-
-            </div>
-
-
-            <div class="section">
-
-
-                <div class="section-title">
-                    💤 Rest
-                </div>
-
-
-                <div
-                    class="bar"
-                    id="restBarContainer"
-                >
-
-                    <div
-                        class="bar-fill rest-fill"
-                        id="restBar"
-                    ></div>
-
-                </div>
-
-
-                <div
-                    class="bar-text"
-                    id="restText"
-                >
-                    Rest when you need to recover.
-                </div>
-
-
-                <div
-                    class="forced hidden"
-                    id="forcedText"
-                >
-                    You must finish resting before continuing.
-                </div>
-
-
-                <div class="buttons">
-
-
-                    <button
-                        id="restButton"
-                        onclick="startRest(false)"
-                    >
-                        Rest
-                    </button>
-
-
-                    <button
-                        id="leaveButton"
-                        onclick="leaveRest()"
-                    >
-                        Leave
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-            <div class="section">
-
-
-                <div class="section-title">
-                    📖 Adventure Log
-                </div>
-
-
-                <div
-                    class="log"
-                    id="log"
-                ></div>
-
-
-            </div>
-
-
-            <div class="section">
-
-
-                <div
-                    class="victory"
-                    id="victory"
-                >
-
-                    <strong>
-                        You found your way out!
-                    </strong>
-
-                    <div style="margin-top: 5px;">
-                        The Whispering Woods are behind you.
-                    </div>
-
-                </div>
-
-
-                <div class="buttons">
-
-
-                    <button onclick="saveGame()">
-                        Save
-                    </button>
-
-
-                    <button onclick="loadGame()">
-                        Load
-                    </button>
-
-
-                    <button
-                        class="danger"
-                        onclick="deleteSave()"
-                    >
-                        Delete Save
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
+    <div class="stats">
+        <div class="stat"><div class="stat-label">HP</div><div class="stat-value" id="hpText">40 / 40</div></div>
+        <div class="stat"><div class="stat-label">Attack</div><div class="stat-value" id="attackText">8</div></div>
+        <div class="stat"><div class="stat-label">Status</div><div class="stat-value" id="statusText">Walking</div></div>
     </div>
 
-
+    <div class="game-box">
+        <div class="section">
+            <div class="section-title">🌲 Forest Journey</div>
+            <div class="bar"><div class="bar-fill" id="forestBar"></div></div>
+            <div class="bar-text" id="forestText">0:00 / 5:00</div>
+        </div>
+        <div class="section">
+            <div class="section-title">❤️ Health</div>
+            <div class="bar"><div class="bar-fill" id="hpBar"></div></div>
+            <div class="bar-text" id="hpBarText">40 / 40 HP</div>
+        </div>
+        <div class="section">
+            <div class="section-title">💤 Rest</div>
+            <div class="bar"><div class="bar-fill" id="restBar"></div></div>
+            <div class="bar-text" id="restText">Rest when you need to recover.</div>
+            <div class="buttons">
+                <button id="restButton" type="button">Rest</button>
+                <button id="leaveButton" type="button" disabled>Leave</button>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">📖 Adventure Log</div>
+            <div class="log" id="log"></div>
+        </div>
+        <div class="section">
+            <div class="victory" id="victory">You found your way out!<br><small>The Whispering Woods are behind you.</small></div>
+            <div class="buttons">
+                <button id="saveButton" type="button">Save</button>
+                <button id="loadButton" type="button">Load</button>
+                <button id="deleteButton" class="danger" type="button">Delete Save</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-
 <script>
-
-
-const FOREST_DURATION = 5 * 60 * 1000;
-
-
-const player = {
-
-    hp: 40,
-
-    maxHp: 40,
-
-    attack: 8
-
-};
-
-
+const FOREST_DURATION = 5 * 60;
+const player = { hp: 40, maxHp: 40, attack: 8 };
 const enemies = [
-
-    {
-        name: "Lost Wolf",
-        maxHp: 18,
-        attack: 4
-    },
-
-    {
-        name: "Forest Goblin",
-        maxHp: 22,
-        attack: 3
-    },
-
-    {
-        name: "Shadow Spider",
-        maxHp: 15,
-        attack: 5
-    },
-
-    {
-        name: "Angry Boar",
-        maxHp: 25,
-        attack: 4
-    },
-
-    {
-        name: "Dark Slime",
-        maxHp: 20,
-        attack: 2
-    }
-
+    { name: "Lost Wolf", maxHp: 18, attack: 4 },
+    { name: "Forest Goblin", maxHp: 22, attack: 3 },
+    { name: "Shadow Spider", maxHp: 15, attack: 5 },
+    { name: "Angry Boar", maxHp: 25, attack: 4 },
+    { name: "Dark Slime", maxHp: 20, attack: 2 }
 ];
-
-
-let forestElapsed = 0;
-
-let forestCompleted = false;
-
-let forestRunning = true;
-
-let restActive = false;
-
+let forestTime = 0;
+let resting = false;
 let forcedRest = false;
-
-let restStartTime = 0;
-
+let gameEnded = false;
+let restStartedAt = 0;
 let restDuration = 0;
 
-let forestLastUpdate = Date.now();
-
-let gameLoop;
-
-
-const hpText =
-    document.getElementById("hpText");
-
-const attackText =
-    document.getElementById("attackText");
-
-const statusText =
-    document.getElementById("statusText");
-
-const hpBar =
-    document.getElementById("hpBar");
-
-const hpBarText =
-    document.getElementById("hpBarText");
-
-const forestBar =
-    document.getElementById("forestBar");
-
-const forestText =
-    document.getElementById("forestText");
-
-const restBar =
-    document.getElementById("restBar");
-
-const restText =
-    document.getElementById("restText");
-
-const restButton =
-    document.getElementById("restButton");
-
-const leaveButton =
-    document.getElementById("leaveButton");
-
-const forcedText =
-    document.getElementById("forcedText");
-
-const logElement =
-    document.getElementById("log");
-
-const victoryElement =
-    document.getElementById("victory");
-
-
+const $ = id => document.getElementById(id);
 function addLog(message) {
-
-    const entry =
-        document.createElement("div");
-
+    const entry = document.createElement("div");
     entry.className = "log-entry";
-
     entry.textContent = message;
-
-    logElement.appendChild(entry);
-
-    logElement.scrollTop =
-        logElement.scrollHeight;
-
+    $("log").appendChild(entry);
+    $("log").scrollTop = $("log").scrollHeight;
 }
-
-
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes}:${String(Math.floor(seconds % 60)).padStart(2, "0")}`;
+}
 function updateHP() {
-
-    hpText.textContent =
-        `${Math.max(0, player.hp)} / ${player.maxHp}`;
-
-    hpBarText.textContent =
-        `${Math.max(0, player.hp)} / ${player.maxHp} HP`;
-
-    const percentage =
-        Math.max(
-            0,
-            Math.min(
-                100,
-                (player.hp / player.maxHp) * 100
-            )
-        );
-
-    hpBar.style.width =
-        percentage + "%";
-
-    attackText.textContent =
-        player.attack;
-
+    const hp = Math.max(0, Math.min(player.hp, player.maxHp));
+    player.hp = hp;
+    $("hpText").textContent = `${hp} / ${player.maxHp}`;
+    $("hpBarText").textContent = `${hp} / ${player.maxHp} HP`;
+    $("hpBar").style.width = `${(hp / player.maxHp) * 100}%`;
+    $("attackText").textContent = player.attack;
 }
-
-
-function updateStatus() {
-
-    if (forestCompleted) {
-
-        statusText.textContent =
-            "Escaped";
-
-        return;
-
-    }
-
-
-    if (forcedRest) {
-
-        statusText.textContent =
-            "Resting";
-
-        return;
-
-    }
-
-
-    if (restActive) {
-
-        statusText.textContent =
-            "Resting";
-
-        return;
-
-    }
-
-
-    if (!forestRunning) {
-
-        statusText.textContent =
-            "Paused";
-
-        return;
-
-    }
-
-
-    statusText.textContent =
-        "Walking";
-
-}
-
-
-function formatTime(milliseconds) {
-
-    const totalSeconds =
-        Math.floor(milliseconds / 1000);
-
-    const minutes =
-        Math.floor(totalSeconds / 60);
-
-    const seconds =
-        totalSeconds % 60;
-
-    return (
-        minutes +
-        ":" +
-        String(seconds).padStart(2, "0")
-    );
-
-}
-
-
 function updateForest() {
-
-    const progress =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                forestElapsed / FOREST_DURATION
-            )
-        );
-
-
-    forestBar.style.width =
-        (progress * 100) + "%";
-
-
-    forestText.textContent =
-        `${formatTime(forestElapsed)} / 5:00`;
-
-
-    if (
-        forestElapsed >= FOREST_DURATION &&
-        !forestCompleted
-    ) {
-
-        forestElapsed =
-            FOREST_DURATION;
-
-        forestCompleted = true;
-
-        forestRunning = false;
-
-        restActive = false;
-
-        forcedRest = false;
-
-        showVictory();
-
-        updateStatus();
-
-        saveGame(false);
-
-    }
-
+    const progress = Math.min(100, (forestTime / FOREST_DURATION) * 100);
+    $("forestBar").style.width = `${progress}%`;
+    $("forestText").textContent = `${formatTime(forestTime)} / 5:00`;
 }
-
-
-function showVictory() {
-
-    victoryElement.style.display =
-        "block";
-
-    restButton.disabled = true;
-
-    leaveButton.disabled = true;
-
-    statusText.textContent =
-        "Escaped";
-
+function updateStatus() {
+    $("statusText").textContent = gameEnded ? "Escaped" : forcedRest ? "Forced Rest" : resting ? "Resting" : "Walking";
+    $("restButton").disabled = gameEnded || resting || player.hp >= player.maxHp;
+    $("leaveButton").disabled = !resting || forcedRest;
 }
-
-
-function startRest(forceRest) {
-
-    if (forestCompleted) {
-
-        return;
-
+function encounter() {
+    if (gameEnded || resting || forcedRest || Math.random() >= 0.035) return;
+    const enemy = { ...enemies[Math.floor(Math.random() * enemies.length)] };
+    while (enemy.hp > 0 && player.hp > 0) {
+        enemy.hp -= player.attack;
+        if (enemy.hp <= 0) { addLog(`You defeated ${enemy.name}.`); break; }
+        player.hp = Math.max(0, player.hp - Math.max(1, Math.floor(enemy.attack - player.attack / 2)));
     }
-
-
-    if (restActive) {
-
-        return;
-
+    updateHP();
+    if (player.hp <= 0) {
+        forcedRest = true;
+        startRest(true);
+        addLog(`${enemy.name} defeated you. You must rest.`);
     }
-
-
-    forcedRest =
-        forceRest;
-
-
-    restActive =
-        true;
-
-
-    forestRunning =
-        false;
-
-
-    restStartTime =
-        Date.now();
-
-
-    const missingHP =
-        player.maxHp - player.hp;
-
-
-    if (missingHP <= 0) {
-
-        restDuration = 1000;
-
-    } else {
-
-        restDuration =
-            missingHP * 10 * 1000;
-
-    }
-
-
-    restButton.disabled = true;
-
-    leaveButton.disabled =
-        forcedRest;
-
-
-    forcedText.classList.toggle(
-        "hidden",
-        !forcedRest
-    );
-
-
-    restBar.style.width =
-        "0%";
-
-
-    restText.textContent =
-        "Resting...";
-
-
+}
+function startRest(isForced = false) {
+    if (gameEnded || resting || (!isForced && player.hp >= player.maxHp)) return;
+    resting = true;
+    forcedRest = isForced;
+    restStartedAt = Date.now();
+    restDuration = isForced ? 10 : Math.max(10, (player.maxHp - player.hp) * 10);
     updateStatus();
-
 }
-
-
 function leaveRest() {
-
-    if (!restActive) {
-
-        return;
-
-    }
-
-
-    if (forcedRest) {
-
-        addLog(
-            "You must finish resting first."
-        );
-
-        return;
-
-    }
-
-
-    restActive =
-        false;
-
-
-    forestRunning =
-        true;
-
-
-    restButton.disabled = false;
-
-    leaveButton.disabled = false;
-
-    forcedText.classList.add(
-        "hidden"
-    );
-
-
-    restBar.style.width =
-        "0%";
-
-
-    restText.textContent =
-        "Rest when you need to recover.";
-
-
-    forestLastUpdate =
-        Date.now();
-
-
+    if (!resting || forcedRest) return;
+    resting = false;
+    $("restBar").style.width = "0%";
+    $("restText").textContent = "Rest stopped.";
     updateStatus();
-
+    addLog("You stopped resting.");
 }
-
-
-function finishRest() {
-
-    player.hp =
-        player.maxHp;
-
-
-    restActive =
-        false;
-
-
-    forcedRest =
-        false;
-
-
-    forestRunning =
-        true;
-
-
-    restButton.disabled =
-        false;
-
-
-    leaveButton.disabled =
-        false;
-
-
-    forcedText.classList.add(
-        "hidden"
-    );
-
-
-    restBar.style.width =
-        "100%";
-
-
-    restText.textContent =
-        "Fully rested.";
-
-
-    forestLastUpdate =
-        Date.now();
-
-
-    updateHP();
-
-    updateStatus();
-
-    addLog(
-        "You finished resting and recovered your HP."
-    );
-
-
-    saveGame(false);
-
-}
-
-
 function updateRest() {
-
-    if (!restActive) {
-
-        return;
-
-    }
-
-
-    const elapsed =
-        Date.now() - restStartTime;
-
-
-    const progress =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                elapsed / restDuration
-            )
-        );
-
-
-    restBar.style.width =
-        (progress * 100) + "%";
-
-
-    if (progress >= 1) {
-
-        finishRest();
-
-        return;
-
-    }
-
-
-    restText.textContent =
-        "Resting...";
-
-}
-
-
-function forceRestAfterDeath() {
-
-    player.hp = 0;
-
+    if (!resting) return;
+    const elapsed = (Date.now() - restStartedAt) / 1000;
+    const progress = Math.min(1, elapsed / restDuration);
+    $("restBar").style.width = `${progress * 100}%`;
+    $("restText").textContent = `Resting: ${Math.floor(progress * 100)}%`;
+    if (progress < 1) return;
+    resting = false;
+    forcedRest = false;
+    player.hp = player.maxHp;
     updateHP();
-
-
-    forestRunning =
-        false;
-
-
-    addLog(
-        "The enemy defeated you."
-    );
-
-
-    startRest(true);
-
-}
-
-
-function fightEnemy() {
-
-    if (
-        restActive ||
-        forcedRest ||
-        forestCompleted
-    ) {
-
-        return;
-
-    }
-
-
-    const enemy =
-        enemies[
-            Math.floor(
-                Math.random() * enemies.length
-            )
-        ];
-
-
-    let playerHP =
-        player.hp;
-
-
-    let enemyHP =
-        enemy.maxHp;
-
-
-    while (
-        playerHP > 0 &&
-        enemyHP > 0
-    ) {
-
-        enemyHP -= player.attack;
-
-
-        if (enemyHP <= 0) {
-
-            break;
-
-        }
-
-
-        playerHP -= enemy.attack;
-
-    }
-
-
-    if (enemyHP <= 0) {
-
-        player.hp =
-            Math.max(
-                1,
-                playerHP
-            );
-
-
-        addLog(
-            `You defeated ${enemy.name}.`
-        );
-
-
-        updateHP();
-
-
-        saveGame(false);
-
-        return;
-
-    }
-
-
-    player.hp =
-        0;
-
-
-    updateHP();
-
-    forceRestAfterDeath();
-
-}
-
-
-function forestTick() {
-
-    if (
-        !forestRunning ||
-        restActive ||
-        forcedRest ||
-        forestCompleted
-    ) {
-
-        forestLastUpdate =
-            Date.now();
-
-        return;
-
-    }
-
-
-    const now =
-        Date.now();
-
-
-    const delta =
-        now - forestLastUpdate;
-
-
-    forestLastUpdate =
-        now;
-
-
-    if (delta > 0) {
-
-        forestElapsed += delta;
-
-    }
-
-
-    if (
-        forestElapsed >=
-        FOREST_DURATION
-    ) {
-
-        forestElapsed =
-            FOREST_DURATION;
-
-        updateForest();
-
-        return;
-
-    }
-
-
-    updateForest();
-
-
-    if (
-        Math.random() < 0.035
-    ) {
-
-        fightEnemy();
-
-    }
-
-}
-
-
-function updateGame() {
-
-    updateRest();
-
-    forestTick();
-
-}
-
-
-function startGame() {
-
-    forestLastUpdate =
-        Date.now();
-
-
-    updateHP();
-
-    updateForest();
-
     updateStatus();
-
-
-    const loaded =
-        loadGame();
-
-
-    forestLastUpdate =
-        Date.now();
-
-
-    if (!loaded) {
-
-        addLog(
-            "You enter the Whispering Woods."
-        );
-
-        addLog(
-            "Find your way out before the forest claims you."
-        );
-
-        saveGame(false);
-
+    $("restText").textContent = "Fully recovered.";
+    addLog("You finished resting and recovered your HP.");
+}
+function tick() {
+    if (!gameEnded) {
+        if (!resting && !forcedRest) {
+            forestTime = Math.min(FOREST_DURATION, forestTime + 1);
+            encounter();
+            if (forestTime >= FOREST_DURATION) {
+                gameEnded = true;
+                $("victory").style.display = "block";
+                addLog("You made it through the forest!");
+            }
+        }
+        updateForest();
+        updateRest();
+        updateStatus();
     }
+}
 
-
-    clearInterval(gameLoop);
-
-
-    gameLoop =
-        setInterval(
-            updateGame
+$("restButton").addEventListener("click", () => startRest());
+$("leaveButton").addEventListener("click", leaveRest);
+$("saveButton").addEventListener("click", () => saveGame());
+$("loadButton").addEventListener("click", () => loadGame());
+$("deleteButton").addEventListener("click", () => deleteSave());
+updateHP();
+updateForest();
+updateStatus();
+addLog("The forest path begins...");
+setInterval(tick, 1000);
+</script>
+<script src="save.js"></script>
+</body>
+</html>
