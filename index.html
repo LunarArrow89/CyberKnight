@@ -219,6 +219,303 @@ body { padding-bottom: 90px; }
     .terminal-feed { max-height: 180px; overflow-y: auto; }
 }
 </style>
+
+<style>
+/* ==========================================================
+   CYBERKNIGHT FRESH UI
+   Clean on desktop, comfortable on phones
+   ========================================================== */
+:root {
+    --fresh-bg: #070912;
+    --fresh-panel: #0d1220;
+    --fresh-panel-2: #11182a;
+    --fresh-border: #27334d;
+    --fresh-pink: #ff4d8d;
+    --fresh-purple: #a855f7;
+    --fresh-cyan: #38bdf8;
+    --fresh-green: #34d399;
+    --fresh-gold: #fbbf24;
+    --fresh-text: #f5f7ff;
+    --fresh-muted: #98a2b8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    padding-bottom: 24px !important;
+    background:
+        radial-gradient(circle at 15% 0%, rgba(168,85,247,.10), transparent 32%),
+        radial-gradient(circle at 85% 10%, rgba(56,189,248,.08), transparent 30%),
+        var(--fresh-bg) !important;
+}
+
+.game-container {
+    width: min(94%, 980px) !important;
+    max-width: 980px !important;
+    margin: 0 auto !important;
+    padding: 28px 0 40px !important;
+}
+
+h1 {
+    letter-spacing: .08em;
+    line-height: 1;
+    margin-bottom: 8px !important;
+}
+
+.subtitle {
+    color: var(--fresh-muted) !important;
+    margin-bottom: 28px !important;
+}
+
+/* Cards become cleaner and more consistent */
+.card,
+.shop-section,
+.class-card,
+#shopScreen .card {
+    background: linear-gradient(145deg, var(--fresh-panel), var(--fresh-panel-2)) !important;
+    border: 1px solid var(--fresh-border) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.22) !important;
+}
+
+.card {
+    padding: 20px !important;
+    margin-bottom: 16px !important;
+}
+
+/* Main action areas */
+.action-tray {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px !important;
+    margin-top: 14px !important;
+}
+
+.action-btn {
+    min-height: 46px !important;
+    margin: 0 !important;
+    border-radius: 11px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    font-weight: 700 !important;
+    letter-spacing: .02em;
+    transition: transform .12s ease, filter .12s ease, border-color .12s ease;
+    touch-action: manipulation;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.action-btn:active {
+    transform: translateY(1px);
+}
+
+.action-btn:disabled {
+    opacity: .45;
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* Class selection */
+.class-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px !important;
+}
+
+.class-card {
+    margin: 0 !important;
+    min-width: 0;
+    padding: 18px !important;
+    transition: transform .15s ease, border-color .15s ease;
+}
+
+.class-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255,77,141,.65) !important;
+}
+
+.class-card p {
+    color: var(--fresh-muted);
+    line-height: 1.55;
+}
+
+/* Shop */
+.shop-section {
+    padding: 14px !important;
+    margin-bottom: 14px !important;
+}
+
+.shop-section h3 {
+    margin: 2px 4px 10px !important;
+    font-size: 16px;
+}
+
+.shop-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.shop-row {
+    min-height: 42px !important;
+    padding: 9px 12px !important;
+    border-radius: 9px !important;
+    background: rgba(255,255,255,.035) !important;
+    border: 1px solid transparent !important;
+    font-size: 14px !important;
+}
+
+.shop-row:hover {
+    background: rgba(168,85,247,.09) !important;
+    border-color: rgba(168,85,247,.35) !important;
+}
+
+.shop-row .shop-name {
+    font-weight: 650;
+}
+
+.shop-row .shop-cost {
+    color: var(--fresh-gold) !important;
+}
+
+/* Centered item information popup */
+.shop-details {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(92vw, 390px) !important;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 20px !important;
+    margin: 0 !important;
+    z-index: 9999 !important;
+    background: #0b1020 !important;
+    border: 1px solid rgba(168,85,247,.55) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 24px 70px rgba(0,0,0,.65), 0 0 30px rgba(168,85,247,.12) !important;
+}
+
+/* Make inventory rows readable */
+#inventoryScreen .card,
+#inventoryScreen .inventory-item {
+    border-radius: 12px !important;
+}
+
+/* Logs should not make the entire page huge */
+.terminal-feed,
+#battleLog {
+    max-height: 260px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+/* Keep important controls grouped instead of scattered */
+#shopMainMenu {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px !important;
+}
+
+#shopMainMenu .action-btn {
+    width: 100% !important;
+}
+
+/* Tablet */
+@media (max-width: 760px) {
+    .game-container {
+        width: min(92%, 700px) !important;
+        padding-top: 22px !important;
+    }
+
+    .class-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .card {
+        padding: 16px !important;
+    }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+    body {
+        padding-bottom: 12px !important;
+    }
+
+    .game-container {
+        width: calc(100% - 20px) !important;
+        padding: 16px 0 28px !important;
+    }
+
+    h1 {
+        font-size: clamp(32px, 11vw, 42px) !important;
+    }
+
+    .subtitle {
+        margin-bottom: 20px !important;
+    }
+
+    .card {
+        padding: 13px !important;
+        border-radius: 13px !important;
+    }
+
+    .action-tray,
+    #shopMainMenu {
+        grid-template-columns: 1fr !important;
+    }
+
+    .action-btn {
+        width: 100% !important;
+        min-height: 48px !important;
+    }
+
+    .shop-section {
+        padding: 10px !important;
+        border-radius: 12px !important;
+    }
+
+    .shop-row {
+        min-height: 44px !important;
+        padding: 9px 10px !important;
+        font-size: 13px !important;
+    }
+
+    .shop-details {
+        width: calc(100vw - 28px) !important;
+        max-height: 78vh !important;
+        padding: 16px !important;
+    }
+
+    .shop-details .action-btn {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+
+    .terminal-feed,
+    #battleLog {
+        max-height: 190px;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+    .game-container {
+        width: calc(100% - 14px) !important;
+    }
+
+    .card {
+        padding: 11px !important;
+    }
+
+    .shop-row {
+        font-size: 12px !important;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -2751,12 +3048,6 @@ if (player && player.activity) {
 
 
 
-<div class="mobile-nav">
-    <button class="action-btn" onclick="document.getElementById('shopScreen').style.display='none';document.getElementById('gameScreen').style.display='block';">🏠 Home</button>
-    <button class="action-btn" onclick="openShop();">🏪 Shop</button>
-    <button class="action-btn" onclick="openInventory();">🎒 Items</button>
-    <button class="action-btn" onclick="openTravelMenu();">🗺️ Map</button>
-</div>
 </body>
 
 </html>
