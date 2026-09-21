@@ -14,20 +14,19 @@
 
 
 <style>
-.shop-item-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;width:100%;}
-.shop-item-row{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;border:1px solid #853744;border-radius:10px;background:#14121f;color:#fff;cursor:pointer;text-align:left;font-weight:700;transition:.15s;}
-.shop-item-row:hover{border-color:#ff4d6d;box-shadow:0 0 10px rgba(255,77,109,.35);}
-.shop-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:12px;}
-.shop-item-price{color:#fbbf24;white-space:nowrap;}
-.shop-detail{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:10000;}
-.shop-detail-card{width:min(420px,100%);background:#14121f;border:1px solid #a855f7;border-radius:14px;padding:20px;box-shadow:0 0 25px rgba(168,85,247,.35);}
-.shop-detail-card h3{margin:0 0 10px;color:#c084fc;}
-.shop-detail-card p{margin:8px 0 16px;line-height:1.45;}
-.shop-detail-actions{display:flex;gap:8px;}
-.shop-detail-actions button{flex:1;}
-@media(max-width:600px){.shop-item-row{padding:11px 12px;min-height:46px}.shop-detail-card{padding:16px}.shop-detail-actions{flex-direction:column;}}
+@media (max-width: 600px){
+    .action-tray{
+        display:grid !important;
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:8px;
+    }
+    .action-tray .action-btn{
+        width:100%;
+        min-width:0;
+        margin:0;
+    }
+}
 </style>
-
 </head>
 
 <body>
@@ -3147,208 +3146,167 @@ function resetGame() {
 // SHOP SYSTEM
 // ==========================================
 
-let selectedShopItem = null;
-let selectedShopType = null;
-
 function openShop(){
 
-    document.getElementById("gameScreen").style.display = "none";
-    document.getElementById("shopScreen").style.display = "block";
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "shopScreen"
+    ).style.display = "block";
+
+
     hideShopSections();
 
 }
 
+
+
 function closeShop(){
 
-    closeShopItemDetail();
-    document.getElementById("shopScreen").style.display = "none";
-    document.getElementById("gameScreen").style.display = "block";
+    document.getElementById(
+        "shopScreen"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "block";
+
+
     updatePlayerDisplay();
 
 }
 
-function hideShopSections(){
-
-    document.getElementById("shopMainMenu").style.display = "flex";
-    document.getElementById("petShop").style.display = "none";
-    document.getElementById("gearShop").style.display = "none";
-    document.getElementById("inventory").style.display = "none";
-
-}
 
 function openPetShop(){
 
-    document.getElementById("shopMainMenu").style.display = "none";
-    document.getElementById("petShop").style.display = "flex";
-    document.getElementById("gearShop").style.display = "none";
-    document.getElementById("inventory").style.display = "none";
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
+
+
     renderPetShop();
 
 }
 
+
+
 function openBlacksmith(){
 
-    document.getElementById("shopMainMenu").style.display = "none";
-    document.getElementById("petShop").style.display = "none";
-    document.getElementById("gearShop").style.display = "flex";
-    document.getElementById("inventory").style.display = "none";
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
+
+
     renderGearShop();
 
 }
 
-function openInventory(){
-
-    document.getElementById("shopMainMenu").style.display = "none";
-    document.getElementById("petShop").style.display = "none";
-    document.getElementById("gearShop").style.display = "none";
-    document.getElementById("inventory").style.display = "flex";
-
-    if(typeof renderInventory === "function"){
-        renderInventory();
-    }
-
-}
-
-function showShopItem(item, type){
-
-    selectedShopItem = item;
-    selectedShopType = type;
-
-    document.getElementById("shopDetailName").textContent = item.name;
-
-    document.getElementById("shopDetailDescription").textContent =
-        item.bonus + " — Costs " + item.cost + " Gold.";
-
-    document.getElementById("shopDetailBuy").textContent =
-        "Buy for " + item.cost + " Gold";
-
-    document.getElementById("shopDetailBuy").onclick = function(){
-
-        if(selectedShopType === "pet"){
-            buyPet(selectedShopItem);
-        }
-        else{
-            buyGear(selectedShopItem);
-        }
-
-        closeShopItemDetail();
-    };
-
-    document.getElementById("shopItemDetail").style.display = "flex";
-
-}
-
-function closeShopItemDetail(){
-
-    const detail = document.getElementById("shopItemDetail");
-
-    if(detail){
-        detail.style.display = "none";
-    }
-
-    selectedShopItem = null;
-    selectedShopType = null;
-
-}
-
-function renderPetShop(){
-
-    const box = document.getElementById("petShop");
-
-    box.innerHTML =
-        "<h3>🐾 Pet Shop</h3>" +
-        "<div class='shop-item-list' id='petShopItems'></div>";
-
-    const list = document.getElementById("petShopItems");
-
-    pets.forEach(function(item){
-
-        const row = document.createElement("button");
-
-        row.type = "button";
-        row.className = "shop-item-row";
-
-        row.innerHTML =
-            "<span class='shop-item-name'>" +
-            item.name +
-            "</span>" +
-            "<span class='shop-item-price'>" +
-            item.cost +
-            " Gold</span>";
-
-        row.onclick = function(){
-            showShopItem(item, "pet");
-        };
-
-        list.appendChild(row);
-
-    });
-
-}
-
-function renderGearShop(){
-
-    const box = document.getElementById("gearShop");
-
-    box.innerHTML =
-        "<h3>⚔️ Blacksmith</h3>" +
-        "<div class='shop-item-list' id='gearShopItems'></div>";
-
-    const list = document.getElementById("gearShopItems");
-
     gear.forEach(function(item){
 
-        const row = document.createElement("button");
+        const button =
+            document.createElement(
+                "button"
+            );
 
-        row.type = "button";
-        row.className = "shop-item-row";
 
-        row.innerHTML =
-            "<span class='shop-item-name'>" +
+        button.className =
+            "action-btn";
+
+
+        button.innerHTML =
+
+            "⚔️ " +
             item.name +
-            "</span>" +
-            "<span class='shop-item-price'>" +
+            "<br>" +
+
             item.cost +
-            " Gold</span>";
+            " Gold<br>" +
 
-        row.onclick = function(){
-            showShopItem(item, "gear");
-        };
+            item.bonus;
 
-        list.appendChild(row);
+
+
+        button.onclick =
+            function(){
+
+                buyGear(item);
+
+            };
+        
+
+
+        gearBox.appendChild(button);
 
     });
 
 }
+
+
 
 function buyPet(pet){
 
     if(player.gold < pet.cost){
 
-        showBuyError("Not enough Gold! You need " + (pet.cost - player.gold) + " more.");
+        logMessage(
+            "> ❌ CANNOT BUY THIS ITEM! You need " +
+            (pet.cost - player.gold) +
+            " more gold."
+        );
+
         return;
 
     }
 
+
     player.gold -= pet.cost;
 
-    const ownedPet = {
-        name: pet.name,
-        cost: pet.cost,
-        bonus: pet.bonus,
-        atk: pet.atk || 0,
-        hp: pet.hp || 0,
-        gold: pet.gold || 0,
-        equipped: false
-    };
 
-    player.pets.push(ownedPet);
+    player.pets.push(pet);
+
 
     logMessage(
-        "> 🐾 Purchased " + pet.name + "! Added to your Inventory."
+        "> 🐾 Purchased " +
+        pet.name +
+        "!"
     );
 
+
     saveGame();
+
     updatePlayerDisplay();
 
 }
@@ -3357,35 +3315,194 @@ function buyGear(item){
 
     if(player.gold < item.cost){
 
-        showBuyError("Not enough Gold! You need " + (item.cost - player.gold) + " more.");
+        logMessage(
+            "> ❌ CANNOT BUY THIS ITEM! You need " +
+            (item.cost - player.gold) +
+            " more gold."
+        );
+
         return;
 
     }
 
-    player.gold -= item.cost;
 
-    if(!Array.isArray(player.inventory)){
-        player.inventory = [];
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
     }
 
-    player.inventory.push({
-        name: item.name,
-        cost: item.cost,
-        bonus: item.bonus,
-        atk: item.atk || 0,
-        hp: item.hp || 0,
-        equipped: false
-    });
+
+    player.inventory.push(item);
+
 
     logMessage(
-        "> ⚔️ Bought " + item.name + "! Added to your Inventory."
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
     );
 
+
     saveGame();
+
     updatePlayerDisplay();
 
 }
 
+
+    player.gold -= item.cost;
+
+
+    if(item.atk){
+
+        player.atk += item.atk;
+
+    }
+
+
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
+    }
+
+
+    logMessage(
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
+    );
+
+
+    saveGame();
+
+    updatePlayerDisplay();
+
+}
+
+
+// 👇 PASTE THE NEW FUNCTIONS RIGHT HERE
+
+function hideShopSections(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "flex";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "none";
+
+}
+
+
+
+function openPetShop(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "petShop"
+    ).style.display = "flex";
+
+
+    renderShop();
+
+}
+
+
+
+function openBlacksmith(){
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "gearShop"
+    ).style.display = "flex";
+
+
+    renderShop();
+
+}
+
+
+
+function openInventory(){
+
+    document.getElementById(
+        "gameScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "shopScreen"
+    ).style.display = "block";
+
+    document.getElementById(
+        "shopMainMenu"
+    ).style.display = "none";
+
+
+    document.getElementById(
+        "inventory"
+    ).style.display = "flex";
+
+
+    renderInventory();
+
+}
+
+    player.gold -= item.cost;
+
+
+    if(item.atk){
+
+        player.atk += item.atk;
+
+    }
+
+
+    if(item.hp){
+
+        player.maxHp += item.hp;
+
+        player.hp += item.hp;
+
+    }
+
+
+    logMessage(
+        "> ⚔️ Bought " +
+        item.name +
+        "!"
+    );
+
+
+    saveGame();
+
+    updatePlayerDisplay();
+
+}
 // ==========================================
 // START
 // ==========================================
@@ -3410,18 +3527,6 @@ if (
 
 
 </script>
-
-
-<div id="shopItemDetail" class="shop-detail">
-  <div class="shop-detail-card">
-    <h3 id="shopDetailName"></h3>
-    <p id="shopDetailDescription"></p>
-    <div class="shop-detail-actions">
-      <button id="shopDetailBuy" class="action-btn">Buy</button>
-      <button class="action-btn reset-btn" onclick="closeShopItemDetail()">Back</button>
-    </div>
-  </div>
-</div>
 
 </body>
 
