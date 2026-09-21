@@ -4,15 +4,11 @@
 <head>
 
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberKnight: Neon Text RPG</title>
-
     <link rel="stylesheet" href="style.css">
 
-<style>
+    <style>
 
         .shop-list {
             display: flex;
@@ -57,20 +53,20 @@
             margin-top: 10px;
         }
 
-@media (max-width: 600px){
-    .action-tray{
-        display:grid !important;
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:8px;
-    }
+        @media (max-width: 600px) {
+            .action-tray {
+                display: grid !important;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 8px;
+            }
 
-    .action-tray .action-btn{
-        width:100%;
-        min-width:0;
-        margin:0;
-    }
-}
-</style>
+            .action-tray .action-btn {
+                width: 100%;
+                min-width: 0;
+                margin: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -83,314 +79,122 @@
         A Neon Text RPG
     </p>
 
-    <!-- CLASS SELECTION SCREEN -->
-
     <div id="classScreen">
 
         <h2>Choose Your Class</h2>
 
         <div class="class-grid">
 
-            <div class="class-card warrior-select"
-                 onclick="chooseClass('Warrior')">
-
+            <div class="class-card warrior-select" onclick="chooseClass('Warrior')">
                 <h3>⚔️ WARRIOR</h3>
-
                 <p>
                     Strong and durable armor.<br>
                     <strong>HP:</strong> 20 |
                     <strong>ATK:</strong> 5<br>
-                    <span class="skill-label">
-                        Skill: Power Strike
-                    </span>
+                    <span class="skill-label">Skill: Power Strike</span>
                 </p>
-
             </div>
 
-            <div class="class-card rogue-select"
-                 onclick="chooseClass('Rogue')">
-
+            <div class="class-card rogue-select" onclick="chooseClass('Rogue')">
                 <h3>🗡️ ROGUE</h3>
-
                 <p>
                     Fast and deadly optimization.<br>
                     <strong>HP:</strong> 15 |
                     <strong>ATK:</strong> 6<br>
-                    <span class="skill-label">
-                        Skill: Critical Strike
-                    </span>
+                    <span class="skill-label">Skill: Critical Strike</span>
                 </p>
-
             </div>
 
-            <div class="class-card mage-select"
-                 onclick="chooseClass('Mage')">
-
+            <div class="class-card mage-select" onclick="chooseClass('Mage')">
                 <h3>⚡ MAGE</h3>
-
                 <p>
                     Powerful system code hacks.<br>
                     <strong>HP:</strong> 25 |
                     <strong>ATK:</strong> 3<br>
-                    <span class="skill-label">
-                        Skill: Energy Blast
-                    </span>
+                    <span class="skill-label">Skill: Energy Blast</span>
                 </p>
-
             </div>
 
         </div>
 
     </div>
 
-    <!-- MAIN GAME DASHBOARD -->
-
-    <div id="gameScreen"
-         style="display:none;">
+    <div id="gameScreen" style="display:none;">
 
         <div class="card player-card">
-
             <h2 id="playerTitle"></h2>
-
             <p id="stats"></p>
-
         </div>
 
         <div class="action-tray">
-
-            <button id="exploreButton"
-                    class="action-btn"
-                    onclick="explore()">
-
-                Explore Sector
-
-            </button>
-
-            <button id="workButton"
-                    class="action-btn work-btn"
-                    onclick="work()">
-
-                Work
-
-            </button>
-
-            <button id="restButton"
-                    class="action-btn rest-btn"
-                    onclick="rest()">
-
-                Rest
-
-            </button>
-
-            <button id="travelButton"
-                    class="action-btn battle-btn"
-                    onclick="openTravelMenu()">
-
-                Travel Map
-
-            </button>
-
-            <button class="action-btn"
-                    onclick="openShop()">
-
-                Shopping Center
-
-            </button>
-
-            <button class="action-btn"
-                    onclick="openInventory()">
-
-                🎒 Inventory
-
-            </button>
-
-            <button class="action-btn reset-btn"
-                    onclick="resetGame()">
-
-                Reset Save
-
-            </button>
-
+            <button id="exploreButton" class="action-btn" onclick="explore()">Explore Sector</button>
+            <button id="workButton" class="action-btn work-btn" onclick="work()">Work</button>
+            <button id="restButton" class="action-btn rest-btn" onclick="rest()">Rest</button>
+            <button id="travelButton" class="action-btn battle-btn" onclick="openTravelMenu()">Travel Map</button>
+            <button class="action-btn" onclick="openShop()">Shopping Center</button>
+            <button class="action-btn" onclick="openInventory()">🎒 Inventory</button>
+            <button class="action-btn reset-btn" onclick="resetGame()">Reset Save</button>
         </div>
 
-        <!-- ACTIVITY TIME BAR -->
+        <div id="activityStatus" class="terminal-feed" style="display:none;"></div>
 
-        <div id="activityStatus"
-             class="terminal-feed"
-             style="display:none;">
-
-        </div>
-
-        <div id="terminalLog"
-             class="terminal-feed">
-
-            &gt; System Initialized.
+        <div id="terminalLog" class="terminal-feed">
+            &gt; System Initialized.<br>
             Awaiting user tactical command inputs...
-
         </div>
 
     </div>
 
-    <!-- ENEMY SELECTION -->
-
-    <div id="enemySelectScreen"
-         style="display:none;">
-
+    <div id="enemySelectScreen" style="display:none;">
         <div class="card">
-
-            <h2>
-                Sector Enemy Database
-            </h2>
-
-            <p id="enemySelectDescription">
-                Select an enemy to engage.
-            </p>
-
-            <div id="enemyList"
-                 class="action-tray"
-                 style="flex-direction:column;
-                        align-items:stretch;">
-
+            <h2>Sector Enemy Database</h2>
+            <p id="enemySelectDescription">Select an enemy to engage.</p>
+            <div id="enemyList" class="action-tray" style="flex-direction:column; align-items:stretch;"></div>
+            <div class="action-tray" style="margin-top:20px;">
+                <button class="action-btn reset-btn" onclick="closeEnemySelection()">Return to Dashboard</button>
             </div>
-
-            <div class="action-tray"
-                 style="margin-top:20px;">
-
-                <button class="action-btn reset-btn"
-                        onclick="closeEnemySelection()">
-
-                    Return to Dashboard
-
-                </button>
-
-            </div>
-
         </div>
-
     </div>
 
-    <!-- TRAVEL MAP -->
-
-    <div id="travelScreen"
-         style="display:none;">
-
+    <div id="travelScreen" style="display:none;">
         <div class="card">
-
-            <h2>
-                Global Navigation Subnets
-            </h2>
-
+            <h2>Global Navigation Subnets</h2>
             <p>
-                Gather all 3 cryptographic fragments
-                in your current area to unlock
-                the next network node gateway.
+                Gather all 3 cryptographic fragments in your current area to unlock the next network node gateway.
             </p>
-
-            <div id="areaListTray"
-                 class="action-tray"
-                 style="flex-direction:column;
-                        align-items:stretch;">
-
+            <div id="areaListTray" class="action-tray" style="flex-direction:column; align-items:stretch;"></div>
+            <div class="action-tray" style="margin-top:20px;">
+                <button class="action-btn reset-btn" onclick="closeTravelMenu()">Return to Dashboard</button>
             </div>
-
-            <div class="action-tray"
-                 style="margin-top:20px;">
-
-                <button class="action-btn reset-btn"
-                        onclick="closeTravelMenu()">
-
-                    Return to Dashboard
-
-                </button>
-
-            </div>
-
         </div>
-
     </div>
 
-    <!-- SHOP SCREEN -->
-
-    <div id="shopScreen"
-         style="display:none;">
-
+    <div id="shopScreen" style="display:none;">
         <div class="card">
+            <h2>🏪 Cyber Shopping Center</h2>
+            <p>Upgrade your CyberKnight.</p>
 
-            <h2>
-                🏪 Cyber Shopping Center
-            </h2>
-
-            <p>
-                Upgrade your CyberKnight.
-            </p>
-
-            <div id="shopMainMenu"
-                 class="action-tray">
-
-                <button class="action-btn"
-                        onclick="openPetShop()">
-
-                    🐾 Pet Shop
-
-                </button>
-
-                <button class="action-btn"
-                        onclick="openBlacksmith()">
-
-                    ⚔️ Blacksmith
-
-                </button>
-
-                <button class="action-btn"
-                        onclick="openInventory()">
-
-                    🎒 Inventory
-
-                </button>
-
+            <div id="shopMainMenu" class="action-tray">
+                <button class="action-btn" onclick="openPetShop()">🐾 Pet Shop</button>
+                <button class="action-btn" onclick="openBlacksmith()">⚔️ Blacksmith</button>
+                <button class="action-btn" onclick="openInventory()">🎒 Inventory</button>
             </div>
 
-            <div id="petShop"
-                 style="display:none;"
-                 class="shop-section">
-
-                <h3>
-                    🐾 Pet Shop
-                </h3>
-
+            <div id="petShop" style="display:none;" class="shop-section">
+                <h3>🐾 Pet Shop</h3>
             </div>
 
-            <div id="gearShop"
-                 style="display:none;"
-                 class="shop-section">
-
-                <h3>
-                    ⚔️ Blacksmith
-                </h3>
-
+            <div id="gearShop" style="display:none;" class="shop-section">
+                <h3>⚔️ Blacksmith</h3>
             </div>
 
-            <div id="inventory"
-                 style="display:none;"
-                 class="shop-section">
-
-                <h3>
-                    🎒 Inventory
-                </h3>
-
+            <div id="inventory" style="display:none;" class="shop-section">
+                <h3>🎒 Inventory</h3>
             </div>
 
             <br><br>
-
-            <button class="action-btn reset-btn"
-                    onclick="closeShop()">
-
-                Return To Dashboard
-
-            </button>
-
+            <button class="action-btn reset-btn" onclick="closeShop()">Return To Dashboard</button>
         </div>
-
     </div>
 
     <div id="shopInfoModal" class="shop-details" style="display:none;">
@@ -402,98 +206,41 @@
         </button>
     </div>
 
-    <!-- BATTLE SCREEN -->
-
-    <div id="battleScreen"
-         style="display:none;">
-
+    <div id="battleScreen" style="display:none;">
         <div class="card battle-card">
-
-            <h2>
-                Combat Area Matrix Active
-            </h2>
+            <h2>Combat Area Matrix Active</h2>
 
             <div class="battle-character">
-
-                <h3>
-                    🛡️ CYBERKNIGHT
-                </h3>
-
-                <p id="battlePlayerHP">
-                    HP: 0 / 0
-                </p>
-
+                <h3>🛡️ CYBERKNIGHT</h3>
+                <p id="battlePlayerHP">HP: 0 / 0</p>
                 <div class="hp-bar">
-
-                    <div id="playerHPBar"
-                         class="hp-fill">
-                    </div>
-
+                    <div id="playerHPBar" class="hp-fill"></div>
                 </div>
-
             </div>
 
             <div class="battle-character">
-
-                <h3 id="enemyName">
-                    Enemy
-                </h3>
-
-                <p id="enemyStats">
-                    HP: 0 / 0
-                </p>
-
+                <h3 id="enemyName">Enemy</h3>
+                <p id="enemyStats">HP: 0 / 0</p>
                 <div class="hp-bar">
-
-                    <div id="enemyHPBar"
-                         class="enemy-hp-fill">
-                    </div>
-
+                    <div id="enemyHPBar" class="enemy-hp-fill"></div>
                 </div>
-
             </div>
 
-            <p id="battleLog">
-                Battle initialized.
-            </p>
+            <p id="battleLog">Battle initialized.</p>
 
             <div class="action-tray">
-
-                <button class="action-btn battle-btn"
-                        onclick="attack()">
-
-                    Attack
-
-                </button>
-
-                <button id="skillButton"
-                        class="action-btn skill-btn"
-                        onclick="skillAttack()">
-
-                    Skill
-
-                </button>
-
-                <button class="action-btn reset-btn"
-                        onclick="runAway()">
-
-                    Run
-
-                </button>
-
+                <button class="action-btn battle-btn" onclick="attack()">Attack</button>
+                <button id="skillButton" class="action-btn skill-btn" onclick="skillAttack()">Skill</button>
+                <button class="action-btn reset-btn" onclick="runAway()">Run</button>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
 <script>
 
-// ==========================================
-// CYBERKNIGHT GAME
-// ==========================================
+const SAVE_KEY = "cyberKnightSave";
 
 let player = null;
 let currentEnemy = null;
@@ -504,49 +251,16 @@ const REST_TIME = 1 * 60 * 1000;
 const WORK_TIME = 30 * 60 * 1000;
 const MAX_SKILL_USES = 3;
 
-// ==========================================
-// SHOP DATA
-// ==========================================
-
 const pets = [
-    {
-        name: "Cyber Cat",
-        cost: 50,
-        bonus: "+2 ATK",
-        atk: 2
-    },
-    {
-        name: "Drone Buddy",
-        cost: 100,
-        bonus: "+5 Max HP",
-        hp: 5
-    },
-    {
-        name: "Gold Bot",
-        cost: 150,
-        bonus: "+5 Gold after battles",
-        gold: 5
-    }
+    { name: "Cyber Cat", cost: 50, bonus: "+2 ATK", atk: 2 },
+    { name: "Drone Buddy", cost: 100, bonus: "+5 Max HP", hp: 5 },
+    { name: "Gold Bot", cost: 150, bonus: "+5 Gold after battles", gold: 5 }
 ];
 
 const gear = [
-    {
-        name: "Laser Sword",
-        cost: 100,
-        bonus: "+5 ATK",
-        atk: 5
-    },
-    {
-        name: "Nano Armor",
-        cost: 150,
-        bonus: "+15 Max HP",
-        hp: 15
-    }
+    { name: "Laser Sword", cost: 100, bonus: "+5 ATK", atk: 5 },
+    { name: "Nano Armor", cost: 150, bonus: "+15 Max HP", hp: 15 }
 ];
-
-// ==========================================
-// AREA DATA
-// ==========================================
 
 const areas = [
     {
@@ -554,42 +268,12 @@ const areas = [
         difficulty: "Easy",
         levelRange: "Levels 1–5",
         enemies: [
-            {
-                name: "Glitch Rat",
-                level: 1,
-                baseHp: 10,
-                baseAtk: 5
-            },
-            {
-                name: "Drunk Dude",
-                level: 1,
-                baseHp: 15,
-                baseAtk: 7
-            },
-            {
-                name: "Stupid Politician",
-                level: 2,
-                baseHp: 15,
-                baseAtk: 8
-            },
-            {
-                name: "Broken Drone",
-                level: 3,
-                baseHp: 25,
-                baseAtk: 6
-            },
-            {
-                name: "Giraffe on a Skateboard",
-                level: 4,
-                baseHp: 30,
-                baseAtk: 6
-            },
-            {
-                name: "Street Hacker",
-                level: 5,
-                baseHp: 30,
-                baseAtk: 7
-            }
+            { name: "Glitch Rat", level: 1, baseHp: 10, baseAtk: 5 },
+            { name: "Drunk Dude", level: 1, baseHp: 15, baseAtk: 7 },
+            { name: "Stupid Politician", level: 2, baseHp: 15, baseAtk: 8 },
+            { name: "Broken Drone", level: 3, baseHp: 25, baseAtk: 6 },
+            { name: "Giraffe on a Skateboard", level: 4, baseHp: 30, baseAtk: 6 },
+            { name: "Street Hacker", level: 5, baseHp: 30, baseAtk: 7 }
         ],
         fragments: [false, false, false]
     },
@@ -598,24 +282,9 @@ const areas = [
         difficulty: "Normal",
         levelRange: "Levels 6–10",
         enemies: [
-            {
-                name: "Combat Drone",
-                level: 6,
-                baseHp: 40,
-                baseAtk: 10
-            },
-            {
-                name: "Cyber Thief",
-                level: 8,
-                baseHp: 48,
-                baseAtk: 12
-            },
-            {
-                name: "Security Bot",
-                level: 10,
-                baseHp: 58,
-                baseAtk: 14
-            }
+            { name: "Combat Drone", level: 6, baseHp: 40, baseAtk: 10 },
+            { name: "Cyber Thief", level: 8, baseHp: 48, baseAtk: 12 },
+            { name: "Security Bot", level: 10, baseHp: 58, baseAtk: 14 }
         ],
         fragments: [false, false, false]
     },
@@ -624,24 +293,9 @@ const areas = [
         difficulty: "Hard",
         levelRange: "Levels 11–15",
         enemies: [
-            {
-                name: "Mutant Machine",
-                level: 11,
-                baseHp: 70,
-                baseAtk: 16
-            },
-            {
-                name: "Wasteland Raider",
-                level: 13,
-                baseHp: 82,
-                baseAtk: 19
-            },
-            {
-                name: "Cyber Beast",
-                level: 15,
-                baseHp: 95,
-                baseAtk: 22
-            }
+            { name: "Mutant Machine", level: 11, baseHp: 70, baseAtk: 16 },
+            { name: "Wasteland Raider", level: 13, baseHp: 82, baseAtk: 19 },
+            { name: "Cyber Beast", level: 15, baseHp: 95, baseAtk: 22 }
         ],
         fragments: [false, false, false]
     },
@@ -650,24 +304,9 @@ const areas = [
         difficulty: "Very Hard",
         levelRange: "Levels 16–20",
         enemies: [
-            {
-                name: "Dark Knight",
-                level: 16,
-                baseHp: 110,
-                baseAtk: 25
-            },
-            {
-                name: "Void Hacker",
-                level: 18,
-                baseHp: 125,
-                baseAtk: 28
-            },
-            {
-                name: "Network Guardian",
-                level: 20,
-                baseHp: 145,
-                baseAtk: 31
-            }
+            { name: "Dark Knight", level: 16, baseHp: 110, baseAtk: 25 },
+            { name: "Void Hacker", level: 18, baseHp: 125, baseAtk: 28 },
+            { name: "Network Guardian", level: 20, baseHp: 145, baseAtk: 31 }
         ],
         fragments: [false, false, false]
     },
@@ -676,54 +315,19 @@ const areas = [
         difficulty: "Extreme",
         levelRange: "Levels 21–25",
         enemies: [
-            {
-                name: "Core Defender",
-                level: 21,
-                baseHp: 165,
-                baseAtk: 34
-            },
-            {
-                name: "System Destroyer",
-                level: 23,
-                baseHp: 190,
-                baseAtk: 38
-            },
-            {
-                name: "Cyber Overlord",
-                level: 25,
-                baseHp: 225,
-                baseAtk: 42
-            }
+            { name: "Core Defender", level: 21, baseHp: 165, baseAtk: 34 },
+            { name: "System Destroyer", level: 23, baseHp: 190, baseAtk: 38 },
+            { name: "Cyber Overlord", level: 25, baseHp: 225, baseAtk: 42 }
         ],
         fragments: [false, false, false]
     }
 ];
 
-// ==========================================
-// CLASS SELECTION
-// ==========================================
-
 function chooseClass(className) {
-
     const classStats = {
-        Warrior: {
-            hp: 20,
-            maxHp: 20,
-            atk: 5,
-            skill: "Power Strike"
-        },
-        Rogue: {
-            hp: 15,
-            maxHp: 15,
-            atk: 6,
-            skill: "Critical Strike"
-        },
-        Mage: {
-            hp: 10,
-            maxHp: 25,
-            atk: 3,
-            skill: "Energy Blast"
-        }
+        Warrior: { hp: 20, maxHp: 20, atk: 5, skill: "Power Strike" },
+        Rogue: { hp: 15, maxHp: 15, atk: 6, skill: "Critical Strike" },
+        Mage: { hp: 10, maxHp: 25, atk: 3, skill: "Energy Blast" }
     };
 
     player = {
@@ -741,11 +345,11 @@ function chooseClass(className) {
         pets: [],
         gear: [],
         activity: null,
-        mustRest: false
+        mustRest: false,
+        goldPerBattle: 0
     };
 
     currentArea = 0;
-
     areas.forEach(function(area) {
         area.fragments = [false, false, false];
     });
@@ -757,62 +361,28 @@ function chooseClass(className) {
     updateActivityButtons();
     updateSkillButton();
 
-    logMessage(
-        "> Class selected: " +
-        className +
-        ". Welcome to CyberKnight."
-    );
-
+    logMessage("> Class selected: " + className + ". Welcome to CyberKnight.");
     saveGame();
 }
 
-// ==========================================
-// PLAYER DISPLAY
-// ==========================================
-
 function updatePlayerDisplay() {
+    if (!player) return;
 
-    if (!player) {
-        return;
-    }
-
-    document.getElementById("playerTitle").textContent =
-        player.className + " // CyberKnight";
-
+    document.getElementById("playerTitle").textContent = player.className + " // CyberKnight";
     document.getElementById("stats").innerHTML =
-        "<strong>HP:</strong> " +
-        player.hp +
-        "/" +
-        player.maxHp +
-        " | <strong>ATK:</strong> " +
-        player.atk +
-        " | <strong>Level:</strong> " +
-        player.level +
-        " | <strong>EXP:</strong> " +
-        player.exp +
-        "/" +
-        player.expNeeded +
-        " | <strong>Gold:</strong> " +
-        player.gold +
-        " | <strong>Skill:</strong> " +
-        player.skillUses +
-        "/" +
-        MAX_SKILL_USES +
-        " | <strong>Area:</strong> " +
-        areas[currentArea].name;
+        "<strong>HP:</strong> " + player.hp + "/" + player.maxHp +
+        " | <strong>ATK:</strong> " + player.atk +
+        " | <strong>Level:</strong> " + player.level +
+        " | <strong>EXP:</strong> " + player.exp + "/" + player.expNeeded +
+        " | <strong>Gold:</strong> " + player.gold +
+        " | <strong>Skill:</strong> " + player.skillUses + "/" + MAX_SKILL_USES +
+        " | <strong>Area:</strong> " + areas[currentArea].name;
 
     updateActivityButtons();
 }
 
-// ==========================================
-// ACTIVITY BUTTON LOCK
-// ==========================================
-
 function updateActivityButtons() {
-
-    if (!player) {
-        return;
-    }
+    if (!player) return;
 
     const busy = !!player.activity;
     const forcedRest = player.mustRest;
@@ -822,76 +392,105 @@ function updateActivityButtons() {
     const restButton = document.getElementById("restButton");
     const travelButton = document.getElementById("travelButton");
 
-    if (exploreButton) {
-        exploreButton.disabled = busy || forcedRest;
-    }
-
-    if (workButton) {
-        workButton.disabled = busy || forcedRest;
-    }
-
-    if (travelButton) {
-        travelButton.disabled = busy || forcedRest;
-    }
+    if (exploreButton) exploreButton.disabled = busy || forcedRest;
+    if (workButton) workButton.disabled = busy || forcedRest;
+    if (travelButton) travelButton.disabled = busy || forcedRest;
 
     if (restButton) {
-
         restButton.disabled = busy;
-
-        if (forcedRest) {
-            restButton.innerHTML = "💤 Forced Rest Required";
-        } else {
-            restButton.innerHTML = "Rest";
-        }
+        restButton.innerHTML = forcedRest ? "💤 Forced Rest Required" : "Rest";
     }
 }
 
-// ==========================================
-// SKILL BUTTON DISPLAY
-// ==========================================
-
 function updateSkillButton() {
-
     const button = document.getElementById("skillButton");
+    if (!button || !player) return;
 
-    if (!button || !player) {
-        return;
-    }
-
-    button.innerHTML =
-        "Skill (" +
-        player.skillUses +
-        "/" +
-        MAX_SKILL_USES +
-        ")";
-
+    button.innerHTML = "Skill (" + player.skillUses + "/" + MAX_SKILL_USES + ")";
     button.disabled = player.skillUses <= 0;
 }
 
-// ==========================================
-// TERMINAL LOG
-// ==========================================
-
 function logMessage(message) {
-
     const log = document.getElementById("terminalLog");
-
     log.innerHTML += "<br>" + message;
     log.scrollTop = log.scrollHeight;
 }
 
-// ==========================================
-// EXPLORE
-// ==========================================
+function startActivity(type, durationMs, onComplete) {
+    if (!player || player.activity) return;
 
-function explore() {
+    player.activity = { type: type };
+    document.getElementById("activityStatus").innerHTML = "> " + (type === "work" ? "Working" : "Resting") + "...";
+    document.getElementById("activityStatus").style.display = "block";
+    updateActivityButtons();
 
+    clearTimeout(activityTimer);
+    activityTimer = setTimeout(function() {
+        player.activity = null;
+        document.getElementById("activityStatus").style.display = "none";
+        updateActivityButtons();
+        onComplete();
+        saveGame();
+    }, durationMs);
+}
+
+function work() {
     if (!player) {
         logMessage("> ERROR: No character loaded.");
         return;
     }
 
-    checkActivity();
+    if (player.activity) {
+        logMessage("> ACCESS DENIED. You are currently busy.");
+        return;
+    }
+
+    if (player.mustRest) {
+        logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+        return;
+    }
+
+    startActivity("work", WORK_TIME, function() {
+        const goldGain = 20 + player.level * 5;
+        const expGain = 18;
+        player.gold += goldGain;
+        player.exp += expGain;
+        logMessage("> Work complete. You earned " + goldGain + " credits and " + expGain + " EXP.");
+        checkLevelUp();
+        updatePlayerDisplay();
+    });
+}
+
+function rest() {
+    if (!player) {
+        logMessage("> ERROR: No character loaded.");
+        return;
+    }
+
+    if (player.activity) {
+        logMessage("> ACCESS DENIED. You are currently busy.");
+        return;
+    }
+
+    if (player.mustRest) {
+        player.mustRest = false;
+    }
+
+    startActivity("rest", REST_TIME, function() {
+        const healAmount = Math.max(5, Math.ceil(player.maxHp * 0.6));
+        player.hp = Math.min(player.maxHp, player.hp + healAmount);
+        player.skillUses = MAX_SKILL_USES;
+        logMessage("> Rest complete. HP restored by " + healAmount + ". Skill charges refreshed.");
+        updatePlayerDisplay();
+        updateSkillButton();
+    });
+}
+
+function explore() {
+    if (!player) {
+        logMessage("> ERROR: No character loaded.");
+        return;
+    }
 
     if (player.activity) {
         logMessage("> ACCESS DENIED. You are currently busy.");
@@ -906,12 +505,7 @@ function explore() {
     openEnemySelection();
 }
 
-// ==========================================
-// ENEMY SELECTION
-// ==========================================
-
 function openEnemySelection() {
-
     if (player && player.activity) {
         logMessage("> ACCESS DENIED. Finish your current activity first.");
         return;
@@ -924,58 +518,36 @@ function openEnemySelection() {
 
     document.getElementById("gameScreen").style.display = "none";
     document.getElementById("enemySelectScreen").style.display = "block";
-
     renderEnemySelection();
 }
 
 function closeEnemySelection() {
-
     document.getElementById("enemySelectScreen").style.display = "none";
     document.getElementById("gameScreen").style.display = "block";
 }
 
 function renderEnemySelection() {
-
     const area = areas[currentArea];
     const list = document.getElementById("enemyList");
-
     list.innerHTML = "";
 
     document.getElementById("enemySelectDescription").innerHTML =
-        "Area: <strong>" +
-        area.name +
-        "</strong><br>" +
-        "Enemy Range: <strong>" +
-        area.levelRange +
-        "</strong><br>" +
+        "Area: <strong>" + area.name + "</strong><br>" +
+        "Enemy Range: <strong>" + area.levelRange + "</strong><br>" +
         "Choose your opponent.";
 
     area.enemies.forEach(function(enemy, index) {
-
         const button = document.createElement("button");
-
         button.className = "action-btn";
-
-        button.innerHTML =
-            "⚔️ " +
-            enemy.name +
-            "<br>Level " +
-            enemy.level;
-
+        button.innerHTML = "⚔️ " + enemy.name + "<br>Level " + enemy.level;
         button.onclick = function() {
             selectEnemy(index);
         };
-
         list.appendChild(button);
     });
 }
 
-// ==========================================
-// SELECT ENEMY
-// ==========================================
-
 function selectEnemy(index) {
-
     if (player && player.activity) {
         logMessage("> ACCESS DENIED. You are currently busy.");
         closeEnemySelection();
@@ -1001,14 +573,468 @@ function selectEnemy(index) {
 
     document.getElementById("enemySelectScreen").style.display = "none";
     document.getElementById("battleScreen").style.display = "block";
-
-    updateBattleDisplay();
-
-    document.getElementById("battleLog").textContent =
-        "> Battle started! You attack first.";
+    updateBattleUI();
+    logMessage("> Engaging " + currentEnemy.name + " in " + area.name + ".");
 }
+
+function updateBattleUI() {
+    if (!player || !currentEnemy) return;
+
+    document.getElementById("battlePlayerHP").textContent = "HP: " + player.hp + " / " + player.maxHp;
+    document.getElementById("enemyName").textContent = currentEnemy.name;
+    document.getElementById("enemyStats").textContent = "HP: " + currentEnemy.hp + " / " + currentEnemy.maxHp;
+
+    const playerPercent = (player.hp / player.maxHp) * 100;
+    const enemyPercent = (currentEnemy.hp / currentEnemy.maxHp) * 100;
+
+    document.getElementById("playerHPBar").style.width = playerPercent + "%";
+    document.getElementById("enemyHPBar").style.width = enemyPercent + "%";
+    document.getElementById("battleLog").textContent = "Battle in progress...";
+    updateSkillButton();
+}
+
+function attack() {
+    if (!player || !currentEnemy) return;
+
+    const damage = Math.max(1, player.atk + Math.floor(Math.random() * 4));
+    currentEnemy.hp -= damage;
+    document.getElementById("battleLog").textContent = "You hit " + currentEnemy.name + " for " + damage + " damage.";
+
+    if (currentEnemy.hp <= 0) {
+        currentEnemy.hp = 0;
+        handleEnemyDefeat();
+        return;
+    }
+
+    const enemyDamage = Math.max(1, currentEnemy.atk + Math.floor(Math.random() * 3) - Math.floor(player.level / 2));
+    player.hp -= enemyDamage;
+    if (player.hp <= 0) {
+        player.hp = 0;
+        handlePlayerDefeat();
+        return;
+    }
+
+    document.getElementById("battleLog").textContent += " " + currentEnemy.name + " strikes back for " + enemyDamage + ".";
+    updatePlayerDisplay();
+    updateBattleUI();
+    saveGame();
+}
+
+function skillAttack() {
+    if (!player || !currentEnemy) return;
+    if (player.skillUses <= 0) {
+        logMessage("> No skill charges remaining.");
+        return;
+    }
+
+    player.skillUses -= 1;
+    const skillDamage = player.atk * 2 + Math.floor(Math.random() * 6) + 3;
+    currentEnemy.hp -= skillDamage;
+    document.getElementById("battleLog").textContent = "Skill activated: " + player.skill + " deals " + skillDamage + " damage.";
+
+    if (currentEnemy.hp <= 0) {
+        currentEnemy.hp = 0;
+        handleEnemyDefeat();
+        return;
+    }
+
+    const enemyDamage = Math.max(2, currentEnemy.atk + Math.floor(Math.random() * 4));
+    player.hp -= enemyDamage;
+    if (player.hp <= 0) {
+        player.hp = 0;
+        handlePlayerDefeat();
+        return;
+    }
+
+    document.getElementById("battleLog").textContent += " " + currentEnemy.name + " retaliates for " + enemyDamage + ".";
+    updatePlayerDisplay();
+    updateBattleUI();
+    updateSkillButton();
+    saveGame();
+}
+
+function handleEnemyDefeat() {
+    const area = areas[currentArea];
+    const rewardGold = 15 + currentEnemy.level * 4 + player.goldPerBattle;
+    const rewardExp = 20 + currentEnemy.level * 3;
+
+    player.gold += rewardGold;
+    player.exp += rewardExp;
+
+    const emptyFragmentIndex = area.fragments.findIndex(function(fragment) {
+        return !fragment;
+    });
+
+    if (emptyFragmentIndex >= 0) {
+        area.fragments[emptyFragmentIndex] = true;
+        logMessage("> Fragment secured: " + (emptyFragmentIndex + 1) + "/3 in " + area.name + ".");
+    }
+
+    logMessage("> Enemy defeated: " + currentEnemy.name + ". Rewarded " + rewardGold + " gold and " + rewardExp + " EXP.");
+    checkLevelUp();
+
+    if (area.fragments.every(Boolean)) {
+        logMessage("> Area completed. All fragments recovered in " + area.name + ". The next subnet is now unlocked.");
+    }
+
+    currentEnemy = null;
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    updatePlayerDisplay();
+    updateSkillButton();
+    saveGame();
+}
+
+function handlePlayerDefeat() {
+    player.mustRest = true;
+    currentEnemy = null;
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    logMessage("> You were overwhelmed. Recovery required before continuing.");
+    updatePlayerDisplay();
+    updateSkillButton();
+    saveGame();
+}
+
+function runAway() {
+    if (!player || !currentEnemy) return;
+
+    logMessage("> You escaped from " + currentEnemy.name + ".");
+    currentEnemy = null;
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    updatePlayerDisplay();
+    saveGame();
+}
+
+function checkLevelUp() {
+    while (player.exp >= player.expNeeded) {
+        player.exp -= player.expNeeded;
+        player.level += 1;
+        player.expNeeded = Math.ceil(player.expNeeded * 1.35);
+        player.maxHp += 4;
+        player.hp = player.maxHp;
+        player.atk += 1;
+        logMessage("> Level up! You reached level " + player.level + ".");
+    }
+}
+
+function openTravelMenu() {
+    if (!player) return;
+    if (player.activity) {
+        logMessage("> ACCESS DENIED. Finish your current activity first.");
+        return;
+    }
+    if (player.mustRest) {
+        logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+        return;
+    }
+
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("travelScreen").style.display = "block";
+    renderTravelMenu();
+}
+
+function closeTravelMenu() {
+    document.getElementById("travelScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+}
+
+function renderTravelMenu() {
+    const tray = document.getElementById("areaListTray");
+    tray.innerHTML = "";
+
+    areas.forEach(function(area, index) {
+        const unlocked = index === 0 || areas[index - 1].fragments.every(Boolean);
+        const button = document.createElement("button");
+        button.className = "action-btn";
+        button.disabled = !unlocked;
+        button.innerHTML = "<strong>" + area.name + "</strong><br>" + area.difficulty + " • " + area.levelRange;
+        button.onclick = function() {
+            travelToArea(index);
+        };
+        tray.appendChild(button);
+    });
+}
+
+function travelToArea(index) {
+    if (index === currentArea) {
+        closeTravelMenu();
+        return;
+    }
+
+    if (index > 0 && !areas[index - 1].fragments.every(Boolean)) {
+        logMessage("> The previous subnet is still locked. Recover all fragments there first.");
+        return;
+    }
+
+    currentArea = index;
+    logMessage("> Travel successful. Entering " + areas[currentArea].name + ".");
+    closeTravelMenu();
+    updatePlayerDisplay();
+    saveGame();
+}
+
+function openShop() {
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
+    renderShopLists();
+}
+
+function closeShop() {
+    document.getElementById("shopScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    renderShopLists();
+}
+
+function openPetShop() {
+    document.getElementById("petShop").style.display = "block";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "none";
+    renderShopList("petShop", pets, "pet");
+}
+
+function openBlacksmith() {
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "block";
+    document.getElementById("inventory").style.display = "none";
+    renderShopList("gearShop", gear, "gear");
+}
+
+function openInventory() {
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "block";
+    renderInventory();
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
+}
+
+function renderShopLists() {
+    renderShopList("petShop", pets, "pet");
+    renderShopList("gearShop", gear, "gear");
+    renderInventory();
+}
+
+function renderShopList(containerId, itemList, category) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = "<h3>" + (category === "pet" ? "🐾 Pet Shop" : "⚔️ Blacksmith") + "</h3>";
+
+    const list = document.createElement("div");
+    list.className = "shop-list";
+
+    itemList.forEach(function(item) {
+        const button = document.createElement("button");
+        button.className = "action-btn shop-row";
+        button.innerHTML = '<span class="shop-name">' + item.name + '</span><span class="shop-cost">' + item.cost + 'g</span>';
+        button.onclick = function() {
+            showShopInfo(category, item);
+        };
+        list.appendChild(button);
+    });
+
+    container.appendChild(list);
+}
+
+function showShopInfo(category, item) {
+    const modal = document.getElementById("shopInfoModal");
+    const title = document.getElementById("shopInfoTitle");
+    const text = document.getElementById("shopInfoText");
+    const actions = document.getElementById("shopInfoActions");
+
+    title.textContent = item.name;
+    text.textContent = item.bonus + " • Cost: " + item.cost + " gold";
+    actions.innerHTML = "";
+
+    const buyBtn = document.createElement("button");
+    buyBtn.className = "action-btn";
+    buyBtn.textContent = "Buy Item";
+    buyBtn.onclick = function() {
+        buyShopItem(category, item);
+    };
+    actions.appendChild(buyBtn);
+
+    modal.style.display = "block";
+}
+
+function buyShopItem(category, item) {
+    if (!player) return;
+
+    if (player.gold < item.cost) {
+        logMessage("> Not enough credits to buy " + item.name + ".");
+        return;
+    }
+
+    player.gold -= item.cost;
+    player.inventory.push(item.name);
+
+    if (category === "pet") {
+        player.pets.push(item.name);
+        if (item.atk) player.atk += item.atk;
+        if (item.hp) {
+            player.maxHp += item.hp;
+            player.hp = Math.min(player.maxHp, player.hp + item.hp);
+        }
+        if (item.gold) player.goldPerBattle += item.gold;
+    }
+
+    if (category === "gear") {
+        player.gear.push(item.name);
+        if (item.atk) player.atk += item.atk;
+        if (item.hp) {
+            player.maxHp += item.hp;
+            player.hp = Math.min(player.maxHp, player.hp + item.hp);
+        }
+    }
+
+    logMessage("> Purchased " + item.name + " for " + item.cost + " gold.");
+    document.getElementById("shopInfoModal").style.display = "none";
+    renderShopLists();
+    updatePlayerDisplay();
+    saveGame();
+}
+
+function renderInventory() {
+    const inventoryBox = document.getElementById("inventory");
+    if (!inventoryBox) return;
+
+    inventoryBox.innerHTML = "<h3>🎒 Inventory</h3>";
+
+    if (!player || player.inventory.length === 0) {
+        const empty = document.createElement("p");
+        empty.textContent = "No items acquired yet.";
+        inventoryBox.appendChild(empty);
+        return;
+    }
+
+    const list = document.createElement("div");
+    list.className = "shop-list";
+
+    player.inventory.forEach(function(itemName) {
+        const row = document.createElement("div");
+        row.className = "shop-row";
+        row.innerHTML = '<span class="shop-name">' + itemName + '</span><span class="shop-cost">Owned</span>';
+        list.appendChild(row);
+    });
+
+    inventoryBox.appendChild(list);
+}
+
+function saveGame() {
+    if (!player) return;
+
+    const saveData = {
+        player: {
+            inventory: player.inventory,
+            className: player.className,
+            hp: player.hp,
+            maxHp: player.maxHp,
+            atk: player.atk,
+            skill: player.skill,
+            skillUses: player.skillUses,
+            gold: player.gold,
+            level: player.level,
+            exp: player.exp,
+            expNeeded: player.expNeeded,
+            pets: player.pets,
+            gear: player.gear,
+            goldPerBattle: player.goldPerBattle,
+            mustRest: player.mustRest
+        },
+        currentArea: currentArea,
+        areas: areas.map(function(area) {
+            return {
+                fragments: [...area.fragments]
+            };
+        })
+    };
+
+    localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+}
+
+function loadGame() {
+    try {
+        const saveDataString = localStorage.getItem(SAVE_KEY);
+        if (!saveDataString) return false;
+
+        const saveData = JSON.parse(saveDataString);
+        if (!saveData || !saveData.player || !saveData.player.className) {
+            return false;
+        }
+
+        player = {
+            inventory: saveData.player.inventory || [],
+            className: saveData.player.className,
+            hp: saveData.player.hp,
+            maxHp: saveData.player.maxHp,
+            atk: saveData.player.atk,
+            skill: saveData.player.skill,
+            skillUses: saveData.player.skillUses,
+            gold: saveData.player.gold,
+            level: saveData.player.level,
+            exp: saveData.player.exp,
+            expNeeded: saveData.player.expNeeded,
+            pets: saveData.player.pets || [],
+            gear: saveData.player.gear || [],
+            activity: null,
+            mustRest: !!saveData.player.mustRest,
+            goldPerBattle: saveData.player.goldPerBattle || 0
+        };
+
+        currentArea = typeof saveData.currentArea === "number" ? saveData.currentArea : 0;
+        if (Array.isArray(saveData.areas)) {
+            areas.forEach(function(area, index) {
+                if (saveData.areas[index] && Array.isArray(saveData.areas[index].fragments)) {
+                    area.fragments = [...saveData.areas[index].fragments];
+                }
+            });
+        }
+
+        document.getElementById("classScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
+        updatePlayerDisplay();
+        updateSkillButton();
+        logMessage("> Saved game restored.");
+        return true;
+    } catch (error) {
+        console.error("CyberKnight save could not be loaded:", error);
+        localStorage.removeItem(SAVE_KEY);
+        return false;
+    }
+}
+
+function resetGame() {
+    const confirmed = confirm("Are you sure you want to reset CyberKnight?\n\nAll saved progress will be deleted.");
+    if (!confirmed) return;
+
+    localStorage.removeItem(SAVE_KEY);
+    player = null;
+    currentEnemy = null;
+    currentArea = 0;
+    areas.forEach(function(area) {
+        area.fragments = [false, false, false];
+    });
+
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("enemySelectScreen").style.display = "none";
+    document.getElementById("travelScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "none";
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("classScreen").style.display = "block";
+    document.getElementById("terminalLog").innerHTML = "> System Initialized.<br>Awaiting user tactical command inputs...";
+    document.getElementById("activityStatus").style.display = "none";
+}
+
+window.addEventListener("load", function() {
+    if (!loadGame()) {
+        document.getElementById("classScreen").style.display = "block";
+    }
+});
 
 </script>
 
 </body>
+
 </html>
