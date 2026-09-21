@@ -446,6 +446,146 @@ h1 {
 }
 </style>
 
+
+<style>
+/* ==========================================
+   COMPACT CROSS-PLATFORM LAYOUT
+========================================== */
+
+.game-container {
+    max-width: 900px;
+    padding: 14px;
+    gap: 12px;
+}
+
+h1 {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+}
+
+.subtitle {
+    font-size: .9rem;
+}
+
+.card {
+    padding: 18px;
+    border-radius: 14px;
+}
+
+.player-card {
+    padding: 14px;
+}
+
+.action-tray {
+    gap: 9px;
+}
+
+.action-btn {
+    min-height: 44px;
+    padding: 9px 13px;
+    font-size: .9rem;
+}
+
+.class-grid {
+    gap: 12px;
+}
+
+.class-card {
+    padding: 14px;
+}
+
+.terminal-feed {
+    max-height: 180px;
+    padding: 12px;
+    font-size: .85rem;
+}
+
+#shopScreen .card,
+#travelScreen .card,
+#enemySelectScreen .card,
+#battleScreen .card {
+    gap: 12px;
+}
+
+#shopScreen .shop-section {
+    padding: 12px;
+}
+
+.game-over-card {
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #ff1744;
+}
+
+.game-over-card h2 {
+    color: #ff1744;
+    margin-bottom: 12px;
+}
+
+#gameOverTimer {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin: 18px 0;
+}
+
+#gameOverScreen .hp-bar {
+    margin: 12px 0 18px;
+}
+
+#gameOverScreen .hp-fill {
+    transition: width 1s linear;
+}
+
+@media (max-width: 600px) {
+
+    .game-container {
+        width: 100%;
+        padding: 8px;
+        gap: 9px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 13px;
+    }
+
+    .action-tray {
+        gap: 7px;
+    }
+
+    .action-btn {
+        min-height: 44px;
+        padding: 8px 10px;
+        font-size: .86rem;
+    }
+
+    .class-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .class-card {
+        padding: 12px;
+    }
+
+    #stats {
+        line-height: 1.5;
+        font-size: .85rem;
+    }
+
+    .game-over-card {
+        margin: 10px auto;
+    }
+
+    #gameOverTimer {
+        font-size: 1.5rem;
+    }
+
+}
+</style>
+
 </head>
 
 <body>
@@ -890,6 +1030,43 @@ h1 {
 
 </div>
 
+
+
+    <!-- GAME OVER SCREEN -->
+
+    <div id="gameOverScreen"
+         style="display:none;">
+
+        <div class="card game-over-card">
+
+            <h2>
+                ☠️ SYSTEM FAILURE
+            </h2>
+
+            <p id="gameOverMessage">
+                Your CyberKnight has been defeated.
+            </p>
+
+            <div id="gameOverTimer">
+                Recovery Time: 01:00
+            </div>
+
+            <div class="hp-bar">
+
+                <div id="gameOverTimerBar"
+                     class="hp-fill"
+                     style="width:0%;">
+                </div>
+
+            </div>
+
+            <p>
+                HP and skill uses will be fully restored when recovery is complete.
+            </p>
+
+        </div>
+
+    </div>
 
     <!-- BATTLE SCREEN -->
 
