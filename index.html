@@ -521,8 +521,6 @@
             </div>
 
 
-            <!-- ANIMATION -->
-
             <iframe
                 src="animation1.html"
                 class="forest-animation"
@@ -747,11 +745,6 @@ const SAVE_KEY =
     "whisperingWoodsSave";
 
 
-/*
-   Enemies can appear between
-   30 and 60 seconds apart.
-*/
-
 const MIN_ENCOUNTER_TIME = 30;
 
 const MAX_ENCOUNTER_TIME = 60;
@@ -778,6 +771,41 @@ const player = {
     gold: 0
 
 };
+
+
+/* =========================================================
+   PATHS
+========================================================= */
+
+/*
+   Every path is stored here.
+
+   When you add more paths later,
+   you only need to add them here.
+
+   Example:
+
+   cave: {
+       progress: 0,
+       duration: 300
+   }
+*/
+
+const paths = {
+
+    forest: {
+
+        progress: 0,
+
+        duration: FOREST_DURATION
+
+    }
+
+};
+
+
+let currentPath =
+    "forest";
 
 
 /* =========================================================
@@ -833,8 +861,6 @@ const enemies = [
    GAME STATE
 ========================================================= */
 
-let forestTime = 0;
-
 let resting = false;
 
 let forcedRest = false;
@@ -845,11 +871,6 @@ let restStartedAt = 0;
 
 let restDuration = 0;
 
-
-/*
-   Time until the next enemy.
-*/
-
 let nextEncounterAt = 0;
 
 
@@ -859,6 +880,59 @@ let nextEncounterAt = 0;
 
 const $ = id =>
     document.getElementById(id);
+
+
+/* =========================================================
+   CURRENT PATH
+========================================================= */
+
+function getCurrentPath() {
+
+    return paths[currentPath];
+
+}
+
+
+/* =========================================================
+   PATH PROGRESS
+========================================================= */
+
+function getPathProgress() {
+
+    const path =
+        getCurrentPath();
+
+    if (!path) {
+        return 0;
+    }
+
+    return path.progress;
+
+}
+
+
+function setPathProgress(value) {
+
+    const path =
+        getCurrentPath();
+
+    if (!path) {
+        return;
+    }
+
+    path.progress =
+        Math.max(
+            0,
+            Math.min(
+                path.duration,
+                value
+            )
+        );
+
+
+    saveGame();
+
+}
 
 
 /* =========================================================
@@ -1010,12 +1084,24 @@ function updateGold() {
 
 function updateForest() {
 
+    const progressTime =
+        getPathProgress();
+
+    const path =
+        getCurrentPath();
+
+
+    if (!path) {
+        return;
+    }
+
+
     const progress =
         Math.min(
             100,
             (
-                forestTime /
-                FOREST_DURATION
+                progressTime /
+                path.duration
             ) * 100
         );
 
@@ -1025,7 +1111,7 @@ function updateForest() {
 
 
     $("forestText").textContent =
-        `${formatTime(forestTime)} / 5:00`;
+        `${formatTime(progressTime)} / ${formatTime(path.duration)}`;
 
 }
 
@@ -1104,20 +1190,10 @@ function giveXP(amount) {
         player.level++;
 
 
-        /*
-           Leveling increases:
-           +5 Max HP
-           +2 Attack
-        */
-
         player.maxHp += 5;
 
         player.attack += 2;
 
-
-        /*
-           Fully heal after leveling.
-        */
 
         player.hp =
             player.maxHp;
@@ -1149,6 +1225,8 @@ function giveXP(amount) {
 
     updateXP();
 
+    saveGame();
+
 }
 
 
@@ -1179,11 +1257,8 @@ function encounter() {
     /*
        ONE COMBAT CALCULATION.
 
-       Your attack determines whether
-       you defeat the enemy.
-
-       If you don't, the enemy deals
-       one calculated amount of damage.
+       This is intentionally not
+       a multi-turn battle.
     */
 
     const playerPower =
@@ -1222,7 +1297,6 @@ function encounter() {
 
         updateGold();
 
-
     }
 
     else {
@@ -1254,15 +1328,12 @@ function encounter() {
         );
 
 
-        /*
-           Dying immediately forces rest.
-        */
-
         if (
             player.hp <= 0
         ) {
 
             player.hp = 0;
+
 
             updateHP();
 
@@ -1347,6 +1418,7 @@ function startRest(
 
 
     updateStatus();
+
 
     saveGame();
 
@@ -1473,12 +1545,16 @@ function updateRest() {
 function tick() {
 
     if (gameEnded) {
+
+        updateRest();
+
         return;
+
     }
 
 
     /*
-       Forest progress only happens
+       Path progress only happens
        while walking.
     */
 
@@ -1487,61 +1563,85 @@ function tick() {
         !forcedRest
     ) {
 
-        forestTime =
-            Math.min(
-                FOREST_DURATION,
-                forestTime + 1
-            );
+        const path =
+            getCurrentPath();
 
 
-        /*
-           Enemy encounters are based
-           on the actual forest timer.
+        if (path) {
 
-           First enemy appears after
-           30–60 seconds.
-
-           Every enemy after that also
-           waits another 30–60 seconds.
-        */
-
-        if (
-            forestTime >=
-            nextEncounterAt
-        ) {
-
-            encounter();
+            const oldProgress =
+                path.progress;
 
 
-            nextEncounterAt =
-                forestTime +
-                getNextEncounterTime();
-
-        }
-
-
-        /*
-           Finish the forest.
-        */
-
-        if (
-            forestTime >=
-            FOREST_DURATION
-        ) {
-
-            gameEnded = true;
+            path.progress =
+                Math.min(
+                    path.duration,
+                    path.progress + 1
+                );
 
 
-            $("victory").style.display =
-                "block";
+            /*
+               Autosave EVERY progress update.
+            */
+
+            if (
+                path.progress !==
+                oldProgress
+            ) {
+
+                saveGame();
+
+            }
 
 
-            addLog(
-                "You made it through the forest!"
-            );
+            /*
+               Enemy encounters use the
+               current path's progress.
+            */
+
+            if (
+                currentPath === "forest" &&
+                path.progress >=
+                nextEncounterAt
+            ) {
+
+                encounter();
 
 
-            saveGame();
+                nextEncounterAt =
+                    path.progress +
+                    getNextEncounterTime();
+
+
+                saveGame();
+
+            }
+
+
+            /*
+               Finish the current path.
+            */
+
+            if (
+                path.progress >=
+                path.duration
+            ) {
+
+                gameEnded = true;
+
+
+                $("victory").style.display =
+                    "block";
+
+
+                addLog(
+                    "You made it through the forest!"
+                );
+
+
+                saveGame();
+
+            }
 
         }
 
@@ -1560,48 +1660,54 @@ function tick() {
 /* =========================================================
    SAVE GAME
 ========================================================= */
+
 function saveGame() {
 
     const saveData = {
 
         player: {
+
             hp: player.hp,
+
             maxHp: player.maxHp,
+
             attack: player.attack,
+
             level: player.level,
+
             xp: player.xp,
+
             expNeeded: player.expNeeded,
+
             gold: player.gold
-        },
-
-        paths: {
-
-            forest: {
-                progress: forestTime
-            }
-
-            /*
-                Add future paths here like:
-
-                cave: {
-                    progress: caveTime
-                },
-
-                mountain: {
-                    progress: mountainTime
-                }
-            */
 
         },
 
-        currentPath: "forest",
+
+        /*
+           Save EVERY path automatically.
+
+           This means future paths added to
+           the paths object are saved too.
+        */
+
+        paths: paths,
+
+
+        currentPath: currentPath,
+
 
         resting: resting,
+
         forcedRest: forcedRest,
+
         gameEnded: gameEnded,
 
+
         restStartedAt: restStartedAt,
+
         restDuration: restDuration,
+
 
         nextEncounterAt: nextEncounterAt
 
@@ -1629,7 +1735,7 @@ function loadGame() {
     if (!saved) {
 
         nextEncounterAt =
-            forestTime +
+            getPathProgress() +
             getNextEncounterTime();
 
         return;
@@ -1644,7 +1750,7 @@ function loadGame() {
 
 
         /*
-            Load player data.
+           Load player data.
         */
 
         if (data.player) {
@@ -1674,141 +1780,71 @@ function loadGame() {
 
 
         /*
-            Load path progress.
+           Load all saved paths.
 
-            This supports the new path system.
+           New paths that were added to
+           the game after an older save
+           will keep their default values.
         */
 
         if (
             data.paths &&
-            data.paths.forest
+            typeof data.paths === "object"
         ) {
 
-            forestTime =
-                data.paths.forest.progress ?? 0;
+            for (
+                const pathName in paths
+            ) {
+
+                if (
+                    data.paths[pathName]
+                ) {
+
+                    paths[pathName].progress =
+                        data.paths[pathName].progress ??
+                        paths[pathName].progress;
+
+                }
+
+            }
 
         }
 
         /*
-            Compatibility with older saves.
-
-            If an old save doesn't have the
-            new paths system, use its old
-            forestTime value.
+           Compatibility with your
+           older forest-only saves.
         */
 
         else if (
             data.forestTime !== undefined
         ) {
 
-            forestTime =
+            paths.forest.progress =
                 data.forestTime;
 
         }
 
 
-        resting =
-            data.resting ?? false;
+        /*
+           Load current path.
+        */
 
+        if (
+            data.currentPath &&
+            paths[data.currentPath]
+        ) {
 
-        forcedRest =
-            data.forcedRest ?? false;
-
-
-        gameEnded =
-            data.gameEnded ?? false;
-
-
-        restStartedAt =
-            data.restStartedAt ?? 0;
-
-
-        restDuration =
-            data.restDuration ?? 0;
-
-
-        nextEncounterAt =
-            data.nextEncounterAt ??
-            (
-                forestTime +
-                getNextEncounterTime()
-            );
-
-
-        updateHP();
-
-        updateXP();
-
-        updateGold();
-
-        updateForest();
-
-        updateStatus();
-
-
-        if (gameEnded) {
-
-            $("victory").style.display =
-                "block";
+            currentPath =
+                data.currentPath;
 
         }
 
+        else {
 
-        if (resting) {
-
-            updateRest();
-
-        }
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        addLog(
-            "The save could not be loaded."
-        );
-
-    }
-
-}
-
-
-    try {
-
-        const data =
-            JSON.parse(saved);
-
-
-        if (data.player) {
-
-            player.hp =
-                data.player.hp ?? 40;
-
-            player.maxHp =
-                data.player.maxHp ?? 40;
-
-            player.attack =
-                data.player.attack ?? 8;
-
-            player.level =
-                data.player.level ?? 1;
-
-            player.xp =
-                data.player.xp ?? 0;
-
-            player.expNeeded =
-                data.player.expNeeded ?? 50;
-
-            player.gold =
-                data.player.gold ?? 0;
+            currentPath =
+                "forest";
 
         }
-
-
-        forestTime =
-            data.forestTime ?? 0;
 
 
         resting =
@@ -1834,7 +1870,7 @@ function loadGame() {
         nextEncounterAt =
             data.nextEncounterAt ??
             (
-                forestTime +
+                getPathProgress() +
                 getNextEncounterTime()
             );
 
@@ -1860,9 +1896,8 @@ function loadGame() {
 
         /*
            If the game was resting when
-           the page was closed, the rest
-           timer continues from its
-           original start time.
+           the page was closed, the timer
+           continues from its saved start time.
         */
 
         if (resting) {
@@ -1870,7 +1905,6 @@ function loadGame() {
             updateRest();
 
         }
-
 
     }
 
@@ -1893,10 +1927,6 @@ function loadGame() {
 ========================================================= */
 
 function deleteSave() {
-
-    /*
-       Completely remove the save.
-    */
 
     localStorage.removeItem(
         SAVE_KEY
@@ -1923,12 +1953,23 @@ function deleteSave() {
 
 
     /*
-       IMPORTANT:
+       Reset EVERY path.
 
-       Reset the forest path too.
+       This automatically resets future
+       paths too.
     */
 
-    forestTime = 0;
+    for (
+        const pathName in paths
+    ) {
+
+        paths[pathName].progress = 0;
+
+    }
+
+
+    currentPath =
+        "forest";
 
 
     /*
@@ -2015,6 +2056,13 @@ function deleteSave() {
         "The forest path begins at 0:00."
     );
 
+
+    /*
+       Save the completely reset state.
+    */
+
+    saveGame();
+
 }
 
 
@@ -2025,14 +2073,22 @@ function deleteSave() {
 $("restButton")
     .addEventListener(
         "click",
-        () => startRest()
+        () => {
+
+            startRest();
+
+        }
     );
 
 
 $("leaveButton")
     .addEventListener(
         "click",
-        leaveRest
+        () => {
+
+            leaveRest();
+
+        }
     );
 
 
@@ -2069,7 +2125,11 @@ $("loadButton")
 $("deleteButton")
     .addEventListener(
         "click",
-        deleteSave
+        () => {
+
+            deleteSave();
+
+        }
     );
 
 
@@ -2102,12 +2162,19 @@ loadGame();
 
 /*
    Start the game clock.
+
+   Every second:
+   - Path progress updates
+   - Autosave happens
+   - Rest updates
+   - Encounters are checked
 */
 
 setInterval(
     tick,
     1000
 );
+
 
 </script>
 
