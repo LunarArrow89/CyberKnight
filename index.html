@@ -14,633 +14,23 @@
 
 
 <style>
-/* Shop spacing fix */
-#shopScreen .action-tray {
-    gap: 25px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-#shopScreen .shop-section {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-#shopScreen .shop-section button,
-#shopScreen .action-btn {
-    margin: 10px;
-}
-
-#shopScreen h3 {
-    margin-bottom: 20px;
-}
-
-#shopScreen .card {
-    padding: 35px;
-}
-
-#shopScreen p {
-    margin-bottom: 25px;
-}
+.shop-item-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;width:100%;}
+.shop-item-row{display:flex;align-items:center;justify-content:space-between;width:100%;padding:12px 14px;border:1px solid #853744;border-radius:10px;background:#14121f;color:#fff;cursor:pointer;text-align:left;font-weight:700;transition:.15s;}
+.shop-item-row:hover{border-color:#ff4d6d;box-shadow:0 0 10px rgba(255,77,109,.35);}
+.shop-item-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:12px;}
+.shop-item-price{color:#fbbf24;white-space:nowrap;}
+.shop-detail{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px;z-index:10000;}
+.shop-detail-card{width:min(420px,100%);background:#14121f;border:1px solid #a855f7;border-radius:14px;padding:20px;box-shadow:0 0 25px rgba(168,85,247,.35);}
+.shop-detail-card h3{margin:0 0 10px;color:#c084fc;}
+.shop-detail-card p{margin:8px 0 16px;line-height:1.45;}
+.shop-detail-actions{display:flex;gap:8px;}
+.shop-detail-actions button{flex:1;}
+@media(max-width:600px){.shop-item-row{padding:11px 12px;min-height:46px}.shop-detail-card{padding:16px}.shop-detail-actions{flex-direction:column;}}
 </style>
 
-
-<style>
-/* ==========================================
-   CROSS PLATFORM RESPONSIVE DESIGN
-   Mobile + Desktop Support
-========================================== */
-
-* {
-    box-sizing: border-box;
-}
-
-html, body {
-    width: 100%;
-    min-height: 100%;
-    overflow-x: hidden;
-}
-
-.game-container {
-    width: min(95%, 1000px);
-    margin: 0 auto;
-    padding: 20px;
-}
-
-h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-}
-
-.subtitle {
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
-}
-
-.card {
-    width: 100%;
-    padding: clamp(20px, 4vw, 40px);
-}
-
-.action-tray {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: wrap;
-    gap: clamp(10px, 3vw, 25px);
-}
-
-.action-btn {
-    min-width: 150px;
-    max-width: 100%;
-    padding: 14px 20px;
-    word-wrap: break-word;
-}
-
-.class-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-}
-
-.class-card {
-    width: 100%;
-}
-
-.terminal-feed {
-    width: 100%;
-    max-height: 250px;
-    overflow-y: auto;
-    word-break: break-word;
-}
-
-/* Phones */
-@media (max-width: 600px) {
-
-    .game-container {
-        width: 100%;
-        padding: 12px;
-    }
-
-    h1 {
-        text-align: center;
-        letter-spacing: 4px;
-    }
-
-    .subtitle {
-        text-align: center;
-    }
-
-    .action-tray {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .action-btn {
-        width: 100%;
-        min-width: 0;
-        font-size: 0.95rem;
-    }
-
-    .shop-section {
-        width: 100%;
-    }
-
-    #shopScreen .card {
-        padding: 20px;
-    }
-
-    #stats {
-        line-height: 1.8;
-    }
-
-}
-
-/* Tablets */
-@media (min-width: 601px) and (max-width: 1000px) {
-
-    .game-container {
-        width: 92%;
-    }
-
-}
-
-/* Large computers */
-@media (min-width: 1200px) {
-
-    .game-container {
-        width: 1100px;
-    }
-
-    .action-btn {
-        min-width: 180px;
-    }
-
-}
-</style>
-
-
-<style>
-/* Mobile Shop Improvements */
-
-@media (max-width: 600px) {
-
-    #shopScreen .card {
-        width: 100%;
-        padding: 18px;
-        border-radius: 18px;
-    }
-
-    #shopScreen h2 {
-        font-size: 1.4rem;
-        text-align: center;
-        margin-bottom: 15px;
-    }
-
-    #shopScreen p {
-        text-align: center;
-        font-size: 0.95rem;
-    }
-
-    #shopMainMenu,
-    #petShop,
-    #gearShop,
-    #inventory {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        gap: 14px;
-    }
-
-    #shopScreen .action-btn {
-        width: 100%;
-        min-height: 65px;
-        font-size: 1rem;
-        border-radius: 14px;
-        padding: 15px;
-    }
-
-    #shopScreen .shop-section {
-        margin-top: 20px;
-        padding: 10px 0;
-    }
-
-    #shopScreen .shop-section button {
-        margin: 0;
-        width: 100%;
-        text-align: center;
-    }
-
-    #shopScreen h3 {
-        text-align: center;
-        font-size: 1.2rem;
-    }
-
-    #shopScreen .reset-btn {
-        margin-top: 20px;
-    }
-}
-
-
-/* Desktop keeps compact shop cards */
-
-@media (min-width: 601px) {
-
-    #shopScreen .action-tray {
-        justify-content: center;
-    }
-
-    #shopScreen .action-btn {
-        min-width: 190px;
-    }
-
-}
-</style>
-
-
-<style>
-/* ==========================================
-   CYBER ORGANIZED UI STYLE
-   Keeps Neon CyberKnight Theme
-========================================== */
-
-.card {
-    backdrop-filter: blur(8px);
-}
-
-#shopScreen .card {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-#shopScreen .shop-section {
-    background: rgba(0,0,0,0.25);
-    border: 1px solid rgba(0,255,255,0.25);
-    border-radius: 14px;
-    padding: 18px;
-}
-
-#shopScreen .shop-section h3 {
-    margin-top: 0;
-    letter-spacing: 2px;
-}
-
-.shop-item {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    padding:15px;
-    margin-bottom:12px;
-    background:rgba(15,20,45,0.8);
-    border-radius:12px;
-    border:1px solid rgba(0,200,255,0.35);
-}
-
-.shop-item-info {
-    text-align:left;
-    flex:1;
-}
-
-.shop-item-title {
-    font-weight:bold;
-    font-size:1.1rem;
-}
-
-.shop-item-desc {
-    opacity:.8;
-    font-size:.9rem;
-}
-
-#shopMainMenu {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-    gap:15px;
-}
-
-#inventory {
-    min-height:120px;
-}
-
-#inventory p {
-    text-align:left;
-}
-
-@media(max-width:600px){
-
-    #shopScreen .card {
-        gap:12px;
-        padding:16px;
-    }
-
-    #shopMainMenu {
-        grid-template-columns:1fr;
-    }
-
-    .shop-item {
-        flex-direction:column;
-        align-items:stretch;
-        text-align:center;
-    }
-
-    .shop-item button {
-        width:100%;
-    }
-
-}
-
-</style>
-
-
-<style>
-/* ==========================================
-   EASY NAVIGATION RPG LAYOUT
-   CyberKnight Style
-========================================== */
-
-.game-container {
-    max-width: 1100px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-/* Put important controls together */
-.action-tray {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.action-btn {
-    min-height: 55px;
-}
-
-/* Dashboard cards feel like modules */
-.card {
-    margin-bottom: 0;
-    border-radius: 18px;
-}
-
-/* Stats panel */
-.player-card {
-    position: sticky;
-    top: 10px;
-    z-index: 10;
-}
-
-/* Shop and menus become dashboard panels */
-#shopScreen .card,
-#travelScreen .card,
-#enemySelectScreen .card,
-#battleScreen .card {
-    gap: 20px;
-}
-
-/* Keep important buttons easy to reach */
-#gameScreen .action-tray {
-    margin-top: 15px;
-}
-
-/* Phone layout */
-@media(max-width:600px){
-
-    .game-container {
-        padding: 10px;
-        gap: 14px;
-    }
-
-    .player-card {
-        position: static;
-    }
-
-    .action-tray {
-        grid-template-columns: 1fr;
-    }
-
-    .action-btn {
-        width:100%;
-        min-height:60px;
-    }
-
-    h1 {
-        font-size:2.2rem;
-    }
-
-}
-
-/* Desktop two-column feeling without hurting mobile */
-@media(min-width:900px){
-
-    #gameScreen {
-        display:grid;
-        grid-template-columns:1fr;
-        gap:20px;
-    }
-
-    .action-tray {
-        grid-template-columns:repeat(3,1fr);
-    }
-
-}
-</style>
-
-
-<style>
-/* ==========================================
-   COMPACT CROSS-PLATFORM LAYOUT
-========================================== */
-
-.game-container {
-    max-width: 900px;
-    padding: 14px;
-    gap: 12px;
-}
-
-h1 {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-}
-
-.subtitle {
-    font-size: .9rem;
-}
-
-.card {
-    padding: 18px;
-    border-radius: 14px;
-}
-
-.player-card {
-    padding: 14px;
-}
-
-.action-tray {
-    gap: 9px;
-}
-
-.action-btn {
-    min-height: 44px;
-    padding: 9px 13px;
-    font-size: .9rem;
-}
-
-.class-grid {
-    gap: 12px;
-}
-
-.class-card {
-    padding: 14px;
-}
-
-.terminal-feed {
-    max-height: 180px;
-    padding: 12px;
-    font-size: .85rem;
-}
-
-#shopScreen .card,
-#travelScreen .card,
-#enemySelectScreen .card,
-#battleScreen .card {
-    gap: 12px;
-}
-
-#shopScreen .shop-section {
-    padding: 12px;
-}
-
-.game-over-card {
-    max-width: 500px;
-    margin: 20px auto;
-    text-align: center;
-    border: 2px solid #ff1744;
-}
-
-.game-over-card h2 {
-    color: #ff1744;
-    margin-bottom: 12px;
-}
-
-#gameOverTimer {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin: 18px 0;
-}
-
-#gameOverScreen .hp-bar {
-    margin: 12px 0 18px;
-}
-
-#gameOverScreen .hp-fill {
-    transition: width 1s linear;
-}
-
-@media (max-width: 600px) {
-
-    .game-container {
-        width: 100%;
-        padding: 8px;
-        gap: 9px;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .card {
-        padding: 13px;
-    }
-
-    .action-tray {
-        gap: 7px;
-    }
-
-    .action-btn {
-        min-height: 44px;
-        padding: 8px 10px;
-        font-size: .86rem;
-    }
-
-    .class-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .class-card {
-        padding: 12px;
-    }
-
-    #stats {
-        line-height: 1.5;
-        font-size: .85rem;
-    }
-
-    .game-over-card {
-        margin: 10px auto;
-    }
-
-    #gameOverTimer {
-        font-size: 1.5rem;
-    }
-
-}
-</style>
-
-
-<style>
-/* Inventory equipment layout */
-#inventory .shop-item {
-    margin-bottom: 10px;
-}
-
-#inventory .shop-item button:disabled {
-    opacity: .65;
-    cursor: default;
-}
-</style>
-
-
-<style>
-.mobile-nav { display:none; }
-@media (max-width:700px) {
-  body { padding-bottom:78px; }
-  .mobile-nav {
-    position:fixed; left:8px; right:8px; bottom:8px; z-index:9998;
-    display:grid; grid-template-columns:repeat(5,1fr); gap:5px;
-    padding:7px; background:rgba(10,8,18,.96); border:1px solid #a855f7;
-    border-radius:14px; box-shadow:0 0 18px rgba(168,85,247,.45);
-    backdrop-filter:blur(8px);
-  }
-  .mobile-nav button {
-    min-height:52px; padding:5px 2px; border:1px solid #443052;
-    border-radius:9px; background:#14121f; color:#ddd; font-size:11px;
-    font-weight:bold; cursor:pointer;
-  }
-  .mobile-nav button:active { transform:scale(.96); }
-  .mobile-nav .nav-icon { display:block; font-size:18px; line-height:19px; margin-bottom:2px; }
-}
-</style>
 </head>
 
 <body>
-
-<div id="buyError"
-     style="
-     display:none;
-     position:fixed;
-     top:15px;
-     left:50%;
-     transform:translateX(-50%);
-     background:#ff1744;
-     color:white;
-     padding:12px 25px;
-     border-radius:10px;
-     font-weight:bold;
-     z-index:9999;
-     box-shadow:0 0 15px #ff1744;
-     ">
-</div>
-
 
 <div class="game-container">
 
@@ -994,7 +384,7 @@ h1 {
 
 <!-- PET SHOP -->
 
-<div id="petShopPage"
+<div id="petShopScreen"
      style="display:none;">
 
     <div class="card">
@@ -1031,7 +421,7 @@ h1 {
 
 <!-- BLACKSMITH -->
 
-<div id="blacksmithPage"
+<div id="blacksmithScreen"
      style="display:none;">
 
     <div class="card">
@@ -1064,43 +454,6 @@ h1 {
 
 </div>
 
-
-
-    <!-- GAME OVER SCREEN -->
-
-    <div id="gameOverScreen"
-         style="display:none;">
-
-        <div class="card game-over-card">
-
-            <h2>
-                ☠️ SYSTEM FAILURE
-            </h2>
-
-            <p id="gameOverMessage">
-                Your CyberKnight has been defeated.
-            </p>
-
-            <div id="gameOverTimer">
-                Recovery Time: 01:00
-            </div>
-
-            <div class="hp-bar">
-
-                <div id="gameOverTimerBar"
-                     class="hp-fill"
-                     style="width:0%;">
-                </div>
-
-            </div>
-
-            <p>
-                HP and skill uses will be fully restored when recovery is complete.
-            </p>
-
-        </div>
-
-    </div>
 
     <!-- BATTLE SCREEN -->
 
@@ -1518,8 +871,6 @@ player = {
     expNeeded: 50,
     pets: [],
     gear: [],
-    equippedPet: null,
-    petEquipmentUpdated: true,
     activity: null,
     mustRest: false
 
@@ -3118,11 +2469,11 @@ function finishActivity() {
         type === "work"
     ) {
 
-        player.gold += 100;
+        player.gold += 10;
 
 
         logMessage(
-            "> 💼 WORK COMPLETE! +100 Gold."
+            "> 💼 WORK COMPLETE! +10 Gold."
         );
 
     }
@@ -3386,7 +2737,7 @@ function updateActivityDisplay() {
 
     const reward =
         player.activity.type === "work"
-            ? "+100 Gold"
+            ? "+10 Gold"
             : "Full HP + 3 Skill Uses";
 
 
@@ -3609,41 +2960,14 @@ if (typeof player.gold !== "number") {
 if (!Array.isArray(player.gear)) {
 
     player.gear = [];
-
-}
-
-if (!Array.isArray(player.inventory)) {
+    if (!Array.isArray(player.inventory)) {
 
     player.inventory = [];
 
 }
 
-player.inventory.forEach(function(item){
-    if (typeof item.equipped !== "boolean") {
-        item.equipped = false;
-    }
-});
-
-if (typeof player.equippedPet === "undefined") {
-    player.equippedPet = null;
 }
 
-if (typeof player.petEquipmentUpdated !== "boolean") {
-
-    player.pets.forEach(function(pet){
-        if (pet.atk) {
-            player.atk -= pet.atk;
-        }
-        if (pet.hp) {
-            player.maxHp -= pet.hp;
-            player.hp = Math.min(player.hp, player.maxHp);
-        }
-        pet.equipped = false;
-    });
-
-    player.equippedPet = null;
-    player.petEquipmentUpdated = true;
-}
 
         if (
             typeof player.skillUses !== "number"
@@ -3823,25 +3147,25 @@ function resetGame() {
 // SHOP SYSTEM
 // ==========================================
 
+let selectedShopItem = null;
+let selectedShopType = null;
+
 function openShop(){
 
     document.getElementById("gameScreen").style.display = "none";
     document.getElementById("shopScreen").style.display = "block";
-
     hideShopSections();
 
 }
 
-
 function closeShop(){
 
+    closeShopItemDetail();
     document.getElementById("shopScreen").style.display = "none";
     document.getElementById("gameScreen").style.display = "block";
-
     updatePlayerDisplay();
 
 }
-
 
 function hideShopSections(){
 
@@ -3852,302 +3176,156 @@ function hideShopSections(){
 
 }
 
-
 function openPetShop(){
 
-    hideShopSections();
     document.getElementById("shopMainMenu").style.display = "none";
     document.getElementById("petShop").style.display = "flex";
-
-    renderShop();
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "none";
+    renderPetShop();
 
 }
-
 
 function openBlacksmith(){
 
-    hideShopSections();
     document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "none";
     document.getElementById("gearShop").style.display = "flex";
-
-    renderShop();
+    document.getElementById("inventory").style.display = "none";
+    renderGearShop();
 
 }
-
 
 function openInventory(){
 
-    document.getElementById("gameScreen").style.display = "none";
-    document.getElementById("shopScreen").style.display = "block";
-
-    hideShopSections();
     document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "none";
     document.getElementById("inventory").style.display = "flex";
 
-    renderInventory();
+    if(typeof renderInventory === "function"){
+        renderInventory();
+    }
 
 }
 
+function showShopItem(item, type){
 
-function renderShop(){
+    selectedShopItem = item;
+    selectedShopType = type;
 
-    const petBox = document.getElementById("petShop");
-    const gearBox = document.getElementById("gearShop");
+    document.getElementById("shopDetailName").textContent = item.name;
 
-    petBox.innerHTML = "<h3>🐾 Pet Shop</h3>";
-    gearBox.innerHTML = "<h3>⚔️ Blacksmith</h3>";
+    document.getElementById("shopDetailDescription").textContent =
+        item.bonus + " — Costs " + item.cost + " Gold.";
+
+    document.getElementById("shopDetailBuy").textContent =
+        "Buy for " + item.cost + " Gold";
+
+    document.getElementById("shopDetailBuy").onclick = function(){
+
+        if(selectedShopType === "pet"){
+            buyPet(selectedShopItem);
+        }
+        else{
+            buyGear(selectedShopItem);
+        }
+
+        closeShopItemDetail();
+    };
+
+    document.getElementById("shopItemDetail").style.display = "flex";
+
+}
+
+function closeShopItemDetail(){
+
+    const detail = document.getElementById("shopItemDetail");
+
+    if(detail){
+        detail.style.display = "none";
+    }
+
+    selectedShopItem = null;
+    selectedShopType = null;
+
+}
+
+function renderPetShop(){
+
+    const box = document.getElementById("petShop");
+
+    box.innerHTML =
+        "<h3>🐾 Pet Shop</h3>" +
+        "<div class='shop-item-list' id='petShopItems'></div>";
+
+    const list = document.getElementById("petShopItems");
 
     pets.forEach(function(item){
 
-        const button = document.createElement("button");
-        button.className = "action-btn";
+        const row = document.createElement("button");
 
-        button.innerHTML =
-            item.name + "<br>" +
-            item.cost + " Gold<br>" +
-            item.bonus;
+        row.type = "button";
+        row.className = "shop-item-row";
 
-        button.onclick = function(){
-            buyPet(item);
+        row.innerHTML =
+            "<span class='shop-item-name'>" +
+            item.name +
+            "</span>" +
+            "<span class='shop-item-price'>" +
+            item.cost +
+            " Gold</span>";
+
+        row.onclick = function(){
+            showShopItem(item, "pet");
         };
 
-        petBox.appendChild(button);
+        list.appendChild(row);
 
     });
 
+}
+
+function renderGearShop(){
+
+    const box = document.getElementById("gearShop");
+
+    box.innerHTML =
+        "<h3>⚔️ Blacksmith</h3>" +
+        "<div class='shop-item-list' id='gearShopItems'></div>";
+
+    const list = document.getElementById("gearShopItems");
 
     gear.forEach(function(item){
 
-        const button = document.createElement("button");
-        button.className = "action-btn";
+        const row = document.createElement("button");
 
-        button.innerHTML =
-            item.name + "<br>" +
-            item.cost + " Gold<br>" +
-            item.bonus;
+        row.type = "button";
+        row.className = "shop-item-row";
 
-        button.onclick = function(){
-            buyGear(item);
+        row.innerHTML =
+            "<span class='shop-item-name'>" +
+            item.name +
+            "</span>" +
+            "<span class='shop-item-price'>" +
+            item.cost +
+            " Gold</span>";
+
+        row.onclick = function(){
+            showShopItem(item, "gear");
         };
 
-        gearBox.appendChild(button);
+        list.appendChild(row);
 
     });
 
 }
-
-
-function renderInventory(){
-
-    const box = document.getElementById("inventory");
-
-    box.innerHTML = "<h3>🎒 Inventory</h3>";
-
-    const equippedPet = player.equippedPet || null;
-    const equippedGear = player.inventory && player.inventory.find(function(item){
-        return item.equipped === true;
-    });
-
-    box.innerHTML +=
-        "<p><strong>🐾 EQUIPPED PET:</strong> " +
-        (equippedPet ? equippedPet.name : "Nothing") +
-        (equippedPet ? "<br>" + equippedPet.bonus : "") +
-        "</p>";
-
-    box.innerHTML +=
-        "<p><strong>⚔️ EQUIPPED GEAR:</strong> " +
-        (equippedGear ? equippedGear.name : "Nothing") +
-        (equippedGear ? "<br>" + equippedGear.bonus : "") +
-        "</p>";
-
-    box.innerHTML += "<h4>🐾 PETS</h4>";
-
-    if(!player.pets || player.pets.length === 0){
-        box.innerHTML += "<p>No pets owned.</p>";
-    }
-    else {
-        player.pets.forEach(function(pet, index){
-            const itemBox = document.createElement("div");
-            itemBox.className = "shop-item";
-
-            const info = document.createElement("div");
-            info.className = "shop-item-info";
-            info.innerHTML =
-                "<div class=\"shop-item-title\">🐾 " +
-                pet.name +
-                (pet.equipped ? " — EQUIPPED" : "") +
-                "</div>" +
-                "<div class=\"shop-item-desc\">" +
-                pet.bonus +
-                "</div>";
-
-            itemBox.appendChild(info);
-
-            const equipButton = document.createElement("button");
-            equipButton.className = "action-btn";
-            equipButton.textContent = pet.equipped ? "Equipped" : "Equip";
-            equipButton.disabled = pet.equipped === true;
-            equipButton.onclick = function(){
-                equipPet(index);
-            };
-
-            itemBox.appendChild(equipButton);
-            box.appendChild(itemBox);
-        });
-    }
-
-    box.innerHTML += "<h4>⚔️ GEAR</h4>";
-
-    if(!player.inventory || player.inventory.length === 0){
-        box.innerHTML += "<p>No gear owned.</p>";
-    }
-    else {
-        player.inventory.forEach(function(item, index){
-            const itemBox = document.createElement("div");
-            itemBox.className = "shop-item";
-
-            const info = document.createElement("div");
-            info.className = "shop-item-info";
-            info.innerHTML =
-                "<div class=\"shop-item-title\">⚔️ " +
-                item.name +
-                (item.equipped ? " — EQUIPPED" : "") +
-                "</div>" +
-                "<div class=\"shop-item-desc\">" +
-                item.bonus +
-                "</div>";
-
-            itemBox.appendChild(info);
-
-            const equipButton = document.createElement("button");
-            equipButton.className = "action-btn";
-            equipButton.textContent = item.equipped ? "Equipped" : "Equip";
-            equipButton.disabled = item.equipped === true;
-            equipButton.onclick = function(){
-                equipInventoryItem(index);
-            };
-
-            itemBox.appendChild(equipButton);
-            box.appendChild(itemBox);
-        });
-    }
-
-}
-
-
-function equipPet(index){
-
-    if(!player || !Array.isArray(player.pets)){
-        return;
-    }
-
-    const pet = player.pets[index];
-
-    if(!pet){
-        return;
-    }
-
-    player.pets.forEach(function(oldPet){
-        oldPet.equipped = false;
-    });
-
-    if(player.equippedPet){
-        if(player.equippedPet.atk){
-            player.atk -= player.equippedPet.atk;
-        }
-
-        if(player.equippedPet.hp){
-            player.maxHp -= player.equippedPet.hp;
-            player.hp = Math.min(player.hp, player.maxHp);
-        }
-    }
-
-    pet.equipped = true;
-    player.equippedPet = pet;
-
-    if(pet.atk){
-        player.atk += pet.atk;
-    }
-
-    if(pet.hp){
-        player.maxHp += pet.hp;
-        player.hp += pet.hp;
-    }
-
-    logMessage(
-        "> 🐾 Equipped pet: " + pet.name + "!"
-    );
-
-    saveGame();
-    updatePlayerDisplay();
-    renderInventory();
-
-}
-
-
-function equipInventoryItem(index){
-
-    if(!player || !Array.isArray(player.inventory)){
-        return;
-    }
-
-    const item = player.inventory[index];
-
-    if(!item){
-        return;
-    }
-
-    player.inventory.forEach(function(inventoryItem){
-
-        if(inventoryItem.equipped){
-
-            if(inventoryItem.atk){
-                player.atk -= inventoryItem.atk;
-            }
-
-            if(inventoryItem.hp){
-                player.maxHp -= inventoryItem.hp;
-                player.hp = Math.min(player.hp, player.maxHp);
-            }
-
-        }
-
-        inventoryItem.equipped = false;
-
-    });
-
-    item.equipped = true;
-
-    if(item.atk){
-        player.atk += item.atk;
-    }
-
-    if(item.hp){
-        player.maxHp += item.hp;
-        player.hp += item.hp;
-    }
-
-    logMessage(
-        "> ⚔️ Equipped gear: " + item.name + "!"
-    );
-
-    saveGame();
-    updatePlayerDisplay();
-    renderInventory();
-
-}
-
 
 function buyPet(pet){
 
     if(player.gold < pet.cost){
 
-        showBuyError(
-            "❌ Not enough gold! You need " +
-            (pet.cost - player.gold) +
-            " more gold."
-        );
-
+        showBuyError("Not enough Gold! You need " + (pet.cost - player.gold) + " more.");
         return;
 
     }
@@ -4164,14 +3342,10 @@ function buyPet(pet){
         equipped: false
     };
 
-    if(!Array.isArray(player.pets)){
-        player.pets = [];
-    }
-
     player.pets.push(ownedPet);
 
     logMessage(
-        "> 🐾 Purchased " + pet.name + "! It was added to your Inventory. Equip it there."
+        "> 🐾 Purchased " + pet.name + "! Added to your Inventory."
     );
 
     saveGame();
@@ -4179,96 +3353,37 @@ function buyPet(pet){
 
 }
 
-
 function buyGear(item){
 
     if(player.gold < item.cost){
 
-        showBuyError(
-            "❌ Not enough gold! You need " +
-            (item.cost - player.gold) +
-            " more gold."
-        );
-
+        showBuyError("Not enough Gold! You need " + (item.cost - player.gold) + " more.");
         return;
 
     }
 
     player.gold -= item.cost;
 
-    const inventoryItem = {
+    if(!Array.isArray(player.inventory)){
+        player.inventory = [];
+    }
+
+    player.inventory.push({
         name: item.name,
         cost: item.cost,
         bonus: item.bonus,
         atk: item.atk || 0,
         hp: item.hp || 0,
         equipped: false
-    };
-
-    if(!Array.isArray(player.inventory)){
-        player.inventory = [];
-    }
-
-    player.inventory.push(inventoryItem);
+    });
 
     logMessage(
-        "> ⚔️ Bought " + item.name + "! It was added to your Inventory. Equip it there."
+        "> ⚔️ Bought " + item.name + "! Added to your Inventory."
     );
 
     saveGame();
     updatePlayerDisplay();
 
-}
-
-
-// ==========================================
-// MOBILE NAVIGATION
-// ==========================================
-function mobileNavigate(destination) {
-
-    if (!player) {
-        return;
-    }
-
-    const battle = document.getElementById("battleScreen");
-    const gameOver = document.getElementById("gameOverScreen");
-
-    if ((battle && battle.style.display !== "none") ||
-        (gameOver && gameOver.style.display !== "none")) {
-        logMessage("> NAVIGATION LOCKED. Finish recovery or the current battle first.");
-        return;
-    }
-
-    if (destination === "home") {
-        document.getElementById("enemySelectScreen").style.display = "none";
-        document.getElementById("travelScreen").style.display = "none";
-        document.getElementById("shopScreen").style.display = "none";
-        document.getElementById("petShopScreen").style.display = "none";
-        document.getElementById("blacksmithScreen").style.display = "none";
-        document.getElementById("gameScreen").style.display = "block";
-        updatePlayerDisplay();
-        return;
-    }
-
-    if (destination === "explore") {
-        explore();
-        return;
-    }
-
-    if (destination === "travel") {
-        openTravelMenu();
-        return;
-    }
-
-    if (destination === "shop") {
-        openShop();
-        return;
-    }
-
-    if (destination === "inventory") {
-        openShop();
-        openInventory();
-    }
 }
 
 // ==========================================
@@ -4294,38 +3409,20 @@ if (
 }
 
 
-
-function showBuyError(message){
-
-    const errorBox =
-        document.getElementById("buyError");
-
-    if(!errorBox){
-        return;
-    }
-
-    errorBox.textContent = message;
-
-    errorBox.style.display = "block";
-
-    setTimeout(function(){
-
-        errorBox.style.display = "none";
-
-    },3000);
-
-}
-
 </script>
 
 
-<nav id="mobileNav" class="mobile-nav" aria-label="Mobile navigation">
-  <button onclick="mobileNavigate('home')"><span class="nav-icon">⌂</span>Home</button>
-  <button onclick="mobileNavigate('explore')"><span class="nav-icon">⚔</span>Explore</button>
-  <button onclick="mobileNavigate('travel')"><span class="nav-icon">⌖</span>Map</button>
-  <button onclick="mobileNavigate('shop')"><span class="nav-icon">◆</span>Shop</button>
-  <button onclick="mobileNavigate('inventory')"><span class="nav-icon">▣</span>Bag</button>
-</nav>
+<div id="shopItemDetail" class="shop-detail">
+  <div class="shop-detail-card">
+    <h3 id="shopDetailName"></h3>
+    <p id="shopDetailDescription"></p>
+    <div class="shop-detail-actions">
+      <button id="shopDetailBuy" class="action-btn">Buy</button>
+      <button class="action-btn reset-btn" onclick="closeShopItemDetail()">Back</button>
+    </div>
+  </div>
+</div>
+
 </body>
 
 </html>
