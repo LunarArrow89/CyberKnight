@@ -1560,42 +1560,50 @@ function tick() {
 /* =========================================================
    SAVE GAME
 ========================================================= */
-
 function saveGame() {
 
     const saveData = {
 
         player: {
-
             hp: player.hp,
-
             maxHp: player.maxHp,
-
             attack: player.attack,
-
             level: player.level,
-
             xp: player.xp,
-
             expNeeded: player.expNeeded,
-
             gold: player.gold
+        },
+
+        paths: {
+
+            forest: {
+                progress: forestTime
+            }
+
+            /*
+                Add future paths here like:
+
+                cave: {
+                    progress: caveTime
+                },
+
+                mountain: {
+                    progress: mountainTime
+                }
+            */
 
         },
 
-        forestTime,
+        currentPath: "forest",
 
-        resting,
+        resting: resting,
+        forcedRest: forcedRest,
+        gameEnded: gameEnded,
 
-        forcedRest,
+        restStartedAt: restStartedAt,
+        restDuration: restDuration,
 
-        gameEnded,
-
-        restStartedAt,
-
-        restDuration,
-
-        nextEncounterAt
+        nextEncounterAt: nextEncounterAt
 
     };
 
@@ -1615,20 +1623,156 @@ function saveGame() {
 function loadGame() {
 
     const saved =
-        localStorage.getItem(
-            SAVE_KEY
-        );
+        localStorage.getItem(SAVE_KEY);
 
 
     if (!saved) {
 
         nextEncounterAt =
+            forestTime +
             getNextEncounterTime();
-
 
         return;
 
     }
+
+
+    try {
+
+        const data =
+            JSON.parse(saved);
+
+
+        /*
+            Load player data.
+        */
+
+        if (data.player) {
+
+            player.hp =
+                data.player.hp ?? 40;
+
+            player.maxHp =
+                data.player.maxHp ?? 40;
+
+            player.attack =
+                data.player.attack ?? 8;
+
+            player.level =
+                data.player.level ?? 1;
+
+            player.xp =
+                data.player.xp ?? 0;
+
+            player.expNeeded =
+                data.player.expNeeded ?? 50;
+
+            player.gold =
+                data.player.gold ?? 0;
+
+        }
+
+
+        /*
+            Load path progress.
+
+            This supports the new path system.
+        */
+
+        if (
+            data.paths &&
+            data.paths.forest
+        ) {
+
+            forestTime =
+                data.paths.forest.progress ?? 0;
+
+        }
+
+        /*
+            Compatibility with older saves.
+
+            If an old save doesn't have the
+            new paths system, use its old
+            forestTime value.
+        */
+
+        else if (
+            data.forestTime !== undefined
+        ) {
+
+            forestTime =
+                data.forestTime;
+
+        }
+
+
+        resting =
+            data.resting ?? false;
+
+
+        forcedRest =
+            data.forcedRest ?? false;
+
+
+        gameEnded =
+            data.gameEnded ?? false;
+
+
+        restStartedAt =
+            data.restStartedAt ?? 0;
+
+
+        restDuration =
+            data.restDuration ?? 0;
+
+
+        nextEncounterAt =
+            data.nextEncounterAt ??
+            (
+                forestTime +
+                getNextEncounterTime()
+            );
+
+
+        updateHP();
+
+        updateXP();
+
+        updateGold();
+
+        updateForest();
+
+        updateStatus();
+
+
+        if (gameEnded) {
+
+            $("victory").style.display =
+                "block";
+
+        }
+
+
+        if (resting) {
+
+            updateRest();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        addLog(
+            "The save could not be loaded."
+        );
+
+    }
+
+}
 
 
     try {
