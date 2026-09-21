@@ -2180,34 +2180,67 @@ function renderPetShop() {
 
     box.innerHTML = "<h3>🐾 Pet Shop</h3>";
 
+    const list = document.createElement("div");
+
+    list.className = "shop-list";
+
     pets.forEach(function(pet) {
 
-        const button = document.createElement("button");
+        const row = document.createElement("button");
 
-        button.className = "action-btn";
+        row.className = "action-btn shop-row";
 
-        const alreadyOwned =
-            player.pets.some(function(ownedPet) {
-                return ownedPet.name === pet.name;
-            });
+        row.innerHTML =
+            '<span class="shop-name">' + pet.name + '</span>' +
+            '<span class="shop-cost">' + pet.cost + ' Gold</span>';
 
-        button.innerHTML =
-            "🐾 " +
-            pet.name +
-            "<br>" +
-            pet.cost +
-            " Gold<br>" +
-            pet.bonus +
-            (alreadyOwned ? "<br>OWNED" : "");
+        row.onclick = function() {
 
-        button.disabled = alreadyOwned;
+            const oldDetails = box.querySelector(".shop-details");
 
-        button.onclick = function() {
-            buyPet(pet);
+            if (oldDetails) {
+                oldDetails.remove();
+            }
+
+            const details = document.createElement("div");
+
+            details.className = "shop-details";
+
+            details.innerHTML =
+                "<h3>" + pet.name + "</h3>" +
+                "<p>" + pet.bonus + "</p>";
+
+            const alreadyOwned =
+                player.pets.some(function(ownedPet) {
+                    return ownedPet.name === pet.name;
+                });
+
+            const buyButton = document.createElement("button");
+
+            buyButton.className = "action-btn";
+
+            buyButton.textContent =
+                alreadyOwned ? "OWNED" : "BUY FOR " + pet.cost + " GOLD";
+
+            buyButton.disabled = alreadyOwned;
+
+            buyButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                buyPet(pet);
+
+            };
+
+            details.appendChild(buyButton);
+
+            box.appendChild(details);
         };
 
-        box.appendChild(button);
+        list.appendChild(row);
     });
+
+    box.appendChild(list);
 }
 
 function buyPet(pet) {
@@ -2279,34 +2312,67 @@ function renderGearShop() {
 
     box.innerHTML = "<h3>⚔️ Blacksmith</h3>";
 
+    const list = document.createElement("div");
+
+    list.className = "shop-list";
+
     gear.forEach(function(item) {
 
-        const button = document.createElement("button");
+        const row = document.createElement("button");
 
-        button.className = "action-btn";
+        row.className = "action-btn shop-row";
 
-        const alreadyOwned =
-            player.gear.some(function(ownedGear) {
-                return ownedGear.name === item.name;
-            });
+        row.innerHTML =
+            '<span class="shop-name">' + item.name + '</span>' +
+            '<span class="shop-cost">' + item.cost + ' Gold</span>';
 
-        button.innerHTML =
-            "⚔️ " +
-            item.name +
-            "<br>" +
-            item.cost +
-            " Gold<br>" +
-            item.bonus +
-            (alreadyOwned ? "<br>OWNED" : "");
+        row.onclick = function() {
 
-        button.disabled = alreadyOwned;
+            const oldDetails = box.querySelector(".shop-details");
 
-        button.onclick = function() {
-            buyGear(item);
+            if (oldDetails) {
+                oldDetails.remove();
+            }
+
+            const details = document.createElement("div");
+
+            details.className = "shop-details";
+
+            details.innerHTML =
+                "<h3>" + item.name + "</h3>" +
+                "<p>" + item.bonus + "</p>";
+
+            const alreadyOwned =
+                player.gear.some(function(ownedGear) {
+                    return ownedGear.name === item.name;
+                });
+
+            const buyButton = document.createElement("button");
+
+            buyButton.className = "action-btn";
+
+            buyButton.textContent =
+                alreadyOwned ? "OWNED" : "BUY FOR " + item.cost + " GOLD";
+
+            buyButton.disabled = alreadyOwned;
+
+            buyButton.onclick = function(event) {
+
+                event.stopPropagation();
+
+                buyGear(item);
+
+            };
+
+            details.appendChild(buyButton);
+
+            box.appendChild(details);
         };
 
-        box.appendChild(button);
+        list.appendChild(row);
     });
+
+    box.appendChild(list);
 }
 
 function buyGear(item) {
