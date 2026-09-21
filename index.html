@@ -856,11 +856,13 @@
             player.attack;
 
 
-        const damageTaken =
-            Math.max(
-                0,
-                enemy.attack - player.attack
-            );
+const damageTaken =
+    Math.max(
+        1,
+        Math.floor(
+            enemy.attack - (player.attack / 2)
+        )
+    );
 
 
         enemy.hp -= playerDamage;
