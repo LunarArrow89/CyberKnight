@@ -14,34 +14,60 @@
 
 <style>
 
+        /* SHOP LAYOUT */
+
+        .shop-section {
+            width: 100%;
+            display: block;
+            margin-top: 18px;
+        }
+
+        .shop-section h3 {
+            width: 100%;
+            margin: 0 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #26345f;
+            text-align: left;
+        }
+
         .shop-list {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
+            margin: 0;
         }
 
         .shop-row {
             width: 100%;
+            min-height: 42px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
+            padding: 9px 14px;
             text-align: left;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.2;
         }
 
         .shop-row .shop-name {
             flex: 1;
             min-width: 0;
+            overflow-wrap: anywhere;
         }
 
         .shop-row .shop-cost {
             flex-shrink: 0;
             color: #fbbf24;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .shop-details {
-            margin-top: 10px;
+            width: 100%;
+            margin: 10px 0 0 0;
             padding: 14px;
             border: 1px solid #853744;
             border-radius: 10px;
@@ -50,11 +76,58 @@
         }
 
         .shop-details h3 {
-            margin-top: 0;
+            margin: 0 0 6px 0;
+            padding: 0;
+            border: 0;
+            text-align: center;
+        }
+
+        .shop-details p {
+            margin: 4px 0 10px 0;
         }
 
         .shop-details .action-btn {
-            margin-top: 10px;
+            margin: 4px;
+        }
+
+        #shopMainMenu {
+            width: 100%;
+        }
+
+        #shopMainMenu .action-btn {
+            flex: 1;
+        }
+
+        #shopScreen > .card > .reset-btn {
+            margin-top: 22px;
+        }
+
+        @media (max-width: 600px) {
+
+            .shop-row {
+                min-height: 40px;
+                padding: 8px 11px;
+                font-size: 13px;
+            }
+
+            .shop-details {
+                padding: 12px;
+            }
+
+            .shop-details .action-btn {
+                width: 100%;
+                margin: 4px 0;
+            }
+
+            #shopMainMenu {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            #shopMainMenu .action-btn {
+                width: 100%;
+            }
         }
 
 @media (max-width: 600px){
@@ -2173,7 +2246,7 @@ function hideShopSections() {
 function openPetShop() {
 
     document.getElementById("shopMainMenu").style.display = "none";
-    document.getElementById("petShop").style.display = "flex";
+    document.getElementById("petShop").style.display = "block";
     document.getElementById("gearShop").style.display = "none";
     document.getElementById("inventory").style.display = "none";
 
@@ -2184,7 +2257,7 @@ function openBlacksmith() {
 
     document.getElementById("shopMainMenu").style.display = "none";
     document.getElementById("petShop").style.display = "none";
-    document.getElementById("gearShop").style.display = "flex";
+    document.getElementById("gearShop").style.display = "block";
     document.getElementById("inventory").style.display = "none";
 
     renderGearShop();
@@ -2197,7 +2270,7 @@ function openInventory() {
     document.getElementById("shopMainMenu").style.display = "none";
     document.getElementById("petShop").style.display = "none";
     document.getElementById("gearShop").style.display = "none";
-    document.getElementById("inventory").style.display = "flex";
+    document.getElementById("inventory").style.display = "block";
 
     renderInventory();
 }
