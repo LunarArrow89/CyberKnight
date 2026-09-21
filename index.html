@@ -151,6 +151,74 @@
     }
 }
 </style>
+
+<style>
+/* MOBILE APP STYLE UI OVERHAUL */
+body { padding-bottom: 90px; }
+.game-container { width: min(95%, 900px); }
+
+.card, .shop-section, #shopScreen .card {
+    overflow: hidden;
+}
+
+.action-tray {
+    gap: 10px !important;
+}
+
+.action-btn {
+    min-height: 48px;
+    font-size: 14px;
+    touch-action: manipulation;
+}
+
+.shop-list {
+    width: 100%;
+}
+
+.shop-row {
+    min-height: 45px;
+    padding: 10px 14px;
+}
+
+.shop-details {
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90vw, 360px);
+    margin: 0;
+    box-shadow: 0 0 30px rgba(0,0,0,.7);
+}
+
+.mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    gap: 5px;
+    padding: 10px;
+    background: #09080d;
+    border-top: 1px solid #853744;
+    z-index: 5000;
+}
+
+.mobile-nav button {
+    flex: 1;
+    min-height: 50px;
+    border-radius: 10px;
+}
+
+@media(max-width:600px){
+    h1 { font-size: 42px !important; }
+    .card { padding: 14px !important; }
+    .action-tray { flex-direction: column; }
+    .action-btn { width: 100%; }
+    .terminal-feed { max-height: 180px; overflow-y: auto; }
+}
+</style>
 </head>
 
 <body>
@@ -2681,6 +2749,14 @@ if (player && player.activity) {
 
 </script>
 
+
+
+<div class="mobile-nav">
+    <button class="action-btn" onclick="document.getElementById('shopScreen').style.display='none';document.getElementById('gameScreen').style.display='block';">🏠 Home</button>
+    <button class="action-btn" onclick="openShop();">🏪 Shop</button>
+    <button class="action-btn" onclick="openInventory();">🎒 Items</button>
+    <button class="action-btn" onclick="openTravelMenu();">🗺️ Map</button>
+</div>
 </body>
 
 </html>
