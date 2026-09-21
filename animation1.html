@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forest Animation</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
-        html,
-        body {
+        html, body {
             margin: 0;
             width: 100%;
             height: 100%;
@@ -20,8 +18,8 @@
 
         body {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
         }
 
         .stage {
@@ -34,10 +32,7 @@
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
         }
 
-        /* =========================================
-           DENSE BACKGROUND FOREST
-           ========================================= */
-
+        /* Lots of smaller, dimmer trees fill the background. */
         .background-forest {
             position: absolute;
             inset: 0;
@@ -49,756 +44,187 @@
             position: absolute;
             width: 30px;
             height: 65px;
-            opacity: 0.3;
+            opacity: 0.52;
+            transform-origin: bottom center;
+        }
+
+        .background-tree .leaf-top,
+        .background-tree .leaf-bottom,
+        .background-tree .trunk,
+        .foreground-tree .leaf-top,
+        .foreground-tree .leaf-bottom,
+        .foreground-tree .trunk {
+            position: absolute;
         }
 
         .background-tree .leaf-top {
-            position: absolute;
             left: 8px;
             top: 0;
-
             width: 0;
             height: 0;
-
             border-left: 8px solid transparent;
             border-right: 8px solid transparent;
-            border-bottom: 17px solid #185c3a;
+            border-bottom: 17px solid #258f58;
+            filter: drop-shadow(0 0 3px #258f58);
         }
 
         .background-tree .leaf-bottom {
-            position: absolute;
             left: 3px;
             top: 13px;
-
             width: 0;
             height: 0;
-
             border-left: 13px solid transparent;
             border-right: 13px solid transparent;
-            border-bottom: 22px solid #185c3a;
+            border-bottom: 22px solid #258f58;
+            filter: drop-shadow(0 0 3px #258f58);
         }
 
         .background-tree .trunk {
-            position: absolute;
             left: 12px;
             top: 34px;
-
             width: 6px;
             height: 22px;
-
-            border: 2px solid #185c3a;
+            border: 2px solid #258f58;
         }
 
-        /* =========================================
-           BACK ROW
-           ========================================= */
+        /* Slightly different heights and sizes make the background feel deep. */
+        .background-tree:nth-child(3n) { opacity: 0.42; }
+        .background-tree:nth-child(4n) { opacity: 0.58; }
+        .background-tree:nth-child(5n) { filter: blur(0.3px); }
 
-        .tree-b1 {
-            left: -10px;
-            top: -8px;
-            transform: scale(0.8);
-        }
+        .background-row-back .background-tree { top: -8px; }
+        .background-row-front .background-tree { top: 38px; }
 
-        .tree-b2 {
-            left: 2%;
-            top: 8px;
-            transform: scale(0.6);
-        }
-
-        .tree-b3 {
-            left: 7%;
-            top: -12px;
-            transform: scale(0.9);
-        }
-
-        .tree-b4 {
-            left: 13%;
-            top: 5px;
-            transform: scale(0.7);
-        }
-
-        .tree-b5 {
-            left: 19%;
-            top: -15px;
-            transform: scale(0.85);
-        }
-
-        .tree-b6 {
-            left: 25%;
-            top: 3px;
-            transform: scale(0.65);
-        }
-
-        .tree-b7 {
-            left: 31%;
-            top: -10px;
-            transform: scale(0.95);
-        }
-
-        .tree-b8 {
-            left: 37%;
-            top: 7px;
-            transform: scale(0.65);
-        }
-
-        .tree-b9 {
-            left: 43%;
-            top: -12px;
-            transform: scale(0.8);
-        }
-
-        .tree-b10 {
-            left: 49%;
-            top: 5px;
-            transform: scale(0.7);
-        }
-
-        .tree-b11 {
-            left: 55%;
-            top: -14px;
-            transform: scale(0.9);
-        }
-
-        .tree-b12 {
-            left: 61%;
-            top: 4px;
-            transform: scale(0.65);
-        }
-
-        .tree-b13 {
-            left: 67%;
-            top: -10px;
-            transform: scale(0.85);
-        }
-
-        .tree-b14 {
-            left: 73%;
-            top: 5px;
-            transform: scale(0.7);
-        }
-
-        .tree-b15 {
-            left: 79%;
-            top: -13px;
-            transform: scale(0.9);
-        }
-
-        .tree-b16 {
-            left: 85%;
-            top: 3px;
-            transform: scale(0.65);
-        }
-
-        .tree-b17 {
-            left: 91%;
-            top: -8px;
-            transform: scale(0.85);
-        }
-
-        .tree-b18 {
-            left: 97%;
-            top: 8px;
-            transform: scale(0.7);
-        }
-
-        /* =========================================
-           MIDDLE ROW
-           ========================================= */
-
-        .middle-tree {
+        .axis-line {
             position: absolute;
-            width: 34px;
-            height: 70px;
-            opacity: 0.22;
+            top: 63px;
+            z-index: 5;
+            width: 100%;
+            height: 1px;
+            background: repeating-linear-gradient(
+                90deg,
+                #00ff6611 0 4px,
+                transparent 4px 8px
+            );
         }
-
-        .middle-tree .leaf-top {
-            position: absolute;
-            left: 9px;
-            top: 0;
-
-            border-left: 9px solid transparent;
-            border-right: 9px solid transparent;
-            border-bottom: 19px solid #147345;
-        }
-
-        .middle-tree .leaf-bottom {
-            position: absolute;
-            left: 4px;
-            top: 14px;
-
-            border-left: 14px solid transparent;
-            border-right: 14px solid transparent;
-            border-bottom: 24px solid #147345;
-        }
-
-        .middle-tree .trunk {
-            position: absolute;
-            left: 14px;
-            top: 37px;
-
-            width: 7px;
-            height: 24px;
-
-            border: 2px solid #147345;
-        }
-
-        .middle-1 {
-            left: -2%;
-            top: 38px;
-            transform: scale(0.9);
-        }
-
-        .middle-2 {
-            left: 4%;
-            top: 48px;
-            transform: scale(0.7);
-        }
-
-        .middle-3 {
-            left: 10%;
-            top: 35px;
-            transform: scale(1);
-        }
-
-        .middle-4 {
-            left: 16%;
-            top: 45px;
-            transform: scale(0.75);
-        }
-
-        .middle-5 {
-            left: 22%;
-            top: 32px;
-            transform: scale(0.95);
-        }
-
-        .middle-6 {
-            left: 28%;
-            top: 46px;
-            transform: scale(0.7);
-        }
-
-        .middle-7 {
-            left: 34%;
-            top: 36px;
-            transform: scale(1);
-        }
-
-        .middle-8 {
-            left: 40%;
-            top: 48px;
-            transform: scale(0.7);
-        }
-
-        .middle-9 {
-            left: 46%;
-            top: 34px;
-            transform: scale(0.95);
-        }
-
-        .middle-10 {
-            left: 52%;
-            top: 46px;
-            transform: scale(0.75);
-        }
-
-        .middle-11 {
-            left: 58%;
-            top: 35px;
-            transform: scale(1);
-        }
-
-        .middle-12 {
-            left: 64%;
-            top: 47px;
-            transform: scale(0.7);
-        }
-
-        .middle-13 {
-            left: 70%;
-            top: 33px;
-            transform: scale(0.95);
-        }
-
-        .middle-14 {
-            left: 76%;
-            top: 46px;
-            transform: scale(0.75);
-        }
-
-        .middle-15 {
-            left: 82%;
-            top: 35px;
-            transform: scale(1);
-        }
-
-        .middle-16 {
-            left: 88%;
-            top: 47px;
-            transform: scale(0.7);
-        }
-
-        .middle-17 {
-            left: 94%;
-            top: 34px;
-            transform: scale(0.95);
-        }
-
-        .middle-18 {
-            left: 100%;
-            top: 45px;
-            transform: scale(0.75);
-        }
-
-        /* =========================================
-           PLAYER
-           ========================================= */
 
         .player {
             position: absolute;
             left: 40px;
             top: 55px;
-
+            z-index: 10;
             width: 16px;
             height: 16px;
-
             border: 2px solid #00bcff;
-
             filter: drop-shadow(0 0 6px #00bcff);
-
-            z-index: 10;
-
-            animation:
-                creepForward 0.8s ease-in-out infinite alternate;
+            animation: creepForward 0.8s ease-in-out infinite alternate;
         }
 
         @keyframes creepForward {
-            0% {
-                transform: translateX(0px) scale(0.95);
-            }
-
-            100% {
-                transform: translateX(10px) scale(1.05);
-            }
+            from { transform: translateX(0) scale(0.95); }
+            to { transform: translateX(10px) scale(1.05); }
         }
 
-        /* =========================================
-           GROUND LINE
-           ========================================= */
-
-        .axis-line {
-            position: absolute;
-            top: 63px;
-
-            width: 100%;
-            height: 1px;
-
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    #00ff6611,
-                    #00ff6611 4px,
-                    transparent 4px,
-                    transparent 8px
-                );
-
-            z-index: 5;
-        }
-
-        /* =========================================
-           FOREGROUND TREES
-           ========================================= */
-
+        /* Only a few bright trees move through the foreground. */
         .foreground-tree {
             position: absolute;
-
+            top: 30px;
+            z-index: 20;
             width: 40px;
             height: 80px;
-
-            z-index: 20;
-
-            animation:
-                scrollPast 4.5s linear infinite;
+            animation: scrollPast 4.5s linear infinite;
         }
 
         @keyframes scrollPast {
-            0% {
-                left: 100%;
-                opacity: 0;
-            }
-
-            10% {
-                opacity: 1;
-            }
-
-            90% {
-                opacity: 1;
-            }
-
-            100% {
-                left: -50px;
-                opacity: 0;
-            }
+            0% { left: 100%; opacity: 0; }
+            10%, 90% { opacity: 1; }
+            100% { left: -50px; opacity: 0; }
         }
 
-        .foreground-tree-1 {
-            top: 30px;
-            transform: scale(1.15);
-            animation-delay: 0s;
-        }
-
-        .foreground-tree-2 {
-            top: 45px;
-            transform: scale(0.9);
-            animation-delay: 1.7s;
-        }
-
-        .foreground-tree-3 {
-            top: 20px;
-            transform: scale(1.3);
-            animation-delay: 3.4s;
-        }
-
-        .foreground-tree-4 {
-            top: 38px;
-            transform: scale(1);
-            animation-delay: 5.1s;
-        }
+        .foreground-tree:nth-of-type(1) { animation-delay: 0s; top: 30px; transform: scale(1.15); }
+        .foreground-tree:nth-of-type(2) { animation-delay: 1.8s; top: 43px; transform: scale(0.9); }
+        .foreground-tree:nth-of-type(3) { animation-delay: 3.6s; top: 20px; transform: scale(1.3); }
 
         .foreground-tree .leaf-top {
-            filter:
-                drop-shadow(0 0 7px #00ff66)
-                drop-shadow(0 0 3px #00ff66);
-        }
-
-        .foreground-tree .leaf-bottom {
-            filter:
-                drop-shadow(0 0 8px #00ff66)
-                drop-shadow(0 0 3px #00ff66);
-        }
-
-        .foreground-tree .trunk {
-            filter:
-                drop-shadow(0 0 7px #00ff66);
-        }
-
-        /* =========================================
-           FOREGROUND TREE PARTS
-           ========================================= */
-
-        .foreground-tree .leaf-top {
-            position: absolute;
             left: 10px;
             top: 0;
-
             width: 0;
             height: 0;
-
             border-left: 10px solid transparent;
             border-right: 10px solid transparent;
             border-bottom: 20px solid #00ff66;
+            filter: drop-shadow(0 0 7px #00ff66);
         }
 
         .foreground-tree .leaf-bottom {
-            position: absolute;
             left: 5px;
             top: 15px;
-
             width: 0;
             height: 0;
-
             border-left: 15px solid transparent;
             border-right: 15px solid transparent;
             border-bottom: 25px solid #00ff66;
+            filter: drop-shadow(0 0 8px #00ff66);
         }
 
         .foreground-tree .trunk {
-            position: absolute;
             left: 16px;
             top: 40px;
-
             width: 8px;
             height: 25px;
-
             border: 2px solid #00ff66;
+            filter: drop-shadow(0 0 7px #00ff66);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .player, .foreground-tree { animation-play-state: paused; }
         }
     </style>
 </head>
-
 <body>
-
     <div class="stage">
-
-        <!-- =========================================
-             DENSE BACKGROUND FOREST
-             ========================================= -->
-
-        <div class="background-forest">
-
-            <!-- Back row -->
-
-            <div class="background-tree tree-b1">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b2">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b3">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b4">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b5">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b6">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b7">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b8">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b9">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b10">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b11">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b12">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b13">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b14">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b15">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b16">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b17">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="background-tree tree-b18">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-
-            <!-- Middle row -->
-
-            <div class="middle-tree middle-1">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-2">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-3">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-4">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-5">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-6">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-7">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-8">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-9">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-10">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-11">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-12">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-13">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-14">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-15">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-16">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-17">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
-            <div class="middle-tree middle-18">
-                <div class="leaf-top"></div>
-                <div class="leaf-bottom"></div>
-                <div class="trunk"></div>
-            </div>
-
+        <div class="background-forest" aria-hidden="true">
+            <div class="background-row-back"></div>
+            <div class="background-row-front"></div>
         </div>
-
-
-        <!-- Ground line -->
 
         <div class="axis-line"></div>
+        <div class="player" aria-label="Player"></div>
 
-
-        <!-- Player -->
-
-        <div class="player"></div>
-
-
-        <!-- =========================================
-             BRIGHT MOVING FOREGROUND TREES
-             ========================================= -->
-
-        <div class="foreground-tree foreground-tree-1">
-            <div class="leaf-top"></div>
-            <div class="leaf-bottom"></div>
-            <div class="trunk"></div>
+        <div class="foreground-tree">
+            <div class="leaf-top"></div><div class="leaf-bottom"></div><div class="trunk"></div>
         </div>
-
-        <div class="foreground-tree foreground-tree-2">
-            <div class="leaf-top"></div>
-            <div class="leaf-bottom"></div>
-            <div class="trunk"></div>
+        <div class="foreground-tree">
+            <div class="leaf-top"></div><div class="leaf-bottom"></div><div class="trunk"></div>
         </div>
-
-        <div class="foreground-tree foreground-tree-3">
-            <div class="leaf-top"></div>
-            <div class="leaf-bottom"></div>
-            <div class="trunk"></div>
+        <div class="foreground-tree">
+            <div class="leaf-top"></div><div class="leaf-bottom"></div><div class="trunk"></div>
         </div>
-
-        <div class="foreground-tree foreground-tree-4">
-            <div class="leaf-top"></div>
-            <div class="leaf-bottom"></div>
-            <div class="trunk"></div>
-        </div>
-
     </div>
 
+    <script>
+        // Build two dense background rows so the foreground stays uncluttered.
+        const treeMarkup = '<div class="background-tree"><div class="leaf-top"></div><div class="leaf-bottom"></div><div class="trunk"></div></div>';
+        const backRow = document.querySelector('.background-row-back');
+        const frontRow = document.querySelector('.background-row-front');
+
+        for (let i = 0; i < 30; i++) {
+            const tree = document.createElement('div');
+            tree.innerHTML = treeMarkup;
+            const item = tree.firstElementChild;
+            item.style.left = `${i * 3.5 - 2}%`;
+            item.style.transform = `scale(${0.55 + (i % 5) * 0.1})`;
+            backRow.appendChild(item);
+        }
+
+        for (let i = 0; i < 24; i++) {
+            const tree = document.createElement('div');
+            tree.innerHTML = treeMarkup;
+            const item = tree.firstElementChild;
+            item.style.left = `${i * 4.5 - 3}%`;
+            item.style.transform = `scale(${0.7 + (i % 4) * 0.1})`;
+            frontRow.appendChild(item);
+        }
+    </script>
 </body>
 </html>
