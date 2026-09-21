@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Whispering Woods</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -15,10 +22,21 @@
             margin: 0;
             min-height: 100vh;
             padding: 16px;
+
             background:
-                radial-gradient(circle at top, #26352c 0%, #18231d 40%, #0d130f 100%);
+                radial-gradient(
+                    circle at top,
+                    #26352c 0%,
+                    #18231d 40%,
+                    #0d130f 100%
+                );
+
             color: #e8eee9;
-            font-family: Georgia, "Times New Roman", serif;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
         }
 
         .game {
@@ -33,52 +51,74 @@
 
         h1 {
             margin: 0;
+
             color: #dce9df;
+
             font-size: 27px;
         }
 
         .subtitle {
             margin: 5px 0 0;
+
             color: #8fa594;
+
             font-size: 13px;
         }
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
             gap: 8px;
+
             margin-bottom: 10px;
         }
 
         .stat {
             padding: 9px;
+
             text-align: center;
+
             background: #202d24;
-            border: 1px solid #35463a;
+
+            border:
+                1px solid #35463a;
+
             border-radius: 10px;
         }
 
         .stat-label {
             color: #8fa594;
+
             font-size: 11px;
+
             margin-bottom: 3px;
         }
 
         .stat-value {
             font-size: 15px;
+
             font-weight: bold;
         }
 
         .game-box {
             overflow: hidden;
+
             background: #18221b;
-            border: 1px solid #35463a;
+
+            border:
+                1px solid #35463a;
+
             border-radius: 13px;
         }
 
         .section {
             padding: 13px;
-            border-bottom: 1px solid #35463a;
+
+            border-bottom:
+                1px solid #35463a;
         }
 
         .section:last-child {
@@ -87,24 +127,36 @@
 
         .section-title {
             margin-bottom: 8px;
+
             color: #d5e4d8;
+
             font-size: 15px;
+
             font-weight: bold;
         }
 
         .bar {
             width: 100%;
+
             height: 12px;
+
             overflow: hidden;
+
             background: #0d130f;
-            border: 1px solid #35463a;
+
+            border:
+                1px solid #35463a;
+
             border-radius: 999px;
         }
 
         .bar-fill {
             height: 100%;
+
             width: 0;
-            transition: width .2s linear;
+
+            transition:
+                width .2s linear;
         }
 
         #forestBar {
@@ -115,35 +167,88 @@
             background: #b56f72;
         }
 
-        #restBar {
-            background: #829f87;
-        }
-
         #xpBar {
             background: #b49a63;
         }
 
+        #restBar {
+            background: #829f87;
+        }
+
         .bar-text {
             margin-top: 5px;
+
             color: #9cad9f;
+
             font-size: 12px;
+
             text-align: center;
+        }
+
+        .forest-animation {
+            display: block;
+
+            width: 100%;
+
+            height: 140px;
+
+            margin-top: 10px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            overflow: hidden;
+        }
+
+        .health-xp {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 12px;
+        }
+
+        .health-xp-box {
+            min-width: 0;
+        }
+
+        .health-xp-title {
+            margin-bottom: 6px;
+
+            color: #d5e4d8;
+
+            font-size: 13px;
+
+            font-weight: bold;
         }
 
         .buttons {
             display: flex;
+
             gap: 8px;
+
             margin-top: 9px;
         }
 
         button {
             flex: 1;
-            padding: 9px 10px;
+
+            padding:
+                9px 10px;
+
             color: #e5eee7;
+
             background: #29382d;
-            border: 1px solid #526856;
+
+            border:
+                1px solid #526856;
+
             border-radius: 9px;
+
             font: inherit;
+
             cursor: pointer;
         }
 
@@ -153,75 +258,87 @@
 
         button:disabled {
             opacity: .45;
+
             cursor: not-allowed;
         }
 
         .danger {
             background: #3a2729;
+
             border-color: #754b4d;
         }
 
         .log {
             height: 175px;
+
             overflow-y: auto;
+
             padding: 8px;
+
             background: #101710;
-            border: 1px solid #29372d;
+
+            border:
+                1px solid #29372d;
+
             border-radius: 9px;
         }
 
         .log-entry {
             padding: 5px 3px;
+
             color: #aebcaf;
+
             font-size: 12px;
-            border-bottom: 1px solid rgba(255,255,255,.04);
+
+            border-bottom:
+                1px solid rgba(
+                    255,
+                    255,
+                    255,
+                    .04
+                );
         }
 
         .victory {
             display: none;
+
             padding: 12px;
+
             color: #d8eadb;
+
             text-align: center;
+
             background: #26392b;
-            border: 1px solid #4e6b53;
+
+            border:
+                1px solid #4e6b53;
+
             border-radius: 9px;
-        }
-
-        .enemy-box {
-            display: none;
-            padding: 10px;
-            margin-top: 10px;
-            background: #202b23;
-            border: 1px solid #4a5e4d;
-            border-radius: 9px;
-            text-align: center;
-        }
-
-        .enemy-name {
-            color: #d9e6dc;
-            font-weight: bold;
-            font-size: 15px;
-        }
-
-        .enemy-info {
-            margin-top: 4px;
-            color: #9cad9f;
-            font-size: 12px;
         }
 
         .level-up {
             display: none;
-            padding: 10px;
-            margin-top: 10px;
+
+            margin-top: 8px;
+
+            padding: 8px;
+
             color: #e9dfc5;
-            background: #393426;
-            border: 1px solid #665d43;
-            border-radius: 9px;
+
             text-align: center;
-            font-size: 13px;
+
+            background: #393426;
+
+            border:
+                1px solid #665d43;
+
+            border-radius: 8px;
+
+            font-size: 12px;
         }
 
         @media (max-width: 500px) {
+
             body {
                 padding: 8px;
             }
@@ -234,16 +351,25 @@
                 padding: 7px 3px;
             }
 
+            .health-xp {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
             .buttons {
                 gap: 6px;
             }
 
             button {
                 padding: 8px 6px;
+
                 font-size: 13px;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
@@ -251,49 +377,124 @@
 <div class="game">
 
     <header>
-        <h1>Whispering Woods</h1>
+
+        <h1>
+            Whispering Woods
+        </h1>
+
         <p class="subtitle">
             Walk through the darkness and find your way out.
         </p>
+
     </header>
+
+
+    <!-- PLAYER STATS -->
 
     <div class="stats">
 
         <div class="stat">
-            <div class="stat-label">HP</div>
-            <div class="stat-value" id="hpText">40 / 40</div>
+
+            <div class="stat-label">
+                HP
+            </div>
+
+            <div
+                class="stat-value"
+                id="hpText"
+            >
+                40 / 40
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">Attack</div>
-            <div class="stat-value" id="attackText">8</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">Level</div>
-            <div class="stat-value" id="levelText">1</div>
+
+            <div class="stat-label">
+                Attack
+            </div>
+
+            <div
+                class="stat-value"
+                id="attackText"
+            >
+                8
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div class="stat-label">XP</div>
-            <div class="stat-value" id="xpText">0 / 50</div>
-        </div>
 
         <div class="stat">
-            <div class="stat-label">Gold</div>
-            <div class="stat-value" id="goldText">0</div>
+
+            <div class="stat-label">
+                Level
+            </div>
+
+            <div
+                class="stat-value"
+                id="levelText"
+            >
+                1
+            </div>
+
         </div>
 
+
         <div class="stat">
-            <div class="stat-label">Status</div>
-            <div class="stat-value" id="statusText">Walking</div>
+
+            <div class="stat-label">
+                XP
+            </div>
+
+            <div
+                class="stat-value"
+                id="xpText"
+            >
+                0 / 50
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Gold
+            </div>
+
+            <div
+                class="stat-value"
+                id="goldText"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                Status
+            </div>
+
+            <div
+                class="stat-value"
+                id="statusText"
+            >
+                Walking
+            </div>
+
         </div>
 
     </div>
 
+
     <div class="game-box">
 
-        <!-- FOREST -->
+
+        <!-- FOREST JOURNEY -->
 
         <div class="section">
 
@@ -301,77 +502,109 @@
                 🌲 Forest Journey
             </div>
 
+
             <div class="bar">
-                <div class="bar-fill" id="forestBar"></div>
+
+                <div
+                    class="bar-fill"
+                    id="forestBar"
+                ></div>
+
             </div>
 
-            <div class="bar-text" id="forestText">
+
+            <div
+                class="bar-text"
+                id="forestText"
+            >
                 0:00 / 5:00
             </div>
 
-        </div>
 
+            <!-- ANIMATION -->
 
-        <!-- HEALTH -->
-
-        <div class="section">
-
-            <div class="section-title">
-                ❤️ Health
-            </div>
-
-            <div class="bar">
-                <div class="bar-fill" id="hpBar"></div>
-            </div>
-
-            <div class="bar-text" id="hpBarText">
-                40 / 40 HP
-            </div>
+            <iframe
+                src="animation1.html"
+                class="forest-animation"
+                title="Forest journey animation"
+            ></iframe>
 
         </div>
 
 
-        <!-- XP -->
+        <!-- HEALTH + EXPERIENCE -->
 
         <div class="section">
 
             <div class="section-title">
-                ⭐ Experience
+                ❤️ Health & ⭐ Experience
             </div>
 
-            <div class="bar">
-                <div class="bar-fill" id="xpBar"></div>
+
+            <div class="health-xp">
+
+
+                <!-- HEALTH -->
+
+                <div class="health-xp-box">
+
+                    <div class="health-xp-title">
+                        ❤️ Health
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            id="hpBar"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="bar-text"
+                        id="hpBarText"
+                    >
+                        40 / 40 HP
+                    </div>
+
+                </div>
+
+
+                <!-- XP -->
+
+                <div class="health-xp-box">
+
+                    <div class="health-xp-title">
+                        ⭐ Experience
+                    </div>
+
+                    <div class="bar">
+
+                        <div
+                            class="bar-fill"
+                            id="xpBar"
+                        ></div>
+
+                    </div>
+
+                    <div
+                        class="bar-text"
+                        id="xpBarText"
+                    >
+                        0 / 50 XP
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="bar-text" id="xpBarText">
-                0 / 50 XP
-            </div>
 
-            <div class="level-up" id="levelUp">
+            <div
+                class="level-up"
+                id="levelUp"
+            >
                 Level Up!
-            </div>
-
-        </div>
-
-
-        <!-- ENEMY -->
-
-        <div class="section">
-
-            <div class="section-title">
-                👹 Encounter
-            </div>
-
-            <div class="enemy-box" id="enemyBox">
-
-                <div class="enemy-name" id="enemyName">
-                    Enemy
-                </div>
-
-                <div class="enemy-info" id="enemyInfo">
-                    Attack: 0
-                </div>
-
             </div>
 
         </div>
@@ -385,21 +618,40 @@
                 💤 Rest
             </div>
 
+
             <div class="bar">
-                <div class="bar-fill" id="restBar"></div>
+
+                <div
+                    class="bar-fill"
+                    id="restBar"
+                ></div>
+
             </div>
 
-            <div class="bar-text" id="restText">
+
+            <div
+                class="bar-text"
+                id="restText"
+            >
                 Rest when you need to recover.
             </div>
 
+
             <div class="buttons">
 
-                <button id="restButton" type="button">
+                <button
+                    id="restButton"
+                    type="button"
+                >
                     Rest
                 </button>
 
-                <button id="leaveButton" type="button" disabled>
+
+                <button
+                    id="leaveButton"
+                    type="button"
+                    disabled
+                >
                     Leave
                 </button>
 
@@ -408,7 +660,7 @@
         </div>
 
 
-        <!-- LOG -->
+        <!-- ADVENTURE LOG -->
 
         <div class="section">
 
@@ -416,40 +668,66 @@
                 📖 Adventure Log
             </div>
 
-            <div class="log" id="log"></div>
+
+            <div
+                class="log"
+                id="log"
+            ></div>
 
         </div>
 
 
-        <!-- SAVE -->
+        <!-- SAVE / RESET -->
 
         <div class="section">
 
-            <div class="victory" id="victory">
+
+            <div
+                class="victory"
+                id="victory"
+            >
+
                 You found your way out!
+
                 <br>
+
                 <small>
                     The Whispering Woods are behind you.
                 </small>
+
             </div>
+
 
             <div class="buttons">
 
-                <button id="saveButton" type="button">
+                <button
+                    id="saveButton"
+                    type="button"
+                >
                     Save
                 </button>
 
-                <button id="loadButton" type="button">
+
+                <button
+                    id="loadButton"
+                    type="button"
+                >
                     Load
                 </button>
 
-                <button id="deleteButton" class="danger" type="button">
+
+                <button
+                    id="deleteButton"
+                    class="danger"
+                    type="button"
+                >
                     Reset Game
                 </button>
 
             </div>
 
         </div>
+
 
     </div>
 
@@ -458,12 +736,30 @@
 
 <script>
 
+
+/* =========================================================
+   GAME SETTINGS
+========================================================= */
+
 const FOREST_DURATION = 5 * 60;
 
+const SAVE_KEY =
+    "whisperingWoodsSave";
 
-/* =========================
+
+/*
+   Enemies can appear between
+   30 and 60 seconds apart.
+*/
+
+const MIN_ENCOUNTER_TIME = 30;
+
+const MAX_ENCOUNTER_TIME = 60;
+
+
+/* =========================================================
    PLAYER
-========================= */
+========================================================= */
 
 const player = {
 
@@ -484,15 +780,15 @@ const player = {
 };
 
 
-/* =========================
+/* =========================================================
    ENEMIES
-========================= */
+========================================================= */
 
 const enemies = [
 
     {
         name: "Lost Wolf",
-        maxHp: 18,
+        hp: 18,
         attack: 4,
         xp: 12,
         gold: 5
@@ -500,7 +796,7 @@ const enemies = [
 
     {
         name: "Forest Goblin",
-        maxHp: 22,
+        hp: 22,
         attack: 3,
         xp: 15,
         gold: 7
@@ -508,7 +804,7 @@ const enemies = [
 
     {
         name: "Shadow Spider",
-        maxHp: 15,
+        hp: 15,
         attack: 5,
         xp: 18,
         gold: 8
@@ -516,7 +812,7 @@ const enemies = [
 
     {
         name: "Angry Boar",
-        maxHp: 25,
+        hp: 25,
         attack: 4,
         xp: 20,
         gold: 10
@@ -524,7 +820,7 @@ const enemies = [
 
     {
         name: "Dark Slime",
-        maxHp: 20,
+        hp: 20,
         attack: 2,
         xp: 10,
         gold: 4
@@ -533,9 +829,9 @@ const enemies = [
 ];
 
 
-/* =========================
+/* =========================================================
    GAME STATE
-========================= */
+========================================================= */
 
 let forestTime = 0;
 
@@ -549,78 +845,116 @@ let restStartedAt = 0;
 
 let restDuration = 0;
 
-let currentEnemy = null;
+
+/*
+   Time until the next enemy.
+*/
+
+let nextEncounterAt = 0;
 
 
-/* =========================
-   SAVE KEY
-========================= */
+/* =========================================================
+   ELEMENT SHORTCUT
+========================================================= */
 
-const SAVE_KEY = "whisperingWoodsSave";
-
-
-/* =========================
-   SHORTCUT
-========================= */
-
-const $ = id => document.getElementById(id);
+const $ = id =>
+    document.getElementById(id);
 
 
-/* =========================
+/* =========================================================
+   RANDOM ENCOUNTER TIME
+========================================================= */
+
+function getNextEncounterTime() {
+
+    return (
+        MIN_ENCOUNTER_TIME +
+        Math.floor(
+            Math.random() *
+            (
+                MAX_ENCOUNTER_TIME -
+                MIN_ENCOUNTER_TIME +
+                1
+            )
+        )
+    );
+
+}
+
+
+/* =========================================================
    LOG
-========================= */
+========================================================= */
 
 function addLog(message) {
 
-    const entry = document.createElement("div");
+    const entry =
+        document.createElement("div");
 
-    entry.className = "log-entry";
+    entry.className =
+        "log-entry";
 
-    entry.textContent = message;
+    entry.textContent =
+        message;
 
     $("log").appendChild(entry);
 
-    $("log").scrollTop = $("log").scrollHeight;
+    $("log").scrollTop =
+        $("log").scrollHeight;
 
 }
 
 
-/* =========================
-   TIME
-========================= */
+/* =========================================================
+   FORMAT TIME
+========================================================= */
 
 function formatTime(seconds) {
 
-    const minutes = Math.floor(seconds / 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
-    const remainingSeconds = Math.floor(seconds % 60);
+    const remainingSeconds =
+        Math.floor(seconds % 60);
 
-    return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+    return (
+        `${minutes}:` +
+        `${String(remainingSeconds).padStart(2, "0")}`
+    );
 
 }
 
 
-/* =========================
-   HP
-========================= */
+/* =========================================================
+   UPDATE HP
+========================================================= */
 
 function updateHP() {
 
-    const hp = Math.max(
-        0,
-        Math.min(player.hp, player.maxHp)
-    );
+    player.hp =
+        Math.max(
+            0,
+            Math.min(
+                player.hp,
+                player.maxHp
+            )
+        );
 
-    player.hp = hp;
 
     $("hpText").textContent =
-        `${hp} / ${player.maxHp}`;
+        `${player.hp} / ${player.maxHp}`;
+
 
     $("hpBarText").textContent =
-        `${hp} / ${player.maxHp} HP`;
+        `${player.hp} / ${player.maxHp} HP`;
+
 
     $("hpBar").style.width =
-        `${(hp / player.maxHp) * 100}%`;
+        `${(
+            player.hp /
+            player.maxHp
+        ) * 100}%`;
+
 
     $("attackText").textContent =
         player.attack;
@@ -628,30 +962,39 @@ function updateHP() {
 }
 
 
-/* =========================
-   XP
-========================= */
+/* =========================================================
+   UPDATE XP
+========================================================= */
 
 function updateXP() {
 
     $("levelText").textContent =
         player.level;
 
+
     $("xpText").textContent =
         `${player.xp} / ${player.expNeeded}`;
+
 
     $("xpBarText").textContent =
         `${player.xp} / ${player.expNeeded} XP`;
 
+
     $("xpBar").style.width =
-        `${Math.min(100, (player.xp / player.expNeeded) * 100)}%`;
+        `${Math.min(
+            100,
+            (
+                player.xp /
+                player.expNeeded
+            ) * 100
+        )}%`;
 
 }
 
 
-/* =========================
-   GOLD
-========================= */
+/* =========================================================
+   UPDATE GOLD
+========================================================= */
 
 function updateGold() {
 
@@ -661,20 +1004,25 @@ function updateGold() {
 }
 
 
-/* =========================
-   FOREST
-========================= */
+/* =========================================================
+   UPDATE FOREST
+========================================================= */
 
 function updateForest() {
 
     const progress =
         Math.min(
             100,
-            (forestTime / FOREST_DURATION) * 100
+            (
+                forestTime /
+                FOREST_DURATION
+            ) * 100
         );
+
 
     $("forestBar").style.width =
         `${progress}%`;
+
 
     $("forestText").textContent =
         `${formatTime(forestTime)} / 5:00`;
@@ -682,9 +1030,9 @@ function updateForest() {
 }
 
 
-/* =========================
-   STATUS
-========================= */
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
 
 function updateStatus() {
 
@@ -693,17 +1041,23 @@ function updateStatus() {
         $("statusText").textContent =
             "Escaped";
 
-    } else if (forcedRest) {
+    }
+
+    else if (forcedRest) {
 
         $("statusText").textContent =
             "Forced Rest";
 
-    } else if (resting) {
+    }
+
+    else if (resting) {
 
         $("statusText").textContent =
             "Resting";
 
-    } else {
+    }
+
+    else {
 
         $("statusText").textContent =
             "Walking";
@@ -716,6 +1070,7 @@ function updateStatus() {
         resting ||
         player.hp >= player.maxHp;
 
+
     $("leaveButton").disabled =
         !resting ||
         forcedRest;
@@ -723,68 +1078,68 @@ function updateStatus() {
 }
 
 
-/* =========================
-   ENEMY DISPLAY
-========================= */
-
-function showEnemy(enemy) {
-
-    $("enemyBox").style.display =
-        "block";
-
-    $("enemyName").textContent =
-        enemy.name;
-
-    $("enemyInfo").textContent =
-        `HP: ${enemy.maxHp} | Attack: ${enemy.attack}`;
-
-}
-
-
-function hideEnemy() {
-
-    $("enemyBox").style.display =
-        "none";
-
-}
-
-
-/* =========================
+/* =========================================================
    LEVEL UP
-========================= */
+========================================================= */
 
 function giveXP(amount) {
 
     player.xp += amount;
 
-    addLog(`You gained ${amount} XP.`);
+
+    addLog(
+        `You gained ${amount} XP.`
+    );
 
 
-    while (player.xp >= player.expNeeded) {
+    while (
+        player.xp >=
+        player.expNeeded
+    ) {
 
-        player.xp -= player.expNeeded;
+        player.xp -=
+            player.expNeeded;
+
 
         player.level++;
 
-        player.maxHp += 5;
 
-        player.hp = player.maxHp;
+        /*
+           Leveling increases:
+           +5 Max HP
+           +2 Attack
+        */
+
+        player.maxHp += 5;
 
         player.attack += 2;
 
+
+        /*
+           Fully heal after leveling.
+        */
+
+        player.hp =
+            player.maxHp;
+
+
         player.expNeeded =
-            Math.floor(player.expNeeded * 1.5);
+            Math.floor(
+                player.expNeeded * 1.5
+            );
 
 
         $("levelUp").style.display =
             "block";
 
+
         addLog(
             `You reached Level ${player.level}!`
         );
 
+
         addLog(
-            `Your max HP increased by 5 and your attack increased by 2.`
+            "Your max HP increased by 5 and your attack increased by 2."
         );
 
     }
@@ -797,9 +1152,9 @@ function giveXP(amount) {
 }
 
 
-/* =========================
-   ONE-CALCULATION COMBAT
-========================= */
+/* =========================================================
+   ENCOUNTER
+========================================================= */
 
 function encounter() {
 
@@ -812,131 +1167,117 @@ function encounter() {
     }
 
 
-    /*
-       3.5% chance of an encounter
-    */
-
-    if (Math.random() >= 0.035) {
-        return;
-    }
-
-
-    const enemyTemplate =
+    const enemy =
         enemies[
             Math.floor(
-                Math.random() * enemies.length
+                Math.random() *
+                enemies.length
             )
         ];
 
 
-    currentEnemy = {
-        ...enemyTemplate
-    };
-
-
-    showEnemy(currentEnemy);
-
-
     /*
-       ONE CALCULATION.
+       ONE COMBAT CALCULATION.
 
-       The enemy's attack is reduced
-       by part of the player's attack.
+       Your attack determines whether
+       you defeat the enemy.
 
-       The player does NOT attack over
-       multiple turns.
-    */
-
-    const damageTaken =
-        Math.max(
-            1,
-            Math.floor(
-                currentEnemy.attack -
-                player.attack / 2
-            )
-        );
-
-
-    /*
-       If the player's attack is high enough,
-       they defeat the enemy.
+       If you don't, the enemy deals
+       one calculated amount of damage.
     */
 
     const playerPower =
         player.attack +
-        Math.floor(Math.random() * 6);
+        Math.floor(
+            Math.random() * 6
+        );
 
 
     const enemyPower =
-        currentEnemy.maxHp +
-        currentEnemy.attack;
+        enemy.hp +
+        enemy.attack;
 
 
-    if (playerPower >= enemyPower) {
+    if (
+        playerPower >=
+        enemyPower
+    ) {
 
         addLog(
-            `You defeated ${currentEnemy.name}.`
+            `You defeated ${enemy.name}.`
         );
+
 
         player.gold +=
-            currentEnemy.gold;
+            enemy.gold;
+
 
         addLog(
-            `You found ${currentEnemy.gold} gold.`
+            `You found ${enemy.gold} gold.`
         );
 
-        giveXP(currentEnemy.xp);
 
-        hideEnemy();
+        giveXP(enemy.xp);
 
-        currentEnemy = null;
 
         updateGold();
 
-        saveGame();
-
-        return;
 
     }
 
+    else {
 
-    /*
-       Player loses the single calculation.
-    */
-
-    player.hp =
-        Math.max(
-            0,
-            player.hp - damageTaken
-        );
-
-
-    addLog(
-        `${currentEnemy.name} defeated you.`
-    );
-
-    addLog(
-        `You lost ${damageTaken} HP.`
-    );
+        const damage =
+            Math.max(
+                1,
+                Math.floor(
+                    enemy.attack -
+                    player.attack / 2
+                )
+            );
 
 
-    hideEnemy();
-
-    currentEnemy = null;
-
-
-    updateHP();
+        player.hp -=
+            damage;
 
 
-    if (player.hp <= 0) {
+        updateHP();
 
-        forcedRest = true;
 
         addLog(
-            "You collapsed and must rest."
+            `${enemy.name} defeated you.`
         );
 
-        startRest(true);
+
+        addLog(
+            `You lost ${damage} HP.`
+        );
+
+
+        /*
+           Dying immediately forces rest.
+        */
+
+        if (
+            player.hp <= 0
+        ) {
+
+            player.hp = 0;
+
+            updateHP();
+
+
+            forcedRest = true;
+
+
+            addLog(
+                "You collapsed and must rest."
+            );
+
+
+            startRest(true);
+
+        }
 
     }
 
@@ -946,16 +1287,21 @@ function encounter() {
 }
 
 
-/* =========================
+/* =========================================================
    START REST
-========================= */
+========================================================= */
 
-function startRest(isForced = false) {
+function startRest(
+    isForced = false
+) {
 
     if (
         gameEnded ||
         resting ||
-        (!isForced && player.hp >= player.maxHp)
+        (
+            !isForced &&
+            player.hp >= player.maxHp
+        )
     ) {
         return;
     }
@@ -964,6 +1310,7 @@ function startRest(isForced = false) {
     resting = true;
 
     forcedRest = isForced;
+
 
     restStartedAt =
         Date.now();
@@ -984,12 +1331,16 @@ function startRest(isForced = false) {
             ? 10
             : Math.max(
                 10,
-                (player.maxHp - player.hp) * 10
+                (
+                    player.maxHp -
+                    player.hp
+                ) * 10
             );
 
 
     $("restBar").style.width =
         "0%";
+
 
     $("restText").textContent =
         "Resting: 0%";
@@ -1002,9 +1353,9 @@ function startRest(isForced = false) {
 }
 
 
-/* =========================
+/* =========================================================
    LEAVE REST
-========================= */
+========================================================= */
 
 function leaveRest() {
 
@@ -1022,24 +1373,27 @@ function leaveRest() {
     $("restBar").style.width =
         "0%";
 
+
     $("restText").textContent =
         "Rest stopped.";
 
 
     updateStatus();
 
+
     addLog(
         "You stopped resting."
     );
+
 
     saveGame();
 
 }
 
 
-/* =========================
-   REST UPDATE
-========================= */
+/* =========================================================
+   UPDATE REST
+========================================================= */
 
 function updateRest() {
 
@@ -1049,24 +1403,33 @@ function updateRest() {
 
 
     const elapsed =
-        (Date.now() - restStartedAt) / 1000;
+        (
+            Date.now() -
+            restStartedAt
+        ) / 1000;
 
 
     const progress =
         Math.min(
             1,
-            elapsed / restDuration
+            elapsed /
+            restDuration
         );
 
 
     $("restBar").style.width =
         `${progress * 100}%`;
 
+
     $("restText").textContent =
-        `Resting: ${Math.floor(progress * 100)}%`;
+        `Resting: ${Math.floor(
+            progress * 100
+        )}%`;
 
 
-    if (progress < 1) {
+    if (
+        progress < 1
+    ) {
         return;
     }
 
@@ -1074,6 +1437,7 @@ function updateRest() {
     resting = false;
 
     forcedRest = false;
+
 
     player.hp =
         player.maxHp;
@@ -1086,6 +1450,7 @@ function updateRest() {
 
     $("restBar").style.width =
         "100%";
+
 
     $("restText").textContent =
         "Fully recovered.";
@@ -1101,9 +1466,9 @@ function updateRest() {
 }
 
 
-/* =========================
-   MAIN GAME TICK
-========================= */
+/* =========================================================
+   GAME TICK
+========================================================= */
 
 function tick() {
 
@@ -1113,7 +1478,8 @@ function tick() {
 
 
     /*
-       Forest progress stops while resting.
+       Forest progress only happens
+       while walking.
     */
 
     if (
@@ -1128,12 +1494,34 @@ function tick() {
             );
 
 
-        encounter();
+        /*
+           Enemy encounters are based
+           on the actual forest timer.
+
+           First enemy appears after
+           30–60 seconds.
+
+           Every enemy after that also
+           waits another 30–60 seconds.
+        */
+
+        if (
+            forestTime >=
+            nextEncounterAt
+        ) {
+
+            encounter();
+
+
+            nextEncounterAt =
+                forestTime +
+                getNextEncounterTime();
+
+        }
 
 
         /*
-           Escape when the full
-           5 minutes are complete.
+           Finish the forest.
         */
 
         if (
@@ -1143,12 +1531,15 @@ function tick() {
 
             gameEnded = true;
 
+
             $("victory").style.display =
                 "block";
+
 
             addLog(
                 "You made it through the forest!"
             );
+
 
             saveGame();
 
@@ -1166,35 +1557,45 @@ function tick() {
 }
 
 
-/* =========================
+/* =========================================================
    SAVE GAME
-========================= */
+========================================================= */
 
 function saveGame() {
 
     const saveData = {
 
         player: {
+
             hp: player.hp,
+
             maxHp: player.maxHp,
+
             attack: player.attack,
+
             level: player.level,
+
             xp: player.xp,
+
             expNeeded: player.expNeeded,
+
             gold: player.gold
+
         },
 
-        forestTime: forestTime,
+        forestTime,
 
-        resting: resting,
+        resting,
 
-        forcedRest: forcedRest,
+        forcedRest,
 
-        gameEnded: gameEnded,
+        gameEnded,
 
-        restStartedAt: restStartedAt,
+        restStartedAt,
 
-        restDuration: restDuration
+        restDuration,
+
+        nextEncounterAt
 
     };
 
@@ -1207,9 +1608,9 @@ function saveGame() {
 }
 
 
-/* =========================
+/* =========================================================
    LOAD GAME
-========================= */
+========================================================= */
 
 function loadGame() {
 
@@ -1221,9 +1622,9 @@ function loadGame() {
 
     if (!saved) {
 
-        addLog(
-            "No saved game found."
-        );
+        nextEncounterAt =
+            getNextEncounterTime();
+
 
         return;
 
@@ -1265,26 +1666,33 @@ function loadGame() {
         forestTime =
             data.forestTime ?? 0;
 
-        gameEnded =
-            data.gameEnded ?? false;
-
-
-        /*
-           Rest timers are restored based on
-           their original start time.
-        */
 
         resting =
             data.resting ?? false;
 
+
         forcedRest =
             data.forcedRest ?? false;
+
+
+        gameEnded =
+            data.gameEnded ?? false;
+
 
         restStartedAt =
             data.restStartedAt ?? 0;
 
+
         restDuration =
             data.restDuration ?? 0;
+
+
+        nextEncounterAt =
+            data.nextEncounterAt ??
+            (
+                forestTime +
+                getNextEncounterTime()
+            );
 
 
         updateHP();
@@ -1306,14 +1714,26 @@ function loadGame() {
         }
 
 
-        addLog(
-            "Game loaded."
-        );
+        /*
+           If the game was resting when
+           the page was closed, the rest
+           timer continues from its
+           original start time.
+        */
+
+        if (resting) {
+
+            updateRest();
+
+        }
 
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
+
 
         addLog(
             "The save could not be loaded."
@@ -1324,23 +1744,24 @@ function loadGame() {
 }
 
 
-/* =========================
+/* =========================================================
    RESET GAME
-========================= */
+========================================================= */
 
 function deleteSave() {
 
     /*
-       Completely delete the save.
-
-       This ALSO resets the forest path
-       back to 0:00.
+       Completely remove the save.
     */
 
     localStorage.removeItem(
         SAVE_KEY
     );
 
+
+    /*
+       Reset player.
+    */
 
     player.hp = 40;
 
@@ -1358,27 +1779,45 @@ function deleteSave() {
 
 
     /*
-       RESET FOREST PATH
+       IMPORTANT:
+
+       Reset the forest path too.
     */
 
     forestTime = 0;
 
 
+    /*
+       Reset rest.
+    */
+
     resting = false;
 
     forcedRest = false;
-
-    gameEnded = false;
 
     restStartedAt = 0;
 
     restDuration = 0;
 
-    currentEnemy = null;
+
+    /*
+       Reset game ending.
+    */
+
+    gameEnded = false;
 
 
-    hideEnemy();
+    /*
+       Reset enemy timing.
+    */
 
+    nextEncounterAt =
+        getNextEncounterTime();
+
+
+    /*
+       Clear victory and level-up messages.
+    */
 
     $("victory").style.display =
         "none";
@@ -1388,6 +1827,10 @@ function deleteSave() {
         "none";
 
 
+    /*
+       Reset rest bar.
+    */
+
     $("restBar").style.width =
         "0%";
 
@@ -1396,9 +1839,17 @@ function deleteSave() {
         "Rest when you need to recover.";
 
 
+    /*
+       Clear adventure log.
+    */
+
     $("log").innerHTML =
         "";
 
+
+    /*
+       Update everything.
+    */
 
     updateHP();
 
@@ -1415,6 +1866,7 @@ function deleteSave() {
         "New journey started."
     );
 
+
     addLog(
         "The forest path begins at 0:00."
     );
@@ -1422,9 +1874,9 @@ function deleteSave() {
 }
 
 
-/* =========================
+/* =========================================================
    BUTTONS
-========================= */
+========================================================= */
 
 $("restButton")
     .addEventListener(
@@ -1458,7 +1910,15 @@ $("saveButton")
 $("loadButton")
     .addEventListener(
         "click",
-        loadGame
+        () => {
+
+            loadGame();
+
+            addLog(
+                "Game loaded."
+            );
+
+        }
     );
 
 
@@ -1469,9 +1929,9 @@ $("deleteButton")
     );
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   INITIALIZE
+========================================================= */
 
 updateHP();
 
@@ -1483,20 +1943,21 @@ updateForest();
 
 updateStatus();
 
+
 addLog(
     "The forest path begins..."
 );
 
 
 /*
-   Automatically load the previous game.
+   Load the saved game.
 */
 
 loadGame();
 
 
 /*
-   Game clock.
+   Start the game clock.
 */
 
 setInterval(
@@ -1507,4 +1968,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
