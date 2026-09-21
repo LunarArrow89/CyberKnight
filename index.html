@@ -599,6 +599,27 @@ h1 {
 }
 </style>
 
+
+<style>
+.mobile-nav { display:none; }
+@media (max-width:700px) {
+  body { padding-bottom:78px; }
+  .mobile-nav {
+    position:fixed; left:8px; right:8px; bottom:8px; z-index:9998;
+    display:grid; grid-template-columns:repeat(5,1fr); gap:5px;
+    padding:7px; background:rgba(10,8,18,.96); border:1px solid #a855f7;
+    border-radius:14px; box-shadow:0 0 18px rgba(168,85,247,.45);
+    backdrop-filter:blur(8px);
+  }
+  .mobile-nav button {
+    min-height:52px; padding:5px 2px; border:1px solid #443052;
+    border-radius:9px; background:#14121f; color:#ddd; font-size:11px;
+    font-weight:bold; cursor:pointer;
+  }
+  .mobile-nav button:active { transform:scale(.96); }
+  .mobile-nav .nav-icon { display:block; font-size:18px; line-height:19px; margin-bottom:2px; }
+}
+</style>
 </head>
 
 <body>
@@ -4201,6 +4222,56 @@ function buyGear(item){
 
 
 // ==========================================
+// MOBILE NAVIGATION
+// ==========================================
+function mobileNavigate(destination) {
+
+    if (!player) {
+        return;
+    }
+
+    const battle = document.getElementById("battleScreen");
+    const gameOver = document.getElementById("gameOverScreen");
+
+    if ((battle && battle.style.display !== "none") ||
+        (gameOver && gameOver.style.display !== "none")) {
+        logMessage("> NAVIGATION LOCKED. Finish recovery or the current battle first.");
+        return;
+    }
+
+    if (destination === "home") {
+        document.getElementById("enemySelectScreen").style.display = "none";
+        document.getElementById("travelScreen").style.display = "none";
+        document.getElementById("shopScreen").style.display = "none";
+        document.getElementById("petShopScreen").style.display = "none";
+        document.getElementById("blacksmithScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
+        updatePlayerDisplay();
+        return;
+    }
+
+    if (destination === "explore") {
+        explore();
+        return;
+    }
+
+    if (destination === "travel") {
+        openTravelMenu();
+        return;
+    }
+
+    if (destination === "shop") {
+        openShop();
+        return;
+    }
+
+    if (destination === "inventory") {
+        openShop();
+        openInventory();
+    }
+}
+
+// ==========================================
 // START
 // ==========================================
 
@@ -4247,6 +4318,14 @@ function showBuyError(message){
 
 </script>
 
+
+<nav id="mobileNav" class="mobile-nav" aria-label="Mobile navigation">
+  <button onclick="mobileNavigate('home')"><span class="nav-icon">⌂</span>Home</button>
+  <button onclick="mobileNavigate('explore')"><span class="nav-icon">⚔</span>Explore</button>
+  <button onclick="mobileNavigate('travel')"><span class="nav-icon">⌖</span>Map</button>
+  <button onclick="mobileNavigate('shop')"><span class="nav-icon">◆</span>Shop</button>
+  <button onclick="mobileNavigate('inventory')"><span class="nav-icon">▣</span>Bag</button>
+</nav>
 </body>
 
 </html>
