@@ -134,6 +134,151 @@
             filter: drop-shadow(0 0 4px #00ff66);
         }
 
+        /* =========================
+           BACKGROUND FOREST
+           ========================= */
+
+        .background-tree {
+            position: absolute;
+            top: 20px;
+            width: 32px;
+            height: 75px;
+            z-index: 2;
+            animation: backgroundScroll 7s linear infinite;
+            opacity: 0.35;
+        }
+
+        .background-tree .leaf-top {
+            left: 8px;
+            border-left-width: 8px;
+            border-right-width: 8px;
+            border-bottom: 17px solid #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
+        }
+
+        .background-tree .leaf-bottom {
+            left: 3px;
+            top: 14px;
+            border-left-width: 13px;
+            border-right-width: 13px;
+            border-bottom-width: 22px;
+            border-bottom-color: #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
+        }
+
+        .background-tree .trunk {
+            left: 13px;
+            top: 36px;
+            width: 7px;
+            height: 23px;
+            border-color: #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
+        }
+
+        @keyframes backgroundScroll {
+            0% {
+                left: 100%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.35;
+            }
+
+            90% {
+                opacity: 0.35;
+            }
+
+            100% {
+                left: -40px;
+                opacity: 0;
+            }
+        }
+
+        .background-tree-1 {
+            animation-delay: 0s;
+            top: 15px;
+            transform: scale(0.8);
+        }
+
+        .background-tree-2 {
+            animation-delay: 2.2s;
+            top: 5px;
+            transform: scale(0.65);
+        }
+
+        .background-tree-3 {
+            animation-delay: 4.5s;
+            top: 20px;
+            transform: scale(0.9);
+        }
+
+        .background-tree-4 {
+            animation-delay: 6s;
+            top: 0;
+            transform: scale(0.7);
+        }
+
+        /* =========================
+           FOREGROUND FOREST
+           ========================= */
+
+        .foreground-tree {
+            position: absolute;
+            top: 30px;
+            width: 40px;
+            height: 80px;
+            z-index: 20;
+            animation: foregroundScroll 4.5s linear infinite;
+        }
+
+        .foreground-tree .leaf-top {
+            filter: drop-shadow(0 0 7px #00ff66);
+        }
+
+        .foreground-tree .leaf-bottom {
+            filter: drop-shadow(0 0 8px #00ff66);
+        }
+
+        .foreground-tree .trunk {
+            filter: drop-shadow(0 0 7px #00ff66);
+        }
+
+        @keyframes foregroundScroll {
+            0% {
+                left: 100%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: -50px;
+                opacity: 0;
+            }
+        }
+
+        .foreground-tree-1 {
+            animation-delay: 1.5s;
+            top: 35px;
+        }
+
+        .foreground-tree-2 {
+            animation-delay: 3.8s;
+            top: 25px;
+        }
+
+        .foreground-tree-3 {
+            animation-delay: 6s;
+            top: 40px;
+        }
+
         .axis-line {
             position: absolute;
             top: 63px;
@@ -147,6 +292,7 @@
                     transparent 4px,
                     transparent 8px
                 );
+            z-index: 5;
         }
     </style>
 </head>
@@ -155,29 +301,50 @@
 
     <div class="stage">
 
+        <!-- Background trees -->
+        <div class="background-tree background-tree-1">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="background-tree background-tree-2">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="background-tree background-tree-3">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="background-tree background-tree-4">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
         <div class="axis-line"></div>
 
+        <!-- Player -->
         <div class="player"></div>
 
-        <div class="tree-container tree-1">
+        <!-- Foreground trees -->
+        <div class="foreground-tree foreground-tree-1">
             <div class="leaf-top"></div>
             <div class="leaf-bottom"></div>
             <div class="trunk"></div>
         </div>
 
-        <div class="tree-container tree-2">
+        <div class="foreground-tree foreground-tree-2">
             <div class="leaf-top"></div>
             <div class="leaf-bottom"></div>
             <div class="trunk"></div>
         </div>
 
-        <div class="tree-container tree-3">
-            <div class="leaf-top"></div>
-            <div class="leaf-bottom"></div>
-            <div class="trunk"></div>
-        </div>
-
-        <div class="tree-container tree-4">
+        <div class="foreground-tree foreground-tree-3">
             <div class="leaf-top"></div>
             <div class="leaf-bottom"></div>
             <div class="trunk"></div>
