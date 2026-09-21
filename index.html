@@ -66,12 +66,18 @@
         }
 
         .shop-details {
-            width: 100%;
-            margin: 10px 0 0 0;
-            padding: 14px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            width: min(420px, calc(100vw - 32px));
+            margin: 0;
+            padding: 18px;
             border: 1px solid #853744;
             border-radius: 10px;
             background: #14121f;
+            box-shadow: 0 0 28px rgba(0, 0, 0, 0.7);
             text-align: center;
         }
 
@@ -111,7 +117,8 @@
             }
 
             .shop-details {
-                padding: 12px;
+                width: calc(100vw - 24px);
+                padding: 14px;
             }
 
             .shop-details .action-btn {
