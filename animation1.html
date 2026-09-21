@@ -34,87 +34,326 @@
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
         }
 
-        /* ========================================
-           BACKGROUND FOREST
-           ======================================== */
+        /* =========================================
+           DENSE BACKGROUND FOREST
+           ========================================= */
 
         .background-forest {
             position: absolute;
             inset: 0;
-            z-index: 2;
-            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
         }
 
         .background-tree {
             position: absolute;
-            width: 40px;
-            height: 80px;
-            opacity: 0.28;
+            width: 30px;
+            height: 65px;
+            opacity: 0.3;
         }
 
         .background-tree .leaf-top {
-            filter: none;
+            position: absolute;
+            left: 8px;
+            top: 0;
+
+            width: 0;
+            height: 0;
+
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 17px solid #185c3a;
         }
 
         .background-tree .leaf-bottom {
-            filter: none;
+            position: absolute;
+            left: 3px;
+            top: 13px;
+
+            width: 0;
+            height: 0;
+
+            border-left: 13px solid transparent;
+            border-right: 13px solid transparent;
+            border-bottom: 22px solid #185c3a;
         }
 
         .background-tree .trunk {
-            filter: none;
+            position: absolute;
+            left: 12px;
+            top: 34px;
+
+            width: 6px;
+            height: 22px;
+
+            border: 2px solid #185c3a;
         }
 
-        .background-tree-1 {
-            left: 8%;
-            top: 8px;
-            transform: scale(0.75);
-        }
+        /* =========================================
+           BACK ROW
+           ========================================= */
 
-        .background-tree-2 {
-            left: 23%;
-            top: 25px;
-            transform: scale(0.55);
-        }
-
-        .background-tree-3 {
-            left: 39%;
-            top: 0;
-            transform: scale(0.9);
-        }
-
-        .background-tree-4 {
-            left: 55%;
-            top: 20px;
-            transform: scale(0.65);
-        }
-
-        .background-tree-5 {
-            left: 70%;
-            top: 3px;
+        .tree-b1 {
+            left: -10px;
+            top: -8px;
             transform: scale(0.8);
         }
 
-        .background-tree-6 {
-            left: 86%;
-            top: 22px;
+        .tree-b2 {
+            left: 2%;
+            top: 8px;
             transform: scale(0.6);
         }
 
-        .background-tree .leaf-top {
-            border-bottom-color: #087a3b;
+        .tree-b3 {
+            left: 7%;
+            top: -12px;
+            transform: scale(0.9);
         }
 
-        .background-tree .leaf-bottom {
-            border-bottom-color: #087a3b;
+        .tree-b4 {
+            left: 13%;
+            top: 5px;
+            transform: scale(0.7);
         }
 
-        .background-tree .trunk {
-            border-color: #087a3b;
+        .tree-b5 {
+            left: 19%;
+            top: -15px;
+            transform: scale(0.85);
         }
 
-        /* ========================================
+        .tree-b6 {
+            left: 25%;
+            top: 3px;
+            transform: scale(0.65);
+        }
+
+        .tree-b7 {
+            left: 31%;
+            top: -10px;
+            transform: scale(0.95);
+        }
+
+        .tree-b8 {
+            left: 37%;
+            top: 7px;
+            transform: scale(0.65);
+        }
+
+        .tree-b9 {
+            left: 43%;
+            top: -12px;
+            transform: scale(0.8);
+        }
+
+        .tree-b10 {
+            left: 49%;
+            top: 5px;
+            transform: scale(0.7);
+        }
+
+        .tree-b11 {
+            left: 55%;
+            top: -14px;
+            transform: scale(0.9);
+        }
+
+        .tree-b12 {
+            left: 61%;
+            top: 4px;
+            transform: scale(0.65);
+        }
+
+        .tree-b13 {
+            left: 67%;
+            top: -10px;
+            transform: scale(0.85);
+        }
+
+        .tree-b14 {
+            left: 73%;
+            top: 5px;
+            transform: scale(0.7);
+        }
+
+        .tree-b15 {
+            left: 79%;
+            top: -13px;
+            transform: scale(0.9);
+        }
+
+        .tree-b16 {
+            left: 85%;
+            top: 3px;
+            transform: scale(0.65);
+        }
+
+        .tree-b17 {
+            left: 91%;
+            top: -8px;
+            transform: scale(0.85);
+        }
+
+        .tree-b18 {
+            left: 97%;
+            top: 8px;
+            transform: scale(0.7);
+        }
+
+        /* =========================================
+           MIDDLE ROW
+           ========================================= */
+
+        .middle-tree {
+            position: absolute;
+            width: 34px;
+            height: 70px;
+            opacity: 0.22;
+        }
+
+        .middle-tree .leaf-top {
+            position: absolute;
+            left: 9px;
+            top: 0;
+
+            border-left: 9px solid transparent;
+            border-right: 9px solid transparent;
+            border-bottom: 19px solid #147345;
+        }
+
+        .middle-tree .leaf-bottom {
+            position: absolute;
+            left: 4px;
+            top: 14px;
+
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 24px solid #147345;
+        }
+
+        .middle-tree .trunk {
+            position: absolute;
+            left: 14px;
+            top: 37px;
+
+            width: 7px;
+            height: 24px;
+
+            border: 2px solid #147345;
+        }
+
+        .middle-1 {
+            left: -2%;
+            top: 38px;
+            transform: scale(0.9);
+        }
+
+        .middle-2 {
+            left: 4%;
+            top: 48px;
+            transform: scale(0.7);
+        }
+
+        .middle-3 {
+            left: 10%;
+            top: 35px;
+            transform: scale(1);
+        }
+
+        .middle-4 {
+            left: 16%;
+            top: 45px;
+            transform: scale(0.75);
+        }
+
+        .middle-5 {
+            left: 22%;
+            top: 32px;
+            transform: scale(0.95);
+        }
+
+        .middle-6 {
+            left: 28%;
+            top: 46px;
+            transform: scale(0.7);
+        }
+
+        .middle-7 {
+            left: 34%;
+            top: 36px;
+            transform: scale(1);
+        }
+
+        .middle-8 {
+            left: 40%;
+            top: 48px;
+            transform: scale(0.7);
+        }
+
+        .middle-9 {
+            left: 46%;
+            top: 34px;
+            transform: scale(0.95);
+        }
+
+        .middle-10 {
+            left: 52%;
+            top: 46px;
+            transform: scale(0.75);
+        }
+
+        .middle-11 {
+            left: 58%;
+            top: 35px;
+            transform: scale(1);
+        }
+
+        .middle-12 {
+            left: 64%;
+            top: 47px;
+            transform: scale(0.7);
+        }
+
+        .middle-13 {
+            left: 70%;
+            top: 33px;
+            transform: scale(0.95);
+        }
+
+        .middle-14 {
+            left: 76%;
+            top: 46px;
+            transform: scale(0.75);
+        }
+
+        .middle-15 {
+            left: 82%;
+            top: 35px;
+            transform: scale(1);
+        }
+
+        .middle-16 {
+            left: 88%;
+            top: 47px;
+            transform: scale(0.7);
+        }
+
+        .middle-17 {
+            left: 94%;
+            top: 34px;
+            transform: scale(0.95);
+        }
+
+        .middle-18 {
+            left: 100%;
+            top: 45px;
+            transform: scale(0.75);
+        }
+
+        /* =========================================
            PLAYER
-           ======================================== */
+           ========================================= */
 
         .player {
             position: absolute;
@@ -126,8 +365,7 @@
 
             border: 2px solid #00bcff;
 
-            filter:
-                drop-shadow(0 0 6px #00bcff);
+            filter: drop-shadow(0 0 6px #00bcff);
 
             z-index: 10;
 
@@ -145,13 +383,12 @@
             }
         }
 
-        /* ========================================
+        /* =========================================
            GROUND LINE
-           ======================================== */
+           ========================================= */
 
         .axis-line {
             position: absolute;
-
             top: 63px;
 
             width: 100%;
@@ -169,14 +406,12 @@
             z-index: 5;
         }
 
-        /* ========================================
+        /* =========================================
            FOREGROUND TREES
-           ======================================== */
+           ========================================= */
 
         .foreground-tree {
             position: absolute;
-
-            top: 30px;
 
             width: 40px;
             height: 80px;
@@ -231,8 +466,6 @@
             animation-delay: 5.1s;
         }
 
-        /* Bright glow for foreground trees */
-
         .foreground-tree .leaf-top {
             filter:
                 drop-shadow(0 0 7px #00ff66)
@@ -250,13 +483,12 @@
                 drop-shadow(0 0 7px #00ff66);
         }
 
-        /* ========================================
-           TREE PARTS
-           ======================================== */
+        /* =========================================
+           FOREGROUND TREE PARTS
+           ========================================= */
 
-        .leaf-top {
+        .foreground-tree .leaf-top {
             position: absolute;
-
             left: 10px;
             top: 0;
 
@@ -268,9 +500,8 @@
             border-bottom: 20px solid #00ff66;
         }
 
-        .leaf-bottom {
+        .foreground-tree .leaf-bottom {
             position: absolute;
-
             left: 5px;
             top: 15px;
 
@@ -282,9 +513,8 @@
             border-bottom: 25px solid #00ff66;
         }
 
-        .trunk {
+        .foreground-tree .trunk {
             position: absolute;
-
             left: 16px;
             top: 40px;
 
@@ -300,43 +530,228 @@
 
     <div class="stage">
 
-        <!-- ==================================
-             CONSTANT BACKGROUND FOREST
-             ================================== -->
+        <!-- =========================================
+             DENSE BACKGROUND FOREST
+             ========================================= -->
 
         <div class="background-forest">
 
-            <div class="background-tree background-tree-1">
+            <!-- Back row -->
+
+            <div class="background-tree tree-b1">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
             </div>
 
-            <div class="background-tree background-tree-2">
+            <div class="background-tree tree-b2">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
             </div>
 
-            <div class="background-tree background-tree-3">
+            <div class="background-tree tree-b3">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
             </div>
 
-            <div class="background-tree background-tree-4">
+            <div class="background-tree tree-b4">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
             </div>
 
-            <div class="background-tree background-tree-5">
+            <div class="background-tree tree-b5">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
             </div>
 
-            <div class="background-tree background-tree-6">
+            <div class="background-tree tree-b6">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b7">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b8">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b9">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b10">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b11">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b12">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b13">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b14">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b15">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b16">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b17">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree tree-b18">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+
+            <!-- Middle row -->
+
+            <div class="middle-tree middle-1">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-2">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-3">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-4">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-5">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-6">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-7">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-8">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-9">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-10">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-11">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-12">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-13">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-14">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-15">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-16">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-17">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="middle-tree middle-18">
                 <div class="leaf-top"></div>
                 <div class="leaf-bottom"></div>
                 <div class="trunk"></div>
@@ -355,9 +770,9 @@
         <div class="player"></div>
 
 
-        <!-- ==================================
-             BRIGHT FOREGROUND TREES
-             ================================== -->
+        <!-- =========================================
+             BRIGHT MOVING FOREGROUND TREES
+             ========================================= -->
 
         <div class="foreground-tree foreground-tree-1">
             <div class="leaf-top"></div>
