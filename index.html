@@ -516,6 +516,185 @@ h1 {
     }
 }
 </style>
+<style>
+
+/* ================================================================
+   CYBERKNIGHT BUTTON COLORS
+   ================================================================ */
+.action-btn {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff;
+    border: 1px solid #c084fc;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.22);
+}
+.action-btn:hover {
+    background: linear-gradient(135deg, #9333ea, #c084fc);
+    box-shadow: 0 0 18px rgba(192, 132, 252, 0.38);
+}
+
+.buy-btn, .shop-buy-btn, [class*="buy"] {
+    background: linear-gradient(135deg, #059669, #34d399);
+    color: #07130f;
+    border-color: #6ee7b7;
+}
+.buy-btn:hover, .shop-buy-btn:hover, [class*="buy"]:hover {
+    background: linear-gradient(135deg, #10b981, #6ee7b7);
+}
+
+.attack-btn, [class*="attack"] {
+    background: linear-gradient(135deg, #dc2626, #f87171);
+    color: #fff;
+    border-color: #fca5a5;
+}
+.attack-btn:hover, [class*="attack"]:hover {
+    background: linear-gradient(135deg, #ef4444, #fca5a5);
+}
+
+.train-btn, [class*="train"], [class*="upgrade"] {
+    background: linear-gradient(135deg, #d97706, #fbbf24);
+    color: #171006;
+    border-color: #fde68a;
+}
+.train-btn:hover, [class*="train"]:hover, [class*="upgrade"]:hover {
+    background: linear-gradient(135deg, #f59e0b, #fde68a);
+}
+
+.travel-btn, [class*="travel"], [class*="explore"] {
+    background: linear-gradient(135deg, #2563eb, #60a5fa);
+    color: #fff;
+    border-color: #93c5fd;
+}
+.travel-btn:hover, [class*="travel"]:hover, [class*="explore"]:hover {
+    background: linear-gradient(135deg, #3b82f6, #93c5fd);
+}
+
+.reset-btn, [class*="cancel"], [class*="back"], [class*="exit"] {
+    background: linear-gradient(135deg, #374151, #6b7280);
+    color: #fff;
+    border-color: #9ca3af;
+}
+.reset-btn:hover, [class*="cancel"]:hover, [class*="back"]:hover, [class*="exit"]:hover {
+    background: linear-gradient(135deg, #4b5563, #9ca3af);
+}
+
+button:disabled, .action-btn:disabled {
+    opacity: 0.45;
+    filter: grayscale(0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .action-btn {
+        min-height: 44px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<style>
+/* ==========================================================
+   CYBERKNIGHT FULL-PAGE LAYOUT
+   Uses the available screen instead of a centered box.
+   ========================================================== */
+html, body {
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0;
+}
+
+body {
+    padding: 0 !important;
+    overflow-x: hidden;
+}
+
+.game-container {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh;
+    margin: 0 !important;
+    padding: 34px clamp(20px, 5vw, 80px) 50px !important;
+}
+
+.game-container > h1,
+.game-container > .subtitle {
+    max-width: 1400px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.card,
+#shopScreen .card,
+#gameScreen .card,
+#battleScreen .card {
+    width: 100% !important;
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    border-radius: 16px !important;
+}
+
+/* Keep individual grids readable while letting their parent fill the page. */
+.class-grid,
+.action-tray,
+#shopMainMenu {
+    width: 100%;
+}
+
+.shop-section {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+.shop-list {
+    width: 100% !important;
+}
+
+.shop-row {
+    width: 100% !important;
+}
+
+@media (max-width: 600px) {
+    .game-container {
+        width: 100% !important;
+        min-height: 100vh;
+        padding: 18px 10px 30px !important;
+    }
+
+    .game-container > h1,
+    .game-container > .subtitle {
+        width: 100%;
+    }
+
+    .card,
+    #shopScreen .card,
+    #gameScreen .card,
+    #battleScreen .card {
+        width: 100% !important;
+        border-radius: 12px !important;
+        padding: 14px !important;
+    }
+
+    .shop-section {
+        width: 100% !important;
+        padding: 8px !important;
+    }
+
+    .shop-row {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+}
+
+@media (min-width: 1000px) {
+    .game-container {
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
