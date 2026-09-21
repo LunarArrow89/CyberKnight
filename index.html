@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Whispering Woods</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -20,161 +15,131 @@
             margin: 0;
             min-height: 100vh;
             background:
-                radial-gradient(circle at top, #1c2b20 0%, #0c120e 45%, #070a08 100%);
-            color: #e6eee7;
+                radial-gradient(circle at top, #17251b 0%, #0b100d 45%, #050706 100%);
+            color: #dce8df;
             font-family: Arial, sans-serif;
-            padding: 14px;
         }
 
         .game {
-            width: 100%;
-            max-width: 620px;
+            width: min(620px, 94%);
             margin: auto;
+            padding: 18px 0 30px;
         }
 
         h1 {
+            margin: 0 0 4px;
             text-align: center;
-            margin: 4px 0 2px;
-            font-size: 25px;
-            color: #b7d8bd;
+            color: #d9f5df;
+            font-size: 28px;
         }
 
         .subtitle {
+            margin: 0 0 16px;
             text-align: center;
-            color: #829788;
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        .panel {
-            background: rgba(17, 25, 19, 0.96);
-            border: 1px solid #304737;
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+            color: #8fa596;
+            font-size: 13px;
         }
 
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
 
         .stat {
-            background: #111a14;
-            border: 1px solid #2b3d30;
-            border-radius: 7px;
-            padding: 7px;
+            background: rgba(20, 31, 24, 0.9);
+            border: 1px solid #26392d;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
         }
 
         .stat-label {
-            color: #829788;
-            font-size: 10px;
-            margin-bottom: 2px;
+            color: #819687;
+            font-size: 11px;
+            margin-bottom: 3px;
         }
 
         .stat-value {
-            font-size: 15px;
+            color: #dff5e4;
+            font-size: 17px;
             font-weight: bold;
         }
 
-        .section-title {
-            font-size: 14px;
-            color: #b7d8bd;
-            margin-bottom: 6px;
+        .panel {
+            background: rgba(14, 22, 17, 0.94);
+            border: 1px solid #26392d;
+            border-radius: 9px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
-        .progress-container {
+        .panel-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #b9d9c2;
+            margin-bottom: 8px;
+        }
+
+        .forest-bar {
             width: 100%;
             height: 13px;
-            background: #080d0a;
-            border: 1px solid #2d4133;
+            background: #070b08;
+            border: 1px solid #26392d;
             border-radius: 20px;
             overflow: hidden;
         }
 
-        .progress {
-            height: 100%;
+        #forestProgress {
             width: 0%;
-            background: #719b78;
+            height: 100%;
+            background: #5b9469;
             transition: width 0.2s linear;
         }
 
-        .rest-progress {
-            background: #8f8062;
-        }
-
         .progress-text {
-            text-align: center;
-            font-size: 10px;
-            color: #8b9d8f;
-            margin-top: 3px;
-        }
-
-        .status {
-            font-size: 12px;
-            color: #9caf9f;
+            display: flex;
+            justify-content: space-between;
             margin-top: 5px;
-            text-align: center;
-        }
-
-        .battle {
-            border-color: #604040;
-        }
-
-        .battle-title {
-            color: #d99999;
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .enemy-hp {
-            color: #e2a3a3;
-            font-size: 12px;
-        }
-
-        .battle-log {
-            margin-top: 5px;
-            padding: 6px;
-            background: #0b100c;
-            border-radius: 6px;
-            color: #9aab9e;
+            color: #829689;
             font-size: 11px;
-            min-height: 27px;
+        }
+
+        #forestStatus {
+            margin-top: 8px;
+            color: #9eb5a4;
+            font-size: 12px;
         }
 
         .rest-panel {
-            border-color: #5c523c;
+            background: rgba(20, 31, 24, 0.96);
         }
 
         .rest-info {
-            color: #a99f85;
-            font-size: 11px;
-            margin-bottom: 6px;
+            color: #9eb5a4;
+            font-size: 12px;
+            margin-bottom: 9px;
         }
 
-        .buttons {
+        .rest-buttons {
             display: flex;
-            gap: 6px;
-            margin-top: 7px;
+            gap: 7px;
         }
 
         button {
             flex: 1;
-            border: 1px solid #405a47;
-            background: #17251b;
-            color: #dce8de;
-            padding: 7px 10px;
-            border-radius: 6px;
+            border: 1px solid #47634e;
+            border-radius: 7px;
+            padding: 9px;
+            background: #1b2a20;
+            color: #dce8df;
             cursor: pointer;
             font-size: 12px;
         }
 
-        button:hover {
-            background: #213528;
+        button:hover:not(:disabled) {
+            background: #263a2c;
         }
 
         button:disabled {
@@ -182,99 +147,108 @@
             cursor: not-allowed;
         }
 
-        .leave-button {
-            border-color: #684848;
-            background: #241717;
+        .rest-bar {
+            width: 100%;
+            height: 11px;
+            background: #070b08;
+            border: 1px solid #26392d;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 9px;
         }
 
-        .leave-button:hover {
-            background: #342020;
+        #restProgress {
+            width: 0%;
+            height: 100%;
+            background: #7da887;
+            transition: width 0.2s linear;
+        }
+
+        #restProgressText {
+            text-align: center;
+            color: #829689;
+            font-size: 10px;
+            margin-top: 4px;
         }
 
         .log {
-            max-height: 130px;
+            height: 190px;
             overflow-y: auto;
-            background: #0b100c;
-            border-radius: 6px;
-            padding: 6px;
+            background: #070b08;
+            border: 1px solid #26392d;
+            border-radius: 7px;
+            padding: 8px;
+            font-size: 12px;
         }
 
         .log-entry {
-            font-size: 10px;
-            color: #8f9e92;
-            padding: 2px 0;
-            border-bottom: 1px solid #172019;
+            padding: 5px 2px;
+            border-bottom: 1px solid rgba(58, 77, 63, 0.35);
+            color: #aebeb3;
         }
 
-        .forced-rest {
-            color: #d9ad77;
+        .log-entry:last-child {
+            border-bottom: none;
         }
 
         .victory,
         .game-over {
             text-align: center;
-            padding: 14px;
+            display: none;
         }
 
-        .victory {
-            border-color: #466b4d;
-        }
-
-        .game-over {
-            border-color: #693d3d;
+        .victory h2,
+        .game-over h2 {
+            margin: 0 0 7px;
+            font-size: 20px;
         }
 
         .victory h2 {
-            color: #9dcaa4;
-            margin: 0 0 4px;
-            font-size: 20px;
+            color: #a9dcb2;
         }
 
         .game-over h2 {
-            color: #d38d8d;
-            margin: 0 0 4px;
-            font-size: 20px;
+            color: #dca9a9;
         }
 
-        .hidden {
-            display: none !important;
+        .victory p,
+        .game-over p {
+            margin: 0;
+            color: #91a295;
+            font-size: 12px;
         }
 
         @media (max-width: 500px) {
-
-            body {
-                padding: 8px;
+            .game {
+                width: 96%;
+                padding-top: 12px;
             }
 
             h1 {
-                font-size: 22px;
-            }
-
-            .panel {
-                padding: 8px;
-                margin-bottom: 6px;
+                font-size: 24px;
             }
 
             .stats {
-                gap: 4px;
+                gap: 5px;
             }
 
             .stat {
-                padding: 6px 3px;
+                padding: 8px 4px;
             }
 
             .stat-value {
-                font-size: 13px;
+                font-size: 15px;
             }
 
-            button {
-                padding: 7px 5px;
+            .panel {
+                padding: 10px;
             }
 
+            .log {
+                height: 160px;
+            }
         }
-
     </style>
-
 </head>
 
 <body>
@@ -283,668 +257,323 @@
 
     <h1>Whispering Woods</h1>
 
-    <div class="subtitle">
-        Something is moving in the darkness...
-    </div>
+    <p class="subtitle">
+        Walk through the darkness and find your way out.
+    </p>
 
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">HP</div>
+            <div class="stat-value" id="hpDisplay">
+                40 / 40
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Attack</div>
+            <div class="stat-value">
+                8
+            </div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Status</div>
+            <div class="stat-value" id="statusDisplay">
+                Walking
+            </div>
+        </div>
+
+    </div>
 
     <div class="panel">
 
-        <div class="stats">
+        <div class="panel-title">
+            The Forest
+        </div>
 
-            <div class="stat">
+        <div class="forest-bar">
+            <div id="forestProgress"></div>
+        </div>
 
-                <div class="stat-label">
-                    HP
-                </div>
+        <div class="progress-text">
+            <span id="forestProgressText">
+                0 / 300 seconds
+            </span>
 
-                <div
-                    class="stat-value"
-                    id="hpDisplay">
-                    40 / 40
-                </div>
+            <span>
+                5 minutes
+            </span>
+        </div>
 
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    PATH
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="timeDisplay">
-                    0:00 / 5:00
-                </div>
-
-            </div>
-
-
-            <div class="stat">
-
-                <div class="stat-label">
-                    STATUS
-                </div>
-
-                <div
-                    class="stat-value"
-                    id="statusDisplay">
-                    Walking
-                </div>
-
-            </div>
-
+        <div id="forestStatus">
+            The path continues through the darkness...
         </div>
 
     </div>
-
-
-    <div class="panel">
-
-        <div class="section-title">
-            Forest Path
-        </div>
-
-        <div class="progress-container">
-
-            <div
-                class="progress"
-                id="forestProgress">
-            </div>
-
-        </div>
-
-        <div
-            class="progress-text"
-            id="forestProgressText">
-            0%
-        </div>
-
-        <div
-            class="status"
-            id="forestStatus">
-            You continue walking through the dark forest.
-        </div>
-
-    </div>
-
-
-    <div
-        class="panel battle hidden"
-        id="battlePanel">
-
-        <div class="battle-title">
-            ⚔️ Enemy Encounter
-        </div>
-
-        <div id="enemyName">
-            Enemy
-        </div>
-
-        <div
-            class="enemy-hp"
-            id="enemyHp">
-            HP: 0 / 0
-        </div>
-
-        <div
-            class="battle-log"
-            id="battleLog">
-            Battle begins...
-        </div>
-
-    </div>
-
 
     <div class="panel rest-panel">
 
-        <div class="section-title">
+        <div class="panel-title">
             Rest
         </div>
 
-        <div
-            class="rest-info"
-            id="restInfo">
-            Rest to completely restore your HP.
+        <div class="rest-info" id="restInfo">
+            Rest to recover your HP. Resting pauses your journey.
         </div>
 
-        <div class="progress-container">
+        <div class="rest-buttons">
 
-            <div
-                class="progress rest-progress"
-                id="restProgress">
-            </div>
-
-        </div>
-
-        <div
-            class="progress-text"
-            id="restProgressText">
-            Not resting
-        </div>
-
-        <div class="buttons">
-
-            <button
-                id="restButton"
-                onclick="startRest()">
+            <button id="restButton" onclick="startRest()">
                 Rest
             </button>
 
             <button
-                class="leave-button"
                 id="leaveButton"
                 onclick="leaveRest()"
-                disabled>
-                Leave Rest
+                disabled
+            >
+                Leave
             </button>
 
         </div>
 
-    </div>
+        <div class="rest-bar">
+            <div id="restProgress"></div>
+        </div>
 
+        <div id="restProgressText">
+            Not resting
+        </div>
+
+    </div>
 
     <div class="panel">
 
-        <div class="section-title">
+        <div class="panel-title">
             Adventure Log
         </div>
 
-        <div
-            class="log"
-            id="log">
-        </div>
+        <div class="log" id="log"></div>
 
     </div>
 
+    <div class="panel victory" id="victoryPanel">
 
-    <div
-        class="panel victory hidden"
-        id="victoryPanel">
+        <h2>You Found Your Way Out</h2>
 
-        <h2>
-            You Found the End of the Path
-        </h2>
-
-        <div>
-            The forest grows quieter as the darkness begins to fade.
-        </div>
+        <p>
+            After five minutes of walking, the forest finally ends.
+        </p>
 
     </div>
 
+    <div class="panel game-over" id="gameOverPanel">
 
-    <div
-        class="panel game-over hidden"
-        id="gameOverPanel">
+        <h2>Game Over</h2>
 
-        <h2>
-            You Fell in the Forest
-        </h2>
-
-        <div>
-            Your journey has come to an end.
-        </div>
+        <p>
+            Your journey has ended.
+        </p>
 
     </div>
 
 </div>
 
-
 <script>
 
-    const player = {
-        hp: 40,
-        maxHp: 40,
-        attack: 8
-    };
+const player = {
+    hp: 40,
+    maxHp: 40,
+    attack: 8
+};
 
+const enemies = [
+    {
+        name: "Lost Wolf",
+        maxHp: 18,
+        attack: 4
+    },
 
-    const enemies = [
+    {
+        name: "Forest Goblin",
+        maxHp: 22,
+        attack: 3
+    },
 
-        {
-            name: "Lost Wolf",
-            maxHp: 18,
-            attack: 4
-        },
+    {
+        name: "Shadow Spider",
+        maxHp: 15,
+        attack: 5
+    },
 
-        {
-            name: "Forest Goblin",
-            maxHp: 22,
-            attack: 3
-        },
+    {
+        name: "Angry Boar",
+        maxHp: 25,
+        attack: 4
+    },
 
-        {
-            name: "Shadow Spider",
-            maxHp: 15,
-            attack: 5
-        },
+    {
+        name: "Dark Slime",
+        maxHp: 20,
+        attack: 2
+    }
+];
 
-        {
-            name: "Angry Boar",
-            maxHp: 25,
-            attack: 4
-        },
+const forestGoal = 300;
 
-        {
-            name: "Dark Slime",
-            maxHp: 20,
-            attack: 2
-        }
+let forestTime = 0;
+let forestTimer = null;
 
-    ];
+let resting = false;
+let forcedRest = false;
 
+let restTimer = null;
+let restElapsed = 0;
+let restDuration = 0;
 
-    let forestTime = 0;
+let restStartedAt = null;
 
-    const forestGoal = 300;
+let forestStartTime = Date.now();
+let forestPausedTime = 0;
 
-    let forestTimer = null;
+let gameEnded = false;
 
-    let enemy = null;
+function addLog(message) {
 
-    let inBattle = false;
+    const log = document.getElementById("log");
 
-    let resting = false;
+    const entry = document.createElement("div");
 
-    let forcedRest = false;
+    entry.className = "log-entry";
 
-    let restTimer = null;
+    entry.textContent = message;
 
-    let restElapsed = 0;
+    log.appendChild(entry);
 
-    let restDuration = 0;
+    log.scrollTop = log.scrollHeight;
+}
 
-    let gameEnded = false;
+function updateHP() {
 
+    document.getElementById("hpDisplay").textContent =
+        `${player.hp} / ${player.maxHp}`;
+}
 
-    const hpDisplay =
-        document.getElementById("hpDisplay");
+function formatTime(seconds) {
 
-    const timeDisplay =
-        document.getElementById("timeDisplay");
+    const minutes =
+        Math.floor(seconds / 60);
 
-    const statusDisplay =
+    const remainingSeconds =
+        Math.floor(seconds % 60);
+
+    return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function updateForest() {
+
+    const progress =
+        Math.min(
+            100,
+            (forestTime / forestGoal) * 100
+        );
+
+    document.getElementById("forestProgress").style.width =
+        `${progress}%`;
+
+    document.getElementById("forestProgressText").textContent =
+        `${formatTime(forestTime)} / 5:00`;
+
+    if (forestTime >= forestGoal) {
+
+        document.getElementById("forestStatus").textContent =
+            "You made it through the forest.";
+
+    } else {
+
+        document.getElementById("forestStatus").textContent =
+            "The path continues through the darkness...";
+
+    }
+}
+
+function updateStatus() {
+
+    const status =
         document.getElementById("statusDisplay");
 
-    const forestProgress =
-        document.getElementById("forestProgress");
+    if (gameEnded) {
 
-    const forestProgressText =
-        document.getElementById("forestProgressText");
+        status.textContent =
+            "Finished";
 
-    const forestStatus =
-        document.getElementById("forestStatus");
+    } else if (forcedRest) {
 
-    const battlePanel =
-        document.getElementById("battlePanel");
+        status.textContent =
+            "Forced Rest";
 
-    const enemyName =
-        document.getElementById("enemyName");
+    } else if (resting) {
 
-    const enemyHp =
-        document.getElementById("enemyHp");
+        status.textContent =
+            "Resting";
 
-    const battleLog =
-        document.getElementById("battleLog");
+    } else {
 
-    const restButton =
-        document.getElementById("restButton");
-
-    const leaveButton =
-        document.getElementById("leaveButton");
-
-    const restProgress =
-        document.getElementById("restProgress");
-
-    const restProgressText =
-        document.getElementById("restProgressText");
-
-    const restInfo =
-        document.getElementById("restInfo");
-
-    const log =
-        document.getElementById("log");
-
-    const victoryPanel =
-        document.getElementById("victoryPanel");
-
-    const gameOverPanel =
-        document.getElementById("gameOverPanel");
-
-
-    function addLog(message, className = "") {
-
-        const entry =
-            document.createElement("div");
-
-        entry.className =
-            "log-entry " + className;
-
-        entry.textContent =
-            message;
-
-        log.prepend(entry);
-
-    }
-
-
-    function updateHP() {
-
-        hpDisplay.textContent =
-            `${player.hp} / ${player.maxHp}`;
-
-    }
-
-
-    function formatTime(seconds) {
-
-        const minutes =
-            Math.floor(seconds / 60);
-
-        const secs =
-            seconds % 60;
-
-        return `${minutes}:${String(secs).padStart(2, "0")}`;
-
-    }
-
-
-    function updateForest() {
-
-        const percent =
-            Math.min(
-                100,
-                (forestTime / forestGoal) * 100
-            );
-
-        forestProgress.style.width =
-            percent + "%";
-
-        forestProgressText.textContent =
-            Math.floor(percent) + "%";
-
-        timeDisplay.textContent =
-            `${formatTime(forestTime)} / 5:00`;
-
-    }
-
-
-    function updateStatus() {
-
-        if (gameEnded) {
-
-            statusDisplay.textContent =
-                "Finished";
-
-            return;
-
-        }
-
-
-        if (forcedRest) {
-
-            statusDisplay.textContent =
-                "Forced Rest";
-
-            forestStatus.textContent =
-                "You have 0 HP. You must finish resting before you can continue.";
-
-            return;
-
-        }
-
-
-        if (resting) {
-
-            statusDisplay.textContent =
-                "Resting";
-
-            forestStatus.textContent =
-                "You are resting. The path is paused.";
-
-            return;
-
-        }
-
-
-        if (inBattle) {
-
-            statusDisplay.textContent =
-                "Fighting";
-
-            forestStatus.textContent =
-                "You are fighting an enemy.";
-
-            return;
-
-        }
-
-
-        statusDisplay.textContent =
+        status.textContent =
             "Walking";
 
-        forestStatus.textContent =
-            "You continue walking through the dark forest.";
+    }
+}
 
+function findEnemy() {
+
+    if (
+        gameEnded ||
+        resting ||
+        forcedRest
+    ) {
+        return;
     }
 
+    const chance = 0.035;
 
-    function findEnemy() {
+    if (Math.random() < chance) {
 
-        if (gameEnded) return;
-
-        if (resting) return;
-
-        if (forcedRest) return;
-
-        if (inBattle) return;
-
-
-        const chance = 0.035;
-
-
-        if (Math.random() < chance) {
-
-            startBattle();
-
-        }
+        resolveEnemyEncounter();
 
     }
+}
 
+function resolveEnemyEncounter() {
 
-    function startBattle() {
-
-        if (resting) return;
-
-        if (forcedRest) return;
-
-        if (gameEnded) return;
-
-        if (inBattle) return;
-
-
-        const chosen =
-            enemies[
-                Math.floor(
-                    Math.random() * enemies.length
-                )
-            ];
-
-
-        enemy = {
-
-            name: chosen.name,
-
-            hp: chosen.maxHp,
-
-            maxHp: chosen.maxHp,
-
-            attack: chosen.attack
-
-        };
-
-
-        inBattle = true;
-
-
-        battlePanel.classList.remove(
-            "hidden"
-        );
-
-
-        enemyName.textContent =
-            enemy.name;
-
-
-        updateEnemyHP();
-
-
-        battleLog.textContent =
-            `${enemy.name} appears. One turn of combat begins.`;
-
-
-        updateStatus();
-
-
-        addLog(
-            `A ${enemy.name} appeared!`
-        );
-
-
-        /*
-            ONE-TURN COMBAT
-
-            Both attacks happen once.
-
-            Enemy HP loses player attack.
-
-            Player loses:
-            enemy attack - player attack
-
-            Damage can never go below zero.
-        */
-
-        setTimeout(
-            resolveBattle,
-            900
-        );
-
+    if (
+        gameEnded ||
+        resting ||
+        forcedRest
+    ) {
+        return;
     }
 
+    const chosenEnemy =
+        enemies[
+            Math.floor(
+                Math.random() * enemies.length
+            )
+        ];
 
-    function updateEnemyHP() {
+    const enemy = {
+        name: chosenEnemy.name,
+        hp: chosenEnemy.maxHp,
+        attack: chosenEnemy.attack
+    };
 
-        if (!enemy) return;
+    while (
+        enemy.hp > 0 &&
+        player.hp > 0
+    ) {
 
-
-        enemyHp.textContent =
-            `HP: ${enemy.hp} / ${enemy.maxHp}`;
-
-    }
-
-
-    function resolveBattle() {
-
-        if (!inBattle) return;
-
-        if (!enemy) return;
-
-
-        const playerDamage =
-            player.attack;
-
-
-const damageTaken =
-    Math.max(
-        1,
-        Math.floor(
-            enemy.attack - (player.attack / 2)
-        )
-    );
-
-
-        enemy.hp -= playerDamage;
-
-
-        if (enemy.hp < 0) {
-
-            enemy.hp = 0;
-
-        }
-
-
-        player.hp -= damageTaken;
-
-
-        if (player.hp < 0) {
-
-            player.hp = 0;
-
-        }
-
-
-        updateEnemyHP();
-
-        updateHP();
-
-
-        battleLog.textContent =
-            `You dealt ${playerDamage} damage. You took ${damageTaken} damage.`;
-
-
-        addLog(
-            `You dealt ${playerDamage} damage to ${enemy.name}.`
-        );
-
-
-        if (damageTaken > 0) {
-
-            addLog(
-                `${enemy.name} dealt ${damageTaken} damage to you.`
-            );
-
-        } else {
-
-            addLog(
-                `${enemy.name} could not damage you.`
-            );
-
-        }
-
-
-        /*
-            If HP reaches zero,
-            the player is forced to rest.
-        */
-
-        if (player.hp <= 0) {
-
-            enemy = null;
-
-            inBattle = false;
-
-            battlePanel.classList.add(
-                "hidden"
-            );
-
-            addLog(
-                "You have 0 HP. You are forced to rest.",
-                "forced-rest"
-            );
-
-            forceRest();
-
-            return;
-
-        }
-
-
-        /*
-            Otherwise the one-turn battle
-            is finished immediately.
-        */
+        enemy.hp -= player.attack;
 
         if (enemy.hp <= 0) {
 
@@ -952,458 +581,388 @@ const damageTaken =
                 `You defeated ${enemy.name}.`
             );
 
-            battleLog.textContent =
-                `You defeated ${enemy.name} in one turn.`;
-
-        }
-
-
-        enemy = null;
-
-        inBattle = false;
-
-        updateStatus();
-
-
-        setTimeout(() => {
-
-            battlePanel.classList.add(
-                "hidden"
-            );
-
-        }, 900);
-
-    }
-
-
-    function forceRest() {
-
-        if (gameEnded) return;
-
-        forcedRest = true;
-
-        resting = true;
-
-        restElapsed = 0;
-
-
-        /*
-            Since HP is already zero,
-            resting takes max HP × 10 seconds.
-        */
-
-        restDuration =
-            player.maxHp * 10;
-
-
-        restButton.disabled = true;
-
-        leaveButton.disabled = true;
-
-
-        restInfo.textContent =
-            `Forced rest: ${restDuration} seconds. You must finish it to continue.`;
-
-
-        restProgress.style.width =
-            "0%";
-
-
-        restProgressText.textContent =
-            "0%";
-
-
-        updateStatus();
-
-
-        restTimer =
-            setInterval(
-                updateRest,
-                1000
-            );
-
-    }
-
-
-    function startRest() {
-
-        if (gameEnded) return;
-
-        if (resting) return;
-
-        if (inBattle) {
-
-            addLog(
-                "You cannot rest while fighting."
-            );
+            updateHP();
 
             return;
-
         }
 
-
-        if (player.hp >= player.maxHp) {
-
-            addLog(
-                "You already have full HP."
+        const damageTaken =
+            Math.max(
+                1,
+                Math.floor(
+                    enemy.attack -
+                    (player.attack / 2)
+                )
             );
-
-            return;
-
-        }
-
-
-        resting = true;
-
-        forcedRest = false;
-
-        restElapsed = 0;
-
-
-        const missingHp =
-            player.maxHp - player.hp;
-
-
-        restDuration =
-            missingHp * 10;
-
-
-        restButton.disabled = true;
-
-        leaveButton.disabled = false;
-
-
-        restInfo.textContent =
-            `Resting for ${restDuration} seconds to fully recover.`;
-
-
-        restProgress.style.width =
-            "0%";
-
-
-        restProgressText.textContent =
-            "0%";
-
-
-        updateStatus();
-
-
-        addLog(
-            "You stop walking and begin resting."
-        );
-
-
-        restTimer =
-            setInterval(
-                updateRest,
-                1000
-            );
-
-    }
-
-
-    function updateRest() {
-
-        if (!resting) return;
-
-
-        restElapsed++;
-
-
-        const percent =
-            Math.min(
-                100,
-                (restElapsed / restDuration) * 100
-            );
-
-
-        restProgress.style.width =
-            percent + "%";
-
-
-        restProgressText.textContent =
-            `${Math.floor(percent)}%`;
-
-
-        if (restElapsed >= restDuration) {
-
-            finishRest();
-
-        }
-
-    }
-
-
-    function finishRest() {
-
-        clearInterval(restTimer);
-
-        restTimer = null;
-
-
-        resting = false;
-
-        forcedRest = false;
-
 
         player.hp =
-            player.maxHp;
-
-
-        restProgress.style.width =
-            "100%";
-
-
-        restProgressText.textContent =
-            "Fully healed";
-
-
-        restInfo.textContent =
-            "You are fully healed and can continue walking.";
-
-
-        restButton.disabled =
-            false;
-
-
-        leaveButton.disabled =
-            true;
-
-
-        updateHP();
-
-        updateStatus();
-
-
-        addLog(
-            "You finish resting and recover all HP."
-        );
-
-    }
-
-
-    function leaveRest() {
-
-        /*
-            Forced rest cannot be cancelled.
-        */
-
-        if (forcedRest) {
-
-            addLog(
-                "You must finish your forced rest before continuing.",
-                "forced-rest"
+            Math.max(
+                0,
+                player.hp - damageTaken
             );
-
-            return;
-
-        }
-
-
-        if (!resting) return;
-
-
-        clearInterval(restTimer);
-
-        restTimer = null;
-
-
-        resting = false;
-
-        restElapsed = 0;
-
-
-        restProgress.style.width =
-            "0%";
-
-
-        restProgressText.textContent =
-            "Rest cancelled";
-
-
-        restInfo.textContent =
-            "You left before finishing. No HP was restored.";
-
-
-        restButton.disabled =
-            false;
-
-
-        leaveButton.disabled =
-            true;
-
-
-        updateStatus();
-
-
-        addLog(
-            "You leave your resting spot before recovering."
-        );
-
     }
-
-
-    function forestTick() {
-
-        if (gameEnded) return;
-
-
-        /*
-            Resting completely stops
-            path progress.
-        */
-
-        if (resting) return;
-
-
-        /*
-            Fighting completely stops
-            path progress.
-        */
-
-        if (inBattle) return;
-
-
-        forestTime++;
-
-
-        updateForest();
-
-
-        findEnemy();
-
-
-        if (forestTime >= forestGoal) {
-
-            forestComplete();
-
-        }
-
-    }
-
-
-    function forestComplete() {
-
-        if (gameEnded) return;
-
-
-        gameEnded = true;
-
-
-        clearInterval(forestTimer);
-
-        clearInterval(restTimer);
-
-
-        resting = false;
-
-        forcedRest = false;
-
-        inBattle = false;
-
-
-        statusDisplay.textContent =
-            "Finished";
-
-
-        forestStatus.textContent =
-            "The path ends beneath the trees.";
-
-
-        victoryPanel.classList.remove(
-            "hidden"
-        );
-
-
-        restButton.disabled =
-            true;
-
-
-        leaveButton.disabled =
-            true;
-
-
-        addLog(
-            "You finally reach the end of the forest path."
-        );
-
-    }
-
-
-    function loseGame() {
-
-        gameEnded = true;
-
-
-        clearInterval(forestTimer);
-
-        clearInterval(restTimer);
-
-
-        resting = false;
-
-        forcedRest = false;
-
-        inBattle = false;
-
-
-        statusDisplay.textContent =
-            "Defeated";
-
-
-        battlePanel.classList.add(
-            "hidden"
-        );
-
-
-        gameOverPanel.classList.remove(
-            "hidden"
-        );
-
-
-        restButton.disabled =
-            true;
-
-
-        leaveButton.disabled =
-            true;
-
-
-        addLog(
-            "Your journey through the forest ends."
-        );
-
-    }
-
 
     updateHP();
 
-    updateForest();
+    if (player.hp <= 0) {
+
+        addLog(
+            `${enemy.name} defeated you.`
+        );
+
+        forceRest();
+
+    }
+}
+
+function startRest() {
+
+    if (
+        gameEnded ||
+        resting ||
+        player.hp >= player.maxHp
+    ) {
+        return;
+    }
+
+    resting = true;
+    forcedRest = false;
+
+    restElapsed = 0;
+
+    const missingHp =
+        player.maxHp - player.hp;
+
+    restDuration =
+        missingHp * 10;
+
+    restStartedAt = Date.now();
+
+    document.getElementById("restButton").disabled =
+        true;
+
+    document.getElementById("leaveButton").disabled =
+        false;
+
+    document.getElementById("restInfo").textContent =
+        `Resting will take ${restDuration} seconds.`;
+
+    document.getElementById("restProgress").style.width =
+        "0%";
+
+    document.getElementById("restProgressText").textContent =
+        `0 / ${restDuration} seconds`;
 
     updateStatus();
 
-
-    addLog(
-        "You begin walking through the dark forest..."
-    );
-
-
-    addLog(
-        "The path will take five minutes to cross."
-    );
-
-
-    forestTimer =
+    restTimer =
         setInterval(
-            forestTick,
-            1000
+            updateRest,
+            250
         );
 
-</script>
-<script src="save.js"></script>
-<script>
-    loadGame();
-</script>
-</body>
+    addLog(
+        "You stop to rest."
+    );
+}
 
+function forceRest() {
+
+    if (
+        gameEnded ||
+        resting
+    ) {
+        return;
+    }
+
+    resting = true;
+    forcedRest = true;
+
+    restElapsed = 0;
+
+    const missingHp =
+        player.maxHp - player.hp;
+
+    restDuration =
+        Math.max(
+            10,
+            missingHp * 10
+        );
+
+    restStartedAt = Date.now();
+
+    document.getElementById("restButton").disabled =
+        true;
+
+    document.getElementById("leaveButton").disabled =
+        true;
+
+    document.getElementById("restInfo").textContent =
+        `You must rest for ${restDuration} seconds.`;
+
+    document.getElementById("restProgress").style.width =
+        "0%";
+
+    document.getElementById("restProgressText").textContent =
+        `0 / ${restDuration} seconds`;
+
+    updateStatus();
+
+    restTimer =
+        setInterval(
+            updateRest,
+            250
+        );
+}
+
+function updateRest() {
+
+    if (!resting) {
+        return;
+    }
+
+    restElapsed =
+        (Date.now() - restStartedAt) / 1000;
+
+    const progress =
+        Math.min(
+            100,
+            (restElapsed / restDuration) * 100
+        );
+
+    document.getElementById("restProgress").style.width =
+        `${progress}%`;
+
+    document.getElementById("restProgressText").textContent =
+        `${Math.floor(restElapsed)} / ${restDuration} seconds`;
+
+    if (
+        restElapsed >= restDuration
+    ) {
+
+        finishRest();
+
+    }
+}
+
+function finishRest() {
+
+    if (restTimer) {
+
+        clearInterval(restTimer);
+
+        restTimer = null;
+    }
+
+    if (restStartedAt !== null) {
+
+        forestPausedTime +=
+            Date.now() - restStartedAt;
+    }
+
+    resting = false;
+    forcedRest = false;
+
+    player.hp =
+        player.maxHp;
+
+    document.getElementById("restProgress").style.width =
+        "100%";
+
+    document.getElementById("restProgressText").textContent =
+        "Fully healed!";
+
+    document.getElementById("restButton").disabled =
+        false;
+
+    document.getElementById("leaveButton").disabled =
+        true;
+
+    document.getElementById("restInfo").textContent =
+        "You are fully rested.";
+
+    restStartedAt = null;
+
+    updateHP();
+    updateStatus();
+
+    addLog(
+        "You are fully healed."
+    );
+}
+
+function leaveRest() {
+
+    if (
+        !resting ||
+        forcedRest
+    ) {
+        return;
+    }
+
+    if (restTimer) {
+
+        clearInterval(restTimer);
+
+        restTimer = null;
+    }
+
+    if (restStartedAt !== null) {
+
+        forestPausedTime +=
+            Date.now() - restStartedAt;
+    }
+
+    resting = false;
+
+    restElapsed = 0;
+    restDuration = 0;
+
+    restStartedAt = null;
+
+    document.getElementById("restProgress").style.width =
+        "0%";
+
+    document.getElementById("restProgressText").textContent =
+        "Not resting";
+
+    document.getElementById("restInfo").textContent =
+        "Rest to recover your HP. Resting pauses your journey.";
+
+    document.getElementById("restButton").disabled =
+        false;
+
+    document.getElementById("leaveButton").disabled =
+        true;
+
+    updateStatus();
+
+    addLog(
+        "You stopped resting without recovering any HP."
+    );
+}
+
+function forestTick() {
+
+    if (gameEnded) {
+        return;
+    }
+
+    if (resting || forcedRest) {
+        return;
+    }
+
+    const now =
+        Date.now();
+
+    forestTime =
+        (
+            now -
+            forestStartTime -
+            forestPausedTime
+        ) / 1000;
+
+    if (forestTime >= forestGoal) {
+
+        forestTime =
+            forestGoal;
+
+        updateForest();
+
+        forestComplete();
+
+        return;
+    }
+
+    updateForest();
+
+    findEnemy();
+}
+
+function forestComplete() {
+
+    if (gameEnded) {
+        return;
+    }
+
+    gameEnded = true;
+
+    if (forestTimer) {
+
+        clearInterval(forestTimer);
+
+        forestTimer = null;
+    }
+
+    if (restTimer) {
+
+        clearInterval(restTimer);
+
+        restTimer = null;
+    }
+
+    resting = false;
+    forcedRest = false;
+
+    document.getElementById("restButton").disabled =
+        true;
+
+    document.getElementById("leaveButton").disabled =
+        true;
+
+    document.getElementById("victoryPanel").style.display =
+        "block";
+
+    updateStatus();
+
+    addLog(
+        "You finally escaped the Whispering Woods."
+    );
+}
+
+function loseGame() {
+
+    gameEnded = true;
+
+    if (forestTimer) {
+
+        clearInterval(forestTimer);
+
+        forestTimer = null;
+    }
+
+    if (restTimer) {
+
+        clearInterval(restTimer);
+
+        restTimer = null;
+    }
+
+    document.getElementById("gameOverPanel").style.display =
+        "block";
+
+    updateStatus();
+}
+
+updateHP();
+updateForest();
+updateStatus();
+
+addLog(
+    "You enter the Whispering Woods."
+);
+
+addLog(
+    "The path ahead will take five minutes."
+);
+
+forestTimer =
+    setInterval(
+        forestTick,
+        250
+    );
+
+</script>
+
+</body>
 </html>
