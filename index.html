@@ -1,693 +1,1255 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Wildwood Haven</title>
+<title>Whispering Woods</title>
 
 <style>
 
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
-    margin:0;
-    overflow:hidden;
-    background:#101010;
-    font-family:Arial, sans-serif;
+    margin: 0;
+    min-height: 100%;
 }
 
-
-canvas {
-    display:block;
+body {
+    background:
+        radial-gradient(circle at center, #17231c 0%, #080d0a 55%, #020403 100%);
+    color: #ddd;
+    font-family: Georgia, serif;
 }
 
-
-#ui {
-
-    position:absolute;
-    top:15px;
-    left:15px;
-
-    background:#172317dd;
-    color:white;
-
-    padding:15px;
-    border-radius:15px;
-
-    border:2px solid #76c893;
-
+.game {
+    width: 100%;
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 18px;
 }
 
+h1 {
+    margin: 5px 0 20px;
+    text-align: center;
+    color: #b7f7b0;
+    font-size: clamp(26px, 5vw, 38px);
+}
+
+.card {
+    background: rgba(12, 20, 16, 0.96);
+    border: 2px solid #263d32;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin: 0 0 12px;
+    color: #9be28f;
+    font-size: clamp(20px, 4vw, 25px);
+}
+
+p {
+    font-size: 17px;
+    line-height: 1.5;
+}
+
+.stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.stat {
+    background: #080d0a;
+    border: 1px solid #263d32;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.stat-title {
+    display: block;
+    color: #899c91;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.hp-value {
+    color: #ff8585;
+}
+
+.time-value {
+    color: #b7f7b0;
+}
+
+.enemy-value {
+    color: #ff9b9b;
+}
 
 button {
-
-    background:#76c893;
-    color:white;
-
-    border:none;
-
-    padding:8px 15px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
+    background: #355e3b;
+    color: white;
+    border: 0;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 5px;
+    font-size: 17px;
+    font-family: inherit;
+    cursor: pointer;
+    min-height: 50px;
 }
-
 
 button:hover {
-
-    background:#95d5b2;
-
+    background: #477d4e;
 }
 
+button:active {
+    transform: scale(0.97);
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.action-buttons button {
+    flex: 1;
+    min-width: 180px;
+}
+
+.bar {
+    width: 100%;
+    height: 25px;
+    background: #020403;
+    border: 1px solid #263d32;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+#restBar {
+    width: 0%;
+    height: 100%;
+    background: #77dd77;
+    transition: width 0.25s linear;
+}
+
+#forestBar {
+    width: 0%;
+    height: 100%;
+    background: #527d5b;
+    transition: width 0.25s linear;
+}
+
+.progress-label {
+    text-align: center;
+    font-size: 14px;
+    color: #9aaa9e;
+    margin-top: 7px;
+}
+
+#battle {
+    min-height: 70px;
+}
+
+.battle-box {
+    display: none;
+    background: #180d0d;
+    border: 2px solid #552c2c;
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.battle-box.active {
+    display: block;
+}
+
+.enemy-name {
+    color: #ff8b8b;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.enemy-hp {
+    color: #ffaaaa;
+}
+
+.log {
+    height: 230px;
+    overflow-y: auto;
+    background: #020403;
+    border: 1px solid #263d32;
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: left;
+}
+
+.log p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.log .important {
+    color: #b7f7b0;
+}
+
+.log .danger {
+    color: #ff8585;
+}
+
+.log .rest {
+    color: #9fd8ff;
+}
+
+.log .system {
+    color: #aaa;
+}
+
+#gameOver {
+    display: none;
+    text-align: center;
+    border-color: #6b3636;
+}
+
+#gameOver h2 {
+    color: #ff8585;
+}
+
+#victory {
+    display: none;
+    text-align: center;
+    border-color: #527d5b;
+}
+
+#victory h2 {
+    color: #b7f7b0;
+}
+
+@media (max-width: 600px) {
+
+    .game {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 14px;
+        border-radius: 13px;
+    }
+
+    .stat-row {
+        grid-template-columns: 1fr;
+    }
+
+    .stat {
+        padding: 8px;
+    }
+
+    .action-buttons {
+        display: block;
+    }
+
+    .action-buttons button {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    button {
+        width: 100%;
+        margin: 6px 0;
+    }
+
+    .log {
+        height: 200px;
+    }
+
+}
 
 </style>
 
 </head>
 
-
 <body>
 
+<div class="game">
 
-<canvas id="game"></canvas>
-
-
-<div id="ui">
-
-<h2>🌲 Wildwood Haven</h2>
-
-<p>❤️ Health: <span id="hp">100</span></p>
-
-<p>🪵 Wood: <span id="wood">0</span></p>
-
-<p>🪨 Stone: <span id="stone">0</span></p>
-
-<p>🏠 Houses: <span id="houses">0</span></p>
+<h1>🌲 Whispering Woods 🌲</h1>
 
 
-<button onclick="buildHouse()">
-Build House (10 Wood + 5 Stone)
-</button>
+<div class="card">
 
-<br><br>
+<h2>🌑 The Dark Forest</h2>
 
-<button onclick="saveGame()">
-Save Game
-</button>
+<p id="location">
+You stand at the edge of an enormous forest. There is almost no light beneath the trees.
+You take your first step forward.
+</p>
 
+<div class="stat-row">
 
-<p id="message"></p>
+<div class="stat">
+<span class="stat-title">❤️ HEALTH</span>
+<span class="stat-value hp-value">
+<span id="hp">40</span>/<span id="maxHp">40</span>
+</span>
+</div>
+
+<div class="stat">
+<span class="stat-title">⏳ TIME</span>
+<span class="stat-value time-value" id="time">
+0:00
+</span>
+</div>
+
+<div class="stat">
+<span class="stat-title">👾 ENEMY</span>
+<span class="stat-value enemy-value" id="enemyStatus">
+None
+</span>
+</div>
+
+</div>
+
+<br>
+
+<div class="bar">
+<div id="forestBar"></div>
+</div>
+
+<div class="progress-label">
+Five minutes until you reach the other side...
+</div>
 
 </div>
 
 
+<div class="card">
+
+<h2>💤 Rest</h2>
+
+<p id="restText">
+You are not resting.
+</p>
+
+<div class="bar">
+<div id="restBar"></div>
+</div>
+
+<div class="progress-label">
+Rest time depends on how much HP you are missing.
+</div>
+
+<div class="action-buttons">
+
+<button id="restButton" onclick="startRest()">
+💤 Rest
+</button>
+
+<button id="leaveButton" onclick="leaveRest()">
+🚪 Leave Rest
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚔️ Combat</h2>
+
+<div id="battleBox" class="battle-box">
+
+<p class="enemy-name" id="enemyName">
+Enemy
+</p>
+
+<p>
+❤️ Enemy HP:
+<span class="enemy-hp" id="enemyHp">
+0
+</span>
+</p>
+
+<p id="battle">
+The enemy is preparing to attack...
+</p>
+
+</div>
+
+<p id="noBattle">
+You are walking through the darkness...
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h2>📖 Adventure Log</h2>
+
+<div id="log" class="log"></div>
+
+</div>
+
+
+<div id="gameOver" class="card">
+
+<h2>☠️ You Fell</h2>
+
+<p>
+The darkness of the forest became too much.
+</p>
+
+<button onclick="restartGame()">
+Start Again
+</button>
+
+</div>
+
+
+<div id="victory" class="card">
+
+<h2>🌅 The Forest Ends</h2>
+
+<p>
+Five minutes have passed.
+
+After what feels like an eternity, you finally see light between the trees.
+
+You survived the dark forest.
+</p>
+
+<p>
+<strong>This is the end of the current chapter.</strong>
+</p>
+
+<button onclick="restartGame()">
+Play Again
+</button>
+
+</div>
+
+
+</div>
 
 
 <script>
 
-
-const canvas=document.getElementById("game");
-const ctx=canvas.getContext("2d");
-
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-
-
-let player={
-
-x:500,
-y:500,
-
-size:25,
-
-speed:4,
-
-hp:100
-
+const player = {
+    hp: 40,
+    maxHp: 40,
+    attack: 8
 };
 
 
+const enemies = [
 
-let keys={};
+    {
+        name: "Lost Wolf",
+        hp: 18,
+        attack: 4
+    },
 
+    {
+        name: "Forest Goblin",
+        hp: 22,
+        attack: 3
+    },
 
+    {
+        name: "Shadow Spider",
+        hp: 15,
+        attack: 5
+    },
 
-let inventory={
+    {
+        name: "Angry Boar",
+        hp: 25,
+        attack: 4
+    },
 
-wood:0,
-stone:0,
-houses:0
+    {
+        name: "Dark Slime",
+        hp: 20,
+        attack: 2
+    }
 
-};
-
-
-
-// VILLAGE AREA
-
-let village={
-
-x:500,
-y:500,
-
-width:350,
-height:300
-
-};
-
-
-
-// WORLD OBJECTS
-
-
-let objects=[];
-
-
-for(let i=0;i<250;i++){
+];
 
 
-let type=Math.random()<0.65?
-"tree":
-"stone";
+let forestTime = 0;
+
+let enemy = null;
+
+let enemyTurnTimer = null;
+
+let forestTimer = null;
+
+let restTimer = null;
+
+let resting = false;
+
+let restTotal = 0;
+
+let restRemaining = 0;
+
+let gameEnded = false;
 
 
-let x=Math.random()*3000;
-let y=Math.random()*3000;
+const hpElement = document.getElementById("hp");
+const maxHpElement = document.getElementById("maxHp");
+const timeElement = document.getElementById("time");
+const enemyStatusElement = document.getElementById("enemyStatus");
+
+const locationElement = document.getElementById("location");
+
+const forestBar = document.getElementById("forestBar");
+
+const restBar = document.getElementById("restBar");
+const restText = document.getElementById("restText");
+
+const battleBox = document.getElementById("battleBox");
+const noBattle = document.getElementById("noBattle");
+
+const enemyNameElement = document.getElementById("enemyName");
+const enemyHpElement = document.getElementById("enemyHp");
+const battleElement = document.getElementById("battle");
+
+const restButton = document.getElementById("restButton");
+const leaveButton = document.getElementById("leaveButton");
+
+const logElement = document.getElementById("log");
 
 
 
-// avoid spawning inside village
+function logMessage(message, type = "") {
+
+    const paragraph = document.createElement("p");
+
+    if (type) {
+        paragraph.className = type;
+    }
+
+    paragraph.innerHTML = message;
+
+    logElement.appendChild(paragraph);
+
+    logElement.scrollTop = logElement.scrollHeight;
+
+}
 
 
-if(
-x>350 &&
-x<650 &&
-y>350 &&
-y<650
-)
-continue;
+
+function formatTime(seconds) {
+
+    const minutes = Math.floor(seconds / 60);
+
+    const remainingSeconds = seconds % 60;
+
+    return (
+        minutes +
+        ":" +
+        remainingSeconds.toString().padStart(2, "0")
+    );
+
+}
 
 
 
-objects.push({
+function updateUI() {
 
-x:x,
-y:y,
-type:type,
-size:25
+    hpElement.textContent = player.hp;
 
-});
+    maxHpElement.textContent = player.maxHp;
+
+    timeElement.textContent = formatTime(forestTime);
+
+    forestBar.style.width =
+        Math.min((forestTime / 300) * 100, 100) + "%";
+
+
+    if (enemy) {
+
+        enemyStatusElement.textContent = enemy.name;
+
+    } else {
+
+        enemyStatusElement.textContent = "None";
+
+    }
+
+}
+
+
+
+function updateBattleUI() {
+
+    if (!enemy) {
+
+        battleBox.classList.remove("active");
+
+        noBattle.style.display = "block";
+
+        enemyStatusElement.textContent = "None";
+
+        return;
+
+    }
+
+
+    battleBox.classList.add("active");
+
+    noBattle.style.display = "none";
+
+    enemyNameElement.textContent = enemy.name;
+
+    enemyHpElement.textContent =
+        Math.max(0, enemy.hp);
+
+    enemyStatusElement.textContent = enemy.name;
+
+}
+
+
+
+function randomEnemy() {
+
+    const selected =
+        enemies[
+            Math.floor(Math.random() * enemies.length)
+        ];
+
+    return {
+        name: selected.name,
+        hp: selected.hp,
+        maxHp: selected.hp,
+        attack: selected.attack
+    };
+
+}
+
+
+
+function findEnemy() {
+
+    if (
+        gameEnded ||
+        resting ||
+        enemy
+    ) {
+        return;
+    }
+
+
+    enemy = randomEnemy();
+
+
+    locationElement.textContent =
+        "Something moves through the darkness...";
+
+
+    logMessage(
+        "⚠️ A <strong>" +
+        enemy.name +
+        "</strong> appears from the darkness!",
+        "danger"
+    );
+
+
+    updateBattleUI();
+
+    updateUI();
+
+    startCombat();
+
+}
+
+
+
+function startCombat() {
+
+    if (!enemy || gameEnded) {
+        return;
+    }
+
+
+    clearTimeout(enemyTurnTimer);
+
+
+    enemyTurnTimer = setTimeout(
+        combatRound,
+        1200
+    );
+
+}
+
+
+
+function combatRound() {
+
+    if (
+        !enemy ||
+        gameEnded ||
+        resting
+    ) {
+        return;
+    }
+
+
+    const playerDamage =
+        Math.floor(Math.random() * 5) +
+        player.attack;
+
+
+    enemy.hp -= playerDamage;
+
+
+    battleElement.textContent =
+        "You attack for " +
+        playerDamage +
+        " damage.";
+
+
+    logMessage(
+        "⚔️ You strike the " +
+        enemy.name +
+        " for " +
+        playerDamage +
+        " damage."
+    );
+
+
+    updateBattleUI();
+
+
+    if (enemy.hp <= 0) {
+
+        defeatEnemy();
+
+        return;
+
+    }
+
+
+    setTimeout(
+        enemyAttack,
+        700
+    );
+
+}
+
+
+
+function enemyAttack() {
+
+    if (
+        !enemy ||
+        gameEnded ||
+        resting
+    ) {
+        return;
+    }
+
+
+    const damage =
+        Math.floor(Math.random() * 3) +
+        enemy.attack;
+
+
+    player.hp =
+        Math.max(
+            0,
+            player.hp - damage
+        );
+
+
+    battleElement.textContent =
+        enemy.name +
+        " attacks for " +
+        damage +
+        " damage.";
+
+
+    logMessage(
+        "💥 " +
+        enemy.name +
+        " hits you for " +
+        damage +
+        " damage.",
+        "danger"
+    );
+
+
+    updateUI();
+
+
+    if (player.hp <= 0) {
+
+        playerDefeated();
+
+        return;
+
+    }
+
+
+    enemyTurnTimer = setTimeout(
+        combatRound,
+        1000
+    );
+
+}
+
+
+
+function defeatEnemy() {
+
+    const defeatedName = enemy.name;
+
+
+    clearTimeout(enemyTurnTimer);
+
+
+    enemy = null;
+
+
+    battleElement.textContent =
+        "The enemy has been defeated.";
+
+
+    locationElement.textContent =
+        "You continue walking through the darkness.";
+
+
+    logMessage(
+        "✓ You defeated the " +
+        defeatedName +
+        ".",
+        "important"
+    );
+
+
+    updateBattleUI();
+
+    updateUI();
 
 
 }
 
 
 
+function playerDefeated() {
+
+    clearTimeout(enemyTurnTimer);
+
+    clearInterval(forestTimer);
+
+    clearInterval(restTimer);
 
 
-let camera={
+    gameEnded = true;
 
-x:0,
-y:0
+    resting = false;
 
-};
-
+    enemy = null;
 
 
+    document.getElementById("gameOver")
+        .style.display = "block";
 
 
-document.addEventListener(
-"keydown",
-e=>{
+    battleBox.classList.remove("active");
 
-keys[e.key.toLowerCase()]=true;
-
-});
+    noBattle.style.display = "block";
 
 
-document.addEventListener(
-"keyup",
-e=>{
-
-keys[e.key.toLowerCase()]=false;
-
-});
+    locationElement.textContent =
+        "You collapse beneath the trees.";
 
 
+    logMessage(
+        "☠️ Your journey through the forest has ended.",
+        "danger"
+    );
 
 
-
-function update(){
-
-
-move();
-
-
-camera.x=
-player.x-canvas.width/2;
-
-
-camera.y=
-player.y-canvas.height/2;
-
-
-collect();
-
-
-draw();
-
-
-requestAnimationFrame(update);
+    updateUI();
 
 }
 
 
 
+function startRest() {
+
+    if (gameEnded) {
+        return;
+    }
 
 
-
-function move(){
-
-
-if(keys.w)
-player.y-=player.speed;
+    if (resting) {
+        return;
+    }
 
 
-if(keys.s)
-player.y+=player.speed;
+    if (enemy) {
+
+        logMessage(
+            "⚠️ You cannot rest while fighting an enemy.",
+            "danger"
+        );
+
+        return;
+
+    }
 
 
-if(keys.a)
-player.x-=player.speed;
+    const missingHp =
+        player.maxHp - player.hp;
 
 
-if(keys.d)
-player.x+=player.speed;
+    if (missingHp <= 0) {
+
+        logMessage(
+            "You are already at full health.",
+            "system"
+        );
+
+        return;
+
+    }
 
 
+    resting = true;
+
+
+    restTotal =
+        missingHp * 10;
+
+
+    restRemaining =
+        restTotal;
+
+
+    restBar.style.width = "0%";
+
+
+    restButton.disabled = true;
+
+
+    restText.textContent =
+        "Resting... " +
+        restRemaining +
+        " seconds remaining.";
+
+
+    logMessage(
+        "💤 You sit beneath a tree and begin to rest.",
+        "rest"
+    );
+
+
+    restTimer =
+        setInterval(
+            restTick,
+            1000
+        );
 
 }
 
 
 
+function restTick() {
+
+    if (!resting) {
+        return;
+    }
 
 
-function collect(){
+    restRemaining--;
 
 
-for(let i=objects.length-1;i>=0;i--){
+    const completed =
+        restTotal - restRemaining;
 
 
-let obj=objects[i];
+    const percentage =
+        (completed / restTotal) * 100;
 
 
-let distance=Math.hypot(
+    restBar.style.width =
+        Math.min(100, percentage) + "%";
 
-player.x-obj.x,
 
-player.y-obj.y
+    restText.textContent =
+        "Resting... " +
+        Math.max(0, restRemaining) +
+        " seconds remaining.";
 
+
+    if (restRemaining <= 0) {
+
+        finishRest();
+
+    }
+
+}
+
+
+
+function finishRest() {
+
+    clearInterval(restTimer);
+
+
+    restTimer = null;
+
+    resting = false;
+
+
+    player.hp = player.maxHp;
+
+
+    restBar.style.width = "100%";
+
+
+    restText.textContent =
+        "You are fully rested.";
+
+
+    restButton.disabled = false;
+
+
+    logMessage(
+        "💚 You finish resting and recover all of your HP.",
+        "rest"
+    );
+
+
+    locationElement.textContent =
+        "You stand up and continue through the forest.";
+
+
+    updateUI();
+
+}
+
+
+
+function leaveRest() {
+
+    if (!resting) {
+
+        logMessage(
+            "You are not currently resting.",
+            "system"
+        );
+
+        return;
+
+    }
+
+
+    clearInterval(restTimer);
+
+
+    restTimer = null;
+
+    resting = false;
+
+
+    restBar.style.width = "0%";
+
+
+    restText.textContent =
+        "Rest cancelled. No HP was restored.";
+
+
+    restButton.disabled = false;
+
+
+    logMessage(
+        "🚪 You leave your resting place before the rest is complete. Nothing is restored.",
+        "rest"
+    );
+
+
+    locationElement.textContent =
+        "You continue your journey through the forest.";
+
+}
+
+
+
+function forestTick() {
+
+    if (
+        gameEnded ||
+        resting ||
+        enemy
+    ) {
+        return;
+    }
+
+
+    forestTime++;
+
+
+    const progress =
+        Math.floor(
+            (forestTime / 300) * 100
+        );
+
+
+    if (forestTime < 60) {
+
+        locationElement.textContent =
+            "The trees surround you. There is almost no light.";
+
+    } else if (forestTime < 120) {
+
+        locationElement.textContent =
+            "The forest grows quieter. You can barely see ahead.";
+
+    } else if (forestTime < 180) {
+
+        locationElement.textContent =
+            "You continue deeper. Something seems to be watching you.";
+
+    } else if (forestTime < 240) {
+
+        locationElement.textContent =
+            "The darkness feels endless. You keep walking.";
+
+    } else if (forestTime < 300) {
+
+        locationElement.textContent =
+            "You have been walking for a long time. A faint light may be ahead.";
+
+    }
+
+
+    /*
+        Random enemy chance.
+
+        Every second there is a small chance
+        for an encounter.
+
+        This keeps encounters unpredictable
+        instead of appearing on a fixed timer.
+    */
+
+
+    const encounterChance = 0.035;
+
+
+    if (Math.random() < encounterChance) {
+
+        findEnemy();
+
+    }
+
+
+    if (forestTime >= 300) {
+
+        forestComplete();
+
+    }
+
+
+    updateUI();
+
+}
+
+
+
+function forestComplete() {
+
+    clearInterval(forestTimer);
+
+    clearTimeout(enemyTurnTimer);
+
+
+    gameEnded = true;
+
+
+    document.getElementById("victory")
+        .style.display = "block";
+
+
+    locationElement.textContent =
+        "After five minutes of walking, the trees finally begin to thin out.";
+
+
+    logMessage(
+        "🌅 You survived five minutes in the Whispering Woods.",
+        "important"
+    );
+
+
+    forestBar.style.width = "100%";
+
+
+    updateUI();
+
+}
+
+
+
+function restartGame() {
+
+    location.reload();
+
+}
+
+
+
+logMessage(
+    "🌲 You enter the Whispering Woods.",
+    "important"
 );
 
 
-
-if(distance<35){
-
-
-if(obj.type=="tree"){
-
-inventory.wood++;
-
-message("Collected wood!");
-
-}
-
-else{
-
-inventory.stone++;
-
-message("Collected stone!");
-
-}
+logMessage(
+    "There is almost no light beneath the trees.",
+    "system"
+);
 
 
-objects.splice(i,1);
+logMessage(
+    "You begin walking automatically...",
+    "system"
+);
 
 
 updateUI();
 
-}
 
-
-}
-
-
-
-}
-
-
-
-
-
-function buildHouse(){
-
-
-if(
-inventory.wood>=10 &&
-inventory.stone>=5
-){
-
-
-inventory.wood-=10;
-inventory.stone-=5;
-
-inventory.houses++;
-
-
-message("You built a new house! 🏠");
-
-
-}
-
-
-else{
-
-
-message("Not enough resources!");
-
-}
-
-
-
-updateUI();
-
-
-}
-
-
-
-
-
-function draw(){
-
-
-ctx.clearRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-// ground
-
-
-ctx.fillStyle="#3a7d44";
-
-ctx.fillRect(
-0,
-0,
-canvas.width,
-canvas.height
-);
-
-
-
-
-
-// village
-
-
-ctx.fillStyle="#d8c27a";
-
-
-ctx.fillRect(
-
-village.x-camera.x,
-
-village.y-camera.y,
-
-village.width,
-
-village.height
-
-);
-
-
-
-
-
-// objects
-
-
-for(let obj of objects){
-
-
-let x=obj.x-camera.x;
-let y=obj.y-camera.y;
-
-
-
-if(obj.type=="tree"){
-
-
-ctx.fillStyle="#14532d";
-
-ctx.beginPath();
-
-ctx.arc(
-x,
-y,
-25,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-
-ctx.fillStyle="#713f12";
-
-ctx.fillRect(
-x-5,
-y,
-10,
-25
-);
-
-
-}
-
-else{
-
-
-ctx.fillStyle="#64748b";
-
-ctx.fillRect(
-x-15,
-y-15,
-30,
-30
-);
-
-
-}
-
-
-}
-
-
-
-
-
-
-
-// houses
-
-
-for(let i=0;i<inventory.houses;i++){
-
-
-ctx.fillStyle="#8b4513";
-
-
-ctx.fillRect(
-
-village.x-camera.x+40+(i*60),
-
-village.y-camera.y+60,
-
-40,
-
-40
-
-);
-
-
-ctx.fillStyle="#ef4444";
-
-
-ctx.beginPath();
-
-
-ctx.moveTo(
-
-village.x-camera.x+35+(i*60),
-
-village.y-camera.y+60
-
-);
-
-
-ctx.lineTo(
-
-village.x-camera.x+60+(i*60),
-
-village.y-camera.y+30
-
-);
-
-
-ctx.lineTo(
-
-village.x-camera.x+85+(i*60),
-
-village.y-camera.y+60
-
-);
-
-
-ctx.fill();
-
-
-}
-
-
-
-
-
-// player
-
-
-ctx.fillStyle="#facc15";
-
-
-ctx.fillRect(
-
-player.x-camera.x-player.size/2,
-
-player.y-camera.y-player.size/2,
-
-player.size,
-
-player.size
-
-);
-
-
-
-}
-
-
-
-
-
-function updateUI(){
-
-
-document.getElementById("wood").innerText=
-inventory.wood;
-
-
-document.getElementById("stone").innerText=
-inventory.stone;
-
-
-document.getElementById("houses").innerText=
-inventory.houses;
-
-
-document.getElementById("hp").innerText=
-player.hp;
-
-
-}
-
-
-
-
-function message(text){
-
-
-document.getElementById("message").innerText=text;
-
-
-setTimeout(()=>{
-
-document.getElementById("message").innerText="";
-
-},2000);
-
-
-}
-
-
-
-
-
-function saveGame(){
-
-
-localStorage.setItem(
-"wildwoodSave",
-JSON.stringify({
-
-player,
-inventory
-
-})
-
-);
-
-
-message("Game saved!");
-
-}
-
-
-
-
-
-let save=localStorage.getItem("wildwoodSave");
-
-
-if(save){
-
-
-let data=JSON.parse(save);
-
-
-player=data.player;
-
-inventory=data.inventory;
-
-
-}
-
-
-
-
-
-updateUI();
-
-update();
-
+forestTimer =
+    setInterval(
+        forestTick,
+        1000
+    );
 
 </script>
 
-
 </body>
+
 </html>
