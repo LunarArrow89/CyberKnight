@@ -694,6 +694,54 @@ body {
         padding-right: 40px !important;
     }
 }
+
+/* SHOP INFO POPUP - FULL SCREEN OVERLAY */
+.shop-info-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 16px !important;
+    margin: 0 !important;
+    background: rgba(0, 0, 0, 0.58) !important;
+    z-index: 2147483646 !important;
+    isolation: isolate !important;
+}
+
+.shop-info-overlay .shop-details {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    z-index: 2147483647 !important;
+    flex: 0 1 390px !important;
+    width: min(390px, calc(100vw - 32px)) !important;
+    max-width: 390px !important;
+    max-height: min(82vh, 520px) !important;
+    overflow-y: auto !important;
+    margin: 0 !important;
+}
+
+@media (max-width: 600px) {
+    .shop-info-overlay {
+        padding: 12px !important;
+    }
+
+    .shop-info-overlay .shop-details {
+        width: min(390px, calc(100vw - 24px)) !important;
+        max-height: 78vh !important;
+    }
+
+    .shop-info-overlay .shop-details .action-btn {
+        width: auto !important;
+        margin: 0 !important;
+    }
+}
+
 </style>
 
 </head>
@@ -2853,11 +2901,21 @@ function renderPetShop() {
 
         row.onclick = function() {
 
-            const oldDetails = box.querySelector(".shop-details");
+            const oldOverlay = document.querySelector(".shop-info-overlay");
 
-            if (oldDetails) {
-                oldDetails.remove();
+            if (oldOverlay) {
+                oldOverlay.remove();
             }
+
+            const overlay = document.createElement("div");
+
+            overlay.className = "shop-info-overlay";
+
+            overlay.onclick = function(event) {
+                if (event.target === overlay) {
+                    overlay.remove();
+                }
+            };
 
             const details = document.createElement("div");
 
@@ -3000,11 +3058,21 @@ function renderGearShop() {
 
         row.onclick = function() {
 
-            const oldDetails = box.querySelector(".shop-details");
+            const oldOverlay = document.querySelector(".shop-info-overlay");
 
-            if (oldDetails) {
-                oldDetails.remove();
+            if (oldOverlay) {
+                oldOverlay.remove();
             }
+
+            const overlay = document.createElement("div");
+
+            overlay.className = "shop-info-overlay";
+
+            overlay.onclick = function(event) {
+                if (event.target === overlay) {
+                    overlay.remove();
+                }
+            };
 
             const details = document.createElement("div");
 
