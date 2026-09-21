@@ -12,7 +12,6 @@
 
     <link rel="stylesheet" href="style.css">
 
-
 <style>
 @media (max-width: 600px){
     .action-tray{
@@ -20,6 +19,7 @@
         grid-template-columns:repeat(2,minmax(0,1fr));
         gap:8px;
     }
+
     .action-tray .action-btn{
         width:100%;
         min-width:0;
@@ -38,7 +38,6 @@
     <p class="subtitle">
         A Neon Text RPG
     </p>
-
 
     <!-- CLASS SELECTION SCREEN -->
 
@@ -64,7 +63,6 @@
 
             </div>
 
-
             <div class="class-card rogue-select"
                  onclick="chooseClass('Rogue')">
 
@@ -80,7 +78,6 @@
                 </p>
 
             </div>
-
 
             <div class="class-card mage-select"
                  onclick="chooseClass('Mage')">
@@ -102,8 +99,6 @@
 
     </div>
 
-
-
     <!-- MAIN GAME DASHBOARD -->
 
     <div id="gameScreen"
@@ -117,7 +112,6 @@
 
         </div>
 
-
         <div class="action-tray">
 
             <button id="exploreButton"
@@ -128,7 +122,6 @@
 
             </button>
 
-
             <button id="workButton"
                     class="action-btn work-btn"
                     onclick="work()">
@@ -136,7 +129,6 @@
                 Work
 
             </button>
-
 
             <button id="restButton"
                     class="action-btn rest-btn"
@@ -146,7 +138,6 @@
 
             </button>
 
-
             <button id="travelButton"
                     class="action-btn battle-btn"
                     onclick="openTravelMenu()">
@@ -154,20 +145,20 @@
                 Travel Map
 
             </button>
-            
+
             <button class="action-btn"
-                onclick="openShop()">
+                    onclick="openShop()">
 
-            Shopping Center
+                Shopping Center
 
-                </button>
+            </button>
+
             <button class="action-btn"
-        onclick="openInventory()">
+                    onclick="openInventory()">
 
-    🎒 Inventory
+                🎒 Inventory
 
-</button>
-
+            </button>
 
             <button class="action-btn reset-btn"
                     onclick="resetGame()">
@@ -178,7 +169,6 @@
 
         </div>
 
-
         <!-- ACTIVITY TIME BAR -->
 
         <div id="activityStatus"
@@ -186,7 +176,6 @@
              style="display:none;">
 
         </div>
-
 
         <div id="terminalLog"
              class="terminal-feed">
@@ -197,8 +186,6 @@
         </div>
 
     </div>
-
-
 
     <!-- ENEMY SELECTION -->
 
@@ -215,14 +202,12 @@
                 Select an enemy to engage.
             </p>
 
-
             <div id="enemyList"
                  class="action-tray"
                  style="flex-direction:column;
                         align-items:stretch;">
 
             </div>
-
 
             <div class="action-tray"
                  style="margin-top:20px;">
@@ -239,8 +224,6 @@
         </div>
 
     </div>
-
-
 
     <!-- TRAVEL MAP -->
 
@@ -259,14 +242,12 @@
                 the next network node gateway.
             </p>
 
-
             <div id="areaListTray"
                  class="action-tray"
                  style="flex-direction:column;
                         align-items:stretch;">
 
             </div>
-
 
             <div class="action-tray"
                  style="margin-top:20px;">
@@ -283,176 +264,90 @@
         </div>
 
     </div>
-<!-- SHOP SCREEN -->
 
-<div id="shopScreen"
-     style="display:none;">
+    <!-- SHOP SCREEN -->
 
-    <div class="card">
+    <div id="shopScreen"
+         style="display:none;">
 
-        <h2>
-            🏪 Cyber Shopping Center
-        </h2>
+        <div class="card">
 
-        <p>
-            Upgrade your CyberKnight.
-        </p>
+            <h2>
+                🏪 Cyber Shopping Center
+            </h2>
 
+            <p>
+                Upgrade your CyberKnight.
+            </p>
 
-        <div id="shopMainMenu"
-             class="action-tray">
+            <div id="shopMainMenu"
+                 class="action-tray">
 
-            <button class="action-btn"
-                    onclick="openPetShop()">
+                <button class="action-btn"
+                        onclick="openPetShop()">
 
-                🐾 Pet Shop
+                    🐾 Pet Shop
+
+                </button>
+
+                <button class="action-btn"
+                        onclick="openBlacksmith()">
+
+                    ⚔️ Blacksmith
+
+                </button>
+
+                <button class="action-btn"
+                        onclick="openInventory()">
+
+                    🎒 Inventory
+
+                </button>
+
+            </div>
+
+            <div id="petShop"
+                 style="display:none;"
+                 class="shop-section">
+
+                <h3>
+                    🐾 Pet Shop
+                </h3>
+
+            </div>
+
+            <div id="gearShop"
+                 style="display:none;"
+                 class="shop-section">
+
+                <h3>
+                    ⚔️ Blacksmith
+                </h3>
+
+            </div>
+
+            <div id="inventory"
+                 style="display:none;"
+                 class="shop-section">
+
+                <h3>
+                    🎒 Inventory
+                </h3>
+
+            </div>
+
+            <br><br>
+
+            <button class="action-btn reset-btn"
+                    onclick="closeShop()">
+
+                Return To Dashboard
 
             </button>
 
-
-            <button class="action-btn"
-                    onclick="openBlacksmith()">
-
-                ⚔️ Blacksmith
-
-            </button>
-
-
-            <button class="action-btn"
-                    onclick="openInventory()">
-
-                🎒 Inventory
-
-            </button>
-
         </div>
-
-
-
-        <div id="petShop"
-             style="display:none;"
-             class="shop-section">
-
-            <h3>
-                🐾 Pet Shop
-            </h3>
-
-        </div>
-
-
-
-        <div id="gearShop"
-             style="display:none;"
-             class="shop-section">
-
-            <h3>
-                ⚔️ Blacksmith
-            </h3>
-
-        </div>
-
-
-
-        <div id="inventory"
-             style="display:none;"
-             class="shop-section">
-
-            <h3>
-                🎒 Inventory
-            </h3>
-
-        </div>
-
-
-
-        <br><br>
-
-
-        <button class="action-btn reset-btn"
-                onclick="closeShop()">
-
-            Return To Dashboard
-
-        </button>
-
 
     </div>
-
-</div>
-
-
-<!-- PET SHOP -->
-
-<div id="petShopScreen"
-     style="display:none;">
-
-    <div class="card">
-
-        <h2>
-            🐾 Pet Shop
-        </h2>
-
-
-        <p>
-            Buy helpful companions.
-        </p>
-
-
-        <div id="petShop"
-             class="action-tray"
-             style="flex-direction:column;">
-        </div>
-
-
-        <button class="action-btn reset-btn"
-                onclick="backToShoppingCenter()"
-                style="margin-top:25px;">
-
-            Back
-
-        </button>
-
-    </div>
-
-</div>
-
-
-
-<!-- BLACKSMITH -->
-
-<div id="blacksmithScreen"
-     style="display:none;">
-
-    <div class="card">
-
-        <h2>
-            ⚔️ Blacksmith
-        </h2>
-
-
-        <p>
-            Upgrade your CyberKnight with powerful gear.
-        </p>
-
-
-        <div id="gearShop"
-             class="action-tray"
-             style="flex-direction:column;">
-        </div>
-
-
-        <button class="action-btn reset-btn"
-                onclick="backToShoppingCenter()"
-                style="margin-top:25px;">
-
-            Back
-
-        </button>
-
-    </div>
-
-</div>
-
 
     <!-- BATTLE SCREEN -->
 
@@ -464,9 +359,6 @@
             <h2>
                 Combat Area Matrix Active
             </h2>
-
-
-            <!-- PLAYER BATTLE HP -->
 
             <div class="battle-character">
 
@@ -488,9 +380,6 @@
 
             </div>
 
-
-            <!-- ENEMY BATTLE HP -->
-
             <div class="battle-character">
 
                 <h3 id="enemyName">
@@ -511,11 +400,9 @@
 
             </div>
 
-
             <p id="battleLog">
                 Battle initialized.
             </p>
-
 
             <div class="action-tray">
 
@@ -526,7 +413,6 @@
 
                 </button>
 
-
                 <button id="skillButton"
                         class="action-btn skill-btn"
                         onclick="skillAttack()">
@@ -534,7 +420,6 @@
                     Skill
 
                 </button>
-
 
                 <button class="action-btn reset-btn"
                         onclick="runAway()">
@@ -551,93 +436,71 @@
 
 </div>
 
-
-
 <script>
-
 
 // ==========================================
 // CYBERKNIGHT GAME
 // ==========================================
 
 let player = null;
-
 let currentEnemy = null;
-
 let currentArea = 0;
-
 let activityTimer = null;
 
-const REST_TIME =
-    1 * 60 * 1000;
+const REST_TIME = 1 * 60 * 1000;
+const WORK_TIME = 30 * 60 * 1000;
+const MAX_SKILL_USES = 3;
 
-const WORK_TIME =
-    30 * 60 * 1000;
-
-const MAX_SKILL_USES =
-    3;
-
-
-
-// ==========================================
-// AREA DATA
-// ==========================================
 // ==========================================
 // SHOP DATA
 // ==========================================
 
 const pets = [
-
     {
         name: "Cyber Cat",
         cost: 50,
         bonus: "+2 ATK",
         atk: 2
     },
-
     {
         name: "Drone Buddy",
         cost: 100,
         bonus: "+5 Max HP",
         hp: 5
     },
-
     {
         name: "Gold Bot",
         cost: 150,
         bonus: "+5 Gold after battles",
         gold: 5
     }
-
 ];
 
-
 const gear = [
-
     {
         name: "Laser Sword",
         cost: 100,
         bonus: "+5 ATK",
         atk: 5
     },
-
     {
         name: "Nano Armor",
         cost: 150,
         bonus: "+15 Max HP",
         hp: 15
     }
-
 ];
-const areas = [
 
+// ==========================================
+// AREA DATA
+// ==========================================
+
+const areas = [
     {
         name: "Neon Outskirts",
         difficulty: "Easy",
         levelRange: "Levels 1–5",
-
         enemies: [
-
             {
                 name: "Glitch Rat",
                 level: 1,
@@ -650,179 +513,138 @@ const areas = [
                 baseHp: 15,
                 baseAtk: 7
             },
-            
             {
                 name: "Stupid Politician",
                 level: 2,
                 baseHp: 15,
                 baseAtk: 8
             },
-
             {
                 name: "Broken Drone",
                 level: 3,
                 baseHp: 25,
                 baseAtk: 6
             },
-           
             {
                 name: "Giraffe on a Skateboard",
                 level: 4,
                 baseHp: 30,
                 baseAtk: 6
             },
-          
             {
                 name: "Street Hacker",
                 level: 5,
                 baseHp: 30,
                 baseAtk: 7
             }
-
         ],
-
         fragments: [false, false, false]
     },
-
-
     {
         name: "Cyber District",
         difficulty: "Normal",
         levelRange: "Levels 6–10",
-
         enemies: [
-
             {
                 name: "Combat Drone",
                 level: 6,
                 baseHp: 40,
                 baseAtk: 10
             },
-
             {
                 name: "Cyber Thief",
                 level: 8,
                 baseHp: 48,
                 baseAtk: 12
             },
-
             {
                 name: "Security Bot",
                 level: 10,
                 baseHp: 58,
                 baseAtk: 14
             }
-
         ],
-
         fragments: [false, false, false]
     },
-
-
     {
         name: "Neon Wasteland",
         difficulty: "Hard",
         levelRange: "Levels 11–15",
-
         enemies: [
-
             {
                 name: "Mutant Machine",
                 level: 11,
                 baseHp: 70,
                 baseAtk: 16
             },
-
             {
                 name: "Wasteland Raider",
                 level: 13,
                 baseHp: 82,
                 baseAtk: 19
             },
-
             {
                 name: "Cyber Beast",
                 level: 15,
                 baseHp: 95,
                 baseAtk: 22
             }
-
         ],
-
         fragments: [false, false, false]
     },
-
-
     {
         name: "The Dark Network",
         difficulty: "Very Hard",
         levelRange: "Levels 16–20",
-
         enemies: [
-
             {
                 name: "Dark Knight",
                 level: 16,
                 baseHp: 110,
                 baseAtk: 25
             },
-
             {
                 name: "Void Hacker",
                 level: 18,
                 baseHp: 125,
                 baseAtk: 28
             },
-
             {
                 name: "Network Guardian",
                 level: 20,
                 baseHp: 145,
                 baseAtk: 31
             }
-
         ],
-
         fragments: [false, false, false]
     },
-
-
     {
         name: "Cyber Core",
         difficulty: "Extreme",
         levelRange: "Levels 21–25",
-
         enemies: [
-
             {
                 name: "Core Defender",
                 level: 21,
                 baseHp: 165,
                 baseAtk: 34
             },
-
             {
                 name: "System Destroyer",
                 level: 23,
                 baseHp: 190,
                 baseAtk: 38
             },
-
             {
                 name: "Cyber Overlord",
                 level: 25,
                 baseHp: 225,
                 baseAtk: 42
             }
-
         ],
-
         fragments: [false, false, false]
     }
-
 ];
-
-
 
 // ==========================================
 // CLASS SELECTION
@@ -831,81 +653,56 @@ const areas = [
 function chooseClass(className) {
 
     const classStats = {
-
         Warrior: {
             hp: 20,
             maxHp: 20,
             atk: 5,
             skill: "Power Strike"
         },
-
         Rogue: {
             hp: 15,
             maxHp: 15,
             atk: 6,
             skill: "Critical Strike"
         },
-
         Mage: {
             hp: 10,
             maxHp: 25,
             atk: 3,
             skill: "Energy Blast"
         }
-
     };
 
-
-player = {
-    inventory: [],
-    className: className,
-    hp: classStats[className].hp,
-    maxHp: classStats[className].maxHp,
-    atk: classStats[className].atk,
-    skill: classStats[className].skill,
-    skillUses: MAX_SKILL_USES,
-    gold: 0,
-    level: 1,
-    exp: 0,
-    expNeeded: 50,
-    pets: [],
-    gear: [],
-    activity: null,
-    mustRest: false
-
-};
-
+    player = {
+        inventory: [],
+        className: className,
+        hp: classStats[className].hp,
+        maxHp: classStats[className].maxHp,
+        atk: classStats[className].atk,
+        skill: classStats[className].skill,
+        skillUses: MAX_SKILL_USES,
+        gold: 0,
+        level: 1,
+        exp: 0,
+        expNeeded: 50,
+        pets: [],
+        gear: [],
+        activity: null,
+        mustRest: false
+    };
 
     currentArea = 0;
 
-
     areas.forEach(function(area) {
-
-        area.fragments = [
-            false,
-            false,
-            false
-        ];
-
+        area.fragments = [false, false, false];
     });
 
-
-    document.getElementById(
-        "classScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
+    document.getElementById("classScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 
     updatePlayerDisplay();
-
     updateActivityButtons();
-
     updateSkillButton();
-
 
     logMessage(
         "> Class selected: " +
@@ -913,12 +710,8 @@ player = {
         ". Welcome to CyberKnight."
     );
 
-
     saveGame();
-
 }
-
-
 
 // ==========================================
 // PLAYER DISPLAY
@@ -930,51 +723,33 @@ function updatePlayerDisplay() {
         return;
     }
 
+    document.getElementById("playerTitle").textContent =
+        player.className + " // CyberKnight";
 
-    document.getElementById(
-        "playerTitle"
-    ).textContent =
-        player.className +
-        " // CyberKnight";
-
-
-    document.getElementById(
-        "stats"
-    ).innerHTML =
-
+    document.getElementById("stats").innerHTML =
         "<strong>HP:</strong> " +
         player.hp +
         "/" +
         player.maxHp +
-
         " | <strong>ATK:</strong> " +
         player.atk +
-
         " | <strong>Level:</strong> " +
         player.level +
-
         " | <strong>EXP:</strong> " +
         player.exp +
         "/" +
         player.expNeeded +
-
         " | <strong>Gold:</strong> " +
         player.gold +
-
         " | <strong>Skill:</strong> " +
         player.skillUses +
         "/" +
         MAX_SKILL_USES +
-
         " | <strong>Area:</strong> " +
         areas[currentArea].name;
 
-
     updateActivityButtons();
-
 }
-
-
 
 // ==========================================
 // ACTIVITY BUTTON LOCK
@@ -986,85 +761,36 @@ function updateActivityButtons() {
         return;
     }
 
+    const busy = !!player.activity;
+    const forcedRest = player.mustRest;
 
-    const busy =
-        !!player.activity;
-
-
-    const forcedRest =
-        player.mustRest;
-
-
-    const exploreButton =
-        document.getElementById(
-            "exploreButton"
-        );
-
-
-    const workButton =
-        document.getElementById(
-            "workButton"
-        );
-
-
-    const restButton =
-        document.getElementById(
-            "restButton"
-        );
-
-
-    const travelButton =
-        document.getElementById(
-            "travelButton"
-        );
-
+    const exploreButton = document.getElementById("exploreButton");
+    const workButton = document.getElementById("workButton");
+    const restButton = document.getElementById("restButton");
+    const travelButton = document.getElementById("travelButton");
 
     if (exploreButton) {
-
-        exploreButton.disabled =
-            busy || forcedRest;
-
+        exploreButton.disabled = busy || forcedRest;
     }
-
 
     if (workButton) {
-
-        workButton.disabled =
-            busy || forcedRest;
-
+        workButton.disabled = busy || forcedRest;
     }
-
 
     if (travelButton) {
-
-        travelButton.disabled =
-            busy || forcedRest;
-
+        travelButton.disabled = busy || forcedRest;
     }
-
 
     if (restButton) {
 
-        restButton.disabled =
-            busy;
-
+        restButton.disabled = busy;
 
         if (forcedRest) {
-
-            restButton.innerHTML =
-                "💤 Forced Rest Required";
-
+            restButton.innerHTML = "💤 Forced Rest Required";
+        } else {
+            restButton.innerHTML = "Rest";
         }
-
-        else {
-
-            restButton.innerHTML =
-                "Rest";
-
-        }
-
     }
-
 }
 
 // ==========================================
@@ -1073,16 +799,11 @@ function updateActivityButtons() {
 
 function updateSkillButton() {
 
-    const button =
-        document.getElementById(
-            "skillButton"
-        );
-
+    const button = document.getElementById("skillButton");
 
     if (!button || !player) {
         return;
     }
-
 
     button.innerHTML =
         "Skill (" +
@@ -1091,13 +812,8 @@ function updateSkillButton() {
         MAX_SKILL_USES +
         ")";
 
-
-    button.disabled =
-        player.skillUses <= 0;
-
+    button.disabled = player.skillUses <= 0;
 }
-
-
 
 // ==========================================
 // TERMINAL LOG
@@ -1105,22 +821,11 @@ function updateSkillButton() {
 
 function logMessage(message) {
 
-    const log =
-        document.getElementById(
-            "terminalLog"
-        );
+    const log = document.getElementById("terminalLog");
 
-
-    log.innerHTML +=
-        "<br>" + message;
-
-
-    log.scrollTop =
-        log.scrollHeight;
-
+    log.innerHTML += "<br>" + message;
+    log.scrollTop = log.scrollHeight;
 }
-
-
 
 // ==========================================
 // EXPLORE
@@ -1129,34 +834,24 @@ function logMessage(message) {
 function explore() {
 
     if (!player) {
-
-        logMessage(
-            "> ERROR: No character loaded."
-        );
-
+        logMessage("> ERROR: No character loaded.");
         return;
     }
-
 
     checkActivity();
 
-
     if (player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. You are currently busy."
-        );
-
+        logMessage("> ACCESS DENIED. You are currently busy.");
         return;
-
     }
 
+    if (player.mustRest) {
+        logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+        return;
+    }
 
     openEnemySelection();
-
 }
-
-
 
 // ==========================================
 // ENEMY SELECTION
@@ -1165,115 +860,62 @@ function explore() {
 function openEnemySelection() {
 
     if (player && player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. Finish your current activity first."
-        );
-
+        logMessage("> ACCESS DENIED. Finish your current activity first.");
         return;
-
     }
 
+    if (player && player.mustRest) {
+        logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+        return;
+    }
 
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "block";
-
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("enemySelectScreen").style.display = "block";
 
     renderEnemySelection();
-
 }
-
-
 
 function closeEnemySelection() {
 
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
+    document.getElementById("enemySelectScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 }
-
-
 
 function renderEnemySelection() {
 
-    const area =
-        areas[currentArea];
-
-
-    const list =
-        document.getElementById(
-            "enemyList"
-        );
-
+    const area = areas[currentArea];
+    const list = document.getElementById("enemyList");
 
     list.innerHTML = "";
 
-
-    document.getElementById(
-        "enemySelectDescription"
-    ).innerHTML =
-
+    document.getElementById("enemySelectDescription").innerHTML =
         "Area: <strong>" +
         area.name +
         "</strong><br>" +
-
         "Enemy Range: <strong>" +
         area.levelRange +
         "</strong><br>" +
-
         "Choose your opponent.";
 
+    area.enemies.forEach(function(enemy, index) {
 
-    area.enemies.forEach(
-        function(enemy, index) {
+        const button = document.createElement("button");
 
-            const button =
-                document.createElement(
-                    "button"
-                );
+        button.className = "action-btn";
 
-
-            button.className =
-                "action-btn";
-
-
-            button.innerHTML =
-
+        button.innerHTML =
             "⚔️ " +
             enemy.name +
             "<br>Level " +
             enemy.level;
 
+        button.onclick = function() {
+            selectEnemy(index);
+        };
 
-
-            button.onclick =
-                function() {
-
-                    selectEnemy(index);
-
-                };
-
-
-            list.appendChild(button);
-
-        }
-    );
-
+        list.appendChild(button);
+    });
 }
-
-
 
 // ==========================================
 // SELECT ENEMY
@@ -1282,63 +924,36 @@ function renderEnemySelection() {
 function selectEnemy(index) {
 
     if (player && player.activity) {
-
-        logMessage(
-            "> ACCESS DENIED. You are currently busy."
-        );
-
+        logMessage("> ACCESS DENIED. You are currently busy.");
         closeEnemySelection();
-
         return;
-
     }
 
+    if (player && player.mustRest) {
+        logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+        closeEnemySelection();
+        return;
+    }
 
-    const area =
-        areas[currentArea];
-
-
-    const enemy =
-        area.enemies[index];
-
+    const area = areas[currentArea];
+    const enemy = area.enemies[index];
 
     currentEnemy = {
-
         name: enemy.name,
-
         level: enemy.level,
-
         hp: enemy.baseHp,
-
         maxHp: enemy.baseHp,
-
         atk: enemy.baseAtk
-
     };
 
-
-    document.getElementById(
-        "enemySelectScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "battleScreen"
-    ).style.display = "block";
-
+    document.getElementById("enemySelectScreen").style.display = "none";
+    document.getElementById("battleScreen").style.display = "block";
 
     updateBattleDisplay();
 
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> Battle started! You attack first.";
-
 }
-
-
 
 // ==========================================
 // BATTLE DISPLAY
@@ -1350,65 +965,39 @@ function updateBattleDisplay() {
         return;
     }
 
-
-    document.getElementById(
-        "enemyName"
-    ).textContent =
-
+    document.getElementById("enemyName").textContent =
         currentEnemy.name +
         " — LEVEL " +
         currentEnemy.level;
 
-
-    document.getElementById(
-        "enemyStats"
-    ).textContent =
-
+    document.getElementById("enemyStats").textContent =
         "HP: " +
         currentEnemy.hp +
         "/" +
         currentEnemy.maxHp +
-
         " | ED: " +
         currentEnemy.atk;
 
-
-    document.getElementById(
-        "battlePlayerHP"
-    ).textContent =
-
+    document.getElementById("battlePlayerHP").textContent =
         "HP: " +
         player.hp +
         " / " +
         player.maxHp;
 
-
-    document.getElementById(
-        "playerHPBar"
-    ).style.width =
-
+    document.getElementById("playerHPBar").style.width =
         Math.max(
             0,
             (player.hp / player.maxHp) * 100
         ) + "%";
 
-
-    document.getElementById(
-        "enemyHPBar"
-    ).style.width =
-
+    document.getElementById("enemyHPBar").style.width =
         Math.max(
             0,
-            (currentEnemy.hp /
-             currentEnemy.maxHp) * 100
+            (currentEnemy.hp / currentEnemy.maxHp) * 100
         ) + "%";
 
-
     updateSkillButton();
-
 }
-
-
 
 // ==========================================
 // PLAYER ATTACK
@@ -1420,52 +1009,32 @@ function attack() {
         return;
     }
 
-
-    if (player.activity) {
-
+    if (player.activity || player.mustRest) {
         return;
-
     }
 
+    const damage = player.atk;
 
-    const damage =
-        player.atk;
-
-
-    currentEnemy.hp -=
-        damage;
-
+    currentEnemy.hp -= damage;
 
     if (currentEnemy.hp < 0) {
         currentEnemy.hp = 0;
     }
 
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> YOU ATTACKED! " +
         damage +
         " damage dealt.";
 
-
     updateBattleDisplay();
 
-
     if (currentEnemy.hp <= 0) {
-
         winBattle();
-
         return;
     }
 
-
     enemyTurn();
-
 }
-
-
 
 // ==========================================
 // SKILL ATTACK
@@ -1477,106 +1046,58 @@ function skillAttack() {
         return;
     }
 
-
-    if (player.activity) {
-
+    if (player.activity || player.mustRest) {
         return;
-
     }
-
 
     if (player.skillUses <= 0) {
 
-        document.getElementById(
-            "battleLog"
-        ).textContent =
-
+        document.getElementById("battleLog").textContent =
             "> NO SKILL USES REMAINING. REST TO REFRESH YOUR SKILL.";
 
         return;
-
     }
-
 
     player.skillUses--;
 
+    let damage = player.atk * 2;
 
-    let damage =
-        player.atk * 2;
-
-
-    if (
-        player.className === "Rogue"
-    ) {
-
-        damage =
-            Math.floor(
-                player.atk * 2.5
-            );
-
+    if (player.className === "Rogue") {
+        damage = Math.floor(player.atk * 2.5);
     }
 
-
-    if (
-        player.className === "Mage"
-    ) {
-
-        damage =
-            Math.floor(
-                player.atk * 2.25
-            );
-
+    if (player.className === "Mage") {
+        damage = Math.floor(player.atk * 2.25);
     }
 
+    damage = Math.floor(damage);
 
-    damage =
-        Math.floor(damage);
-
-
-    currentEnemy.hp -=
-        damage;
-
+    currentEnemy.hp -= damage;
 
     if (currentEnemy.hp < 0) {
         currentEnemy.hp = 0;
     }
 
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> " +
         player.skill +
-        "!" +
-        " " +
+        "! " +
         damage +
-        " damage dealt." +
-        " Skill uses left: " +
+        " damage dealt. Skill uses left: " +
         player.skillUses +
         "/" +
         MAX_SKILL_USES;
 
-
     updateBattleDisplay();
-
-
     saveGame();
 
-
     if (currentEnemy.hp <= 0) {
-
         winBattle();
-
         return;
     }
 
-
     enemyTurn();
-
 }
-
-
 
 // ==========================================
 // ENEMY TURN
@@ -1588,46 +1109,28 @@ function enemyTurn() {
         return;
     }
 
+    const ED = currentEnemy.atk;
 
-    const ED =
-        currentEnemy.atk;
-
-
-    player.hp -=
-        ED;
-
+    player.hp -= ED;
 
     if (player.hp < 0) {
         player.hp = 0;
     }
 
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> ENEMY ATTACKS! " +
         currentEnemy.name +
         " dealt " +
         ED +
         " ED damage.";
 
-
     updateBattleDisplay();
-
-
     updatePlayerDisplay();
 
-
     if (player.hp <= 0) {
-
         playerDefeated();
-
     }
-
 }
-
-
 
 // ==========================================
 // PLAYER DEFEATED
@@ -1635,58 +1138,29 @@ function enemyTurn() {
 
 function playerDefeated() {
 
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> SYSTEM FAILURE. YOU WERE DEFEATED. REST REQUIRED.";
 
+    setTimeout(function() {
 
-    setTimeout(
-        function() {
+        currentEnemy = null;
 
+        document.getElementById("battleScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
 
-            currentEnemy = null;
+        player.hp = 1;
+        player.mustRest = true;
 
+        logMessage(
+            "> You were defeated. You must Rest before fighting again."
+        );
 
-            document.getElementById(
-                "battleScreen"
-            ).style.display =
-                "none";
+        updatePlayerDisplay();
+        updateActivityButtons();
+        saveGame();
 
-
-            document.getElementById(
-                "gameScreen"
-            ).style.display =
-                "block";
-
-
-            player.hp = 1;
-
-
-            // FORCE REST
-            player.mustRest = true;
-
-
-            logMessage(
-                "> You were defeated. You must Rest before fighting again."
-            );
-
-
-            updatePlayerDisplay();
-
-            updateActivityButtons();
-
-            saveGame();
-
-
-        },
-        1200
-    );
-
+    }, 1200);
 }
-
-
 
 // ==========================================
 // WIN BATTLE
@@ -1698,86 +1172,46 @@ function winBattle() {
         return;
     }
 
-
-    const defeatedEnemy =
-        currentEnemy.name;
-
-
-    const area =
-        areas[currentArea];
-
+    const defeatedEnemy = currentEnemy.name;
+    const area = areas[currentArea];
 
     player.gold += 5;
-    const gainedExp =
-    currentEnemy.level * 5;
 
+    const gainedExp = currentEnemy.level * 5;
 
-player.exp += gainedExp;
+    player.exp += gainedExp;
 
+    logMessage(
+        "> +" +
+        gainedExp +
+        " EXP gained!"
+    );
 
-logMessage(
-    "> +" +
-    gainedExp +
-    " EXP gained!"
-);
+    checkLevelUp();
 
-
-checkLevelUp();
-
-
-    document.getElementById(
-        "battleLog"
-    ).textContent =
-
+    document.getElementById("battleLog").textContent =
         "> " +
         defeatedEnemy +
         " defeated! +5 Gold.";
 
-
-    // 5% FRAGMENT CHANCE
-
-    if (
-        Math.random() < 0.15
-    ) {
-
+    if (Math.random() < 0.15) {
         giveFragment(area);
-
     }
 
-
     updatePlayerDisplay();
-
-
     saveGame();
 
+    setTimeout(function() {
 
-    setTimeout(
-        function() {
+        currentEnemy = null;
 
-            currentEnemy = null;
+        document.getElementById("battleScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
 
+        updatePlayerDisplay();
 
-            document.getElementById(
-                "battleScreen"
-            ).style.display =
-                "none";
-
-
-            document.getElementById(
-                "gameScreen"
-            ).style.display =
-                "block";
-
-
-            updatePlayerDisplay();
-
-        },
-        1200
-    );
-
+    }, 1200);
 }
-
-
 
 // ==========================================
 // GIVE FRAGMENT
@@ -1787,25 +1221,14 @@ function giveFragment(area) {
 
     const missingFragments = [];
 
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
+    for (let i = 0; i < 3; i++) {
 
         if (!area.fragments[i]) {
-
             missingFragments.push(i);
-
         }
-
     }
 
-
-    if (
-        missingFragments.length === 0
-    ) {
+    if (missingFragments.length === 0) {
 
         logMessage(
             "> Fragment found, but all 3 are already collected."
@@ -1814,65 +1237,45 @@ function giveFragment(area) {
         return;
     }
 
-
     const randomIndex =
         Math.floor(
-            Math.random() *
-            missingFragments.length
+            Math.random() * missingFragments.length
         );
-
 
     const fragment =
         missingFragments[randomIndex];
 
-
-    area.fragments[fragment] =
-        true;
-
+    area.fragments[fragment] = true;
 
     logMessage(
-
         "> 🔑 KEY FRAGMENT " +
         (fragment + 1) +
         " RECOVERED!"
-
     );
 
-
     if (
-
         area.fragments[0] &&
         area.fragments[1] &&
         area.fragments[2]
-
     ) {
 
         logMessage(
             "> 🔓 ALL 3 KEY FRAGMENTS COLLECTED!"
         );
 
-
-        if (
-            currentArea <
-            areas.length - 1
-        ) {
+        if (currentArea < areas.length - 1) {
 
             logMessage(
-
                 "> " +
                 areas[currentArea + 1].name +
                 " IS NOW UNLOCKED!"
-
             );
-
         }
-
     }
 
-
     saveGame();
-
 }
+
 // ==========================================
 // LEVEL UP SYSTEM
 // ==========================================
@@ -1883,35 +1286,16 @@ function checkLevelUp() {
         return;
     }
 
+    while (player.exp >= player.expNeeded) {
 
-    while (
-        player.exp >= player.expNeeded
-    ) {
-
-        player.exp -=
-            player.expNeeded;
-
-
+        player.exp -= player.expNeeded;
         player.level++;
-
-
-        player.maxHp +=
-            5;
-
-
-        player.hp =
-            player.maxHp;
-
-
-        player.atk +=
-            2;
-
+        player.maxHp += 5;
+        player.hp = player.maxHp;
+        player.atk += 2;
 
         player.expNeeded =
-            Math.floor(
-                player.expNeeded * 1.5
-            );
-
+            Math.floor(player.expNeeded * 1.5);
 
         logMessage(
             "> 🎉 LEVEL UP! You are now Level " +
@@ -1919,15 +1303,11 @@ function checkLevelUp() {
             "!"
         );
 
-
         logMessage(
             "> +5 Max HP and +2 ATK gained."
         );
-
     }
-
 }
-
 
 // ==========================================
 // RUN
@@ -1937,24 +1317,11 @@ function runAway() {
 
     currentEnemy = null;
 
+    document.getElementById("battleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 
-    document.getElementById(
-        "battleScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
-
-    logMessage(
-        "> Retreat successful."
-    );
-
+    logMessage("> Retreat successful.");
 }
-
-
 
 // ==========================================
 // TRAVEL
@@ -1966,216 +1333,124 @@ function openTravelMenu() {
 
         checkActivity();
 
-
         if (player.activity) {
-
-            logMessage(
-                "> ACCESS DENIED. You are currently busy."
-            );
-
+            logMessage("> ACCESS DENIED. You are currently busy.");
             return;
-
         }
 
+        if (player.mustRest) {
+            logMessage("> ACCESS DENIED. You must Rest before fighting again.");
+            return;
+        }
     }
 
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "travelScreen"
-    ).style.display = "block";
-
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("travelScreen").style.display = "block";
 
     renderTravelMap();
-
 }
-
-
 
 function closeTravelMenu() {
 
-    document.getElementById(
-        "travelScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
+    document.getElementById("travelScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 
     updatePlayerDisplay();
-
 }
-
-
 
 function renderTravelMap() {
 
-    const tray =
-        document.getElementById(
-            "areaListTray"
-        );
-
+    const tray = document.getElementById("areaListTray");
 
     tray.innerHTML = "";
 
+    areas.forEach(function(area, index) {
 
-    areas.forEach(
-        function(area, index) {
+        const button = document.createElement("button");
 
-            const button =
-                document.createElement(
-                    "button"
+        button.className = "action-btn";
+
+        if (index === currentArea) {
+
+            button.innerHTML =
+                "📍 " +
+                area.name +
+                " — CURRENT AREA<br>" +
+                "Difficulty: " +
+                area.difficulty +
+                "<br>" +
+                area.levelRange +
+                "<br>" +
+                getFragmentDisplay(area);
+
+            button.onclick = closeTravelMenu;
+
+        } else if (index < currentArea) {
+
+            button.innerHTML =
+                "🗺️ " +
+                area.name +
+                "<br>" +
+                "Difficulty: " +
+                area.difficulty +
+                " | " +
+                area.levelRange;
+
+            button.onclick = function() {
+                travelToArea(index);
+            };
+
+        } else if (index === currentArea + 1) {
+
+            const unlocked =
+                areas[currentArea].fragments.every(
+                    function(fragment) {
+                        return fragment === true;
+                    }
                 );
 
-
-            button.className =
-                "action-btn";
-
-
-            if (
-                index === currentArea
-            ) {
+            if (unlocked) {
 
                 button.innerHTML =
-
-                    "📍 " +
-                    area.name +
-                    " — CURRENT AREA<br>" +
-
-                    "Difficulty: " +
-                    area.difficulty +
-                    "<br>" +
-
-                    area.levelRange +
-                    "<br>" +
-
-                    getFragmentDisplay(area);
-
-
-                button.onclick =
-                    closeTravelMenu;
-
-            }
-
-
-            else if (
-                index < currentArea
-            ) {
-
-                button.innerHTML =
-
-                    "🗺️ " +
+                    "🔓 " +
                     area.name +
                     "<br>" +
-
                     "Difficulty: " +
                     area.difficulty +
                     " | " +
+                    area.levelRange +
+                    "<br>" +
+                    "NEXT AREA UNLOCKED";
 
-                    area.levelRange;
+                button.onclick = function() {
+                    travelToArea(index);
+                };
 
-
-                button.onclick =
-                    function() {
-
-                        travelToArea(index);
-
-                    };
-
-            }
-
-
-            else if (
-                index === currentArea + 1
-            ) {
-
-                const unlocked =
-                    areas[currentArea]
-                    .fragments
-                    .every(
-                        function(fragment) {
-
-                            return fragment === true;
-
-                        }
-                    );
-
-
-                if (unlocked) {
-
-                    button.innerHTML =
-
-                        "🔓 " +
-                        area.name +
-                        "<br>" +
-
-                        "Difficulty: " +
-                        area.difficulty +
-                        " | " +
-
-                        area.levelRange +
-                        "<br>" +
-
-                        "NEXT AREA UNLOCKED";
-
-
-                    button.onclick =
-                        function() {
-
-                            travelToArea(index);
-
-                        };
-
-                }
-
-                else {
-
-                    button.disabled = true;
-
-
-                    button.innerHTML =
-
-                        "🔒 " +
-                        area.name +
-                        "<br>" +
-
-                        "LOCKED — Collect all 3 fragments";
-
-                }
-
-            }
-
-
-            else {
+            } else {
 
                 button.disabled = true;
 
-
                 button.innerHTML =
-
                     "🔒 " +
                     area.name +
                     "<br>" +
-
-                    "LOCKED";
-
+                    "LOCKED — Collect all 3 fragments";
             }
 
+        } else {
 
-            tray.appendChild(button);
+            button.disabled = true;
 
+            button.innerHTML =
+                "🔒 " +
+                area.name +
+                "<br>" +
+                "LOCKED";
         }
-    );
 
+        tray.appendChild(button);
+    });
 }
-
-
 
 // ==========================================
 // FRAGMENT DISPLAY
@@ -2183,43 +1458,28 @@ function renderTravelMap() {
 
 function getFragmentDisplay(area) {
 
-    let text =
-        "Key Fragments: ";
+    let text = "Key Fragments: ";
 
-
-    for (
-        let i = 0;
-        i < 3;
-        i++
-    ) {
+    for (let i = 0; i < 3; i++) {
 
         text +=
             area.fragments[i]
                 ? "🔑 "
                 : "▫️ ";
-
     }
 
-
     if (
-
         area.fragments[0] &&
         area.fragments[1] &&
         area.fragments[2]
-
     ) {
 
         text +=
             "<br>✓ ALL 3 FRAGMENTS COLLECTED";
-
     }
 
-
     return text;
-
 }
-
-
 
 // ==========================================
 // TRAVEL TO AREA
@@ -2234,35 +1494,37 @@ function travelToArea(index) {
         );
 
         return;
-
     }
 
+    if (
+        player &&
+        player.mustRest
+    ) {
+
+        logMessage(
+            "> ACCESS DENIED. You must Rest before fighting again."
+        );
+
+        return;
+    }
 
     if (
         index < 0 ||
         index >= areas.length
     ) {
-
         return;
-
     }
 
-
-    if (
-        index === currentArea + 1
-    ) {
+    if (index === currentArea + 1) {
 
         const unlocked =
             areas[currentArea]
-            .fragments
-            .every(
-                function(fragment) {
-
-                    return fragment === true;
-
-                }
-            );
-
+                .fragments
+                .every(
+                    function(fragment) {
+                        return fragment === true;
+                    }
+                );
 
         if (!unlocked) {
 
@@ -2271,53 +1533,30 @@ function travelToArea(index) {
             );
 
             return;
-
         }
-
     }
 
-
-    if (
-        index > currentArea + 1
-    ) {
-
+    if (index > currentArea + 1) {
         return;
-
     }
 
-
-    currentArea =
-        index;
-
+    currentArea = index;
 
     logMessage(
-
         "> Traveling to " +
         areas[currentArea].name +
         "..."
-
     );
-
 
     logMessage(
-
         "> Enemy range: " +
         areas[currentArea].levelRange
-
     );
 
-
     closeTravelMenu();
-
-
     updatePlayerDisplay();
-
-
     saveGame();
-
 }
-
-
 
 // ==========================================
 // ACTIVITY SYSTEM
@@ -2326,14 +1565,10 @@ function travelToArea(index) {
 function startActivity(type) {
 
     if (!player) {
-
         return;
-
     }
 
-
     checkActivity();
-
 
     if (player.activity) {
 
@@ -2342,74 +1577,36 @@ function startActivity(type) {
         );
 
         return;
-
     }
-
 
     const activityTime =
         type === "rest"
             ? REST_TIME
             : WORK_TIME;
 
-
     player.activity = {
-
         type: type,
-
         startTime: Date.now(),
-
-        finishTime:
-            Date.now() +
-            activityTime
-
+        finishTime: Date.now() + activityTime
     };
 
-
-    if (
-        type === "work"
-    ) {
+    if (type === "work") {
 
         logMessage(
             "> 💼 Work started. 30 minutes remaining. You cannot fight or travel while working."
         );
 
+    } else if (type === "rest") {
+
+        logMessage(
+            "> 💤 Rest started. 1 minute remaining. HP and skill uses will be restored when complete."
+        );
     }
 
-
-    if (
-    type === "rest"
-) {
-
-    player.hp =
-        player.maxHp;
-
-
-    player.skillUses =
-        MAX_SKILL_USES;
-
-
-    player.mustRest =
-        false;
-
-
-    logMessage(
-        "> 💤 REST COMPLETE! HP FULLY RESTORED. SKILL REFRESHED: 3/3."
-    );
-
-}
-
-
     updateActivityButtons();
-
-
     saveGame();
-
-
     startActivityTimer();
-
 }
-
-
 
 // ==========================================
 // CHECK ACTIVITY
@@ -2417,28 +1614,14 @@ function startActivity(type) {
 
 function checkActivity() {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
-
+    if (!player || !player.activity) {
         return;
-
     }
 
-
-    if (
-        Date.now() >=
-        player.activity.finishTime
-    ) {
-
+    if (Date.now() >= player.activity.finishTime) {
         finishActivity();
-
     }
-
 }
-
-
 
 // ==========================================
 // FINISH ACTIVITY
@@ -2446,82 +1629,44 @@ function checkActivity() {
 
 function finishActivity() {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
-
+    if (!player || !player.activity) {
         return;
-
     }
 
+    const type = player.activity.type;
 
-    const type =
-        player.activity.type;
+    player.activity = null;
 
-
-    player.activity =
-        null;
-
-
-    if (
-        type === "work"
-    ) {
+    if (type === "work") {
 
         player.gold += 10;
-
 
         logMessage(
             "> 💼 WORK COMPLETE! +10 Gold."
         );
 
-    }
+    } else if (type === "rest") {
 
-
-    if (
-        type === "rest"
-    ) {
-
-        player.hp =
-            player.maxHp;
-
-
-        player.skillUses =
-            MAX_SKILL_USES;
-
+        player.hp = player.maxHp;
+        player.skillUses = MAX_SKILL_USES;
+        player.mustRest = false;
 
         logMessage(
             "> 💤 REST COMPLETE! HP FULLY RESTORED. SKILL REFRESHED: 3/3."
         );
-
     }
 
-
     saveGame();
-
-
     updatePlayerDisplay();
-
-
     updateActivityDisplay();
-
-
     updateSkillButton();
-
 
     if (activityTimer) {
 
-        clearInterval(
-            activityTimer
-        );
-
+        clearInterval(activityTimer);
         activityTimer = null;
-
     }
-
 }
-
-
 
 // ==========================================
 // LEAVE ACTIVITY
@@ -2529,74 +1674,39 @@ function finishActivity() {
 
 function leaveActivity() {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
-
+    if (!player || !player.activity) {
         return;
-
     }
 
+    const type = player.activity.type;
 
-    const type =
-        player.activity.type;
-
-
-    player.activity =
-        null;
-
+    player.activity = null;
 
     if (activityTimer) {
 
-        clearInterval(
-            activityTimer
-        );
-
+        clearInterval(activityTimer);
         activityTimer = null;
-
     }
 
-
-    if (
-        type === "work"
-    ) {
+    if (type === "work") {
 
         logMessage(
             "> 💼 You left work early. No Gold was earned."
         );
 
-    }
-
-
-    if (
-        type === "rest"
-    ) {
+    } else if (type === "rest") {
 
         logMessage(
             "> 💤 You stopped resting early. HP and skill uses were not restored."
         );
-
     }
 
-
     saveGame();
-
-
     updateActivityDisplay();
-
-
     updateActivityButtons();
-
-
     updatePlayerDisplay();
-
-
     updateSkillButton();
-
 }
-
-
 
 // ==========================================
 // ACTIVITY TIMER
@@ -2605,32 +1715,18 @@ function leaveActivity() {
 function startActivityTimer() {
 
     if (activityTimer) {
-
-        clearInterval(
-            activityTimer
-        );
-
+        clearInterval(activityTimer);
     }
 
+    activityTimer = setInterval(function() {
 
-    activityTimer =
-        setInterval(
-            function() {
+        checkActivity();
+        updateActivityDisplay();
 
-                checkActivity();
-
-                updateActivityDisplay();
-
-            },
-            1000
-        );
-
+    }, 1000);
 
     updateActivityDisplay();
-
 }
-
-
 
 // ==========================================
 // ACTIVITY TIME BAR
@@ -2638,114 +1734,62 @@ function startActivityTimer() {
 
 function updateActivityDisplay() {
 
-    const box =
-        document.getElementById(
-            "activityStatus"
-        );
+    const box = document.getElementById("activityStatus");
 
+    if (!player || !player.activity) {
 
-    if (
-        !player ||
-        !player.activity
-    ) {
-
-        box.style.display =
-            "none";
-
+        box.style.display = "none";
         updateActivityButtons();
 
         return;
-
     }
 
+    box.style.display = "block";
 
-    box.style.display =
-        "block";
+    const now = Date.now();
+    const start = player.activity.startTime;
+    const finish = player.activity.finishTime;
+    const total = finish - start;
 
-
-    const now =
-        Date.now();
-
-
-    const start =
-        player.activity.startTime;
-
-
-    const finish =
-        player.activity.finishTime;
-
-
-    const total =
-        finish - start;
-
-
-    const remaining =
-        Math.max(
-            0,
-            finish - now
-        );
-
+    const remaining = Math.max(0, finish - now);
 
     const progress =
         Math.min(
             100,
             Math.max(
                 0,
-                ((total - remaining) /
-                 total) * 100
+                ((total - remaining) / total) * 100
             )
         );
 
-
     const totalSeconds =
-        Math.ceil(
-            remaining / 1000
-        );
-
+        Math.ceil(remaining / 1000);
 
     const minutes =
-        Math.floor(
-            totalSeconds / 60
-        );
-
+        Math.floor(totalSeconds / 60);
 
     const seconds =
         totalSeconds % 60;
 
-
     const timeText =
-
-        String(minutes).padStart(
-            2,
-            "0"
-        ) +
-
+        String(minutes).padStart(2, "0") +
         ":" +
-
-        String(seconds).padStart(
-            2,
-            "0"
-        );
-
+        String(seconds).padStart(2, "0");
 
     const activityName =
         player.activity.type === "work"
             ? "💼 WORK"
             : "💤 REST";
 
-
     const reward =
         player.activity.type === "work"
             ? "+10 Gold"
             : "Full HP + 3 Skill Uses";
 
-
     box.innerHTML =
-
         "<strong>" +
         activityName +
         " IN PROGRESS</strong><br>" +
-
         "Time Remaining: " +
         "<strong>" +
         timeText +
@@ -2785,12 +1829,8 @@ function updateActivityDisplay() {
 
         "</button>";
 
-
     updateActivityButtons();
-
 }
-
-
 
 // ==========================================
 // WORK
@@ -2809,17 +1849,20 @@ function work() {
             );
 
             return;
-
         }
 
+        if (player.mustRest) {
+
+            logMessage(
+                "> You must Rest before working."
+            );
+
+            return;
+        }
     }
 
-
     startActivity("work");
-
 }
-
-
 
 // ==========================================
 // REST
@@ -2838,17 +1881,11 @@ function rest() {
             );
 
             return;
-
         }
-
     }
 
-
     startActivity("rest");
-
 }
-
-
 
 // ==========================================
 // SAVE
@@ -2857,45 +1894,23 @@ function rest() {
 function saveGame() {
 
     if (!player) {
-
         return;
-
     }
 
-
     const saveData = {
-
-        version: 7,
-
+        version: 8,
         player: player,
-
         currentArea: currentArea,
-
-        fragments:
-            areas.map(
-                function(area) {
-
-                    return area.fragments;
-
-                }
-            )
-
+        fragments: areas.map(function(area) {
+            return area.fragments;
+        })
     };
 
-
     localStorage.setItem(
-
         "cyberKnightSave",
-
-        JSON.stringify(
-            saveData
-        )
-
+        JSON.stringify(saveData)
     );
-
 }
-
-
 
 // ==========================================
 // LOAD
@@ -2904,79 +1919,57 @@ function saveGame() {
 function loadGame() {
 
     const saved =
-        localStorage.getItem(
-            "cyberKnightSave"
-        );
-
+        localStorage.getItem("cyberKnightSave");
 
     if (!saved) {
-
         return;
-
     }
-
 
     try {
 
-        const data =
-            JSON.parse(saved);
+        const data = JSON.parse(saved);
 
-
-        if (
-            !data.player
-        ) {
-
+        if (!data.player) {
             return;
-
         }
 
+        player = data.player;
 
-        player =
-            data.player;
-        // FIX OLD SAVES
-if (typeof player.exp !== "number") {
-    player.exp = 0;
-}
+        if (typeof player.exp !== "number") {
+            player.exp = 0;
+        }
 
-if (typeof player.expNeeded !== "number") {
-    player.expNeeded = 50;
-}
+        if (typeof player.expNeeded !== "number") {
+            player.expNeeded = 50;
+        }
 
-if (typeof player.level !== "number") {
-    player.level = 1;
-}
+        if (typeof player.level !== "number") {
+            player.level = 1;
+        }
 
-if (typeof player.gold !== "number") {
-    player.gold = 0;
-}
+        if (typeof player.gold !== "number") {
+            player.gold = 0;
+        }
+
         if (!Array.isArray(player.pets)) {
-
-    player.pets = [];
-
-}
-
-
-if (!Array.isArray(player.gear)) {
-
-    player.gear = [];
-    if (!Array.isArray(player.inventory)) {
-
-    player.inventory = [];
-
-}
-
-}
-
-
-        if (
-            typeof player.skillUses !== "number"
-        ) {
-
-            player.skillUses =
-                MAX_SKILL_USES;
-
+            player.pets = [];
         }
 
+        if (!Array.isArray(player.gear)) {
+            player.gear = [];
+        }
+
+        if (!Array.isArray(player.inventory)) {
+            player.inventory = [];
+        }
+
+        if (typeof player.mustRest !== "boolean") {
+            player.mustRest = false;
+        }
+
+        if (typeof player.skillUses !== "number") {
+            player.skillUses = MAX_SKILL_USES;
+        }
 
         player.skillUses =
             Math.max(
@@ -2987,120 +1980,65 @@ if (!Array.isArray(player.gear)) {
                 )
             );
 
-
-        if (
-            !player.activity
-        ) {
-
-            player.activity =
-                null;
-
+        if (!player.activity) {
+            player.activity = null;
         }
 
-
         currentArea =
-            Number.isInteger(
-                data.currentArea
-            )
+            Number.isInteger(data.currentArea)
                 ? data.currentArea
                 : 0;
-
 
         if (
             currentArea < 0 ||
             currentArea >= areas.length
         ) {
-
             currentArea = 0;
-
         }
 
-
-        if (
-            data.fragments
-        ) {
+        if (data.fragments) {
 
             data.fragments.forEach(
-                function(
-                    fragmentList,
-                    index
-                ) {
+                function(fragmentList, index) {
 
                     if (
                         areas[index] &&
-                        Array.isArray(
-                            fragmentList
-                        )
+                        Array.isArray(fragmentList)
                     ) {
 
                         areas[index].fragments = [
-
                             !!fragmentList[0],
-
                             !!fragmentList[1],
-
                             !!fragmentList[2]
-
                         ];
-
                     }
-
                 }
             );
-
         }
 
-
-        document.getElementById(
-            "classScreen"
-        ).style.display = "none";
-
-
-        document.getElementById(
-            "gameScreen"
-        ).style.display = "block";
-
+        document.getElementById("classScreen").style.display = "none";
+        document.getElementById("gameScreen").style.display = "block";
 
         updatePlayerDisplay();
-
-
         updateSkillButton();
 
-
-        logMessage(
-            "> Save data restored."
-        );
-
+        logMessage("> Save data restored.");
 
         checkActivity();
 
-
-        if (
-            player.activity
-        ) {
-
+        if (player.activity) {
             startActivityTimer();
-
         }
-
 
         updateActivityButtons();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.log(error);
 
-        localStorage.removeItem(
-            "cyberKnightSave"
-        );
-
+        localStorage.removeItem("cyberKnightSave");
     }
-
 }
-
-
 
 // ==========================================
 // RESET
@@ -3113,173 +2051,124 @@ function resetGame() {
             "Delete your CyberKnight save and start over?"
         );
 
-
     if (!confirmed) {
-
         return;
-
     }
-
 
     if (activityTimer) {
 
-        clearInterval(
-            activityTimer
-        );
-
+        clearInterval(activityTimer);
         activityTimer = null;
-
     }
 
-
-    localStorage.removeItem(
-        "cyberKnightSave"
-    );
-
+    localStorage.removeItem("cyberKnightSave");
 
     location.reload();
-
 }
-
 
 // ==========================================
 // SHOP SYSTEM
 // ==========================================
 
-function openShop(){
+function openShop() {
 
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "shopScreen"
-    ).style.display = "block";
-
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
 
     hideShopSections();
-
 }
 
+function closeShop() {
 
-
-function closeShop(){
-
-    document.getElementById(
-        "shopScreen"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "block";
-
+    document.getElementById("shopScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
 
     updatePlayerDisplay();
-
 }
 
+function hideShopSections() {
 
-function openPetShop(){
+    document.getElementById("shopMainMenu").style.display = "flex";
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "none";
+}
 
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
+function openPetShop() {
 
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "flex";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "none";
 
     renderPetShop();
-
 }
 
+function openBlacksmith() {
 
-
-function openBlacksmith(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "flex";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "flex";
+    document.getElementById("inventory").style.display = "none";
 
     renderGearShop();
-
 }
 
-    gear.forEach(function(item){
+function openInventory() {
 
-        const button =
-            document.createElement(
-                "button"
-            );
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
+    document.getElementById("shopMainMenu").style.display = "none";
+    document.getElementById("petShop").style.display = "none";
+    document.getElementById("gearShop").style.display = "none";
+    document.getElementById("inventory").style.display = "flex";
 
+    renderInventory();
+}
 
-        button.className =
-            "action-btn";
+// ==========================================
+// PET SHOP
+// ==========================================
 
+function renderPetShop() {
+
+    const box = document.getElementById("petShop");
+
+    box.innerHTML = "<h3>🐾 Pet Shop</h3>";
+
+    pets.forEach(function(pet) {
+
+        const button = document.createElement("button");
+
+        button.className = "action-btn";
+
+        const alreadyOwned =
+            player.pets.some(function(ownedPet) {
+                return ownedPet.name === pet.name;
+            });
 
         button.innerHTML =
-
-            "⚔️ " +
-            item.name +
+            "🐾 " +
+            pet.name +
             "<br>" +
-
-            item.cost +
+            pet.cost +
             " Gold<br>" +
+            pet.bonus +
+            (alreadyOwned ? "<br>OWNED" : "");
 
-            item.bonus;
+        button.disabled = alreadyOwned;
 
+        button.onclick = function() {
+            buyPet(pet);
+        };
 
-
-        button.onclick =
-            function(){
-
-                buyGear(item);
-
-            };
-        
-
-
-        gearBox.appendChild(button);
-
+        box.appendChild(button);
     });
-
 }
 
+function buyPet(pet) {
 
-
-function buyPet(pet){
-
-    if(player.gold < pet.cost){
+    if (player.gold < pet.cost) {
 
         logMessage(
             "> ❌ CANNOT BUY THIS ITEM! You need " +
@@ -3288,15 +2177,42 @@ function buyPet(pet){
         );
 
         return;
-
     }
 
+    if (
+        player.pets.some(function(ownedPet) {
+            return ownedPet.name === pet.name;
+        })
+    ) {
+
+        logMessage(
+            "> ❌ You already own " +
+            pet.name +
+            "."
+        );
+
+        return;
+    }
 
     player.gold -= pet.cost;
 
+    player.pets.push({
+        name: pet.name,
+        cost: pet.cost,
+        bonus: pet.bonus,
+        atk: pet.atk || 0,
+        hp: pet.hp || 0,
+        gold: pet.gold || 0
+    });
 
-    player.pets.push(pet);
+    if (pet.atk) {
+        player.atk += pet.atk;
+    }
 
+    if (pet.hp) {
+        player.maxHp += pet.hp;
+        player.hp += pet.hp;
+    }
 
     logMessage(
         "> 🐾 Purchased " +
@@ -3304,16 +2220,54 @@ function buyPet(pet){
         "!"
     );
 
-
     saveGame();
-
     updatePlayerDisplay();
-
+    renderPetShop();
 }
 
-function buyGear(item){
+// ==========================================
+// BLACKSMITH
+// ==========================================
 
-    if(player.gold < item.cost){
+function renderGearShop() {
+
+    const box = document.getElementById("gearShop");
+
+    box.innerHTML = "<h3>⚔️ Blacksmith</h3>";
+
+    gear.forEach(function(item) {
+
+        const button = document.createElement("button");
+
+        button.className = "action-btn";
+
+        const alreadyOwned =
+            player.gear.some(function(ownedGear) {
+                return ownedGear.name === item.name;
+            });
+
+        button.innerHTML =
+            "⚔️ " +
+            item.name +
+            "<br>" +
+            item.cost +
+            " Gold<br>" +
+            item.bonus +
+            (alreadyOwned ? "<br>OWNED" : "");
+
+        button.disabled = alreadyOwned;
+
+        button.onclick = function() {
+            buyGear(item);
+        };
+
+        box.appendChild(button);
+    });
+}
+
+function buyGear(item) {
+
+    if (player.gold < item.cost) {
 
         logMessage(
             "> ❌ CANNOT BUY THIS ITEM! You need " +
@@ -3322,54 +2276,41 @@ function buyGear(item){
         );
 
         return;
-
     }
 
+    if (
+        player.gear.some(function(ownedGear) {
+            return ownedGear.name === item.name;
+        })
+    ) {
 
-    if(item.hp){
+        logMessage(
+            "> ❌ You already own " +
+            item.name +
+            "."
+        );
 
-        player.maxHp += item.hp;
-
-        player.hp += item.hp;
-
+        return;
     }
-
-
-    player.inventory.push(item);
-
-
-    logMessage(
-        "> ⚔️ Bought " +
-        item.name +
-        "!"
-    );
-
-
-    saveGame();
-
-    updatePlayerDisplay();
-
-}
-
 
     player.gold -= item.cost;
 
+    player.gear.push({
+        name: item.name,
+        cost: item.cost,
+        bonus: item.bonus,
+        atk: item.atk || 0,
+        hp: item.hp || 0
+    });
 
-    if(item.atk){
-
+    if (item.atk) {
         player.atk += item.atk;
-
     }
 
-
-    if(item.hp){
-
+    if (item.hp) {
         player.maxHp += item.hp;
-
         player.hp += item.hp;
-
     }
-
 
     logMessage(
         "> ⚔️ Bought " +
@@ -3377,154 +2318,106 @@ function buyGear(item){
         "!"
     );
 
-
     saveGame();
-
     updatePlayerDisplay();
-
+    renderGearShop();
 }
 
+// ==========================================
+// INVENTORY
+// ==========================================
 
-// 👇 PASTE THE NEW FUNCTIONS RIGHT HERE
+function renderInventory() {
 
-function hideShopSections(){
+    const box = document.getElementById("inventory");
 
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "flex";
+    box.innerHTML = "<h3>🎒 Inventory</h3>";
 
+    const items = [];
 
-    document.getElementById(
-        "petShop"
-    ).style.display = "none";
+    if (player.pets.length > 0) {
 
+        player.pets.forEach(function(pet) {
 
-    document.getElementById(
-        "gearShop"
-    ).style.display = "none";
+            items.push({
+                type: "Pet",
+                name: pet.name,
+                bonus: pet.bonus
+            });
 
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "none";
-
-}
-
-
-
-function openPetShop(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "petShop"
-    ).style.display = "flex";
-
-
-    renderShop();
-
-}
-
-
-
-function openBlacksmith(){
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "gearShop"
-    ).style.display = "flex";
-
-
-    renderShop();
-
-}
-
-
-
-function openInventory(){
-
-    document.getElementById(
-        "gameScreen"
-    ).style.display = "none";
-
-    document.getElementById(
-        "shopScreen"
-    ).style.display = "block";
-
-    document.getElementById(
-        "shopMainMenu"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "inventory"
-    ).style.display = "flex";
-
-
-    renderInventory();
-
-}
-
-    player.gold -= item.cost;
-
-
-    if(item.atk){
-
-        player.atk += item.atk;
-
+        });
     }
 
+    if (player.gear.length > 0) {
 
-    if(item.hp){
+        player.gear.forEach(function(item) {
 
-        player.maxHp += item.hp;
+            items.push({
+                type: "Gear",
+                name: item.name,
+                bonus: item.bonus
+            });
 
-        player.hp += item.hp;
-
+        });
     }
 
+    if (player.inventory.length > 0) {
 
-    logMessage(
-        "> ⚔️ Bought " +
-        item.name +
-        "!"
-    );
+        player.inventory.forEach(function(item) {
 
+            items.push({
+                type: "Item",
+                name: item.name,
+                bonus: item.bonus || "No bonus listed"
+            });
 
-    saveGame();
+        });
+    }
 
-    updatePlayerDisplay();
+    if (items.length === 0) {
 
+        const empty = document.createElement("p");
+
+        empty.textContent =
+            "Your inventory is empty.";
+
+        box.appendChild(empty);
+
+        return;
+    }
+
+    items.forEach(function(item) {
+
+        const card = document.createElement("div");
+
+        card.className = "inventory-item";
+
+        card.innerHTML =
+            "<strong>" +
+            item.type +
+            ":</strong> " +
+            item.name +
+            "<br>" +
+            item.bonus;
+
+        box.appendChild(card);
+    });
 }
+
 // ==========================================
 // START
 // ==========================================
 
 loadGame();
 
-
-if (
-    player &&
-    player.activity
-) {
+if (player && player.activity) {
 
     checkActivity();
 
     if (player.activity) {
-
         startActivityTimer();
-
     }
-
 }
-
 
 </script>
 
