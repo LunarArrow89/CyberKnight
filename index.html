@@ -586,6 +586,19 @@ h1 {
 }
 </style>
 
+
+<style>
+/* Inventory equipment layout */
+#inventory .shop-item {
+    margin-bottom: 10px;
+}
+
+#inventory .shop-item button:disabled {
+    opacity: .65;
+    cursor: default;
+}
+</style>
+
 </head>
 
 <body>
@@ -960,7 +973,7 @@ h1 {
 
 <!-- PET SHOP -->
 
-<div id="petShopScreen"
+<div id="petShopPage"
      style="display:none;">
 
     <div class="card">
@@ -997,7 +1010,7 @@ h1 {
 
 <!-- BLACKSMITH -->
 
-<div id="blacksmithScreen"
+<div id="blacksmithPage"
      style="display:none;">
 
     <div class="card">
@@ -1484,6 +1497,8 @@ player = {
     expNeeded: 50,
     pets: [],
     gear: [],
+    equippedPet: null,
+    petEquipmentUpdated: true,
     activity: null,
     mustRest: false
 
@@ -3573,14 +3588,41 @@ if (typeof player.gold !== "number") {
 if (!Array.isArray(player.gear)) {
 
     player.gear = [];
-    if (!Array.isArray(player.inventory)) {
+
+}
+
+if (!Array.isArray(player.inventory)) {
 
     player.inventory = [];
 
 }
 
+player.inventory.forEach(function(item){
+    if (typeof item.equipped !== "boolean") {
+        item.equipped = false;
+    }
+});
+
+if (typeof player.equippedPet === "undefined") {
+    player.equippedPet = null;
 }
 
+if (typeof player.petEquipmentUpdated !== "boolean") {
+
+    player.pets.forEach(function(pet){
+        if (pet.atk) {
+            player.atk -= pet.atk;
+        }
+        if (pet.hp) {
+            player.maxHp -= pet.hp;
+            player.hp = Math.min(player.hp, player.maxHp);
+        }
+        pet.equipped = false;
+    });
+
+    player.equippedPet = null;
+    player.petEquipmentUpdated = true;
+}
 
         if (
             typeof player.skillUses !== "number"
@@ -3814,6 +3856,9 @@ function openBlacksmith(){
 
 function openInventory(){
 
+    document.getElementById("gameScreen").style.display = "none";
+    document.getElementById("shopScreen").style.display = "block";
+
     hideShopSections();
     document.getElementById("shopMainMenu").style.display = "none";
     document.getElementById("inventory").style.display = "flex";
@@ -3877,20 +3922,197 @@ function renderInventory(){
 
     box.innerHTML = "<h3>🎒 Inventory</h3>";
 
-    if(!player.inventory || player.inventory.length === 0){
+    const equippedPet = player.equippedPet || null;
+    const equippedGear = player.inventory && player.inventory.find(function(item){
+        return item.equipped === true;
+    });
 
-        box.innerHTML += "<p>Your inventory is empty.</p>";
-        return;
+    box.innerHTML +=
+        "<p><strong>🐾 EQUIPPED PET:</strong> " +
+        (equippedPet ? equippedPet.name : "Nothing") +
+        (equippedPet ? "<br>" + equippedPet.bonus : "") +
+        "</p>";
 
+    box.innerHTML +=
+        "<p><strong>⚔️ EQUIPPED GEAR:</strong> " +
+        (equippedGear ? equippedGear.name : "Nothing") +
+        (equippedGear ? "<br>" + equippedGear.bonus : "") +
+        "</p>";
+
+    box.innerHTML += "<h4>🐾 PETS</h4>";
+
+    if(!player.pets || player.pets.length === 0){
+        box.innerHTML += "<p>No pets owned.</p>";
+    }
+    else {
+        player.pets.forEach(function(pet, index){
+            const itemBox = document.createElement("div");
+            itemBox.className = "shop-item";
+
+            const info = document.createElement("div");
+            info.className = "shop-item-info";
+            info.innerHTML =
+                "<div class=\"shop-item-title\">🐾 " +
+                pet.name +
+                (pet.equipped ? " — EQUIPPED" : "") +
+                "</div>" +
+                "<div class=\"shop-item-desc\">" +
+                pet.bonus +
+                "</div>";
+
+            itemBox.appendChild(info);
+
+            const equipButton = document.createElement("button");
+            equipButton.className = "action-btn";
+            equipButton.textContent = pet.equipped ? "Equipped" : "Equip";
+            equipButton.disabled = pet.equipped === true;
+            equipButton.onclick = function(){
+                equipPet(index);
+            };
+
+            itemBox.appendChild(equipButton);
+            box.appendChild(itemBox);
+        });
     }
 
-    player.inventory.forEach(function(item){
+    box.innerHTML += "<h4>⚔️ GEAR</h4>";
 
-        box.innerHTML +=
-            "<p>⚔️ " + item.name +
-            "<br>" + item.bonus + "</p>";
+    if(!player.inventory || player.inventory.length === 0){
+        box.innerHTML += "<p>No gear owned.</p>";
+    }
+    else {
+        player.inventory.forEach(function(item, index){
+            const itemBox = document.createElement("div");
+            itemBox.className = "shop-item";
+
+            const info = document.createElement("div");
+            info.className = "shop-item-info";
+            info.innerHTML =
+                "<div class=\"shop-item-title\">⚔️ " +
+                item.name +
+                (item.equipped ? " — EQUIPPED" : "") +
+                "</div>" +
+                "<div class=\"shop-item-desc\">" +
+                item.bonus +
+                "</div>";
+
+            itemBox.appendChild(info);
+
+            const equipButton = document.createElement("button");
+            equipButton.className = "action-btn";
+            equipButton.textContent = item.equipped ? "Equipped" : "Equip";
+            equipButton.disabled = item.equipped === true;
+            equipButton.onclick = function(){
+                equipInventoryItem(index);
+            };
+
+            itemBox.appendChild(equipButton);
+            box.appendChild(itemBox);
+        });
+    }
+
+}
+
+
+function equipPet(index){
+
+    if(!player || !Array.isArray(player.pets)){
+        return;
+    }
+
+    const pet = player.pets[index];
+
+    if(!pet){
+        return;
+    }
+
+    player.pets.forEach(function(oldPet){
+        oldPet.equipped = false;
+    });
+
+    if(player.equippedPet){
+        if(player.equippedPet.atk){
+            player.atk -= player.equippedPet.atk;
+        }
+
+        if(player.equippedPet.hp){
+            player.maxHp -= player.equippedPet.hp;
+            player.hp = Math.min(player.hp, player.maxHp);
+        }
+    }
+
+    pet.equipped = true;
+    player.equippedPet = pet;
+
+    if(pet.atk){
+        player.atk += pet.atk;
+    }
+
+    if(pet.hp){
+        player.maxHp += pet.hp;
+        player.hp += pet.hp;
+    }
+
+    logMessage(
+        "> 🐾 Equipped pet: " + pet.name + "!"
+    );
+
+    saveGame();
+    updatePlayerDisplay();
+    renderInventory();
+
+}
+
+
+function equipInventoryItem(index){
+
+    if(!player || !Array.isArray(player.inventory)){
+        return;
+    }
+
+    const item = player.inventory[index];
+
+    if(!item){
+        return;
+    }
+
+    player.inventory.forEach(function(inventoryItem){
+
+        if(inventoryItem.equipped){
+
+            if(inventoryItem.atk){
+                player.atk -= inventoryItem.atk;
+            }
+
+            if(inventoryItem.hp){
+                player.maxHp -= inventoryItem.hp;
+                player.hp = Math.min(player.hp, player.maxHp);
+            }
+
+        }
+
+        inventoryItem.equipped = false;
 
     });
+
+    item.equipped = true;
+
+    if(item.atk){
+        player.atk += item.atk;
+    }
+
+    if(item.hp){
+        player.maxHp += item.hp;
+        player.hp += item.hp;
+    }
+
+    logMessage(
+        "> ⚔️ Equipped gear: " + item.name + "!"
+    );
+
+    saveGame();
+    updatePlayerDisplay();
+    renderInventory();
 
 }
 
@@ -3910,19 +4132,25 @@ function buyPet(pet){
     }
 
     player.gold -= pet.cost;
-    player.pets.push(pet);
 
-    if(pet.atk){
-        player.atk += pet.atk;
+    const ownedPet = {
+        name: pet.name,
+        cost: pet.cost,
+        bonus: pet.bonus,
+        atk: pet.atk || 0,
+        hp: pet.hp || 0,
+        gold: pet.gold || 0,
+        equipped: false
+    };
+
+    if(!Array.isArray(player.pets)){
+        player.pets = [];
     }
 
-    if(pet.hp){
-        player.maxHp += pet.hp;
-        player.hp += pet.hp;
-    }
+    player.pets.push(ownedPet);
 
     logMessage(
-        "> 🐾 Purchased " + pet.name + "!"
+        "> 🐾 Purchased " + pet.name + "! It was added to your Inventory. Equip it there."
     );
 
     saveGame();
@@ -3947,19 +4175,23 @@ function buyGear(item){
 
     player.gold -= item.cost;
 
-    if(item.atk){
-        player.atk += item.atk;
+    const inventoryItem = {
+        name: item.name,
+        cost: item.cost,
+        bonus: item.bonus,
+        atk: item.atk || 0,
+        hp: item.hp || 0,
+        equipped: false
+    };
+
+    if(!Array.isArray(player.inventory)){
+        player.inventory = [];
     }
 
-    if(item.hp){
-        player.maxHp += item.hp;
-        player.hp += item.hp;
-    }
-
-    player.inventory.push(item);
+    player.inventory.push(inventoryItem);
 
     logMessage(
-        "> ⚔️ Bought " + item.name + "!"
+        "> ⚔️ Bought " + item.name + "! It was added to your Inventory. Equip it there."
     );
 
     saveGame();
