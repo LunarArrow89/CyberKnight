@@ -13,6 +13,50 @@
     <link rel="stylesheet" href="style.css">
 
 <style>
+
+        .shop-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .shop-row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .shop-row .shop-name {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .shop-row .shop-cost {
+            flex-shrink: 0;
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .shop-details {
+            margin-top: 10px;
+            padding: 14px;
+            border: 1px solid #853744;
+            border-radius: 10px;
+            background: #14121f;
+            text-align: center;
+        }
+
+        .shop-details h3 {
+            margin-top: 0;
+        }
+
+        .shop-details .action-btn {
+            margin-top: 10px;
+        }
+
 @media (max-width: 600px){
     .action-tray{
         display:grid !important;
@@ -2333,6 +2377,13 @@ function renderInventory() {
 
     box.innerHTML = "<h3>🎒 Inventory</h3>";
 
+    const list = document.createElement("div");
+
+    list.className = "action-tray";
+
+    list.style.flexDirection = "column";
+    list.style.alignItems = "stretch";
+
     const items = [];
 
     if (player.pets.length > 0) {
@@ -2340,7 +2391,7 @@ function renderInventory() {
         player.pets.forEach(function(pet) {
 
             items.push({
-                type: "Pet",
+                type: "🐾 PET",
                 name: pet.name,
                 bonus: pet.bonus
             });
@@ -2353,7 +2404,7 @@ function renderInventory() {
         player.gear.forEach(function(item) {
 
             items.push({
-                type: "Gear",
+                type: "⚔️ GEAR",
                 name: item.name,
                 bonus: item.bonus
             });
@@ -2366,7 +2417,7 @@ function renderInventory() {
         player.inventory.forEach(function(item) {
 
             items.push({
-                type: "Item",
+                type: "📦 ITEM",
                 name: item.name,
                 bonus: item.bonus || "No bonus listed"
             });
@@ -2388,20 +2439,21 @@ function renderInventory() {
 
     items.forEach(function(item) {
 
-        const card = document.createElement("div");
+        const button = document.createElement("button");
 
-        card.className = "inventory-item";
+        button.className = "action-btn";
 
-        card.innerHTML =
-            "<strong>" +
+        button.innerHTML =
             item.type +
-            ":</strong> " +
+            " — " +
             item.name +
             "<br>" +
             item.bonus;
 
-        box.appendChild(card);
+        list.appendChild(button);
     });
+
+    box.appendChild(list);
 }
 
 // ==========================================
