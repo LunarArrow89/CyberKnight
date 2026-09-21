@@ -1195,7 +1195,7 @@ function enemyTurn() {
 function playerDefeated() {
 
     document.getElementById("battleLog").textContent =
-        "> SYSTEM FAILURE. YOU WERE DEFEATED. REST REQUIRED.";
+        "> SYSTEM FAILURE. YOU WERE DEFEATED. FORCED REST INITIATED.";
 
     setTimeout(function() {
 
@@ -1208,12 +1208,13 @@ function playerDefeated() {
         player.mustRest = true;
 
         logMessage(
-            "> You were defeated. You must Rest before fighting again."
+            "> You were defeated. Forced Rest has started. You must complete it before fighting again."
         );
 
         updatePlayerDisplay();
-        updateActivityButtons();
-        saveGame();
+
+        // Automatically start the required rest
+        startActivity("rest");
 
     }, 1200);
 }
@@ -1734,6 +1735,16 @@ function leaveActivity() {
         return;
     }
 
+    // Forced rest after defeat cannot be cancelled
+    if (player.activity.type === "rest" && player.mustRest) {
+
+        logMessage(
+            "> SYSTEM: You cannot leave. Rest is required after defeat."
+        );
+
+        return;
+    }
+
     const type = player.activity.type;
 
     player.activity = null;
@@ -1879,9 +1890,14 @@ function updateActivityDisplay() {
 
         "<button " +
         "class=\"action-btn reset-btn\" " +
+        (player.activity.type === "rest" && player.mustRest
+            ? "disabled "
+            : "") +
         "onclick=\"leaveActivity()\">" +
 
-        "Leave Activity" +
+        (player.activity.type === "rest" && player.mustRest
+            ? "Forced Rest — Cannot Leave"
+            : "Leave Activity") +
 
         "</button>";
 
@@ -2082,7 +2098,11 @@ function loadGame() {
 
         checkActivity();
 
-        if (player.activity) {
+        // If a saved game requires forced rest but the activity was not saved,
+        // automatically resume the required rest.
+        if (player.mustRest && !player.activity) {
+            startActivity("rest");
+        } else if (player.activity) {
             startActivityTimer();
         }
 
