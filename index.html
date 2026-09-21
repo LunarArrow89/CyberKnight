@@ -2173,41 +2173,85 @@ function openInventory() {
 // ==========================================
 // PET SHOP
 // ==========================================
+function renderShopItems(box, title, icon, items, ownedItems, purchaseFunction) {
 
+    box.innerHTML = "<h3>" + title + "</h3>";
+
+    const list = document.createElement("div");
+    list.className = "shop-list";
+    box.appendChild(list);
+
+    const details = document.createElement("div");
+    details.className = "shop-details";
+    details.style.display = "none";
+    box.appendChild(details);
+
+    items.forEach(function(item) {
+
+        const alreadyOwned = ownedItems.some(function(ownedItem) {
+            return ownedItem.name === item.name;
+        });
+
+        const row = document.createElement("button");
+        row.className = "action-btn shop-row";
+        row.type = "button";
+
+        row.innerHTML =
+            '<span class="shop-name">' +
+            icon + " " + item.name +
+            '</span>' +
+            '<span class="shop-cost">' +
+            (alreadyOwned ? "OWNED" : item.cost + " Gold") +
+            "</span>";
+
+        row.onclick = function() {
+
+            details.style.display = "block";
+
+            details.innerHTML =
+                "<h3>" +
+                icon + " " + item.name +
+                "</h3>" +
+                "<p>Effect: " +
+                item.bonus +
+                "</p>";
+
+            if (alreadyOwned) {
+
+                details.innerHTML +=
+                    "<p>You already own this item.</p>";
+
+                return;
+            }
+
+            const purchaseButton = document.createElement("button");
+
+            purchaseButton.className = "action-btn";
+            purchaseButton.textContent =
+                "Purchase for " + item.cost + " Gold";
+
+            purchaseButton.onclick = function() {
+                purchaseFunction(item);
+            };
+
+            details.appendChild(purchaseButton);
+        };
+
+        list.appendChild(row);
+    });
+}
 function renderPetShop() {
 
     const box = document.getElementById("petShop");
 
-    box.innerHTML = "<h3>🐾 Pet Shop</h3>";
-
-    pets.forEach(function(pet) {
-
-        const button = document.createElement("button");
-
-        button.className = "action-btn";
-
-        const alreadyOwned =
-            player.pets.some(function(ownedPet) {
-                return ownedPet.name === pet.name;
-            });
-
-        button.innerHTML =
-            "🐾 " +
-            pet.name +
-            "<br>" +
-            pet.cost +
-            " Gold<br>" +
-            pet.bonus +
-            (alreadyOwned ? "<br>OWNED" : "");
-
-        button.disabled = alreadyOwned;
-
-        button.onclick = function() {
-            buyPet(pet);
-        };
-
-        box.appendChild(button);
-    });
+    renderShopItems(
+        box,
+        "🐾 Pet Shop",
+        "🐾",
+        pets,
+        player.pets,
+        buyPet
+    );
 }
 
 function buyPet(pet) {
@@ -2277,36 +2321,14 @@ function renderGearShop() {
 
     const box = document.getElementById("gearShop");
 
-    box.innerHTML = "<h3>⚔️ Blacksmith</h3>";
-
-    gear.forEach(function(item) {
-
-        const button = document.createElement("button");
-
-        button.className = "action-btn";
-
-        const alreadyOwned =
-            player.gear.some(function(ownedGear) {
-                return ownedGear.name === item.name;
-            });
-
-        button.innerHTML =
-            "⚔️ " +
-            item.name +
-            "<br>" +
-            item.cost +
-            " Gold<br>" +
-            item.bonus +
-            (alreadyOwned ? "<br>OWNED" : "");
-
-        button.disabled = alreadyOwned;
-
-        button.onclick = function() {
-            buyGear(item);
-        };
-
-        box.appendChild(button);
-    });
+    renderShopItems(
+        box,
+        "⚔️ Blacksmith",
+        "⚔️",
+        gear,
+        player.gear,
+        buyGear
+    );
 }
 
 function buyGear(item) {
