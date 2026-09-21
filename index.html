@@ -352,6 +352,100 @@ h1 {
 
 </style>
 
+
+<style>
+/* ==========================================
+   EASY NAVIGATION RPG LAYOUT
+   CyberKnight Style
+========================================== */
+
+.game-container {
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Put important controls together */
+.action-tray {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.action-btn {
+    min-height: 55px;
+}
+
+/* Dashboard cards feel like modules */
+.card {
+    margin-bottom: 0;
+    border-radius: 18px;
+}
+
+/* Stats panel */
+.player-card {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+}
+
+/* Shop and menus become dashboard panels */
+#shopScreen .card,
+#travelScreen .card,
+#enemySelectScreen .card,
+#battleScreen .card {
+    gap: 20px;
+}
+
+/* Keep important buttons easy to reach */
+#gameScreen .action-tray {
+    margin-top: 15px;
+}
+
+/* Phone layout */
+@media(max-width:600px){
+
+    .game-container {
+        padding: 10px;
+        gap: 14px;
+    }
+
+    .player-card {
+        position: static;
+    }
+
+    .action-tray {
+        grid-template-columns: 1fr;
+    }
+
+    .action-btn {
+        width:100%;
+        min-height:60px;
+    }
+
+    h1 {
+        font-size:2.2rem;
+    }
+
+}
+
+/* Desktop two-column feeling without hurting mobile */
+@media(min-width:900px){
+
+    #gameScreen {
+        display:grid;
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+
+    .action-tray {
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+</style>
+
 </head>
 
 <body>
