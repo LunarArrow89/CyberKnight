@@ -242,6 +242,60 @@ h2 {
 }
 
 /* ==========================================================================
+   SHOP LISTS AND ITEM DETAILS
+   ========================================================================== */
+.shop-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Shop rows are created with the cost before the name in JavaScript.
+   Explicit ordering keeps the name on the left and price on the right. */
+button.action-btn.shop-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+}
+
+button.action-btn.shop-row .shop-name {
+    order: 1;
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+}
+
+button.action-btn.shop-row .shop-cost {
+    order: 2;
+    flex: 0 0 auto;
+    color: var(--yellow);
+    font-weight: 800;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.shop-details {
+    margin-top: 10px;
+    padding: 14px;
+    border: 1px solid #853744;
+    border-radius: 10px;
+    background: #14121f;
+    text-align: center;
+}
+
+.shop-details h3 {
+    margin-top: 0;
+}
+
+.shop-details .action-btn {
+    margin-top: 10px;
+}
+
+/* ==========================================================================
    INTERACTION: COMMAND BUTTON MATRIX
    ========================================================================== */
 button.action-btn {
@@ -270,7 +324,14 @@ button.action-btn:active {
     transform: translateY(1px); 
 }
 
-/* Dynamic Engine Button Variants */
+button.action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    filter: none;
+    box-shadow: none;
+}
+
 button.action-btn.work-btn { border-color: var(--green); }
 button.action-btn.work-btn:hover { box-shadow: var(--neon-glow) var(--green); }
 
@@ -332,4 +393,21 @@ button.action-btn.skill-btn:hover { box-shadow: var(--neon-glow) var(--purple); 
     .class-grid { grid-template-columns: 1fr; gap: 16px; }
     .action-tray { flex-direction: column; }
     button.action-btn { width: 100%; text-align: center; }
+
+    button.action-btn.shop-row {
+        text-align: left;
+    }
+}
+
+@media (max-width: 420px) {
+    button.action-btn.shop-row {
+        gap: 10px;
+        padding: 12px 14px;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    button.action-btn.shop-row .shop-cost {
+        font-size: 11px;
+    }
 }
