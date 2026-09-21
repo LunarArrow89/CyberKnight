@@ -2244,9 +2244,24 @@ function renderPetShop() {
 
             };
 
-            details.appendChild(buyButton);
+details.appendChild(buyButton);
 
-            box.appendChild(details);
+const exitButton = document.createElement("button");
+
+exitButton.className = "action-btn reset-btn";
+exitButton.textContent = "EXIT";
+
+exitButton.onclick = function(event) {
+
+    event.stopPropagation();
+
+    details.remove();
+
+};
+
+details.appendChild(exitButton);
+
+box.appendChild(details);
         };
 
         list.appendChild(row);
@@ -2376,9 +2391,24 @@ function renderGearShop() {
 
             };
 
-            details.appendChild(buyButton);
+details.appendChild(buyButton);
 
-            box.appendChild(details);
+const exitButton = document.createElement("button");
+
+exitButton.className = "action-btn reset-btn";
+exitButton.textContent = "EXIT";
+
+exitButton.onclick = function(event) {
+
+    event.stopPropagation();
+
+    details.remove();
+
+};
+
+details.appendChild(exitButton);
+
+box.appendChild(details);
         };
 
         list.appendChild(row);
