@@ -2,51 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cyber Shape Forest Loop</title>
+    <title>Forest Animation</title>
+
     <style>
-        /* Dark retro-hacker background */
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
             margin: 0;
-            background-color: #080b10;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0b0f17;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
         }
 
-        /* Micro-viewport window */
         .stage {
             position: relative;
-            width: 340px;
+            width: 100%;
             height: 140px;
-            border: 1px dashed #00ff6622;
             overflow: hidden;
             background-color: #0b0f17;
+            border: 1px dashed #00ff6622;
             box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
         }
 
-        /* --- THE PLAYER (CREEPING BLUE SQUARE) --- */
         .player {
             position: absolute;
             left: 40px;
-            top: 55px; /* Aligned horizontally with the center of the foliage */
+            top: 55px;
             width: 16px;
             height: 16px;
             border: 2px solid #00bcff;
-            box-sizing: border-box;
             filter: drop-shadow(0 0 6px #00bcff);
             z-index: 10;
             animation: creepForward 0.8s ease-in-out infinite alternate;
         }
 
         @keyframes creepForward {
-            0% { transform: translateX(0px) scale(0.95); }
-            100% { transform: translateX(10px) scale(1.05); }
+            0% {
+                transform: translateX(0px) scale(0.95);
+            }
+
+            100% {
+                transform: translateX(10px) scale(1.05);
+            }
         }
 
-        /* --- THE COMPOSITE SHAPE TREES --- */
-        /* Container that scrolls the whole tree at once */
         .tree-container {
             position: absolute;
             top: 30px;
@@ -56,19 +65,41 @@
         }
 
         @keyframes scrollPast {
-            0% { left: 360px; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { left: -50px; opacity: 0; }
+            0% {
+                left: 100%;
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                left: -50px;
+                opacity: 0;
+            }
         }
 
-        /* Smooth, tightly spaced four-tree rhythm loop */
-        .tree-1 { animation-delay: 0s; }
-        .tree-2 { animation-delay: 1s; }
-        .tree-3 { animation-delay: 2s; }
-        .tree-4 { animation-delay: 3s; }
+        .tree-1 {
+            animation-delay: 0s;
+        }
 
-        /* Tree Element: Top Triangle Leaf */
+        .tree-2 {
+            animation-delay: 1s;
+        }
+
+        .tree-3 {
+            animation-delay: 2s;
+        }
+
+        .tree-4 {
+            animation-delay: 3s;
+        }
+
         .leaf-top {
             position: absolute;
             left: 10px;
@@ -81,7 +112,6 @@
             filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        /* Tree Element: Bottom Triangle Leaf */
         .leaf-bottom {
             position: absolute;
             left: 5px;
@@ -94,7 +124,6 @@
             filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        /* Tree Element: Square Trunk */
         .trunk {
             position: absolute;
             left: 16px;
@@ -102,30 +131,34 @@
             width: 8px;
             height: 25px;
             border: 2px solid #00ff66;
-            box-sizing: border-box;
             filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        /* Central path alignment wireframe line */
         .axis-line {
             position: absolute;
             top: 63px;
             width: 100%;
             height: 1px;
-            background: repeating-linear-gradient(90deg, #00ff6611, #00ff6611 4px, transparent 4px, transparent 8px);
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #00ff6611,
+                    #00ff6611 4px,
+                    transparent 4px,
+                    transparent 8px
+                );
         }
     </style>
 </head>
+
 <body>
 
     <div class="stage">
-        <!-- Center tracking guideline -->
+
         <div class="axis-line"></div>
 
-        <!-- Player square creeping along the line -->
         <div class="player"></div>
 
-        <!-- Density Forest Array -->
         <div class="tree-container tree-1">
             <div class="leaf-top"></div>
             <div class="leaf-bottom"></div>
@@ -149,6 +182,7 @@
             <div class="leaf-bottom"></div>
             <div class="trunk"></div>
         </div>
+
     </div>
 
 </body>
