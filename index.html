@@ -1,2410 +1,489 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Whispering Woods</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quietblade - Idle RPG</title>
     <style>
-
-        * {
-            box-sizing: border-box;
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: rgba(25, 32, 50, 0.65);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-color: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --hp-color: #ef4444;
+            --gold-color: #eab308;
         }
 
         body {
-            margin: 0;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             padding: 16px;
-
-            background:
-                radial-gradient(
-                    circle at top,
-                    #26352c 0%,
-                    #18231d 40%,
-                    #0d130f 100%
-                );
-
-            color: #e8eee9;
-
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
-        }
-
-        .game {
-            width: min(560px, 100%);
+            max-width: 480px;
             margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 12px;
+            line-height: 1.5;
         }
 
         h1 {
-            margin: 0;
-
-            color: #dce9df;
-
-            font-size: 27px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 4px;
+            letter-spacing: -0.025em;
         }
 
         .subtitle {
-            margin: 5px 0 0;
-
-            color: #8fa594;
-
-            font-size: 13px;
-        }
-
-        .stats {
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 8px;
-
-            margin-bottom: 10px;
-        }
-
-        .stat {
-            padding: 9px;
-
             text-align: center;
-
-            background: #202d24;
-
-            border:
-                1px solid #35463a;
-
-            border-radius: 10px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 24px;
         }
 
-        .stat-label {
-            color: #8fa594;
-
-            font-size: 11px;
-
-            margin-bottom: 3px;
-        }
-
-        .stat-value {
-            font-size: 15px;
-
-            font-weight: bold;
-        }
-
-        .game-box {
-            overflow: hidden;
-
-            background: #18221b;
-
-            border:
-                1px solid #35463a;
-
-            border-radius: 13px;
-        }
-
-        .section {
-            padding: 13px;
-
-            border-bottom:
-                1px solid #35463a;
-        }
-
-        .section:last-child {
-            border-bottom: 0;
+        /* Liquid Glass UI Panel */
+        .glass-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .section-title {
-            margin-bottom: 8px;
-
-            color: #d5e4d8;
-
-            font-size: 15px;
-
-            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
-        .bar {
-            width: 100%;
-
-            height: 12px;
-
-            overflow: hidden;
-
-            background: #0d130f;
-
-            border:
-                1px solid #35463a;
-
-            border-radius: 999px;
-        }
-
-        .bar-fill {
-            height: 100%;
-
-            width: 0;
-
-            transition:
-                width .2s linear;
-        }
-
-        #forestBar {
-            background: #75947c;
-        }
-
-        #hpBar {
-            background: #b56f72;
-        }
-
-        #xpBar {
-            background: #b49a63;
-        }
-
-        #restBar {
-            background: #829f87;
-        }
-
-        .bar-text {
-            margin-top: 5px;
-
-            color: #9cad9f;
-
-            font-size: 12px;
-
-            text-align: center;
-        }
-
-        .forest-animation {
-            display: block;
-
-            width: 100%;
-
-            height: 140px;
-
-            margin-top: 10px;
-
-            border: 0;
-
-            border-radius: 9px;
-
-            overflow: hidden;
-        }
-
-        .health-xp {
+        .stat-grid {
             display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        .health-xp-box {
-            min-width: 0;
-        }
-
-        .health-xp-title {
-            margin-bottom: 6px;
-
-            color: #d5e4d8;
-
-            font-size: 13px;
-
-            font-weight: bold;
-        }
-
-        .buttons {
+        .stat-box {
             display: flex;
+            flex-direction: column;
+        }
 
-            gap: 8px;
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
 
-            margin-top: 9px;
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Progress Bars */
+        .progress-container {
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        #hp-bar { background-color: var(--hp-color); width: 100%; }
+        #xp-bar { background-color: var(--accent-color); }
+
+        /* Inventory item card */
+        .item-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        /* Logs mimicking a calm journal feed */
+        .journal-feed {
+            height: 160px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 4px;
+        }
+
+        .journal-entry {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+
+        /* System Action Buttons */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
         button {
-            flex: 1;
-
-            padding:
-                9px 10px;
-
-            color: #e5eee7;
-
-            background: #29382d;
-
-            border:
-                1px solid #526856;
-
-            border-radius: 9px;
-
-            font: inherit;
-
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         button:hover:not(:disabled) {
-            background: #35483a;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         button:disabled {
-            opacity: .45;
-
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
-        .danger {
-            background: #3a2729;
-
-            border-color: #754b4d;
+        button.primary {
+            background: var(--accent-color);
+            color: #000;
         }
 
-        .log {
-            height: 175px;
-
-            overflow-y: auto;
-
-            padding: 8px;
-
-            background: #101710;
-
-            border:
-                1px solid #29372d;
-
-            border-radius: 9px;
+        button.primary:hover:not(:disabled) {
+            background: #7dd3fc;
         }
 
-        .log-entry {
-            padding: 5px 3px;
-
-            color: #aebcaf;
-
-            font-size: 12px;
-
-            border-bottom:
-                1px solid rgba(
-                    255,
-                    255,
-                    255,
-                    .04
-                );
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            float: right;
         }
-
-        .victory {
-            display: none;
-
-            padding: 12px;
-
-            color: #d8eadb;
-
-            text-align: center;
-
-            background: #26392b;
-
-            border:
-                1px solid #4e6b53;
-
-            border-radius: 9px;
-        }
-
-        .level-up {
-            display: none;
-
-            margin-top: 8px;
-
-            padding: 8px;
-
-            color: #e9dfc5;
-
-            text-align: center;
-
-            background: #393426;
-
-            border:
-                1px solid #665d43;
-
-            border-radius: 8px;
-
-            font-size: 12px;
-        }
-
-        @media (max-width: 500px) {
-
-            body {
-                padding: 8px;
-            }
-
-            .stats {
-                gap: 4px;
-            }
-
-            .stat {
-                padding: 7px 3px;
-            }
-
-            .health-xp {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-
-            .buttons {
-                gap: 6px;
-            }
-
-            button {
-                padding: 8px 6px;
-
-                font-size: 13px;
-            }
-
-        }
-
+        .status-exploring { background: rgba(56, 189, 248, 0.15); color: var(--accent-color); }
+        .status-resting { background: rgba(234, 179, 8, 0.15); color: var(--gold-color); }
     </style>
-
 </head>
-
 <body>
 
-<div class="game">
+    <h1>Quietblade</h1>
+    <div class="subtitle">Rook explores while you live your life</div>
 
-    <header>
-
-        <h1>
-            Whispering Woods
-        </h1>
-
-        <p class="subtitle">
-            Walk through the darkness and find your way out.
-        </p>
-
-    </header>
-
-
-    <!-- PLAYER STATS -->
-
-    <div class="stats">
-
-        <div class="stat">
-
-            <div class="stat-label">
-                HP
+    <!-- Status Overview -->
+    <div class="glass-panel">
+        <h2 class="section-title">
+            Rook 
+            <span id="status-badge" class="status-badge status-exploring">Exploring</span>
+        </h2>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <span class="stat-label">Health</span>
+                <span class="stat-value" id="hp-text">100 / 100</span>
+                <div class="progress-container"><div id="hp-bar" class="progress-bar"></div></div>
             </div>
-
-            <div
-                class="stat-value"
-                id="hpText"
-            >
-                40 / 40
+            <div class="stat-box">
+                <span class="stat-label">Area (Route)</span>
+                <span class="stat-value" id="area-text">1. Silent Woods</span>
             </div>
-
+            <div class="stat-box" style="margin-top: 8px;">
+                <span class="stat-label">Gold</span>
+                <span class="stat-value" id="gold-text" style="color: var(--gold-color);">0</span>
+            </div>
+            <div class="stat-box" style="margin-top: 8px;">
+                <span class="stat-label">Base Attack</span>
+                <span class="stat-value" id="attack-text">10</span>
+            </div>
         </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Attack
-            </div>
-
-            <div
-                class="stat-value"
-                id="attackText"
-            >
-                8
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Level
-            </div>
-
-            <div
-                class="stat-value"
-                id="levelText"
-            >
-                1
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                XP
-            </div>
-
-            <div
-                class="stat-value"
-                id="xpText"
-            >
-                0 / 50
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Gold
-            </div>
-
-            <div
-                class="stat-value"
-                id="goldText"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div class="stat">
-
-            <div class="stat-label">
-                Status
-            </div>
-
-            <div
-                class="stat-value"
-                id="statusText"
-            >
-                Walking
-            </div>
-
-        </div>
-
     </div>
 
-
-    <div class="game-box">
-
-
-        <!-- FOREST JOURNEY -->
-
-        <div class="section">
-
-            <div class="section-title">
-                🌲 Forest Journey
+    <!-- Weapon / Inventory System -->
+    <div class="glass-panel">
+        <h2 class="section-title">Equipped Blade</h2>
+        <div class="item-card">
+            <div>
+                <strong id="wpn-name">Rusty Dagger</strong><br>
+                <span class="stat-label" id="wpn-atk">Attack: +0</span>
             </div>
-
-
-            <div class="bar">
-
-                <div
-                    class="bar-fill"
-                    id="forestBar"
-                ></div>
-
+            <div id="salvage-container" style="display:none;">
+                <button onclick="salvageFoundWeapon()" style="padding: 6px 12px; font-size: 0.75rem; margin-right: 4px;">Salvage (+5g)</button>
+                <button class="primary" onclick="equipFoundWeapon()" style="padding: 6px 12px; font-size: 0.75rem;">Equip</button>
             </div>
-
-
-            <div
-                class="bar-text"
-                id="forestText"
-            >
-                0:00 / 5:00
-            </div>
-
-
-            <iframe
-                src="animation1.html"
-                class="forest-animation"
-                title="Forest journey animation"
-            ></iframe>
-
         </div>
-
-
-        <!-- HEALTH + EXPERIENCE -->
-
-        <div class="section">
-
-            <div class="section-title">
-                Stats
-            </div>
-
-
-            <div class="health-xp">
-
-
-                <!-- HEALTH -->
-
-                <div class="health-xp-box">
-
-                    <div class="health-xp-title">
-                        ❤️ Health
-                    </div>
-
-                    <div class="bar">
-
-                        <div
-                            class="bar-fill"
-                            id="hpBar"
-                        ></div>
-
-                    </div>
-
-                    <div
-                        class="bar-text"
-                        id="hpBarText"
-                    >
-                        40 / 40 HP
-                    </div>
-
-                </div>
-
-
-                <!-- XP -->
-
-                <div class="health-xp-box">
-
-                    <div class="health-xp-title">
-                        ⭐ Experience
-                    </div>
-
-                    <div class="bar">
-
-                        <div
-                            class="bar-fill"
-                            id="xpBar"
-                        ></div>
-
-                    </div>
-
-                    <div
-                        class="bar-text"
-                        id="xpBarText"
-                    >
-                        0 / 50 XP
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="level-up"
-                id="levelUp"
-            >
-                Level Up!
-            </div>
-
+        <div id="found-weapon-alert" style="font-size:0.75rem; color: var(--gold-color); margin-top: 8px; text-align:center; display:none;">
+            ⚠️ Found a new weapon during travel! Action required above.
         </div>
-
-
-        <!-- REST -->
-
-        <div class="section">
-
-            <div class="section-title">
-                💤 Rest
-            </div>
-
-
-            <div class="bar">
-
-                <div
-                    class="bar-fill"
-                    id="restBar"
-                ></div>
-
-            </div>
-
-
-            <div
-                class="bar-text"
-                id="restText"
-            >
-                Rest when you need to recover.
-            </div>
-
-
-            <div class="buttons">
-
-                <button
-                    id="restButton"
-                    type="button"
-                >
-                    Rest
-                </button>
-
-
-                <button
-                    id="leaveButton"
-                    type="button"
-                    disabled
-                >
-                    Leave
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- ADVENTURE LOG -->
-
-        <div class="section">
-
-            <div class="section-title">
-                📖 Adventure Log
-            </div>
-
-
-            <div
-                class="log"
-                id="log"
-            ></div>
-
-        </div>
-
-
-        <!-- SAVE / RESET -->
-
-        <div class="section">
-
-            <div
-                class="victory"
-                id="victory"
-            >
-
-                You found your way out!
-
-                <br>
-
-                <small>
-                    The Whispering Woods are behind you.
-                </small>
-
-            </div>
-
-
-            <div class="buttons">
-
-                <button
-                    id="saveButton"
-                    type="button"
-                >
-                    Save
-                </button>
-
-
-                <button
-                    id="loadButton"
-                    type="button"
-                >
-                    Load
-                </button>
-
-
-                <button
-                    id="deleteButton"
-                    class="danger"
-                    type="button"
-                >
-                    Reset Game
-                </button>
-
-            </div>
-
-        </div>
-
-
     </div>
 
-</div>
-
-
-<script>
-
-
-/* =========================================================
-   GAME SETTINGS
-========================================================= */
-
-const FOREST_DURATION = 5 * 60;
-
-const SAVE_KEY =
-    "whisperingWoodsSave";
-
-
-const MIN_ENCOUNTER_TIME = 30;
-
-const MAX_ENCOUNTER_TIME = 60;
-
-
-/* =========================================================
-   PLAYER
-========================================================= */
-
-const player = {
-
-    hp: 40,
-
-    maxHp: 40,
-
-    attack: 8,
-
-    level: 1,
-
-    xp: 0,
-
-    expNeeded: 50,
-
-    gold: 0
-
-};
-
-
-/* =========================================================
-   PATHS
-========================================================= */
-
-const paths = {
-
-    forest: {
-
-        progress: 0,
-
-        duration: FOREST_DURATION
-
-    }
-
-};
-
-
-let currentPath =
-    "forest";
-
-
-/* =========================================================
-   ENEMIES
-========================================================= */
-
-const enemies = [
-
-    {
-        name: "Lost Wolf",
-        hp: 18,
-        attack: 12,
-        xp: 12,
-        gold: 5
-    },
-
-    {
-        name: "Forest Goblin",
-        hp: 22,
-        attack: 10,
-        xp: 15,
-        gold: 7
-    },
-
-    {
-        name: "Shadow Spider",
-        hp: 15,
-        attack: 13,
-        xp: 18,
-        gold: 8
-    },
-
-    {
-        name: "Angry Boar",
-        hp: 25,
-        attack: 11,
-        xp: 20,
-        gold: 10
-    },
-
-    {
-        name: "Dark Slime",
-        hp: 20,
-        attack: 9,
-        xp: 10,
-        gold: 4
-    }
-
-];
-
-
-/* =========================================================
-   GAME STATE
-========================================================= */
-
-let resting = false;
-
-let forcedRest = false;
-
-let gameEnded = false;
-
-let restStartedAt = 0;
-
-let restDuration = 0;
-
-let nextEncounterAt = 0;
-
-let lastSavedTime = Date.now();
-
-
-/* =========================================================
-   ELEMENT SHORTCUT
-========================================================= */
-
-const $ = id =>
-    document.getElementById(id);
-
-
-/* =========================================================
-   CURRENT PATH
-========================================================= */
-
-function getCurrentPath() {
-
-    return paths[currentPath];
-
-}
-
-
-/* =========================================================
-   PATH PROGRESS
-========================================================= */
-
-function getPathProgress() {
-
-    const path =
-        getCurrentPath();
-
-    if (!path) {
-        return 0;
-    }
-
-    return path.progress;
-
-}
-
-
-/* =========================================================
-   RANDOM ENCOUNTER TIME
-========================================================= */
-
-function getNextEncounterTime() {
-
-    return (
-        MIN_ENCOUNTER_TIME +
-        Math.floor(
-            Math.random() *
-            (
-                MAX_ENCOUNTER_TIME -
-                MIN_ENCOUNTER_TIME +
-                1
-            )
-        )
-    );
-
-}
-
-
-/* =========================================================
-   LOG
-========================================================= */
-
-function addLog(message) {
-
-    const entry =
-        document.createElement("div");
-
-    entry.className =
-        "log-entry";
-
-    entry.textContent =
-        message;
-
-    $("log").appendChild(entry);
-
-    $("log").scrollTop =
-        $("log").scrollHeight;
-
-}
-
-
-/* =========================================================
-   FORMAT TIME
-========================================================= */
-
-function formatTime(seconds) {
-
-    const minutes =
-        Math.floor(seconds / 60);
-
-    const remainingSeconds =
-        Math.floor(seconds % 60);
-
-    return (
-        `${minutes}:` +
-        `${String(remainingSeconds).padStart(2, "0")}`
-    );
-
-}
-
-
-/* =========================================================
-   UPDATE HP
-========================================================= */
-
-function updateHP() {
-
-    player.hp =
-        Math.max(
-            0,
-            Math.min(
-                player.hp,
-                player.maxHp
-            )
-        );
-
-
-    $("hpText").textContent =
-        `${player.hp} / ${player.maxHp}`;
-
-
-    $("hpBarText").textContent =
-        `${player.hp} / ${player.maxHp} HP`;
-
-
-    $("hpBar").style.width =
-        `${(
-            player.hp /
-            player.maxHp
-        ) * 100}%`;
-
-
-    $("attackText").textContent =
-        player.attack;
-
-}
-
-
-/* =========================================================
-   UPDATE XP
-========================================================= */
-
-function updateXP() {
-
-    $("levelText").textContent =
-        player.level;
-
-
-    $("xpText").textContent =
-        `${player.xp} / ${player.expNeeded}`;
-
-
-    $("xpBarText").textContent =
-        `${player.xp} / ${player.expNeeded} XP`;
-
-
-    $("xpBar").style.width =
-        `${Math.min(
-            100,
-            (
-                player.xp /
-                player.expNeeded
-            ) * 100
-        )}%`;
-
-}
-
-
-/* =========================================================
-   UPDATE GOLD
-========================================================= */
-
-function updateGold() {
-
-    $("goldText").textContent =
-        player.gold;
-
-}
-
-
-/* =========================================================
-   UPDATE FOREST
-========================================================= */
-
-function updateForest() {
-
-    const path =
-        getCurrentPath();
-
-
-    if (!path) {
-        return;
-    }
-
-
-    const progress =
-        Math.min(
-            100,
-            (
-                path.progress /
-                path.duration
-            ) * 100
-        );
-
-
-    $("forestBar").style.width =
-        `${progress}%`;
-
-
-    $("forestText").textContent =
-        `${formatTime(path.progress)} / ${formatTime(path.duration)}`;
-
-}
-
-
-/* =========================================================
-   UPDATE STATUS
-========================================================= */
-
-function updateStatus() {
-
-    if (gameEnded) {
-
-        $("statusText").textContent =
-            "Escaped";
-
-    }
-
-    else if (forcedRest) {
-
-        $("statusText").textContent =
-            "Forced Rest";
-
-    }
-
-    else if (resting) {
-
-        $("statusText").textContent =
-            "Resting";
-
-    }
-
-    else {
-
-        $("statusText").textContent =
-            "Walking";
-
-    }
-
-
-    $("restButton").disabled =
-        gameEnded ||
-        resting ||
-        player.hp >= player.maxHp;
-
-
-    $("leaveButton").disabled =
-        !resting ||
-        forcedRest;
-
-}
-
-
-/* =========================================================
-   LEVEL UP
-========================================================= */
-
-function giveXP(amount) {
-
-    player.xp += amount;
-
-
-    addLog(
-        `You gained ${amount} XP.`
-    );
-
-
-    while (
-        player.xp >=
-        player.expNeeded
-    ) {
-
-        player.xp -=
-            player.expNeeded;
-
-
-        player.level++;
-
-
-        player.maxHp += 5;
-
-        player.attack += 2;
-
-
-        player.hp =
-            player.maxHp;
-
-
-        player.expNeeded =
-            Math.floor(
-                player.expNeeded * 1.5
-            );
-
-
-        $("levelUp").style.display =
-            "block";
-
-
-        addLog(
-            `You reached Level ${player.level}!`
-        );
-
-
-        addLog(
-            "Your max HP increased by 5 and your attack increased by 2."
-        );
-
-    }
-
-
-    updateHP();
-
-    updateXP();
-
-}
-
-
-/* =========================================================
-   ENCOUNTER
-========================================================= */
-
-function encounter() {
-
-    if (
-        gameEnded ||
-        resting ||
-        forcedRest
-    ) {
-        return;
-    }
-
-
-    const enemy =
-        enemies[
-            Math.floor(
-                Math.random() *
-                enemies.length
-            )
+    <!-- Supplies & Boosts Interventions -->
+    <div class="glass-panel">
+        <h2 class="section-title">Camp Management</h2>
+        <div class="btn-group">
+            <button id="btn-potion" onclick="usePotion()">Buy Potion (-15g)</button>
+            <button id="btn-ration" onclick="useRation()">Eat Rations (-40g)</button>
+        </div>
+        <div class="btn-group" style="grid-template-columns: 1fr;">
+            <button id="btn-train" onclick="trainAttack()">Train Base Vitality & Power (-50g)</button>
+        </div>
+        <div id="ration-status" style="font-size: 0.75rem; text-align: center; color: var(--accent-color);"></div>
+    </div>
+
+    <!-- Live Journal Map Log -->
+    <div class="glass-panel">
+        <h2 class="section-title">Chronicle Feed</h2>
+        <div class="journal-feed" id="journal">
+            <div class="journal-entry">Rook steps onto the pathway. The journey begins in silence.</div>
+        </div>
+    </div>
+
+    <!-- Route Progression & Boss Challenges -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <button id="btn-boss" class="primary" onclick="challengeAreaBoss()" style="width: 100%; padding: 14px; font-size: 0.95rem;">
+            Challenge Area Boss ⚔️
+        </button>
+    </div>
+
+    <script>
+        // Core game state structured like Quietblade features
+        let state = {
+            hp: 100,
+            maxHp: 100,
+            gold: 20,
+            baseAttack: 10,
+            area: 1,
+            status: "exploring", // exploring, resting
+            weaponName: "Chipped Iron Shard",
+            weaponAtk: 3,
+            
+            // Temporary buffer when a weapon drops during background pathfinding
+            foundWeapon: null, 
+            
+            rationTimeRemaining: 0, // In seconds
+            ticksInArea: 0
+        };
+
+        const areas = [
+            { name: "Silent Woods", minAtk: 5, bossName: "Gnarled Treant" },
+            { name: "Desolate Crags", minAtk: 18, bossName: "Crag Gargoyle" },
+            { name: "Forgotten Crypts", minAtk: 35, bossName: "Wraith Monarch" },
+            { name: "The Quiet Peak", minAtk: 60, bossName: "Slumbering Drake" }
         ];
 
-
-    /*
-       DAMAGE CALCULATION:
-
-       Enemy damage - player damage
-       = damage taken.
-
-       If the result is 0 or less,
-       the player takes no damage.
-    */
-
-    const damageTaken =
-        Math.max(
-            0,
-            enemy.attack -
-            player.attack
-        );
-
-
-    /*
-       The enemy is defeated if the
-       player's attack is enough to
-       overcome the enemy's attack.
-    */
-
-    if (
-        damageTaken <= 0
-    ) {
-
-        addLog(
-            `You defeated ${enemy.name}.`
-        );
-
-
-        player.gold +=
-            enemy.gold;
-
-
-        addLog(
-            `You found ${enemy.gold} gold.`
-        );
-
-
-        giveXP(enemy.xp);
-
-
-        updateGold();
-
-    }
-
-    else {
-
-        player.hp -=
-            damageTaken;
-
-
-        player.hp =
-            Math.max(
-                0,
-                player.hp
-            );
-
-
-        updateHP();
-
-
-        /*
-           You are ONLY defeated if
-           the damage actually reduces
-           your HP to 0.
-        */
-
-        if (
-            player.hp <= 0
-        ) {
-
-            addLog(
-                `${enemy.name} defeated you.`
-            );
-
-
-            addLog(
-                `You lost ${damageTaken} HP.`
-            );
-
-
-            forcedRest = true;
-
-
-            addLog(
-                "You collapsed and must rest."
-            );
-
-
-            startRest(true);
-
-        }
-
-        else {
-
-            addLog(
-                `You lost ${damageTaken} HP to ${enemy.name}.`
-            );
-
-        }
-
-    }
-
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   START REST
-========================================================= */
-
-function startRest(
-    isForced = false
-) {
-
-    if (
-        gameEnded ||
-        resting ||
-        (
-            !isForced &&
-            player.hp >= player.maxHp
-        )
-    ) {
-        return;
-    }
-
-
-    resting = true;
-
-    forcedRest = isForced;
-
-
-    restStartedAt =
-        Date.now();
-
-
-    /*
-       Normal rest:
-
-       Missing HP × 10 seconds.
-
-       Forced rest:
-
-       10 seconds.
-    */
-
-    restDuration =
-        isForced
-            ? 10
-            : Math.max(
-                10,
-                (
-                    player.maxHp -
-                    player.hp
-                ) * 10
-            );
-
-
-    $("restBar").style.width =
-        "0%";
-
-
-    $("restText").textContent =
-        "Resting: 0%";
-
-
-    updateStatus();
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   LEAVE REST
-========================================================= */
-
-function leaveRest() {
-
-    if (
-        !resting ||
-        forcedRest
-    ) {
-        return;
-    }
-
-
-    resting = false;
-
-
-    $("restBar").style.width =
-        "0%";
-
-
-    $("restText").textContent =
-        "Rest stopped.";
-
-
-    updateStatus();
-
-
-    addLog(
-        "You stopped resting."
-    );
-
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   UPDATE REST
-========================================================= */
-
-function updateRest() {
-
-    if (!resting) {
-        return;
-    }
-
-
-    const elapsed =
-        (
-            Date.now() -
-            restStartedAt
-        ) / 1000;
-
-
-    const progress =
-        Math.min(
-            1,
-            elapsed /
-            restDuration
-        );
-
-
-    $("restBar").style.width =
-        `${progress * 100}%`;
-
-
-    $("restText").textContent =
-        `Resting: ${Math.floor(
-            progress * 100
-        )}%`;
-
-
-    if (
-        progress < 1
-    ) {
-        return;
-    }
-
-
-    resting = false;
-
-    forcedRest = false;
-
-
-    player.hp =
-        player.maxHp;
-
-
-    updateHP();
-
-    updateStatus();
-
-
-    $("restBar").style.width =
-        "100%";
-
-
-    $("restText").textContent =
-        "Fully recovered.";
-
-
-    addLog(
-        "You finished resting and recovered your HP."
-    );
-
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   APPLY OFFLINE PROGRESS
-========================================================= */
-
-function applyOfflineProgress() {
-
-    if (gameEnded) {
-        return;
-    }
-
-
-    const now =
-        Date.now();
-
-
-    const elapsed =
-        Math.max(
-            0,
-            (
-                now -
-                lastSavedTime
-            ) / 1000
-        );
-
-
-    if (elapsed <= 0) {
-        return;
-    }
-
-
-    /*
-       Rest continues while the player
-       is gone.
-    */
-
-    if (resting) {
-
-        updateRest();
-
-        return;
-
-    }
-
-
-    if (forcedRest) {
-
-        updateRest();
-
-        return;
-
-    }
-
-
-    const path =
-        getCurrentPath();
-
-
-    if (!path) {
-        return;
-    }
-
-
-    /*
-       Add the time that passed while
-       the player was away.
-
-       This allows the forest to keep
-       running while the page is closed.
-    */
-
-    const oldProgress =
-        path.progress;
-
-
-    path.progress =
-        Math.min(
-            path.duration,
-            path.progress +
-            elapsed
-        );
-
-
-    /*
-       If the player was away long enough
-       to finish the path, end the game.
-    */
-
-    if (
-        path.progress >=
-        path.duration
-    ) {
-
-        path.progress =
-            path.duration;
-
-
-        gameEnded = true;
-
-
-        $("victory").style.display =
-            "block";
-
-
-        addLog(
-            "You made it through the forest while you were away!"
-        );
-
-    }
-
-
-    /*
-       Keep encounter timing relative
-       to the current path.
-    */
-
-    if (
-        currentPath === "forest" &&
-        !gameEnded &&
-        oldProgress <
-        nextEncounterAt &&
-        path.progress >=
-        nextEncounterAt
-    ) {
-
-        /*
-           Offline encounters are not
-           simulated individually.
-
-           A new encounter time is
-           scheduled from the current
-           progress when the player returns.
-        */
-
-        nextEncounterAt =
-            path.progress +
-            getNextEncounterTime();
-
-    }
-
-
-    lastSavedTime =
-        now;
-
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   GAME TICK
-========================================================= */
-
-function tick() {
-
-    if (gameEnded) {
-
-        updateRest();
-
-        updateForest();
-
-        updateStatus();
-
-        return;
-
-    }
-
-
-    /*
-       Apply any time that passed since
-       the previous tick/save.
-    */
-
-    if (
-        !resting &&
-        !forcedRest
-    ) {
-
-        const path =
-            getCurrentPath();
-
-
-        if (path) {
-
-            path.progress =
-                Math.min(
-                    path.duration,
-                    path.progress + 1
-                );
-
-
-            /*
-               Autosave every second of
-               path progress.
-            */
-
-            saveGame();
-
-
-            /*
-               Encounter.
-            */
-
-            if (
-                currentPath === "forest" &&
-                path.progress >=
-                nextEncounterAt
-            ) {
-
-                encounter();
-
-
-                nextEncounterAt =
-                    path.progress +
-                    getNextEncounterTime();
-
-
-                saveGame();
-
+        const monsters = ["Viper", "Stray Thief", "Blighted Hound", "Grave Walker", "Shadow Crow"];
+        const weaponPrefixes = ["Balanced", "Keen", "Heavy", "Hollow", "Vampiric", "Polished"];
+        const weaponTypes = ["Blade", "Estoc", "Rapier", "Cutlass", "Greatsword"];
+
+        function gameTick() {
+            // Manage temporal rations timers
+            if (state.rationTimeRemaining > 0) {
+                state.rationTimeRemaining--;
+                document.getElementById("ration-status").innerText = `⚡ Rations active! Double combat speed (${state.rationTimeRemaining}s left)`;
+            } else {
+                document.getElementById("ration-status").innerText = "";
             }
 
-
-            /*
-               Finish the path.
-            */
-
-            if (
-                path.progress >=
-                path.duration
-            ) {
-
-                gameEnded = true;
-
-
-                $("victory").style.display =
-                    "block";
-
-
-                addLog(
-                    "You made it through the forest!"
-                );
-
-
-                saveGame();
-
-            }
-
-        }
-
-    }
-
-
-    updateForest();
-
-    updateRest();
-
-    updateStatus();
-
-
-    lastSavedTime =
-        Date.now();
-
-}
-
-
-/* =========================================================
-   SAVE GAME
-========================================================= */
-
-function saveGame() {
-
-    lastSavedTime =
-        Date.now();
-
-
-    const saveData = {
-
-        player: {
-
-            hp: player.hp,
-
-            maxHp: player.maxHp,
-
-            attack: player.attack,
-
-            level: player.level,
-
-            xp: player.xp,
-
-            expNeeded: player.expNeeded,
-
-            gold: player.gold
-
-        },
-
-
-        /*
-           Every path is saved here.
-
-           Future paths added to the
-           paths object will also be saved.
-        */
-
-        paths: paths,
-
-
-        currentPath: currentPath,
-
-
-        resting: resting,
-
-        forcedRest: forcedRest,
-
-        gameEnded: gameEnded,
-
-
-        restStartedAt: restStartedAt,
-
-        restDuration: restDuration,
-
-
-        nextEncounterAt: nextEncounterAt,
-
-
-        lastSavedTime: lastSavedTime
-
-    };
-
-
-    localStorage.setItem(
-        SAVE_KEY,
-        JSON.stringify(saveData)
-    );
-
-}
-
-
-/* =========================================================
-   LOAD GAME
-========================================================= */
-
-function loadGame() {
-
-    const saved =
-        localStorage.getItem(SAVE_KEY);
-
-
-    if (!saved) {
-
-        nextEncounterAt =
-            getPathProgress() +
-            getNextEncounterTime();
-
-
-        lastSavedTime =
-            Date.now();
-
-
-        return;
-
-    }
-
-
-    try {
-
-        const data =
-            JSON.parse(saved);
-
-
-        /*
-           Load player.
-        */
-
-        if (data.player) {
-
-            player.hp =
-                data.player.hp ?? 40;
-
-            player.maxHp =
-                data.player.maxHp ?? 40;
-
-            player.attack =
-                data.player.attack ?? 8;
-
-            player.level =
-                data.player.level ?? 1;
-
-            player.xp =
-                data.player.xp ?? 0;
-
-            player.expNeeded =
-                data.player.expNeeded ?? 50;
-
-            player.gold =
-                data.player.gold ?? 0;
-
-        }
-
-
-        /*
-           Load paths.
-        */
-
-        if (
-            data.paths &&
-            typeof data.paths === "object"
-        ) {
-
-            for (
-                const pathName in paths
-            ) {
-
-                if (
-                    data.paths[pathName]
-                ) {
-
-                    paths[pathName].progress =
-                        data.paths[pathName].progress ??
-                        paths[pathName].progress;
-
+            // Loop logic forks between recovery context or exploring danger paths
+            if (state.status === "resting") {
+                state.hp += 8;
+                if (state.hp >= state.maxHp) {
+                    state.hp = state.maxHp;
+                    state.status = "exploring";
+                    logJournal("🛡️ Fully recovered. Rook leaves the campsite and goes back into the wilds.");
                 }
-
+                updateUI();
+                return;
             }
 
+            // Normal exploration phase
+            state.ticksInArea++;
+            
+            // Simulating an encounter challenge
+            let enemyPower = state.area * 7 + Math.floor(Math.random() * 5);
+            let totalAttack = state.baseAttack + state.weaponAtk;
+            
+            // Damage math
+            let damageTaken = Math.max(2, enemyPower - Math.floor(totalAttack * 0.1));
+            state.hp -= damageTaken;
+
+            // Generate rewards
+            let goldGained = Math.floor(Math.random() * 4) + 2 + state.area;
+            state.gold += goldGained;
+
+            let encounterMonster = monsters[Math.floor(Math.random() * monsters.length)];
+            logJournal(`⚔️ Encounted ${encounterMonster}. Took ${damageTaken} damage, salvaged ${goldGained}g.`);
+
+            // Weapon Loot Drop Logic (Chance based)
+            if (Math.random() < 0.22 && !state.foundWeapon) {
+                let generatedAtk = (state.area * 5) + Math.floor(Math.random() * 8);
+                let generatedName = `${weaponPrefixes[Math.floor(Math.random() * weaponPrefixes.length)]} ${weaponTypes[Math.floor(Math.random() * weaponTypes.length)]}`;
+                
+                state.foundWeapon = { name: generatedName, attack: generatedAtk };
+                logJournal(`💎 Found a dropped weapon sitting by a shrine: ${generatedName} (+${generatedAtk} ATK).`);
+            }
+
+            // Defeat/Collapse check
+            if (state.hp <= 0) {
+                state.hp = 0;
+                state.status = "resting";
+                logJournal("🩹 Rook was overwhelmed by fatigue. Automatically retreating to camp to mend wounds...");
+            }
+
+            updateUI();
         }
 
-        /*
-           Support your old saves.
-        */
-
-        else if (
-            data.forestTime !== undefined
-        ) {
-
-            paths.forest.progress =
-                data.forestTime;
-
+        // Inventory Management Functions
+        function equipFoundWeapon() {
+            if (!state.foundWeapon) return;
+            logJournal(`⚙️ Equipped: ${state.foundWeapon.name} (+${state.foundWeapon.attack} ATK). Old weapon salvaged.`);
+            state.weaponName = state.foundWeapon.name;
+            state.weaponAtk = state.foundWeapon.attack;
+            state.foundWeapon = null;
+            updateUI();
         }
 
-
-        /*
-           Load current path.
-        */
-
-        if (
-            data.currentPath &&
-            paths[data.currentPath]
-        ) {
-
-            currentPath =
-                data.currentPath;
-
+        function salvageFoundWeapon() {
+            if (!state.foundWeapon) return;
+            state.gold += 15;
+            logJournal(`🪙 Salvaged the extra item for 15 gold.`);
+            state.foundWeapon = null;
+            updateUI();
         }
 
-        else {
-
-            currentPath =
-                "forest";
-
+        // Town and Training Interventions
+        function usePotion() {
+            if (state.gold >= 15) {
+                state.gold -= 15;
+                state.hp = Math.min(state.maxHp, state.hp + 40);
+                logJournal("🧪 Drank a restorative flask. Tended to open physical wounds instantly.");
+                updateUI();
+            }
         }
 
-
-        resting =
-            data.resting ?? false;
-
-
-        forcedRest =
-            data.forcedRest ?? false;
-
-
-        gameEnded =
-            data.gameEnded ?? false;
-
-
-        restStartedAt =
-            data.restStartedAt ?? 0;
-
-
-        restDuration =
-            data.restDuration ?? 0;
-
-
-        nextEncounterAt =
-            data.nextEncounterAt ??
-            (
-                getPathProgress() +
-                getNextEncounterTime()
-            );
-
-
-        lastSavedTime =
-            data.lastSavedTime ??
-            Date.now();
-
-
-        /*
-           First update the interface.
-        */
-
-        updateHP();
-
-        updateXP();
-
-        updateGold();
-
-        updateForest();
-
-        updateStatus();
-
-
-        /*
-           Show victory if already finished.
-        */
-
-        if (gameEnded) {
-
-            $("victory").style.display =
-                "block";
-
+        function useRation() {
+            if (state.gold >= 40) {
+                state.gold -= 40;
+                state.rationTimeRemaining += 60; // 60 seconds of fast travel speeds
+                logJournal("🍞 Consumed standard rations. Rook speed has doubled temporarily.");
+                updateUI();
+            }
         }
 
-
-        /*
-           Apply time that passed while
-           the player was away.
-
-           This happens AFTER loading the
-           saved timestamp.
-        */
-
-        applyOfflineProgress();
-
-
-        /*
-           Update the interface again after
-           offline progress.
-        */
-
-        updateHP();
-
-        updateXP();
-
-        updateGold();
-
-        updateForest();
-
-        updateRest();
-
-        updateStatus();
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-
-        addLog(
-            "The save could not be loaded."
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   RESET GAME
-========================================================= */
-
-function deleteSave() {
-
-    localStorage.removeItem(
-        SAVE_KEY
-    );
-
-
-    /*
-       Reset player.
-    */
-
-    player.hp = 40;
-
-    player.maxHp = 40;
-
-    player.attack = 8;
-
-    player.level = 1;
-
-    player.xp = 0;
-
-    player.expNeeded = 50;
-
-    player.gold = 0;
-
-
-    /*
-       Reset every path.
-    */
-
-    for (
-        const pathName in paths
-    ) {
-
-        paths[pathName].progress = 0;
-
-    }
-
-
-    currentPath =
-        "forest";
-
-
-    /*
-       Reset rest.
-    */
-
-    resting = false;
-
-    forcedRest = false;
-
-    restStartedAt = 0;
-
-    restDuration = 0;
-
-
-    /*
-       Reset game.
-    */
-
-    gameEnded = false;
-
-
-    /*
-       Reset encounters.
-    */
-
-    nextEncounterAt =
-        getNextEncounterTime();
-
-
-    /*
-       Reset timestamp.
-    */
-
-    lastSavedTime =
-        Date.now();
-
-
-    /*
-       Reset messages.
-    */
-
-    $("victory").style.display =
-        "none";
-
-
-    $("levelUp").style.display =
-        "none";
-
-
-    /*
-       Reset rest bar.
-    */
-
-    $("restBar").style.width =
-        "0%";
-
-
-    $("restText").textContent =
-        "Rest when you need to recover.";
-
-
-    /*
-       Clear log.
-    */
-
-    $("log").innerHTML =
-        "";
-
-
-    /*
-       Update interface.
-    */
-
-    updateHP();
-
-    updateXP();
-
-    updateGold();
-
-    updateForest();
-
-    updateStatus();
-
-
-    addLog(
-        "New journey started."
-    );
-
-
-    addLog(
-        "The forest path begins at 0:00."
-    );
-
-
-    saveGame();
-
-}
-
-
-/* =========================================================
-   PAGE LEAVING
-========================================================= */
-
-/*
-   Save immediately when the player
-   closes, reloads, or leaves the page.
-*/
-
-window.addEventListener(
-    "beforeunload",
-    () => {
-
-        saveGame();
-
-    }
-);
-
-
-/*
-   Also save when the page becomes
-   hidden, such as switching tabs
-   or minimizing the browser.
-*/
-
-document.addEventListener(
-    "visibilitychange",
-    () => {
-
-        if (
-            document.visibilityState ===
-            "hidden"
-        ) {
-
-            saveGame();
-
+        function trainAttack() {
+            let cost = 50 + (state.baseAttack * 2);
+            if (state.gold >= cost) {
+                state.gold -= cost;
+                state.baseAttack += 4;
+                state.maxHp += 10;
+                state.hp = state.maxHp;
+                logJournal(`🏋️ Completed campfire exercises. Base Attack increased (+4) & Max Vitality increased (+10).`);
+                updateUI();
+            }
         }
 
-        else {
+        // Area Gate Progression Check
+        function challengeAreaBoss() {
+            let currentAreaData = areas[state.area - 1];
+            let totalAttack = state.baseAttack + state.weaponAtk;
 
-            /*
-               Calculate time that passed
-               while the page was hidden.
-            */
+            logJournal(`🏁 Stepping off the path to challenge the Elite Protector: ${currentAreaData.bossName}...`);
 
-            const previousTime =
-                lastSavedTime;
-
-
-            lastSavedTime =
-                Date.now();
-
-
-            /*
-               Put the old timestamp back
-               temporarily so offline
-               progress calculates correctly.
-            */
-
-            lastSavedTime =
-                previousTime;
-
-
-            applyOfflineProgress();
-
-
-            updateHP();
-
-            updateXP();
-
-            updateGold();
-
-            updateForest();
-
-            updateRest();
-
-            updateStatus();
-
+            if (totalAttack >= currentAreaData.minAtk) {
+                logJournal(`🏆 Victory! Defeated the ${currentAreaData.bossName}! Advanced to the next map route.`);
+                if (state.area < areas.length) {
+                    state.area++;
+                } else {
+                    logJournal("🌟 You have conquered the final peak! End of current route cycle.");
+                }
+            } else {
+                let bossDamage = Math.floor(state.maxHp * 0.7);
+                state.hp = Math.max(0, state.hp - bossDamage);
+                logJournal(`❌ Defeat! The ${currentAreaData.bossName} struck with immense force. Rook barely escaped with life back to camp.`);
+                if (state.hp === 0) state.status = "resting";
+            }
+            updateUI();
         }
 
-    }
-);
-
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-$("restButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            startRest();
-
+        // Layout Utilities
+        function logJournal(msg) {
+            const feed = document.getElementById("journal");
+            const entry = document.createElement("div");
+            entry.className = "journal-entry";
+            entry.innerText = msg;
+            feed.appendChild(entry);
+            feed.scrollTop = feed.scrollHeight;
         }
-    );
 
+        function updateUI() {
+            // General texts
+            document.getElementById("hp-text").innerText = `${state.hp} / ${state.maxHp}`;
+            document.getElementById("gold-text").innerText = state.gold;
+            document.getElementById("attack-text").innerText = state.baseAttack;
+            
+            let curArea = areas[state.area - 1];
+            document.getElementById("area-text").innerText = `${state.area}. ${curArea.name}`;
+            
+            // Bars
+            document.getElementById("hp-bar").style.width = `${(state.hp / state.maxHp) * 100}%`;
 
-$("leaveButton")
-    .addEventListener(
-        "click",
-        () => {
+            // Weapon dynamic UI swap
+            if (state.foundWeapon) {
+                document.getElementById("found-weapon-alert").style.display = "block";
+                document.getElementById("salvage-container").style.display = "block";
+                document.getElementById("wpn-name").innerHTML = `<span style='color:var(--text-muted)'>Current:</span> ${state.weaponName} <br><span style='color:var(--gold-color)'>New Found:</span> ${state.foundWeapon.name} (+${state.foundWeapon.attack} ATK)`;
+            } else {
+                document.getElementById("found-weapon-alert").style.display = "none";
+                document.getElementById("salvage-container").style.display = "none";
+                document.getElementById("wpn-name").innerText = state.weaponName;
+                document.getElementById("wpn-atk").innerText = `Attack Modification: +${state.weaponAtk}`;
+            }
 
-            leaveRest();
+            // Status indicator
+            const badge = document.getElementById("status-badge");
+            badge.innerText = state.status.toUpperCase();
+            if (state.status === "resting") {
+                badge.className = "status-badge status-resting";
+            } else {
+                badge.className = "status-badge status-exploring";
+            }
 
+            // Buttons lock constraints
+            document.getElementById("btn-potion").disabled = state.gold < 15;
+            document.getElementById("btn-ration").disabled = state.gold < 40;
+            
+            let trainCost = 50 + (state.baseAttack * 2);
+            document.getElementById("btn-train").innerText = `Train Base Vitality & Power (-${trainCost}g)`;
+            document.getElementById("btn-train").disabled = state.gold < trainCost;
+            
+            document.getElementById("btn-boss").innerText = `Challenge ${curArea.bossName} (Req. ~${curArea.minAtk} ATK)`;
         }
-    );
 
-
-$("saveButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            saveGame();
-
-            addLog(
-                "Game saved."
-            );
-
+        // Loop Runner setting intervals dynamically based on potion/ration speed modifiers
+        function loopController() {
+            gameTick();
+            let intervalSpeed = state.rationTimeRemaining > 0 ? 1000 : 2000; // Fast travel vs. regular pace
+            setTimeout(loopController, intervalSpeed);
         }
-    );
 
-
-$("loadButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            loadGame();
-
-            addLog(
-                "Game loaded."
-            );
-
-        }
-    );
-
-
-$("deleteButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            deleteSave();
-
-        }
-    );
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-updateHP();
-
-updateXP();
-
-updateGold();
-
-updateForest();
-
-updateStatus();
-
-
-addLog(
-    "The forest path begins..."
-);
-
-
-/*
-   Load the saved game.
-*/
-
-loadGame();
-
-
-/*
-   Start the game clock.
-*/
-
-setInterval(
-    tick,
-    1000
-);
-
-
-</script>
-
+        // Initialize Loop
+        updateUI();
+        setTimeout(loopController, 2000);
+    </script>
 </body>
-
 </html>
