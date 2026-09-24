@@ -114,7 +114,7 @@
         }
 
         .feed-box {
-            height: 150px;
+            height: 140px;
             overflow-y: auto;
             font-size: 0.8rem;
             color: #a7f3d0;
@@ -166,7 +166,7 @@
             font-weight: bold;
             width: 100%;
             padding: 14px;
-            margin-bottom: 40px;
+            margin-bottom: 16px;
         }
 
         button.gate-trigger:hover:not(:disabled) {
@@ -182,6 +182,18 @@
         }
         .badge-scouting { color: var(--neon-green); border-color: var(--neon-green); }
         .badge-docked { color: var(--neon-warn); border-color: var(--neon-warn); }
+
+        .cloud-input {
+            width: 90%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-glow);
+            color: var(--text-bright);
+            font-family: inherit;
+            font-size: 0.75rem;
+            padding: 6px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -189,6 +201,7 @@
     <h1>UTOPIA // OS</h1>
     <div class="subtitle">Planetary Settlement Automation</div>
 
+    <!-- Telemetry Readout -->
     <div class="terminal-panel">
         <div class="panel-header">
             Dystopian Rover Protocol
@@ -215,6 +228,7 @@
         </div>
     </div>
 
+    <!-- Dynamic Atmospheric Components Drop -->
     <div class="terminal-panel">
         <div class="panel-header">Atmospheric Scrubbers</div>
         <div class="scavenged-card">
@@ -232,6 +246,7 @@
         </div>
     </div>
 
+    <!-- Settlement Infrastructure Interventions -->
     <div class="terminal-panel">
         <div class="panel-header">Base Camp Utilities</div>
         <div class="action-grid">
@@ -244,6 +259,7 @@
         <div id="overdrive-status" style="font-size: 0.7rem; text-align: center; color: var(--neon-green);"></div>
     </div>
 
+    <!-- Telemetry Log -->
     <div class="terminal-panel">
         <div class="panel-header">Planetary Feed Log</div>
         <div class="feed-box" id="log-feed">
@@ -251,10 +267,22 @@
         </div>
     </div>
 
-    <div>
-        <button id="btn-gate" class="gate-trigger" onclick="overrideSectorGate()">
-            Hack Sector Vault Gate 📡
-        </button>
+    <!-- Sector Progression Checkpoint -->
+    <button id="btn-gate" class="gate-trigger" onclick="overrideSectorGate()">
+        Hack Sector Vault Gate 📡
+    </button>
+
+    <!-- Sync Interface Profile Matrix -->
+    <div class="terminal-panel" style="margin-bottom: 40px; border-color: rgba(59, 130, 246, 0.3);">
+        <div class="panel-header" style="color: #3b82f6; border-color: rgba(59, 130, 246, 0.2);">Cloud Transfer Core Matrix</div>
+        <input type="text" id="cloud-string-input" class="cloud-input" placeholder="Paste Cloud Transfer String Here...">
+        <div class="action-grid">
+            <button onclick="exportCloudSave()" style="color: #3b82f6; border-color: rgba(59, 130, 246, 0.4);">Export Profile Code</button>
+            <button onclick="importCloudSave()" style="color: #60a5fa; border-color: rgba(59, 130, 246, 0.4);">Import Profile Code</button>
+        </div>
+        <div style="font-size: 0.65rem; color: var(--text-dim); text-align: center; margin-top: 4px;">
+            Copy the exported text string and paste it into any cloud note application to backup your game data.
+        </div>
     </div>
 
     <script>
@@ -282,10 +310,62 @@
         const buildPrefix = ["Cryo-Hardened", "Nano-Weave", "Graphene", "Magnetic", "Prismatic", "Hyper-Dense"];
         const componentTypes = ["Gas Condenser", "Scrubber Layer", "Radiation Sieve", "Plasma Barrier"];
 
+        function autoSaveLocal() {
+            localStorage.setItem("utopia_save_profile", JSON.stringify(osState));
+        }
+
+        function autoLoadLocal() {
+            const savedProfile = localStorage.getItem("utopia_save_profile");
+            if (savedProfile) {
+                try {
+                    const parsed = JSON.parse(savedProfile);
+                    if (parsed && typeof parsed.sector === 'number') {
+                        osState = parsed;
+                        postLog("[SYSTEM] Local memory profile synchronized successfully.");
+                    }
+                } catch(e) {
+                    postLog("[SYSTEM] Corrupt baseline profile encountered. Resetting parameters.");
+                }
+            }
+        }
+
+        function exportCloudSave() {
+            autoSaveLocal();
+            const rawString = btoa(JSON.stringify(osState));
+            const inputField = document.getElementById("cloud-string-input");
+            inputField.value = rawString;
+            inputField.select();
+            document.execCommand("copy");
+            postLog("[SYSTEM] Profile code copied to clipboard! Paste it to your cloud accounts.");
+            alert("Cloud Save Code Copied to Clipboard!\nPaste it anywhere in your Notes or Drive to save it.");
+        }
+
+        function importCloudSave() {
+            const inputField = document.getElementById("cloud-string-input").value.trim();
+            if (!inputField) {
+                alert("Please paste a valid data profile string first.");
+                return;
+            }
+            try {
+                const baseParsed = JSON.parse(atob(inputField));
+                if (baseParsed && typeof baseParsed.sector === 'number') {
+                    osState = baseParsed;
+                    autoSaveLocal();
+                    postLog("[SYSTEM] Remote Cloud Data Matrix synchronized.");
+                    refreshInterface();
+                    alert("Progress Successfully Synchronized from Cloud String!");
+                } else {
+                    alert("Invalid profile code signature.");
+                }
+            } catch(e) {
+                alert("Error reading file signature. Make sure you copied the entire string code block accurately.");
+            }
+        }
+
         function coreLoop() {
             if (osState.overdriveTime > 0) {
                 osState.overdriveTime--;
-                document.getElementById("overdrive-status").innerText = `⚡ OVERCLOCK SYSTEM RUNNING (\${osState.overdriveTime} cycles left)`;
+                document.getElementById("overdrive-status").innerText = `⚡ OVERCLOCK SYSTEM RUNNING (${osState.overdriveTime} cycles left)`;
             } else {
                 document.getElementById("overdrive-status").innerText = "";
             }
@@ -312,19 +392,19 @@
                 osState.suitIntegrity -= absoluteDamage;
 
                 let immediateAnomaly = anomalies[Math.floor(Math.random() * anomalies.length)];
-                postLog(`[ALERT] Environmental Hazard: \${immediateAnomaly}! Hull lost \${absoluteDamage}%.`);
+                postLog(`[ALERT] Environmental Hazard: ${immediateAnomaly}! Hull lost ${absoluteDamage}%.`);
 
                 if (Math.random() < 0.50 && !osState.scavengedFilter) {
                     let computedRating = (osState.sector * 6) + Math.floor(Math.random() * 6);
-                    let computedName = `\${buildPrefix[Math.floor(Math.random() * buildPrefix.length)]} \${componentTypes[Math.floor(Math.random() * componentTypes.length)]}`;
+                    let computedName = `${buildPrefix[Math.floor(Math.random() * buildPrefix.length)]} ${componentTypes[Math.floor(Math.random() * componentTypes.length)]}`;
                     
                     osState.scavengedFilter = { name: computedName, power: computedRating };
-                    postLog(`[DATA] Local cache scavenged from debris: \${computedName} (Absorbs -\${computedRating} Toxins).`);
+                    postLog(`[DATA] Local cache scavenged from debris: ${computedName} (Absorbs -${computedRating} Toxins).`);
                 }
             } else {
                 let coordinateX = Math.floor(Math.random() * 899) + 100;
                 let coordinateY = Math.floor(Math.random() * 899) + 100;
-                postLog(`[SURFACE] Surveying sector block [X:\${coordinateX} / Y:\${coordinateY}]. Secure telemetry scraped (+\${extractedCredits}c).`);
+                postLog(`[SURFACE] Surveying sector block [X:${coordinateX} / Y:${coordinateY}]. Secure telemetry scraped (+${extractedCredits}c).`);
             }
 
             if (osState.suitIntegrity <= 0) {
@@ -333,15 +413,17 @@
                 postLog("[CRITICAL] Suit breach imminent. Rover emergency auto-docking to Base Camp for repairs...");
             }
 
+            autoSaveLocal();
             refreshInterface();
         }
 
         function installFilter() {
             if (!osState.scavengedFilter) return;
-            postLog(`[HARDWARE] Fitted Matrix: \${osState.scavengedFilter.name}. Recycled old filters.`);
+            postLog(`[HARDWARE] Fitted Matrix: ${osState.scavengedFilter.name}. Recycled old filters.`);
             osState.currentFilterName = osState.scavengedFilter.name;
             osState.filterRating = osState.scavengedFilter.power;
             osState.scavengedFilter = null;
+            autoSaveLocal();
             refreshInterface();
         }
 
@@ -350,6 +432,7 @@
             osState.credits += 30;
             postLog(`[ECONOMY] Vaporized components for 30 Credits.`);
             osState.scavengedFilter = null;
+            autoSaveLocal();
             refreshInterface();
         }
 
@@ -358,6 +441,7 @@
                 osState.credits -= 20;
                 osState.suitIntegrity = Math.min(osState.maxSuit, osState.suitIntegrity + 35);
                 postLog("[REPAIR] Patch micro-nanites sealing critical environmental leaks.");
+                autoSaveLocal();
                 refreshInterface();
             }
         }
@@ -367,6 +451,7 @@
                 osState.credits -= 50;
                 osState.overdriveTime += 45; 
                 postLog("[OVERCLOCK] Settler engine limits bypassed. Travel frequency doubled.");
+                autoSaveLocal();
                 refreshInterface();
             }
         }
@@ -379,6 +464,7 @@
                 osState.maxSuit += 15;
                 osState.suitIntegrity = osState.maxSuit;
                 postLog(`[FACTORY] Upgraded Hull Chassis. Frame Insulation Level (+5) & Max Structural Capacity (+15).`);
+                autoSaveLocal();
                 refreshInterface();
             }
         }
@@ -387,7 +473,7 @@
             let contextSector = sectors[osState.sector - 1];
             let actualInsulation = osState.baseInsulation + osState.filterRating;
 
-            postLog(`[GATE] Establishing direct uplink stream to \${contextSector.gateSystem}...`);
+            postLog(`[GATE] Establishing direct uplink stream to ${contextSector.gateSystem}...`);
 
             if (actualInsulation >= contextSector.minIns) {
                 postLog(`[ACCESS] Override Complete. Sector boundaries bypassed. Vault unlocked.`);
@@ -399,9 +485,10 @@
             } else {
                 let backlashDamage = Math.floor(osState.maxSuit * 0.65);
                 osState.suitIntegrity = Math.max(0, osState.suitIntegrity - backlashDamage);
-                postLog(`[FIREWALL] Upload Failed! Terminal backlash feedback burned out \${backlashDamage}% hull integrity.`);
+                postLog(`[FIREWALL] Upload Failed! Terminal backlash feedback burned out ${backlashDamage}% hull integrity.`);
                 if (osState.suitIntegrity === 0) osState.status = "docked";
             }
+            autoSaveLocal();
             refreshInterface();
         }
 
@@ -415,24 +502,24 @@
         }
 
         function refreshInterface() {
-            document.getElementById("suit-text").innerText = `\${osState.suitIntegrity}% / \${osState.maxSuit}%`;
+            document.getElementById("suit-text").innerText = `${osState.suitIntegrity}% / ${osState.maxSuit}%`;
             document.getElementById("credits-text").innerText = osState.credits;
-            document.getElementById("shield-text").innerText = `Lv. \${osState.baseInsulation}`;
+            document.getElementById("shield-text").innerText = `Lv. ${osState.baseInsulation}`;
             
             let currentData = sectors[osState.sector - 1];
-            document.getElementById("sector-text").innerText = `Sector \${osState.sector}: \${currentData.name}`;
+            document.getElementById("sector-text").innerText = `Sector ${osState.sector}: ${currentData.name}`;
             
-            document.getElementById("suit-bar").style.width = `\${(osState.suitIntegrity / osState.maxSuit) * 100}%`;
+            document.getElementById("suit-bar").style.width = `${(osState.suitIntegrity / osState.maxSuit) * 100}%`;
 
             if (osState.scavengedFilter) {
                 document.getElementById("filter-alert").style.display = "block";
                 document.getElementById("scrap-controls").style.display = "block";
-                document.getElementById("filter-name").innerHTML = `<span style='color:var(--text-dim)'>Equipped:</span> \${osState.currentFilterName} <br><span style='color:var(--neon-green)'>Scavenged:</span> \${osState.scavengedFilter.name} (-\${osState.scavengedFilter.power} Env/Damage)`;
+                document.getElementById("filter-name").innerHTML = `<span style='color:var(--text-dim)'>Equipped:</span> ${osState.currentFilterName} <br><span style='color:var(--neon-green)'>Scavenged:</span> ${osState.scavengedFilter.name} (-${osState.scavengedFilter.power} Env/Damage)`;
             } else {
                 document.getElementById("filter-alert").style.display = "none";
                 document.getElementById("scrap-controls").style.display = "none";
                 document.getElementById("filter-name").innerText = osState.currentFilterName;
-                document.getElementById("filter-spec").innerText = `Scrubber Insulation Level: -\${osState.filterRating} Damage Reduction`;
+                document.getElementById("filter-spec").innerText = `Scrubber Insulation Level: -${osState.filterRating} Damage Reduction`;
             }
 
             const frameBadge = document.getElementById("status-badge");
@@ -447,10 +534,10 @@
             document.getElementById("btn-overdrive").disabled = osState.credits < 50;
             
             let scalingCost = 45 + (osState.baseInsulation * 3);
-            document.getElementById("btn-fabricate").innerText = `Upgrade Chassis Frame (-\${scalingCost}c)`;
+            document.getElementById("btn-fabricate").innerText = `Upgrade Chassis Frame (-${scalingCost}c)`;
             document.getElementById("btn-fabricate").disabled = osState.credits < scalingCost;
             
-            document.getElementById("btn-gate").innerText = `Hack \${currentData.gateSystem} (Req. ~\${currentData.minIns} Insulation)`;
+            document.getElementById("btn-gate").innerText = `Hack ${currentData.gateSystem} (Req. ~${currentData.minIns} Insulation)`;
         }
 
         function clockRuntime() {
@@ -459,6 +546,7 @@
             setTimeout(clockRuntime, processTicks);
         }
 
+        autoLoadLocal();
         refreshInterface();
         setTimeout(clockRuntime, 1800);
     </script>
