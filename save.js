@@ -29,25 +29,33 @@ function saveGame(){
 
 function loadGame(){
 
-    const data =
-        JSON.parse(
-            localStorage.getItem(SAVE_KEY)
+    const saved =
+        localStorage.getItem(SAVE_KEY);
+
+    if(!saved) return;
+
+    try {
+        const data = JSON.parse(saved);
+
+        Object.assign(
+            player,
+            data.player
         );
 
+        Object.assign(
+            paths,
+            data.paths
+        );
 
-    if(!data)return;
+        if(typeof data.currentPath === "string"){
+            currentPath = data.currentPath;
+        }
 
-
-    Object.assign(
-        player,
-        data.player
-    );
-
-
-    Object.assign(
-        paths,
-        data.paths
-    );
-
+        resting = Boolean(data.resting);
+        gameEnded = Boolean(data.gameEnded);
+    } catch(e) {
+        console.error("Failed to load game:", e);
+        localStorage.removeItem(SAVE_KEY);
+    }
 
 }
