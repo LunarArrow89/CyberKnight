@@ -78,7 +78,7 @@
             display: grid;
 
             grid-template-columns:
-                repeat(3, 1fr);
+                repeat(2, 1fr);
 
             gap: 7px;
 
@@ -462,21 +462,7 @@
 
     <div class="stats">
 
-        <div class="stat">
-
-            <div class="stat-label">
-                HP
-            </div>
-
-            <div
-                class="stat-value"
-                id="hpValue"
-            >
-                40 / 40
-            </div>
-
-        </div>
-
+        <!-- HP REMOVED -->
 
         <div class="stat">
 
@@ -510,21 +496,7 @@
         </div>
 
 
-        <div class="stat">
-
-            <div class="stat-label">
-                XP
-            </div>
-
-            <div
-                class="stat-value"
-                id="xpValue"
-            >
-                0 / 50
-            </div>
-
-        </div>
-
+        <!-- XP REMOVED -->
 
         <div class="stat">
 
@@ -732,7 +704,7 @@
         </div>
 
 
-        <!-- SAVE / LOAD -->
+        <!-- RESET -->
 
         <div class="section">
 
@@ -749,14 +721,6 @@
 
 
             <div class="buttons">
-
-                <button id="saveButton">
-                    Save
-                </button>
-
-                <button id="loadButton">
-                    Load
-                </button>
 
                 <button
                     id="deleteButton"
@@ -992,11 +956,9 @@ function formatTime(seconds) {
 
 function updateHP() {
 
-    $("hpValue").textContent =
-        `${player.hp} / ${player.maxHp}`;
-
     $("healthText").textContent =
         `${player.hp} / ${player.maxHp}`;
+
 
     const percent =
         player.maxHp > 0
@@ -1006,6 +968,7 @@ function updateHP() {
             ) * 100
             : 0;
 
+
     $("healthBar").style.width =
         `${percent}%`;
 
@@ -1014,11 +977,9 @@ function updateHP() {
 
 function updateXP() {
 
-    $("xpValue").textContent =
-        `${player.xp} / ${player.expNeeded}`;
-
     $("xpText").textContent =
         `${player.xp} / ${player.expNeeded}`;
+
 
     const percent =
         player.expNeeded > 0
@@ -1027,6 +988,7 @@ function updateXP() {
                 player.expNeeded
             ) * 100
             : 0;
+
 
     $("xpBar").style.width =
         `${percent}%`;
@@ -1047,6 +1009,7 @@ function updateForest() {
     const path =
         getCurrentPath();
 
+
     const percent =
         path.duration > 0
             ? (
@@ -1055,8 +1018,10 @@ function updateForest() {
             ) * 100
             : 0;
 
+
     $("forestBar").style.width =
         `${percent}%`;
+
 
     $("forestText").textContent =
         `${formatTime(path.progress)} / ${formatTime(path.duration)}`;
@@ -1069,8 +1034,10 @@ function updateStatus() {
     const status =
         $("statusValue");
 
+
     status.className =
         "stat-value";
+
 
     if (gameEnded) {
 
@@ -1085,6 +1052,7 @@ function updateStatus() {
 
     }
 
+
     if (forcedRest) {
 
         status.textContent =
@@ -1098,6 +1066,7 @@ function updateStatus() {
 
     }
 
+
     if (resting) {
 
         status.textContent =
@@ -1110,6 +1079,7 @@ function updateStatus() {
         return;
 
     }
+
 
     status.textContent =
         "Walking";
@@ -1126,6 +1096,7 @@ function giveXP(amount) {
     player.xp +=
         amount;
 
+
     addLog(
         `You gained ${amount} XP.`
     );
@@ -1139,17 +1110,22 @@ function giveXP(amount) {
         player.xp -=
             player.expNeeded;
 
+
         player.level +=
             1;
+
 
         player.maxHp +=
             5;
 
+
         player.attack +=
             2;
 
+
         player.hp =
             player.maxHp;
+
 
         player.expNeeded =
             Math.floor(
@@ -1166,9 +1142,11 @@ function giveXP(amount) {
             `You reached level ${player.level}!`
         );
 
+
         addLog(
             "Your maximum HP increased by 5."
         );
+
 
         addLog(
             "Your attack increased by 2."
@@ -1181,8 +1159,10 @@ function giveXP(amount) {
 
     updateHP();
 
+
     $("levelValue").textContent =
         player.level;
+
 
     $("attackValue").textContent =
         player.attack;
@@ -1197,7 +1177,9 @@ function encounter() {
         resting ||
         forcedRest
     ) {
+
         return;
+
     }
 
 
@@ -1209,17 +1191,6 @@ function encounter() {
             )
         ];
 
-
-    /*
-        One calculation.
-
-        Damage taken =
-        enemy attack - player attack
-
-        If the result is zero or less,
-        the player takes no damage and
-        defeats the enemy.
-    */
 
     const damageTaken =
         Math.max(
@@ -1280,6 +1251,7 @@ function encounter() {
                 `${enemy.name} defeated you.`
             );
 
+
             addLog(
                 `You lost ${damageTaken} HP.`
             );
@@ -1317,7 +1289,9 @@ function encounter() {
 function startRest(isForced = false) {
 
     if (gameEnded) {
+
         return;
+
     }
 
 
@@ -1325,7 +1299,9 @@ function startRest(isForced = false) {
         resting &&
         !isForced
     ) {
+
         return;
+
     }
 
 
@@ -1392,7 +1368,9 @@ function leaveRest() {
         !resting ||
         forcedRest
     ) {
+
         return;
+
     }
 
 
@@ -1411,11 +1389,14 @@ function leaveRest() {
     $("restBar").style.width =
         "0%";
 
+
     $("restText").textContent =
         "You left before fully recovering.";
 
+
     $("restButton").disabled =
         false;
+
 
     $("leaveButton").disabled =
         true;
@@ -1431,7 +1412,9 @@ function leaveRest() {
 function updateRest() {
 
     if (!resting) {
+
         return;
+
     }
 
 
@@ -1550,7 +1533,9 @@ function applyOfflineProgress() {
     if (
         elapsed <= 0
     ) {
+
         return;
+
     }
 
 
@@ -1558,20 +1543,21 @@ function applyOfflineProgress() {
 
         updateRest();
 
+
         lastSavedTime =
             now;
+
 
         return;
 
     }
 
 
-    if (
-        gameEnded
-    ) {
+    if (gameEnded) {
 
         lastSavedTime =
             now;
+
 
         return;
 
@@ -1736,9 +1722,10 @@ function saveGame() {
             ...player
         },
 
-        paths: JSON.parse(
-            JSON.stringify(paths)
-        ),
+        paths:
+            JSON.parse(
+                JSON.stringify(paths)
+            ),
 
         currentPath,
 
@@ -1784,10 +1771,6 @@ function loadGame() {
 
 
     if (!saved) {
-
-        addLog(
-            "No saved game was found."
-        );
 
         return;
 
@@ -1836,10 +1819,6 @@ function loadGame() {
 
         }
 
-        /*
-            Older saves may have stored
-            forest progress separately.
-        */
 
         else if (
             typeof data.forestTime ===
@@ -1933,8 +1912,10 @@ function loadGame() {
 
         updateForest();
 
+
         $("levelValue").textContent =
             player.level;
+
 
         $("attackValue").textContent =
             player.attack;
@@ -1957,8 +1938,10 @@ function loadGame() {
             $("restButton").disabled =
                 true;
 
+
             $("leaveButton").disabled =
                 forcedRest;
+
 
             updateRest();
 
@@ -1968,6 +1951,7 @@ function loadGame() {
 
             $("restButton").disabled =
                 false;
+
 
             $("leaveButton").disabled =
                 true;
@@ -1980,12 +1964,6 @@ function loadGame() {
 
         applyOfflineProgress();
 
-
-        addLog(
-            "Game loaded."
-        );
-
-
     }
 
     catch (error) {
@@ -1994,40 +1972,13 @@ function loadGame() {
             error
         );
 
-        addLog(
-            "The saved game could not be loaded."
-        );
-
     }
-
-}
-
-
-function deleteSave() {
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to reset your game?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    localStorage.removeItem(
-        SAVE_KEY
-    );
-
-
-    location.reload();
 
 }
 
 
 /* =========================================
-   BUTTONS
+   REST BUTTONS
    ========================================= */
 
 $("restButton")
@@ -2062,27 +2013,9 @@ $("leaveButton")
     );
 
 
-$("saveButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            saveGame();
-
-            addLog(
-                "Game saved."
-            );
-
-        }
-    );
-
-
-$("loadButton")
-    .addEventListener(
-        "click",
-        loadGame
-    );
-
+/* =========================================
+   RESET GAME
+   ========================================= */
 
 $("deleteButton")
     .addEventListener(
@@ -2091,8 +2024,33 @@ $("deleteButton")
     );
 
 
+function deleteSave() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to reset your game?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    localStorage.removeItem(
+        SAVE_KEY
+    );
+
+
+    location.reload();
+
+}
+
+
 /* =========================================
-   PAGE VISIBILITY
+   AUTO SAVE / OFFLINE PROGRESS
    ========================================= */
 
 document.addEventListener(
@@ -2117,10 +2075,6 @@ document.addEventListener(
 );
 
 
-/* =========================================
-   PAGE CLOSE
-   ========================================= */
-
 window.addEventListener(
     "beforeunload",
     () => {
@@ -2142,7 +2096,7 @@ window.addEventListener(
 
 
 /* =========================================
-   INITIAL SETUP
+   START GAME
    ========================================= */
 
 nextEncounterAt =
@@ -2157,22 +2111,34 @@ updateGold();
 
 updateForest();
 
+
 $("levelValue").textContent =
     player.level;
+
 
 $("attackValue").textContent =
     player.attack;
 
+
 updateStatus();
 
 
-addLog(
-    "You entered the Whispering Woods."
-);
+loadGame();
 
-addLog(
-    "Your journey has begun."
-);
+
+if (
+    $("log").children.length === 0
+) {
+
+    addLog(
+        "You entered the Whispering Woods."
+    );
+
+    addLog(
+        "Your journey has begun."
+    );
+
+}
 
 
 setInterval(
@@ -2183,4 +2149,5 @@ setInterval(
 </script>
 
 </body>
+
 </html>
