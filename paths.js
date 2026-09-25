@@ -9,7 +9,9 @@ const paths = {
 
         duration:300,
 
-        encounterTime:45
+        encounterTime:45,
+
+        completed:false
 
     },
 
@@ -22,7 +24,9 @@ const paths = {
 
         duration:420,
 
-        encounterTime:60
+        encounterTime:60,
+
+        completed:false
 
     }
 
@@ -40,6 +44,7 @@ function updatePath(){
     const path =
         paths[currentPath];
 
+    if(path.completed) return;
 
     path.progress++;
 
@@ -50,6 +55,8 @@ function updatePath(){
     ){
 
         finishPath();
+
+        return;
 
     }
 
@@ -90,8 +97,14 @@ function randomEncounterTime(){
 
 function finishPath(){
 
+    const path = paths[currentPath];
+
+    path.completed = true;
+
     addLog(
-        `${paths[currentPath].name} completed!`
+        `${path.name} completed!`
     );
+
+    gameEnded = true;
 
 }
