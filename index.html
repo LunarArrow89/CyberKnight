@@ -2,17 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Utopia // Planetary Idle OS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Forest App</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+
         :root {
-            --bg-dark: #05070b;
-            --panel-glass: rgba(16, 22, 35, 0.75);
-            --border-glow: rgba(34, 197, 94, 0.15);
-            --neon-green: #22c55e;
-            --neon-warn: #f97316;
-            --text-bright: #f0fdf4;
-            --text-dim: #74808c;
+            --forest-deep: #1e352f;
+            --forest-moss: #3a5a40;
+            --forest-leaf: #588157;
+            --cozy-sand: #a3b18a;
+            --cozy-cream: #f4f1de;
+            --cozy-warm-wood: #3d261a;
+            --cozy-amber: #e9c46a;
+            --text-dark: #2c3531;
+            --text-light: #f4f1de;
         }
 
         * {
@@ -22,528 +26,324 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-bright);
-            font-family: 'Courier New', Courier, monospace;
-            height: 100vh;
-            width: 100vw;
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--forest-deep);
+            background-image: linear-gradient(135deg, #12221e 0%, #243d34 100%);
+            color: var(--cozy-cream);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 12px;
-            overflow: hidden;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Forest Background Elements */
+        .canopy-glow {
+            position: absolute;
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 50vh;
+            background: radial-gradient(circle, rgba(163, 177, 138, 0.15) 0%, rgba(0,0,0,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 900px;
+            background: rgba(42, 69, 59, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(163, 177, 138, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 16px 48px rgba(10, 20, 15, 0.4);
+            transition: all 0.3s ease;
         }
 
         header {
             text-align: center;
-            margin-bottom: 8px;
-            flex-shrink: 0;
+            margin-bottom: 40px;
         }
 
         h1 {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: var(--neon-green);
-            text-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--cozy-cream);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--cozy-sand);
+            font-style: italic;
         }
 
-        .terminal-panel {
-            background: var(--panel-glass);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-            box-shadow: inset 0 0 10px rgba(34, 197, 94, 0.05);
-            flex-shrink: 0;
-        }
-
-        .panel-header {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--neon-green);
-            margin-bottom: 8px;
-            border-bottom: 1px dashed var(--border-glow);
-            padding-bottom: 2px;
-        }
-
-        .grid-2x2 {
+        .main-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            grid-template-columns: 1fr;
+            gap: 30px;
         }
 
-        .data-node {
+        @media (min-width: 768px) {
+            .main-layout {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        .card {
+            background: rgba(30, 48, 41, 0.6);
+            border: 1px solid rgba(163, 177, 138, 0.15);
+            border-radius: 18px;
+            padding: 30px;
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--cozy-amber);
             display: flex;
-            flex-direction: column;
-        }
-
-        .data-label {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-
-        .data-value {
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .bar-frame {
-            margin-top: 2px;
-            background: rgba(255, 255, 255, 0.05);
-            height: 5px;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        .bar-fill {
-            height: 100%;
-            width: 100%;
-            background-color: var(--neon-green);
-            transition: width 0.3s linear;
-        }
-
-        #suit-bar { background-color: #3b82f6; }
-
-        .scavenged-card {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            gap: 10px;
         }
 
-        .flex-feed-panel {
-            background: var(--panel-glass);
-            border: 1px solid var(--border-glow);
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 8px;
-            flex-grow: 1;
+        .forest-walk-simulation {
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            gap: 20px;
         }
 
-        .feed-box {
-            width: 100%;
-            height: 100%;
-            overflow-y: auto;
-            font-size: 0.75rem;
-            color: #a7f3d0;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        .scene-text {
+            min-height: 120px;
+            background: rgba(18, 30, 25, 0.5);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--forest-leaf);
+            font-size: 1.2rem;
+            transition: opacity 0.3s ease;
         }
 
-        .feed-line {
-            padding-bottom: 2px;
-            border-bottom: 1px solid rgba(34, 197, 94, 0.03);
-            word-break: break-all;
-        }
-
-        .action-grid {
+        .actions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-bottom: 6px;
+            gap: 15px;
         }
 
         button {
-            background: rgba(34, 197, 94, 0.08);
-            color: var(--neon-green);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            padding: 8px 6px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.7rem;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        button:hover:not(:disabled), button:active:not(:disabled) {
-            background: rgba(34, 197, 94, 0.2);
-            color: var(--text-bright);
+        .btn-primary {
+            background-color: var(--forest-moss);
+            color: var(--cozy-cream);
+            border: 1px solid var(--forest-leaf);
         }
 
-        button:disabled {
-            opacity: 0.3;
-            border-color: rgba(255,255,255,0.1);
-            color: var(--text-dim);
+        .btn-primary:hover {
+            background-color: var(--forest-leaf);
+            transform: translateY(-2px);
         }
 
-        button.gate-trigger {
-            background: var(--neon-green);
-            color: var(--bg-dark);
-            font-weight: bold;
+        .btn-secondary {
+            background-color: rgba(163, 177, 138, 0.15);
+            color: var(--cozy-sand);
+            border: 1px solid rgba(163, 177, 138, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(163, 177, 138, 0.25);
+            color: var(--cozy-cream);
+            transform: translateY(-2px);
+        }
+
+        /* Sidebar Elements */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .stat-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(18, 30, 25, 0.4);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border-bottom: 2px solid rgba(163, 177, 138, 0.1);
+        }
+
+        .stat-label {
+            font-weight: 600;
+            color: var(--cozy-sand);
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            color: var(--cozy-amber);
+            font-weight: 700;
+        }
+
+        .ambient-audio {
+            text-align: center;
+        }
+
+        /* Audio toggle styling */
+        .audio-toggle {
             width: 100%;
-            padding: 10px;
-            margin-bottom: 8px;
-            flex-shrink: 0;
+            background: var(--cozy-warm-wood);
+            color: var(--cozy-cream);
+            border: 1px solid rgba(233, 196, 106, 0.2);
+        }
+        
+        .audio-toggle:hover {
+            background: #4a3022;
         }
 
-        .badge {
-            padding: 1px 4px;
-            font-size: 0.55rem;
-            float: right;
-            border: 1px solid;
+        /* Cozy Animations */
+        @keyframes fire-glow {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
         }
-        .badge-scouting { color: var(--neon-green); border-color: var(--neon-green); }
-        .badge-docked { color: var(--neon-warn); border-color: var(--neon-warn); }
 
-        .cloud-input {
-            width: 100%;
-            background: rgba(0,0,0,0.4);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            color: var(--text-bright);
-            font-family: inherit;
-            font-size: 0.65rem;
-            padding: 4px 6px;
-            margin-bottom: 4px;
-            border-radius: 4px;
+        .cozy-glow-effect {
+            animation: fire-glow 3s infinite ease-in-out;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>UTOPIA // OS</h1>
-        <div class="subtitle">Settlement Automation Engine</div>
-    </header>
+    <div class="canopy-glow"></div>
 
-    <!-- Telemetry Readout -->
-    <div class="terminal-panel">
-        <div class="panel-header">
-            Telemetry
-            <span id="status-badge" class="badge badge-scouting">SCOUTING</span>
-        </div>
-        <div class="grid-2x2">
-            <div class="data-node">
-                <span class="data-label">Suit Integrity</span>
-                <span class="data-value" id="suit-text">100%</span>
-                <div class="bar-frame"><div id="suit-bar" class="bar-fill"></div></div>
-            </div>
-            <div class="data-node">
-                <span class="data-label">Active Sector</span>
-                <span class="data-value" id="sector-text">Sector 1</span>
-            </div>
-            <div class="data-node">
-                <span class="data-label">Credits</span>
-                <span class="data-value" id="credits-text" style="color: #cbd5e1;">0</span>
-            </div>
-            <div class="data-node">
-                <span class="data-label">Insulation</span>
-                <span class="data-value" id="shield-text">Level 5</span>
-            </div>
-        </div>
-    </div>
+    <div class="container">
+        <header>
+            <h1>The Woodland Refuge</h1>
+            <p class="subtitle">A cozy space far away from the neon glare</p>
+        </header>
 
-    <!-- Dynamic Atmospheric Components Drop -->
-    <div class="terminal-panel">
-        <div class="panel-header">Atmospheric Scrubber</div>
-        <div class="scavenged-card">
-            <div style="max-width: 60%; overflow: hidden;">
-                <strong id="filter-name" style="font-size:0.75rem; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Standard Porous Core</strong>
-                <span class="data-label" id="filter-spec" style="font-size:0.55rem; display:block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Insulation Absorption: -2</span>
+        <div class="main-layout">
+            <!-- Left Side: Main Scene -->
+            <div class="card forest-walk-simulation">
+                <h2>
+                    <span>🌲</span> Current Path
+                </h2>
+                <div class="scene-text" id="scene-display">
+                    You stand at the edge of an old-growth forest. Sunlight filters softly through a thick canopy of emerald leaves. The ground beneath your boots is soft with moss, and the crisp scent of pine fills the air.
+                </div>
+                
+                <div class="actions-grid">
+                    <button class="btn-primary" onclick="walkDeeper()">Walk Deeper</button>
+                    <button class="btn-primary" onclick="restByStream()">Rest by Stream</button>
+                    <button class="btn-secondary" onclick="gatherKindling()">Gather Kindling</button>
+                    <button class="btn-secondary" onclick="lookAtCanopy()">Look Upward</button>
+                </div>
             </div>
-            <div id="scrap-controls" style="display:none; flex-shrink:0;">
-                <button onclick="salvageFilter()" style="padding: 3px 6px; font-size: 0.6rem;">Scrap</button>
-                <button onclick="installFilter()" style="padding: 3px 6px; font-size: 0.6rem; border-color:var(--neon-green);">Fit</button>
+
+            <!-- Right Side: Status & Ambiance -->
+            <div class="sidebar">
+                <div class="card">
+                    <h2><span>🍂</span> Atmosphere</h2>
+                    <div class="stat-box">
+                        <span class="stat-label">Coziness</span>
+                        <span class="stat-value" id="cozy-level">Warm & Safe</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Steps Taken</span>
+                        <span class="stat-value" id="step-count">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-label">Kindling</span>
+                        <span class="stat-value" id="wood-count">0 Bundles</span>
+                    </div>
+                </div>
+
+                <div class="card ambient-audio">
+                    <h2><span>🔥</span> Hearth</h2>
+                    <button class="audio-toggle cozy-glow-effect" onclick="toggleFire()">
+                        🔥 Stoke the Campfire
+                    </button>
+                </div>
             </div>
-            <div id="filter-alert" style="font-size:0.6rem; color: var(--neon-warn); display:none;">⚠️ Matrix Found</div>
-        </div>
-    </div>
-
-    <!-- Telemetry Log -->
-    <div class="flex-feed-panel">
-        <div class="panel-header">Planetary Feed Log</div>
-        <div class="feed-box" id="log-feed">
-            <div class="feed-line">[INIT] Scanner system running. Mapping Utopia nodes...</div>
-        </div>
-    </div>
-
-    <!-- Settlement Infrastructure Interventions -->
-    <div class="terminal-panel" style="margin-bottom:6px;">
-        <div class="action-grid">
-            <button id="btn-patch" onclick="injectNanites()">Nanites (-20c)</button>
-            <button id="btn-overdrive" onclick="engageOverdrive()">Overdrive (-50c)</button>
-        </div>
-        <div class="action-grid" style="grid-template-columns: 1fr; margin-bottom:0;">
-            <button id="btn-fabricate" onclick="upgradeSuit()">Upgrade Chassis (-60c)</button>
-        </div>
-    </div>
-
-    <!-- Sector Progression Checkpoint -->
-    <button id="btn-gate" class="gate-trigger" onclick="overrideSectorGate()">
-        Hack Sector Vault Gate 📡
-    </button>
-
-    <!-- Sync Interface Profile Matrix -->
-    <div class="terminal-panel" style="border-color: rgba(59, 130, 246, 0.2); margin-bottom: 0;">
-        <input type="text" id="cloud-string-input" class="cloud-input" placeholder="Paste Cloud Data Code Here...">
-        <div class="action-grid" style="margin-bottom:0;">
-            <button onclick="exportCloudSave()" style="color: #3b82f6; border-color: rgba(59, 130, 246, 0.3); padding: 5px;">Export Cloud</button>
-            <button onclick="importCloudSave()" style="color: #60a5fa; border-color: rgba(59, 130, 246, 0.3); padding: 5px;">Import Cloud</button>
         </div>
     </div>
 
     <script>
-        let osState = {
-            suitIntegrity: 100,
-            maxSuit: 100,
-            credits: 40,
-            baseInsulation: 5,
-            sector: 1,
-            status: "scouting",
-            currentFilterName: "Standard Porous Core",
-            filterRating: 2,
-            scavengedFilter: null, 
-            overdriveTime: 0
-        };
+        let steps = 0;
+        let wood = 0;
+        let fireStoked = false;
 
-        const sectors = [
-            { name: "Sulphur Barrens", minIns: 8, gateSystem: "Alpha Gate" },
-            { name: "Neon Tundra", minIns: 22, gateSystem: "Beta Gate" },
-            { name: "Corrosive Swamps", minIns: 45, gateSystem: "Gamma Gate" },
-            { name: "Obsidian Core", minIns: 75, gateSystem: "Prime Central" }
+        const scenes = [
+            "The path winds deeper into a grove of ancient ferns. A gentle breeze rustles the cedar branches overhead.",
+            "You arrive at a small clearing where a field of wild clover grows. A family of deer glances at you before returning to forage.",
+            "The forest floor grows soft and damp. Tiny, glowing mushrooms sprout from the base of a fallen birch trunk.",
+            "Golden hour beams cut through the pine needles, painting everything in shades of rich amber and copper."
         ];
 
-        const anomalies = ["Acid Squall", "EMP Pulse", "Bio-Leak", "Spore Burst", "Thermal Flare"];
-        const buildPrefix = ["Cryo", "Nano", "Graphene", "Mag", "Prism", "Dense"];
-        const componentTypes = ["Condenser", "Scrubber", "Sieve", "Barrier"];
-
-        function autoSaveLocal() {
-            localStorage.setItem("utopia_save_profile", JSON.stringify(osState));
+        function walkDeeper() {
+            steps++;
+            document.getElementById('step-count').innerText = steps;
+            
+            // Cycle through scenes
+            const nextScene = scenes[(steps - 1) % scenes.length];
+            document.getElementById('scene-display').innerText = nextScene;
+            document.getElementById('cozy-level').innerText = "Adventurous";
         }
 
-        function autoLoadLocal() {
-            const savedProfile = localStorage.getItem("utopia_save_profile");
-            if (savedProfile) {
-                try {
-                    const parsed = JSON.parse(savedProfile);
-                    if (parsed && typeof parsed.sector === 'number') {
-                        osState = parsed;
-                        postLog("[SYSTEM] Memory profile loaded.");
-                    }
-                } catch(e) {
-                    postLog("[SYSTEM] Profile corrupted.");
-                }
-            }
+        function restByStream() {
+            document.getElementById('scene-display').innerText = "You find a mossy rock beside a crystal-clear brook. The soothing sound of rushing water washes over you, making you feel entirely at peace.";
+            document.getElementById('cozy-level').innerText = "Deeply Relaxed";
         }
 
-        function exportCloudSave() {
-            autoSaveLocal();
-            const rawString = btoa(JSON.stringify(osState));
-            const inputField = document.getElementById("cloud-string-input");
-            inputField.value = rawString;
-            inputField.select();
-            document.execCommand("copy");
-            postLog("[SYSTEM] Code copied to clipboard.");
-            alert("Save Code Copied! Paste into Google Docs or Apple Notes to back it up.");
+        function gatherKindling() {
+            wood++;
+            document.getElementById('wood-count').innerText = wood + " Bundle" + (wood === 1 ? "" : "s");
+            document.getElementById('scene-display').innerText = "You wander just off the path to gather dry pine twigs and strips of fallen birch bark. Your pack feels a little heavier and warmer.";
         }
 
-        function importCloudSave() {
-            const inputField = document.getElementById("cloud-string-input").value.trim();
-            if (!inputField) return;
-            try {
-                const baseParsed = JSON.parse(atob(inputField));
-                if (baseParsed && typeof baseParsed.sector === 'number') {
-                    osState = baseParsed;
-                    autoSaveLocal();
-                    postLog("[SYSTEM] Cloud profile loaded.");
-                    refreshInterface();
-                }
-            } catch(e) {
-                alert("Invalid save code syntax.");
-            }
+        function lookAtCanopy() {
+            document.getElementById('scene-display').innerText = "Leaning back against a massive oak, you watch the clouds slowly slide past the intricate green lace of the treetops. The cyber world feels lightyears away.";
         }
 
-        function coreLoop() {
-            if (osState.overdriveTime > 0) {
-                osState.overdriveTime--;
-            }
-
-            if (osState.status === "docked") {
-                osState.suitIntegrity += 20;
-                if (osState.suitIntegrity >= osState.maxSuit) {
-                    osState.suitIntegrity = osState.maxSuit;
-                    osState.status = "scouting";
-                    postLog("[SYSTEM] Repaired. Rover redeployed.");
-                }
-                autoSaveLocal();
-                refreshInterface();
-                return;
-            }
-
-            let extractedCredits = Math.floor(Math.random() * 4) + 3 + osState.sector;
-            osState.credits += extractedCredits;
-
-            if (Math.random() < 0.10) {
-                let planetHazard = osState.sector * 14 + Math.floor(Math.random() * 8);
-                let totalProtection = osState.baseInsulation + osState.filterRating;
-                let absoluteDamage = Math.max(5, planetHazard - Math.floor(totalProtection * 0.9));
-                osState.suitIntegrity -= absoluteDamage;
-
-                let immediateAnomaly = anomalies[Math.floor(Math.random() * anomalies.length)];
-                postLog(`[WARN] ${immediateAnomaly}: Hull lost ${absoluteDamage}%.`);
-
-                if (Math.random() < 0.60 && !osState.scavengedFilter) {
-                    let computedRating = (osState.sector * 6) + Math.floor(Math.random() * 5);
-                    let computedName = `${buildPrefix[Math.floor(Math.random() * buildPrefix.length)]} ${componentTypes[Math.floor(Math.random() * componentTypes.length)]}`;
-                    osState.scavengedFilter = { name: computedName, power: computedRating };
-                    postLog(`[DATA] Salvaged: ${computedName} (-${computedRating} Tox).`);
+        function toggleFire() {
+            fireStoked = !fireStoked;
+            const btn = document.querySelector('.audio-toggle');
+            if (fireStoked) {
+                btn.innerHTML = "✨ Campfire is Roaring";
+                btn.style.backgroundColor = "#e9c46a";
+                btn.style.color = "#3d261a";
+                document.getElementById('cozy-level').innerText = "Perfectly Cozy";
+                if(wood > 0) {
+                    wood--;
+                    document.getElementById('wood-count').innerText = wood + " Bundle" + (wood === 1 ? "" : "s");
                 }
             } else {
-                let coordX = Math.floor(Math.random() * 89) + 10;
-                let coordY = Math.floor(Math.random() * 89) + 10;
-                postLog(`[SCAN] Telemetry block [X:${coordX}/Y:${coordY}] (+${extractedCredits}c).`);
-            }
-
-            if (osState.suitIntegrity <= 0) {
-                osState.suitIntegrity = 0;
-                osState.status = "docked";
-                postLog("[CRITICAL] Suit breach! Auto-docking for repairs.");
-            }
-
-            autoSaveLocal();
-            refreshInterface();
-        }
-
-        function installFilter() {
-            if (!osState.scavengedFilter) return;
-            osState.currentFilterName = osState.scavengedFilter.name;
-            osState.filterRating = osState.scavengedFilter.power;
-            osState.scavengedFilter = null;
-            autoSaveLocal();
-            refreshInterface();
-        }
-
-        function salvageFilter() {
-            if (!osState.scavengedFilter) return;
-            osState.credits += 30;
-            osState.scavengedFilter = null;
-            autoSaveLocal();
-            refreshInterface();
-        }
-
-        function injectNanites() {
-            if (osState.credits >= 20) {
-                osState.credits -= 20;
-                osState.suitIntegrity = Math.min(osState.maxSuit, osState.suitIntegrity + 35);
-                postLog("[FIX] Nanites sealed active leaks.");
-                autoSaveLocal();
-                refreshInterface();
+                btn.innerHTML = "🔥 Stoke the Campfire";
+                btn.style.backgroundColor = "var(--cozy-warm-wood)";
+                btn.style.color = "var(--cozy-cream)";
+                document.getElementById('cozy-level').innerText = "Warm & Safe";
             }
         }
-
-        function engageOverdrive() {
-            if (osState.credits >= 50) {
-                osState.credits -= 50;
-                osState.overdriveTime += 20; 
-                postLog("[SPEED] Overdrive active. Travel velocity doubled.");
-                autoSaveLocal();
-                refreshInterface();
-            }
-        }
-
-        function upgradeSuit() {
-            let cost = 45 + (osState.baseInsulation * 3);
-            if (osState.credits >= cost) {
-                osState.credits -= cost;
-                osState.baseInsulation += 5;
-                osState.maxSuit += 15;
-                osState.suitIntegrity = osState.maxSuit;
-                postLog(`[CHASSIS] Frame insulation upgraded.`);
-                autoSaveLocal();
-                refreshInterface();
-            }
-        }
-
-        function overrideSectorGate() {
-            let contextSector = sectors[osState.sector - 1];
-            let actualInsulation = osState.baseInsulation + osState.filterRating;
-
-            if (actualInsulation >= contextSector.minIns) {
-                postLog(`[SUCCESS] Vault bypassed. Moving maps.`);
-                if (osState.sector < sectors.length) osState.sector++;
-            } else {
-                let damage = Math.floor(osState.maxSuit * 0.5);
-                osState.suitIntegrity = Math.max(0, osState.suitIntegrity - damage);
-                postLog(`[FAIL] Firewall backlash fried chassis lines.`);
-                if (osState.suitIntegrity === 0) osState.status = "docked";
-            }
-            autoSaveLocal();
-            refreshInterface();
-        }
-
-        function postLog(txt) {
-            const viewport = document.getElementById("log-feed");
-            const element = document.createElement("div");
-            element.className = "feed-line";
-            element.innerText = txt;
-            viewport.appendChild(element);
-            viewport.scrollTop = viewport.scrollHeight;
-            
-            if(viewport.childNodes.length > 8) {
-                viewport.removeChild(viewport.firstChild);
-            }
-        }
-
-        function refreshInterface() {
-            document.getElementById("suit-text").innerText = `${osState.suitIntegrity}% / ${osState.maxSuit}%`;
-            document.getElementById("credits-text").innerText = osState.credits;
-            document.getElementById("shield-text").innerText = `Lv.${osState.baseInsulation}`;
-            
-            let curData = sectors[osState.sector - 1];
-            document.getElementById("sector-text").innerText = curData.name;
-            document.getElementById("suit-bar").style.width = `${(osState.suitIntegrity / osState.maxSuit) * 100}%`;
-
-            if (osState.scavengedFilter) {
-                document.getElementById("filter-alert").style.display = "block";
-                document.getElementById("scrap-controls").style.display = "block";
-                document.getElementById("filter-name").innerHTML = `<span style='color:var(--text-dim)'>New:</span> ${osState.scavengedFilter.name}`;
-            } else {
-                document.getElementById("filter-alert").style.display = "none";
-                document.getElementById("scrap-controls").style.display = "none";
-                document.getElementById("filter-name").innerText = osState.currentFilterName;
-                document.getElementById("filter-spec").innerText = `Insulation Absorption: -${osState.filterRating}`;
-            }
-
-            const frameBadge = document.getElementById("status-badge");
-            frameBadge.innerText = osState.status.toUpperCase();
-            frameBadge.className = osState.status === "docked" ? "badge badge-docked" : "badge badge-scouting";
-
-            document.getElementById("btn-patch").disabled = osState.credits < 20;
-            document.getElementById("btn-overdrive").disabled = osState.credits < 50;
-            
-            let scalingCost = 45 + (osState.baseInsulation * 3);
-            document.getElementById("btn-fabricate").innerText = `Upgrade Chassis (-${scalingCost}c)`;
-            document.getElementById("btn-fabricate").disabled = osState.credits < scalingCost;
-            
-            document.getElementById("btn-gate").innerText = `Hack ${curData.gateSystem} (Req. ~${curData.minIns} Ins.)`;
-        }
-
-        function clockRuntime() {
-            coreLoop();
-            let baseInterval = osState.overdriveTime > 0 ? 2500 : 5000;
-            setTimeout(clockRuntime, baseInterval);
-        }
-
-        autoLoadLocal();
-        refreshInterface();
-        setTimeout(clockRuntime, 3000);
     </script>
 </body>
 </html>
