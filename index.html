@@ -2,414 +2,527 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cozy Forest Sanctuary</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <title>Forest Animation</title>
+
     <style>
-        :root {
-            --bg-cream: #F4F1EA;
-            --earth-brown: #4A3E3D;
-            --moss-green: #2C4A3E;
-            --soft-amber: #D9A05B;
-            --warm-orange: #E57C48;
-            --leaf-light: #8FA89B;
-            --card-bg: #FAF8F5;
-            --transition-speed: 0.5s;
-        }
-
-        .twilight {
-            --bg-cream: #1C2321;
-            --earth-brown: #EAE3D2;
-            --moss-green: #7D9D86;
-            --soft-amber: #F2C14E;
-            --warm-orange: #EE6C4D;
-            --leaf-light: #3E504A;
-            --card-bg: #252E2B;
-        }
-
         * {
             box-sizing: border-box;
+        }
+
+        html,
+        body {
             margin: 0;
-            padding: 0;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0b0f17;
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--bg-cream);
-            color: var(--earth-brown);
-            height: 100dvh;
-            overflow: hidden;
             display: flex;
-            flex-direction: column;
-            transition: background-color var(--transition-speed), color var(--transition-speed);
-        }
-
-        /* Ambient Header */
-        header {
-            padding: 20px 24px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .status-title h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .status-title p {
-            font-size: 0.85rem;
-            opacity: 0.8;
-        }
-
-        .toggle-btn {
-            background: var(--card-bg);
-            border: 2px solid var(--earth-brown);
-            padding: 8px 14px;
-            border-radius: 20px;
-            color: var(--earth-brown);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 0 var(--earth-brown);
-            transform: translateY(-2px);
-            transition: all 0.1s ease;
-        }
-
-        .toggle-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 0px 0 var(--earth-brown);
-        }
-
-        /* Core Metrics Card */
-        .metrics-container {
-            padding: 0 24px;
-            margin-bottom: 16px;
-        }
-
-        .metrics-card {
-            background: var(--card-bg);
-            border: 2px solid var(--earth-brown);
-            border-radius: 24px;
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-around;
-            box-shadow: 0 6px 0 var(--earth-brown);
-            transition: background-color var(--transition-speed);
-        }
-
-        .metric-item {
-            text-align: center;
-        }
-
-        .metric-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.8;
-            margin-bottom: 4px;
-        }
-
-        .metric-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--moss-green);
-            transition: color var(--transition-speed);
-        }
-
-        /* Main App View Window */
-        .view-container {
-            flex: 1;
-            position: relative;
-            overflow: hidden;
-            margin: 0 24px 24px;
-        }
-
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transform: scale(0.96);
-            pointer-events: none;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 20px;
-            text-align: center;
         }
 
-        .screen.active {
-            opacity: 1;
-            transform: scale(1);
-            pointer-events: auto;
+        .stage {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            background: #0b0f17;
+            border: 1px dashed #00ff6622;
+            box-shadow: 0 0 15px rgba(0, 255, 102, 0.05);
         }
 
-        /* Screen Content */
-        .screen h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            margin-bottom: 4px;
+        /* =========================
+           PLAYER
+           ========================= */
+
+        .player {
+            position: absolute;
+            left: 40px;
+            top: 55px;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #00bcff;
+            filter: drop-shadow(0 0 6px #00bcff);
+            z-index: 50;
+            animation: creepForward 0.8s ease-in-out infinite alternate;
         }
 
-        .screen p {
-            font-size: 1.05rem;
-            line-height: 1.5;
-            max-width: 280px;
-            opacity: 0.9;
+        @keyframes creepForward {
+            from {
+                transform: translateX(0) scale(0.95);
+            }
+
+            to {
+                transform: translateX(10px) scale(1.05);
+            }
         }
 
-        .illustration {
-            font-size: 5rem;
-            margin-bottom: 10px;
-            animation: float 4s ease-in-out infinite;
+        /* =========================
+           TREE PARTS
+           ========================= */
+
+        .leaf-top {
+            position: absolute;
+            left: 10px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #00ff66;
+            filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        .leaf-bottom {
+            position: absolute;
+            left: 5px;
+            top: 15px;
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #00ff66;
+            filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        /* Action Buttons */
-        .action-btn {
-            background: var(--moss-green);
-            color: var(--bg-cream);
-            border: 2px solid var(--earth-brown);
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 6px 0 var(--earth-brown);
-            transform: translateY(-4px);
-            transition: all 0.1s ease, background-color var(--transition-speed), color var(--transition-speed);
-            margin-top: 10px;
-            min-width: 200px;
+        .trunk {
+            position: absolute;
+            left: 16px;
+            top: 40px;
+            width: 8px;
+            height: 25px;
+            border: 2px solid #00ff66;
+            filter: drop-shadow(0 0 4px #00ff66);
         }
 
-        .action-btn:active {
-            transform: translateY(2px);
-            box-shadow: 0 0px 0 var(--earth-brown);
+        /* =========================
+           BACKGROUND FOREST
+           ========================= */
+
+        .background-forest {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        /* Bottom Thumb Nav Bar */
-        nav {
-            background: var(--card-bg);
-            border-top: 2px solid var(--earth-brown);
-            padding: 12px 24px calc(12px + env(safe-area-inset-bottom));
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            transition: background-color var(--transition-speed);
+        .background-tree {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 32px;
+            height: 75px;
+            opacity: 0.32;
+            transform: translateX(0);
+            animation: backgroundMove 9s linear infinite;
         }
 
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: none;
-            border: none;
-            color: var(--earth-brown);
-            opacity: 0.5;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 0.85rem;
-            font-weight: 600;
-            gap: 4px;
-            transition: opacity 0.2s, transform 0.2s;
+        .background-tree .leaf-top {
+            left: 8px;
+            border-left-width: 8px;
+            border-right-width: 8px;
+            border-bottom: 17px solid #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
         }
 
-        .nav-item.active {
-            opacity: 1;
-            transform: scale(1.08);
-            color: var(--moss-green);
+        .background-tree .leaf-bottom {
+            left: 3px;
+            top: 14px;
+            border-left-width: 13px;
+            border-right-width: 13px;
+            border-bottom-width: 22px;
+            border-bottom-color: #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
         }
 
-        .nav-icon {
-            font-size: 1.6rem;
+        .background-tree .trunk {
+            left: 13px;
+            top: 36px;
+            width: 7px;
+            height: 23px;
+            border-color: #00b84f;
+            filter: drop-shadow(0 0 2px #00b84f);
+        }
+
+        @keyframes backgroundMove {
+            from {
+                transform: translateX(110vw);
+            }
+
+            to {
+                transform: translateX(-60px);
+            }
+        }
+
+        /* All background trees stay on the SAME Y position */
+
+        .background-tree:nth-child(1) {
+            animation-delay: -0.2s;
+            transform: scale(0.75);
+        }
+
+        .background-tree:nth-child(2) {
+            animation-delay: -1.0s;
+            transform: scale(0.85);
+        }
+
+        .background-tree:nth-child(3) {
+            animation-delay: -1.8s;
+            transform: scale(0.7);
+        }
+
+        .background-tree:nth-child(4) {
+            animation-delay: -2.6s;
+            transform: scale(0.9);
+        }
+
+        .background-tree:nth-child(5) {
+            animation-delay: -3.4s;
+            transform: scale(0.75);
+        }
+
+        .background-tree:nth-child(6) {
+            animation-delay: -4.2s;
+            transform: scale(0.85);
+        }
+
+        .background-tree:nth-child(7) {
+            animation-delay: -5.0s;
+            transform: scale(0.7);
+        }
+
+        .background-tree:nth-child(8) {
+            animation-delay: -5.8s;
+            transform: scale(0.9);
+        }
+
+        .background-tree:nth-child(9) {
+            animation-delay: -6.6s;
+            transform: scale(0.75);
+        }
+
+        .background-tree:nth-child(10) {
+            animation-delay: -7.4s;
+            transform: scale(0.85);
+        }
+
+        .background-tree:nth-child(11) {
+            animation-delay: -8.2s;
+            transform: scale(0.7);
+        }
+
+        .background-tree:nth-child(12) {
+            animation-delay: -9.0s;
+            transform: scale(0.9);
+        }
+
+        /* =========================
+           EXTRA BACKGROUND TREES
+           ========================= */
+
+        .far-tree {
+            position: absolute;
+            top: 12px;
+            width: 24px;
+            height: 65px;
+            opacity: 0.18;
+            z-index: 1;
+            animation: farTreeMove 12s linear infinite;
+        }
+
+        .far-tree .leaf-top {
+            left: 7px;
+            border-left-width: 6px;
+            border-right-width: 6px;
+            border-bottom-width: 14px;
+            border-bottom-color: #008f42;
+            filter: none;
+        }
+
+        .far-tree .leaf-bottom {
+            left: 2px;
+            top: 12px;
+            border-left-width: 10px;
+            border-right-width: 10px;
+            border-bottom-width: 18px;
+            border-bottom-color: #008f42;
+            filter: none;
+        }
+
+        .far-tree .trunk {
+            left: 10px;
+            top: 32px;
+            width: 5px;
+            height: 20px;
+            border-color: #008f42;
+            filter: none;
+        }
+
+        @keyframes farTreeMove {
+            from {
+                transform: translateX(110vw);
+            }
+
+            to {
+                transform: translateX(-50px);
+            }
+        }
+
+        .far-tree:nth-child(1) {
+            animation-delay: -1s;
+        }
+
+        .far-tree:nth-child(2) {
+            animation-delay: -3s;
+        }
+
+        .far-tree:nth-child(3) {
+            animation-delay: -5s;
+        }
+
+        .far-tree:nth-child(4) {
+            animation-delay: -7s;
+        }
+
+        .far-tree:nth-child(5) {
+            animation-delay: -9s;
+        }
+
+        .far-tree:nth-child(6) {
+            animation-delay: -11s;
+        }
+
+        /* =========================
+           FOREGROUND FOREST
+           ========================= */
+
+        .foreground-tree {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 40px;
+            height: 80px;
+            z-index: 20;
+            animation: foregroundMove 5s linear infinite;
+            pointer-events: none;
+        }
+
+        .foreground-tree .leaf-top {
+            filter: drop-shadow(0 0 7px #00ff66);
+        }
+
+        .foreground-tree .leaf-bottom {
+            filter: drop-shadow(0 0 8px #00ff66);
+        }
+
+        .foreground-tree .trunk {
+            filter: drop-shadow(0 0 7px #00ff66);
+        }
+
+        @keyframes foregroundMove {
+            from {
+                transform: translateX(110vw);
+            }
+
+            to {
+                transform: translateX(-60px);
+            }
+        }
+
+        .foreground-tree-1 {
+            animation-delay: -0.8s;
+        }
+
+        .foreground-tree-2 {
+            animation-delay: -2.5s;
+        }
+
+        .foreground-tree-3 {
+            animation-delay: -4.2s;
+        }
+
+        .foreground-tree-4 {
+            animation-delay: -1.7s;
+        }
+
+        /* =========================
+           GROUND LINE
+           ========================= */
+
+        .axis-line {
+            position: absolute;
+            top: 63px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #00ff6611,
+                    #00ff6611 4px,
+                    transparent 4px,
+                    transparent 8px
+                );
+            z-index: 25;
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <div class="status-title">
-            <h1 id="time-title">🌲 Afternoon Woods</h1>
-            <p id="time-subtitle">Peaceful & quiet</p>
-        </div>
-        <button class="toggle-btn" onclick="toggleTwilight()">
-            <span id="theme-icon">🌙</span> <span id="theme-text">Twilight</span>
-        </button>
-    </header>
+    <div class="stage">
 
-    <div class="metrics-container">
-        <div class="metrics-card">
-            <div class="metric-item">
-                <div class="metric-label">Warmth</div>
-                <div class="metric-value" id="warmth-val">Cozy (65%)</div>
+        <!-- Far background trees -->
+        <div class="background-forest">
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
             </div>
-            <div class="metric-item">
-                <div class="metric-label">Steps Taken</div>
-                <div class="metric-value" id="steps-val">1,240</div>
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
             </div>
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="far-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <!-- Main background trees -->
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
+            <div class="background-tree">
+                <div class="leaf-top"></div>
+                <div class="leaf-bottom"></div>
+                <div class="trunk"></div>
+            </div>
+
         </div>
+
+        <!-- Ground line -->
+        <div class="axis-line"></div>
+
+        <!-- Player -->
+        <div class="player"></div>
+
+        <!-- Foreground trees -->
+
+        <div class="foreground-tree foreground-tree-1">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="foreground-tree foreground-tree-2">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="foreground-tree foreground-tree-3">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
+        <div class="foreground-tree foreground-tree-4">
+            <div class="leaf-top"></div>
+            <div class="leaf-bottom"></div>
+            <div class="trunk"></div>
+        </div>
+
     </div>
 
-    <div class="view-container" id="swipe-zone">
-        <!-- Screen 1: Walk -->
-        <div class="screen active" id="screen-walk">
-            <div class="illustration">🌿</div>
-            <h2>Wander Deeper</h2>
-            <p>Listen to the crunch of dried leaves under your boots.</p>
-            <button class="action-btn" onclick="takeStep()">Take a Step</button>
-        </div>
-
-        <!-- Screen 2: Campfire -->
-        <div class="screen" id="screen-fire">
-            <div class="illustration" id="fire-emoji">🔥</div>
-            <h2>The Campfire</h2>
-            <p>Stoke the logs to keep the gentle twilight chill at bay.</p>
-            <button class="action-btn" onclick="stokeFire()">Add Kindling</button>
-        </div>
-
-        <!-- Screen 3: Journal -->
-        <div class="screen" id="screen-journal">
-            <div class="illustration">📔</div>
-            <h2>Forest Journal</h2>
-            <p>"Saw a deer grazing near the mossy clearing today."</p>
-            <button class="action-btn" onclick="readLog()">Write Reflection</button>
-        </div>
-    </div>
-
-    <nav>
-        <button class="nav-item active" onclick="switchScreen('walk', this)">
-            <span class="nav-icon">🌿</span>
-            <span>Walk</span>
-        </button>
-        <button class="nav-item" onclick="switchScreen('fire', this)">
-            <span class="nav-icon">🔥</span>
-            <span>Campfire</span>
-        </button>
-        <button class="nav-item" onclick="switchScreen('journal', this)">
-            <span class="nav-icon">📔</span>
-            <span>Journal</span>
-        </button>
-    </nav>
-
-    <script>
-        let warmth = 65;
-        let steps = 1240;
-        let currentScreenIndex = 0;
-        const screens = ['walk', 'fire', 'journal'];
-
-        function toggleTwilight() {
-            const isTwilight = document.body.classList.toggle('twilight');
-            const title = document.getElementById('time-title');
-            const subtitle = document.getElementById('time-subtitle');
-            const themeIcon = document.getElementById('theme-icon');
-            const themeText = document.getElementById('theme-text');
-
-            if (isTwilight) {
-                title.innerText = "✨ Midnight Canopy";
-                subtitle.innerText = "Stars peek through branches";
-                themeIcon.innerText = "☀️";
-                themeText.innerText = "Daylight";
-            } else {
-                title.innerText = "🌲 Afternoon Woods";
-                subtitle.innerText = "Peaceful & quiet";
-                themeIcon.innerText = "🌙";
-                themeText.innerText = "Twilight";
-            }
-        }
-
-        function switchScreen(screenId, navElement) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            document.getElementById(`screen-${screenId}`).classList.add('active');
-            navElement.classList.add('active');
-            
-            currentScreenIndex = screens.indexOf(screenId);
-        }
-
-        function takeStep() {
-            steps += Math.floor(Math.random() * 15) + 5;
-            document.getElementById('steps-val').innerText = steps.toLocaleString();
-            warmth = Math.max(20, warmth - 2);
-            updateWarmthDisplay();
-        }
-
-        function stokeFire() {
-            warmth = Math.min(100, warmth + 12);
-            updateWarmthDisplay();
-            const fire = document.getElementById('fire-emoji');
-            fire.style.transform = 'scale(1.3)';
-            setTimeout(() => fire.style.transform = 'none', 300);
-        }
-
-        function updateWarmthDisplay() {
-            let label = "Chilly";
-            if (warmth > 75) label = "Roasting";
-            else if (warmth > 50) label = "Cozy";
-            else if (warmth > 30) label = "Mild";
-            document.getElementById('warmth-val').innerText = `${label} (${warmth}%)`;
-        }
-
-        function readLog() {
-            const thoughts = [
-                "Discovered a soft patch of wild clover.",
-                "The smell of pine needles is crisp today.",
-                "Heard an owl hoot softly in the distance.",
-                "The stream water is freezing but clear."
-            ];
-            alert(thoughts[Math.floor(Math.random() * thoughts.length)]);
-        }
-
-        // Simple Mobile Swipe Gestures
-        let touchstartX = 0;
-        let touchendX = 0;
-        const zone = document.getElementById('swipe-zone');
-
-        zone.addEventListener('touchstart', e => {
-            touchstartX = e.changedTouches[0].screenX;
-        });
-
-        zone.addEventListener('touchend', e => {
-            touchendX = e.changedTouches[0].screenX;
-            handleGesture();
-        });
-
-        function handleGesture() {
-            if (touchstartX - touchendX > 60) {
-                // Swipe Left -> Next Screen
-                if (currentScreenIndex < screens.length - 1) {
-                    const nextId = screens[currentScreenIndex + 1];
-                    const navBtn = document.querySelectorAll('.nav-item')[currentScreenIndex + 1];
-                    switchScreen(nextId, navBtn);
-                }
-            }
-            if (touchendX - touchstartX > 60) {
-                // Swipe Right -> Prev Screen
-                if (currentScreenIndex > 0) {
-                    const prevId = screens[currentScreenIndex - 1];
-                    const navBtn = document.querySelectorAll('.nav-item')[currentScreenIndex - 1];
-                    switchScreen(prevId, navBtn);
-                }
-            }
-        }
-    </script>
 </body>
 </html>
