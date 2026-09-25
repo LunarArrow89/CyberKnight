@@ -1,9 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Whispering Woods</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="game">
+
+<header>
+
+<h1>
+Whispering Woods
+</h1>
+
+<p class="subtitle">
+Walk through the darkness and find your way out.
+</p>
+
+</header>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-label">
+HP
+</div>
+
+<div class="stat-value" id="hpText">
+40 / 40
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Attack
+</div>
+
+<div class="stat-value" id="attackText">
+8
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Level
+</div>
+
+<div class="stat-value" id="levelText">
+1
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Gold
+</div>
+
+<div class="stat-value" id="goldText">
+0
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Status
+</div>
+
+<div class="stat-value" id="statusText">
+Walking
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="game-box">
+
+
+<div class="section">
+
+<div class="section-title">
+🌲 Forest Journey
+</div>
+
+
+<div class="bar">
+
+<div class="bar-fill" id="forestBar"></div>
+
+</div>
+
+
+<div class="bar-text" id="forestText">
+0:00 / 5:00
+</div>
+
+
+<iframe
+src="animation1.html"
+class="forest-animation">
+</iframe>
+
+
+</div>
+
+
+
+
+<div class="section">
+
+<div class="section-title">
+❤️ Health & Experience
+</div>
+
+
+<div class="health-xp">
+
+
+<div>
+
+<div class="small-title">
+Health
+</div>
+
+<div class="bar">
+
+<div class="bar-fill" id="hpBar"></div>
+
+</div>
+
+<div class="bar-text" id="hpBarText">
+40 / 40 HP
+</div>
+
+</div>
+
+
+
+<div>
+
+<div class="small-title">
+Experience
+</div>
+
+<div class="bar">
+
+<div class="bar-fill" id="xpBar"></div>
+
+</div>
+
+<div class="bar-text" id="xpBarText">
+0 / 50 XP
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<div class="section-title">
+💤 Rest
+</div>
+
+
+<div class="bar">
+
+<div class="bar-fill" id="restBar"></div>
+
+</div>
+
+
+<div class="bar-text" id="restText">
+Rest when you need to recover.
+</div>
+
+
+<div class="buttons">
+
+<button id="restButton">
+Rest
+</button>
+
+
+<button id="leaveButton" disabled>
+Leave
+</button>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<div class="section-title">
+📖 Adventure Log
+</div>
+
+
+<div class="log" id="log">
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="section">
+
+<div class="victory" id="victory">
+
+You found your way out!
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
 <script src="player.js"></script>
-
 <script src="battle.js"></script>
-
 <script src="paths.js"></script>
-
 <script src="save.js"></script>
-
 <script src="game.js"></script>
+
+
+</body>
+
+</html>
