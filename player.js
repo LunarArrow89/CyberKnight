@@ -80,26 +80,93 @@ function updateRest() {
     document.getElementById("statusText").textContent = "Resting";
 }
 
+let restTimer = null;
+let restStartTime = 0;
+let restDuration = 0;
+
 function startRest(force = false) {
+    if (resting) return;
+
+    const missingHp = Math.max(0, player.maxHp - player.hp);
+
+    if (missingHp <= 0) {
+        addLog("You don't need to rest.");
+        return;
+    }
+
     resting = true;
-    player.hp = player.maxHp;
 
-    document.getElementById("statusText").textContent = "Resting";
-    document.getElementById("restText").textContent = "You are resting...";
-    document.getElementById("restButton").disabled = true;
+    // Rest time = HP missing × 0.5 minutes.
+    restDuration = missingHp * 0.5 * 60 * 1000;
+    restStartTime = Date.now();
 
-    addLog(`You are resting.`);
+    const restButton = document.getElementById("restButton");
+    const leaveButton = document.getElementById("leaveButton");
 
-    updateHP();
+    document.getElementById("statusText").textContent =
+        force ? "Forced Rest" : "Resting";
 
-    setTimeout(() => {
-        resting = false;
-        document.getElementById("statusText").textContent = "Walking";
-        document.getElementById("restText").textContent = "Rest when you need to recover.";
-        document.getElementById("restButton").disabled = false;
+    document.getElementById("restText").textContent =
+        force ? "You must rest before you can continue." : "You are resting...";
 
-        addLog(`You feel refreshed!`);
-    }, 3000);
+    document.getElementById("restBar").style.width = "0%";
+
+    if (restButton) restButton.disabled = true;
+    if (leaveButton) leaveButton.disabled = force;
+
+    addLog(force ? "You must rest." : "You are resting.");
+
+    clearInterval(restTimer);
+
+    restTimer = setInterval(() => {
+        const elapsed = Date.now() - restStartTime;
+        const progress = Math.min(1, elapsed / restDuration);
+
+        document.getElementById("restBar").style.width =
+            `${progress * 100}%`;
+
+        if (progress >= 1) {
+            clearInterval(restTimer);
+            restTimer = null;
+
+            player.hp = player.maxHp;
+            resting = false;
+
+            document.getElementById("statusText").textContent = "Walking";
+            document.getElementById("restText").textContent =
+                "Rest when you need to recover.";
+
+            if (restButton) restButton.disabled = false;
+            if (leaveButton) leaveButton.disabled = true;
+
+            updateHP();
+            addLog("You feel refreshed!");
+            saveGame();
+        }
+    }, 1000);
+}
+
+function leaveRest() {
+    if (!resting) return;
+
+    const leaveButton = document.getElementById("leaveButton");
+    if (!leaveButton || leaveButton.disabled) return;
+
+    clearInterval(restTimer);
+    restTimer = null;
+
+    resting = false;
+
+    document.getElementById("statusText").textContent = "Walking";
+    document.getElementById("restText").textContent =
+        "Rest when you need to recover.";
+    document.getElementById("restBar").style.width = "0%";
+
+    document.getElementById("restButton").disabled = false;
+    leaveButton.disabled = true;
+
+    addLog("You stopped resting.");
+    saveGame();
 }
 
 function resetGame() {
@@ -183,6 +250,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const restButton = document.getElementById("restButton");
     if (restButton) {
-        restButton.addEventListener("click", startRest);
+        restButton.addEventListener("click", () => startRest(false));
+    }
+
+    const leaveButton = document.getElementById("leaveButton");
+    if (leaveButton) {
+        leaveButton.addEventListener("click", leaveRest);
     }
 });
