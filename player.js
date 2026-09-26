@@ -128,6 +128,15 @@ function resetGame() {
         paths.cave.completed = false;
         
         document.getElementById("log").innerHTML = "";
+        document.getElementById("villageLog").innerHTML = "";
+
+        village.unlocked = false;
+        village.resources.wood = 0;
+        village.resources.stone = 0;
+        village.resources.food = 0;
+        village.buildings.campfire = false;
+        village.buildings.shelter = false;
+        village.buildings.workshop = false;
 
         document.getElementById("forestGame").classList.remove("hidden");
         document.getElementById("forestScreen").classList.remove("hidden");
@@ -143,7 +152,12 @@ function resetGame() {
         document.getElementById("xpBar").style.width = "0%";
         document.getElementById("xpBarText").textContent = "0 / 50 XP";
         document.getElementById("forestText").textContent = "0:00 / 5:00";
-        
+
+        document.getElementById("restBar").style.width = "0%";
+        document.getElementById("restText").textContent = "Rest when you need to recover.";
+        document.getElementById("restButton").disabled = false;
+        document.getElementById("leaveButton").disabled = true;
+
         updateForest();
         updateRest();
         updateVillageUI();
