@@ -1355,3 +1355,82 @@ button:disabled {
         font-size: 38px;
     }
 }
+
+/* VILLAGE WALK */
+.village-walk-option {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.village-walk-description {
+    color: #9cad9f;
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+.village-walk-option button {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #65785d;
+    border-radius: 8px;
+    background: #394a35;
+    color: #edf2e9;
+    cursor: pointer;
+    font: inherit;
+    font-weight: bold;
+}
+
+.village-walk-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at 50% 20%, #384936 0%, #182018 45%, #0b100c 100%);
+}
+
+.village-walk-box {
+    width: min(500px, 100%);
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #4b5b47;
+    border-radius: 16px;
+    background: #18221b;
+}
+
+.village-walk-box h1 {
+    margin: 5px 0;
+}
+
+.village-walk-box p {
+    color: #9cad9f;
+    font-size: 13px;
+}
+
+.village-walk-icon {
+    margin: 25px 0;
+    font-size: 64px;
+}
+
+#villageWalkBar {
+    background: #829f87;
+}
+
+.village-walk-next {
+    margin-top: 8px;
+    color: #8fa594;
+    font-size: 11px;
+}
+
+@media (max-width: 500px) {
+    .village-walk-box {
+        padding: 24px 16px;
+    }
+
+    .village-walk-icon {
+        font-size: 52px;
+    }
+}
