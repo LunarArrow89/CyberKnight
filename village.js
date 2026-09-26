@@ -18,11 +18,13 @@ const buildingNames = {
 
 function showArrivalScene() {
     const scene = document.getElementById("arrivalScene");
+    const forestGame = document.getElementById("forestGame");
     if (!scene) return;
 
+    if (forestGame) forestGame.classList.add("hidden");
     scene.classList.remove("hidden");
     document.getElementById("arrivalText").textContent =
-        "You finally find your way out of the Whispering Woods...";
+        "You leave the Whispering Woods behind...";
     document.getElementById("arrivalContinue").textContent = "Continue";
     document.getElementById("arrivalContinue").dataset.step = "1";
 }
@@ -55,11 +57,9 @@ function nextArrivalLine() {
 }
 
 function showVillage() {
-    const forestGame = document.getElementById("forestGame");
     const hub = document.getElementById("villageScreen");
     if (!hub) return;
 
-    if (forestGame) forestGame.classList.add("hidden");
     document.getElementById("arrivalScene")?.classList.add("hidden");
     hub.classList.remove("hidden");
     updateVillageUI();
