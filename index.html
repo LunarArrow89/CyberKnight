@@ -129,6 +129,12 @@
 </div>
 </div>
 
+<div class="village-panel village-walk-option">
+<div class="village-panel-title">Explore</div>
+<div class="village-walk-description">Take a 20 minute walk and find 1 random resource every 15 seconds.</div>
+<button id="takeWalkButton">Take a Walk</button>
+</div>
+
 <div class="village-panel">
 <div class="village-panel-heading">
 <div class="village-panel-title">Rebuild the Village</div>
@@ -146,6 +152,21 @@
 <button id="villageResetButton" class="danger-button">Reset Game</button>
 </div>
 
+</div>
+</div>
+
+
+<div id="villageWalkScreen" class="village-walk-screen hidden">
+<div class="village-walk-box">
+<div class="village-kicker">A QUIET JOURNEY</div>
+<h1>Taking a Walk</h1>
+<p>Every 15 seconds, you find 1 random village resource.</p>
+<div class="village-walk-icon">🌲</div>
+<div class="bar">
+<div class="bar-fill" id="villageWalkBar"></div>
+</div>
+<div class="bar-text" id="villageWalkText">20:00 remaining</div>
+<div class="village-walk-next" id="nextWalkRewardText">15 seconds until your next resource</div>
 </div>
 </div>
 
