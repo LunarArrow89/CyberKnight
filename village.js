@@ -19,14 +19,18 @@ const buildingNames = {
 function showArrivalScene() {
     const scene = document.getElementById("arrivalScene");
     const forestGame = document.getElementById("forestGame");
-    if (!scene) return;
+    const text = document.getElementById("arrivalText");
+    const button = document.getElementById("arrivalContinue");
+
+    if (!scene || !text || !button) return;
 
     if (forestGame) forestGame.classList.add("hidden");
+
+    text.textContent = "You leave the Whispering Woods behind...";
+    button.textContent = "Continue";
+    button.dataset.step = "1";
+
     scene.classList.remove("hidden");
-    document.getElementById("arrivalText").textContent =
-        "You leave the Whispering Woods behind...";
-    document.getElementById("arrivalContinue").textContent = "Continue";
-    document.getElementById("arrivalContinue").dataset.step = "1";
 }
 
 function nextArrivalLine() {
