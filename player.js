@@ -129,6 +129,7 @@ function resetGame() {
         
         document.getElementById("log").innerHTML = "";
 
+        document.getElementById("forestGame").classList.remove("hidden");
         document.getElementById("forestScreen").classList.remove("hidden");
         document.getElementById("villageScreen").classList.add("hidden");
         document.getElementById("arrivalScene").classList.add("hidden");
