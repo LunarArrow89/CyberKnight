@@ -1,7 +1,8 @@
 const village = {
     unlocked: false,
     resources: { wood: 0, stone: 0, food: 0 },
-    buildings: { campfire: false, shelter: false, workshop: false }
+    buildings: { campfire: false, shelter: false, workshop: false },
+    walk: { active: false, startTime: 0, lastRewardCount: 0, duration: 20 * 60 * 1000 }
 };
 
 const buildingCosts = {
@@ -119,6 +120,8 @@ function buildBuilding(type) {
     saveGame();
 }
 
+let villageWalkTimer = null;
+
 function updateVillageUI() {
     const screen = document.getElementById("villageScreen");
     if (!screen) return;
@@ -126,6 +129,12 @@ function updateVillageUI() {
     document.getElementById("woodText").textContent = village.resources.wood;
     document.getElementById("stoneText").textContent = village.resources.stone;
     document.getElementById("foodText").textContent = village.resources.food;
+
+    const walkButton = document.getElementById("takeWalkButton");
+    if (walkButton) {
+        walkButton.disabled = village.walk.active;
+        walkButton.textContent = village.walk.active ? "Walking..." : "Take a Walk";
+    }
 
     Object.keys(village.buildings).forEach(type => {
         const card = document.getElementById(`${type}Building`);
@@ -139,10 +148,65 @@ function updateVillageUI() {
     });
 }
 
+function startVillageWalk() {
+    if (!village.unlocked || village.walk.active) return;
+    village.walk.active = true;
+    village.walk.startTime = Date.now();
+    village.walk.lastRewardCount = 0;
+    document.getElementById("villageWalkScreen")?.classList.remove("hidden");
+    addVillageLog("You set out for a 20 minute walk.");
+    saveGame();
+    clearInterval(villageWalkTimer);
+    villageWalkTimer = setInterval(updateVillageWalk, 1000);
+    updateVillageWalk();
+}
+
+function updateVillageWalk() {
+    if (!village.walk.active) return;
+    const elapsed = Date.now() - village.walk.startTime;
+    const progress = Math.min(1, elapsed / village.walk.duration);
+    const walkBar = document.getElementById("villageWalkBar");
+    const walkText = document.getElementById("villageWalkText");
+    const nextRewardText = document.getElementById("nextWalkRewardText");
+    if (walkBar) walkBar.style.width = (progress * 100) + "%";
+    const remaining = Math.max(0, village.walk.duration - elapsed);
+    const minutes = Math.floor(remaining / 60000);
+    const seconds = Math.floor((remaining % 60000) / 1000);
+    if (walkText) walkText.textContent = minutes + ":" + String(seconds).padStart(2, "0") + " remaining";
+    const rewardCount = Math.floor(elapsed / 15000);
+    while (village.walk.lastRewardCount < rewardCount) {
+        village.walk.lastRewardCount++;
+        const resources = ["wood", "stone", "food"];
+        const resource = resources[Math.floor(Math.random() * resources.length)];
+        village.resources[resource]++;
+        addVillageLog("Your walk helped you find 1 " + resource + ".");
+    }
+    if (nextRewardText) {
+        const secondsUntilReward = 15 - Math.floor((elapsed % 15000) / 1000);
+        nextRewardText.textContent = secondsUntilReward + " seconds until your next resource";
+    }
+    updateVillageUI();
+    if (elapsed >= village.walk.duration) finishVillageWalk();
+    else saveGame();
+}
+
+function finishVillageWalk() {
+    village.walk.active = false;
+    clearInterval(villageWalkTimer);
+    villageWalkTimer = null;
+    document.getElementById("villageWalkScreen")?.classList.add("hidden");
+    addVillageLog("You finished your 20 minute walk and returned to Oakshade Village.");
+    updateVillageUI();
+    saveGame();
+}
 function resetVillage() {
     village.unlocked = false;
     village.resources = { wood: 0, stone: 0, food: 0 };
     village.buildings = { campfire: false, shelter: false, workshop: false };
+    village.walk = { active: false, startTime: 0, lastRewardCount: 0, duration: 20 * 60 * 1000 };
+    clearInterval(villageWalkTimer);
+    villageWalkTimer = null;
+    document.getElementById("villageWalkScreen")?.classList.add("hidden");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -156,5 +220,14 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", () => buildBuilding(button.dataset.build));
     });
 
+    document.getElementById("takeWalkButton")?.addEventListener("click", startVillageWalk);
+
     updateVillageUI();
+
+    if (village.walk.active) {
+        document.getElementById("villageWalkScreen")?.classList.remove("hidden");
+        clearInterval(villageWalkTimer);
+        villageWalkTimer = setInterval(updateVillageWalk, 1000);
+        updateVillageWalk();
+    }
 });
