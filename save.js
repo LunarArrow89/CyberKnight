@@ -35,15 +35,3 @@ function loadGame() {
         localStorage.removeItem(SAVE_KEY);
     }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("resetButton")?.addEventListener("click", resetGame);
-    document.getElementById("villageResetButton")?.addEventListener("click", resetGame);
-});
-
-function resetGame() {
-    if (!confirm("Reset your entire Utopia game?")) return;
-
-    localStorage.removeItem(SAVE_KEY);
-    location.reload();
-}
