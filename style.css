@@ -1108,3 +1108,250 @@ button:disabled {
     justify-content: center !important;
     text-align: center !important;
 }
+
+
+/* ==========================================================
+   VILLAGE MOBILE / WALKING-STYLE UI
+   ========================================================== */
+
+#villageScreen {
+    padding: 10px;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+#villageScreen .village-header,
+#villageScreen .village-content {
+    width: min(560px, 100%);
+    margin: 0 auto;
+}
+
+#villageScreen .village-header {
+    align-items: center;
+    padding: 4px 0 10px;
+    gap: 10px;
+}
+
+#villageScreen .village-header h1 {
+    font-size: 27px;
+    margin: 3px 0;
+}
+
+#villageScreen .village-header p {
+    font-size: 13px;
+    line-height: 1.35;
+}
+
+#villageScreen .village-kicker {
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+#villageScreen .village-status {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+#villageScreen .village-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+}
+
+#villageScreen .village-overview {
+    min-height: 0;
+    border-radius: 13px;
+    box-shadow: none;
+}
+
+#villageScreen .village-art {
+    min-height: 190px;
+    height: 190px;
+    flex: none;
+}
+
+#villageScreen .ruined-house {
+    font-size: 50px;
+}
+
+#villageScreen .house-one {
+    left: 22%;
+    bottom: 23%;
+}
+
+#villageScreen .house-two {
+    right: 22%;
+    bottom: 19%;
+    font-size: 38px;
+}
+
+#villageScreen .village-tree {
+    font-size: 45px;
+}
+
+#villageScreen .tree-one {
+    left: 5%;
+    bottom: 24%;
+}
+
+#villageScreen .tree-two {
+    right: 5%;
+    bottom: 26%;
+}
+
+#villageScreen .village-message {
+    padding: 11px 13px;
+    gap: 4px;
+}
+
+#villageScreen .village-message strong {
+    font-size: 14px;
+}
+
+#villageScreen .village-message span {
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+#villageScreen .village-panel {
+    padding: 12px;
+    border-radius: 13px;
+}
+
+#villageScreen .village-panel-title {
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+
+#villageScreen .resource-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+}
+
+#villageScreen .resource-card {
+    grid-template-columns: 30px 1fr auto;
+    gap: 8px;
+    padding: 8px;
+}
+
+#villageScreen .resource-icon {
+    font-size: 18px;
+}
+
+#villageScreen .resource-name {
+    font-size: 11px;
+}
+
+#villageScreen .resource-value {
+    margin: 2px 0 0;
+    font-size: 15px;
+}
+
+#villageScreen .resource-card button {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+#villageScreen .village-panel-heading {
+    display: block;
+}
+
+#villageScreen .village-hint {
+    margin-top: -4px;
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 10px;
+}
+
+#villageScreen .building-list {
+    gap: 6px;
+}
+
+#villageScreen .building-card {
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+}
+
+#villageScreen .building-name {
+    font-size: 12px;
+}
+
+#villageScreen .building-description {
+    font-size: 10px;
+}
+
+#villageScreen .building-cost {
+    font-size: 9px;
+}
+
+#villageScreen .building-card button {
+    flex: 0 0 65px;
+    padding: 7px 5px;
+    font-size: 11px;
+}
+
+#villageScreen .village-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+#villageScreen .village-log {
+    width: 100%;
+    min-height: 45px;
+    max-height: 80px;
+    padding: 8px 10px;
+}
+
+#villageScreen .village-footer .danger-button {
+    width: 100%;
+    padding: 8px;
+    font-size: 12px;
+}
+
+@media (max-width: 500px) {
+    #villageScreen {
+        padding: 8px;
+    }
+
+    #villageScreen .village-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    #villageScreen .village-header > div:first-child {
+        min-width: 0;
+    }
+
+    #villageScreen .village-header h1 {
+        font-size: 22px;
+    }
+
+    #villageScreen .village-header p {
+        font-size: 11px;
+    }
+
+    #villageScreen .village-status {
+        flex: 0 0 auto;
+        font-size: 10px;
+        padding: 6px 8px;
+    }
+
+    #villageScreen .village-art {
+        min-height: 160px;
+        height: 160px;
+    }
+
+    #villageScreen .ruined-house {
+        font-size: 42px;
+    }
+
+    #villageScreen .house-two {
+        font-size: 32px;
+    }
+
+    #villageScreen .village-tree {
+        font-size: 38px;
+    }
+}
