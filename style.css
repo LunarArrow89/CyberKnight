@@ -966,3 +966,62 @@ button:disabled {
     .village-art { min-height: 310px; }
     .village-footer { grid-column: auto; }
 }
+
+
+/* ==========================================================
+   HIDDEN SCREENS
+   ========================================================== */
+.arrival-scene.hidden,
+.village-screen.hidden,
+.hidden {
+    display: none !important;
+}
+
+/* Finished-forest cutscene: full black screen with text centered. */
+.arrival-scene:not(.hidden) {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    background: #000;
+}
+
+.arrival-box {
+    width: min(620px, 100%);
+    min-height: 240px;
+    padding: 30px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+}
+
+.arrival-text {
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: clamp(20px, 3vw, 32px);
+    line-height: 1.5;
+    text-align: center;
+}
+
+.arrival-box button {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 180px;
+    margin-top: 28px;
+    padding: 12px 22px;
+}
