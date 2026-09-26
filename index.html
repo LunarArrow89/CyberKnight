@@ -2,15 +2,10 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Whispering Woods</title>
-
 <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
@@ -18,277 +13,174 @@
 <div class="game">
 
 <header>
-
-<h1>
-Whispering Woods
-</h1>
-
-<p class="subtitle">
-Walk through the darkness and find your way out.
-</p>
-
+<h1>Whispering Woods</h1>
+<p class="subtitle">Walk through the darkness and find your way out.</p>
 </header>
 
-
 <div class="stats">
-
-<div class="stat">
-
-<div class="stat-label">
-HP
+<div class="stat"><div class="stat-label">HP</div><div class="stat-value" id="hpText">40 / 40</div></div>
+<div class="stat"><div class="stat-label">Attack</div><div class="stat-value" id="attackText">8</div></div>
+<div class="stat"><div class="stat-label">Level</div><div class="stat-value" id="levelText">1</div></div>
+<div class="stat"><div class="stat-label">Gold</div><div class="stat-value" id="goldText">0</div></div>
+<div class="stat"><div class="stat-label">Status</div><div class="stat-value" id="statusText">Walking</div></div>
 </div>
-
-<div class="stat-value" id="hpText">
-40 / 40
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-label">
-Attack
-</div>
-
-<div class="stat-value" id="attackText">
-8
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-label">
-Level
-</div>
-
-<div class="stat-value" id="levelText">
-1
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-label">
-Gold
-</div>
-
-<div class="stat-value" id="goldText">
-0
-</div>
-
-</div>
-
-
-<div class="stat">
-
-<div class="stat-label">
-Status
-</div>
-
-<div class="stat-value" id="statusText">
-Walking
-</div>
-
-</div>
-
-</div>
-
-
 
 <div class="game-box">
 
+<div id="forestScreen">
 
 <div class="section">
+<div class="section-title">🌲 Forest Journey</div>
+<div class="bar"><div class="bar-fill" id="forestBar"></div></div>
+<div class="bar-text" id="forestText">0:00 / 5:00</div>
 
-<div class="section-title">
-🌲 Forest Journey
+<iframe src="animation1.html" class="forest-animation"></iframe>
 </div>
-
-
-<div class="bar">
-
-<div class="bar-fill" id="forestBar"></div>
-
-</div>
-
-
-<div class="bar-text" id="forestText">
-0:00 / 5:00
-</div>
-
-
-<iframe
-src="animation1.html"
-class="forest-animation">
-</iframe>
-
-
-</div>
-
-
-
 
 <div class="section">
-
-<div class="section-title">
-❤️ Health & Experience
-</div>
-
-
+<div class="section-title">❤️ Health & Experience</div>
 <div class="health-xp">
-
-
 <div>
-
-<div class="small-title">
-Health
+<div class="small-title">Health</div>
+<div class="bar"><div class="bar-fill" id="hpBar"></div></div>
+<div class="bar-text" id="hpBarText">40 / 40 HP</div>
 </div>
-
-<div class="bar">
-
-<div class="bar-fill" id="hpBar"></div>
-
-</div>
-
-<div class="bar-text" id="hpBarText">
-40 / 40 HP
-</div>
-
-</div>
-
-
-
 <div>
-
-<div class="small-title">
-Experience
+<div class="small-title">Experience</div>
+<div class="bar"><div class="bar-fill" id="xpBar"></div></div>
+<div class="bar-text" id="xpBarText">0 / 50 XP</div>
 </div>
-
-<div class="bar">
-
-<div class="bar-fill" id="xpBar"></div>
-
 </div>
-
-<div class="bar-text" id="xpBarText">
-0 / 50 XP
 </div>
-
-</div>
-
-
-</div>
-
-</div>
-
-
-
-
 
 <div class="section">
-
-<div class="section-title">
-💤 Rest
-</div>
-
-
-<div class="bar">
-
-<div class="bar-fill" id="restBar"></div>
-
-</div>
-
-
-<div class="bar-text" id="restText">
-Rest when you need to recover.
-</div>
-
-
+<div class="section-title">💤 Rest</div>
+<div class="bar"><div class="bar-fill" id="restBar"></div></div>
+<div class="bar-text" id="restText">Rest when you need to recover.</div>
 <div class="buttons">
-
-<button id="restButton">
-Rest
-</button>
-
-
-<button id="leaveButton" disabled>
-Leave
-</button>
+<button id="restButton">Rest</button>
+<button id="leaveButton" disabled>Leave</button>
+</div>
+</div>
 
 </div>
 
+<div id="villageScreen" class="hidden">
 
+<div class="section village-intro">
+<div class="section-title">🏚️ The Forgotten Village</div>
+<p class="village-description">
+The village has been abandoned for years. Gather what you can and slowly bring it back to life.
+</p>
 </div>
-
-
-
 
 <div class="section">
+<div class="section-title">🧺 Resources</div>
 
-<div class="section-title">
-📖 Adventure Log
+<div class="resource-grid">
+<div class="resource-card">
+<div class="resource-icon">🪵</div>
+<div class="resource-name">Wood</div>
+<div class="resource-value" id="woodText">0</div>
+<button data-gather="wood">Gather</button>
 </div>
 
-
-<div class="log" id="log">
-
+<div class="resource-card">
+<div class="resource-icon">🪨</div>
+<div class="resource-name">Stone</div>
+<div class="resource-value" id="stoneText">0</div>
+<button data-gather="stone">Gather</button>
 </div>
 
-
+<div class="resource-card">
+<div class="resource-icon">🥕</div>
+<div class="resource-name">Food</div>
+<div class="resource-value" id="foodText">0</div>
+<button data-gather="food">Gather</button>
 </div>
-
-
-
+</div>
+</div>
 
 <div class="section">
+<div class="section-title">🔨 Rebuild the Village</div>
 
-<div class="section-title">
-⚙️ Settings
+<div class="building-list">
+
+<div class="building-card" id="campfireBuilding">
+<div>
+<div class="building-name">🔥 Campfire</div>
+<div class="building-description">A warm place to gather.</div>
+<div class="building-cost">10 wood · 5 stone</div>
+</div>
+<button id="campfireBuildButton" data-build="campfire">Build</button>
 </div>
 
+<div class="building-card" id="shelterBuilding">
+<div>
+<div class="building-name">🏠 Shelter</div>
+<div class="building-description">A safe roof over the village.</div>
+<div class="building-cost">20 wood · 10 stone</div>
+</div>
+<button id="shelterBuildButton" data-build="shelter">Build</button>
+</div>
+
+<div class="building-card" id="workshopBuilding">
+<div>
+<div class="building-name">🛠️ Workshop</div>
+<div class="building-description">A place for future village projects.</div>
+<div class="building-cost">35 wood · 25 stone</div>
+</div>
+<button id="workshopBuildButton" data-build="workshop">Build</button>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div class="section">
+<div class="section-title">📖 Adventure Log</div>
+<div class="log" id="log"></div>
+</div>
+
+<div class="section">
+<div class="section-title">⚙️ Settings</div>
 <div class="buttons">
-
-<button id="resetButton">
-Reset Save
-</button>
-
+<button id="resetButton">Reset Save</button>
+</div>
 </div>
 
 </div>
-
-
-
-<div class="section">
-
-<div class="victory" id="victory">
-
-You found your way out!
-
 </div>
 
-
+<div id="arrivalScene" class="arrival-scene hidden">
+<div class="arrival-box">
+<div class="arrival-label">THE FOREST ENDS</div>
+<div class="arrival-text" id="arrivalText">
+You finally find your way out of the Whispering Woods...
+</div>
+<button id="arrivalContinue" data-step="1">Continue</button>
+</div>
 </div>
 
-
-
 </div>
-
-
-</div>
-
 
 <script src="player.js"></script>
 <script src="battle.js"></script>
 <script src="paths.js"></script>
+<script src="village.js"></script>
 <script src="save.js"></script>
 <script src="game.js"></script>
 
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js").catch(error => {
+            console.log("Offline support could not be registered.", error);
+        });
+    });
+}
+</script>
 
 </body>
-
 </html>

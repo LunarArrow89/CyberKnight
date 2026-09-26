@@ -117,6 +117,7 @@ function resetGame() {
         resting = false;
         gameEnded = false;
         currentPath = "forest";
+        resetVillage();
         
         paths.forest.progress = 0;
         paths.forest.encounterTime = 45;
@@ -127,6 +128,10 @@ function resetGame() {
         paths.cave.completed = false;
         
         document.getElementById("log").innerHTML = "";
+
+        document.getElementById("forestScreen").classList.remove("hidden");
+        document.getElementById("villageScreen").classList.add("hidden");
+        document.getElementById("arrivalScene").classList.add("hidden");
         
         updateHP();
         updateGold();

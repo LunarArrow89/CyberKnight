@@ -495,3 +495,188 @@ button:disabled {
 
 
 }
+
+
+/* VILLAGE HUB */
+
+.hidden {
+    display: none !important;
+}
+
+.village-intro {
+    background:
+        linear-gradient(
+            135deg,
+            #202d24,
+            #172019
+        );
+}
+
+.village-description {
+    margin: 0;
+    color: #9cad9f;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.resource-card {
+    padding: 10px 7px;
+    text-align: center;
+    background: #202d24;
+    border: 1px solid #35463a;
+    border-radius: 10px;
+}
+
+.resource-icon {
+    font-size: 20px;
+}
+
+.resource-name {
+    margin-top: 3px;
+    color: #aebcaf;
+    font-size: 12px;
+}
+
+.resource-value {
+    margin: 4px 0 7px;
+    color: #dce9df;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.resource-card button {
+    width: 100%;
+    padding: 6px;
+    font-size: 12px;
+}
+
+.building-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.building-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px;
+    background: #202d24;
+    border: 1px solid #35463a;
+    border-radius: 10px;
+}
+
+.building-card.built {
+    background: #26392b;
+    border-color: #4e6b53;
+}
+
+.building-name {
+    color: #dce9df;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.building-description {
+    margin-top: 2px;
+    color: #8fa594;
+    font-size: 11px;
+}
+
+.building-cost {
+    margin-top: 4px;
+    color: #9cad9f;
+    font-size: 10px;
+}
+
+.building-card button {
+    flex: 0 0 75px;
+    padding: 7px;
+    font-size: 12px;
+}
+
+
+/* ARRIVAL WORD CUTSCENE */
+
+.arrival-scene {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(38, 53, 44, .97),
+            rgba(7, 11, 8, .99)
+        );
+}
+
+.arrival-box {
+    width: min(500px, 100%);
+    padding: 28px 22px;
+    text-align: center;
+    background: #18221b;
+    border: 1px solid #526856;
+    border-radius: 13px;
+    box-shadow: 0 20px 70px rgba(0, 0, 0, .55);
+}
+
+.arrival-label {
+    margin-bottom: 22px;
+    color: #8fa594;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+.arrival-text {
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #dce9df;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.arrival-box button {
+    margin-top: 22px;
+    max-width: 180px;
+}
+
+
+@media(max-width:500px) {
+
+    .resource-grid {
+        gap: 5px;
+    }
+
+    .resource-card {
+        padding: 8px 4px;
+    }
+
+    .resource-card button {
+        font-size: 11px;
+    }
+
+    .building-card {
+        padding: 8px;
+    }
+
+    .arrival-box {
+        padding: 24px 16px;
+    }
+
+    .arrival-text {
+        font-size: 16px;
+    }
+}
