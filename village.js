@@ -66,6 +66,8 @@ function showVillage() {
     if (!hub) return;
 
     document.getElementById("arrivalScene")?.classList.add("hidden");
+    document.getElementById("forestGame")?.classList.add("hidden");
+    document.getElementById("villageWalkScreen")?.classList.add("hidden");
     hub.classList.remove("hidden");
     updateVillageUI();
 }
@@ -356,7 +358,8 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", () => buildBuilding(button.dataset.build));
     });
 
-    document.getElementById("takeWalkButton")?.addEventListener("click", startVillageWalk);\n    document.getElementById("leaveVillageWalkButton")?.addEventListener("click", leaveVillageWalk);
+    document.getElementById("takeWalkButton")?.addEventListener("click", startVillageWalk);
+    document.getElementById("leaveVillageWalkButton")?.addEventListener("click", leaveVillageWalk);
 
     updateVillageUI();
 
