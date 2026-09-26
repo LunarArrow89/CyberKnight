@@ -1025,3 +1025,47 @@ button:disabled {
     margin-top: 28px;
     padding: 12px 22px;
 }
+
+
+/* ==========================================================
+   TRUE SEPARATE SCREENS
+   ========================================================== */
+
+/* The forest is the only screen shown while the path is active. */
+#forestGame.hidden {
+    display: none !important;
+}
+
+/* The finished-path story is its own full-screen black scene. */
+#arrivalScene {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+}
+
+/* The village is a completely separate full-screen game screen. */
+#villageScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    overflow-y: auto;
+    background:
+        radial-gradient(circle at 50% 0%, #384936 0%, #202b20 35%, #101610 100%);
+}
+
+#arrivalScene.hidden,
+#villageScreen.hidden {
+    display: none !important;
+}
+
+/* Never allow the arrival text to exist until JavaScript opens the scene. */
+#arrivalScene.hidden #arrivalText,
+#arrivalScene.hidden #arrivalContinue {
+    display: none;
+}
