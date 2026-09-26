@@ -175,6 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resetButton) {
         resetButton.addEventListener("click", resetGame);
     }
+
+    const villageResetButton = document.getElementById("villageResetButton");
+    if (villageResetButton) {
+        villageResetButton.addEventListener("click", resetGame);
+    }
     
     const restButton = document.getElementById("restButton");
     if (restButton) {
