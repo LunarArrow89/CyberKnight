@@ -144,7 +144,9 @@ function resetGame() {
         document.getElementById("xpBarText").textContent = "0 / 50 XP";
         document.getElementById("forestText").textContent = "0:00 / 5:00";
         
-        addLog("Game reset! Starting fresh adventure...");
+        updateForest();
+        updateRest();
+        updateVillageUI();
     }
 }
 
