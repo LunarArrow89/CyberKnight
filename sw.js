@@ -1,4 +1,4 @@
-const CACHE_NAME = "utopia-offline-v2";
+const CACHE_NAME = "utopia-offline-v3";
 
 const FILES = [
     "./",
@@ -15,9 +15,18 @@ const FILES = [
 
 self.addEventListener("install", event => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache =>
-            cache.addAll(FILES)
-        )
+        caches.open(CACHE_NAME).then(async cache => {
+            for (const file of FILES) {
+                try {
+                    const response = await fetch(file, { cache: "reload" });
+                    if (response.ok) {
+                        await cache.put(file, response);
+                    }
+                } catch (error) {
+                    console.log("Could not cache:", file);
+                }
+            }
+        })
     );
 
     self.skipWaiting();
@@ -38,17 +47,22 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-    event.respondWith(
-        caches.match(event.request).then(cached => {
-            return cached || fetch(event.request).then(response => {
-                const copy = response.clone();
+    const request = event.request;
 
-                caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, copy);
-                });
+    if (request.method !== "GET") return;
+
+    event.respondWith(
+        fetch(request, { cache: "no-cache" })
+            .then(response => {
+                if (response.ok) {
+                    const copy = response.clone();
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.put(request, copy);
+                    });
+                }
 
                 return response;
-            }).catch(() => caches.match("./index.html"));
-        })
+            })
+            .catch(() => caches.match(request))
     );
 });
