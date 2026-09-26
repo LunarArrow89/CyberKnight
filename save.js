@@ -29,6 +29,7 @@ function loadGame() {
             village.unlocked = Boolean(data.village.unlocked);
             Object.assign(village.resources, data.village.resources || {});
             Object.assign(village.buildings, data.village.buildings || {});
+            Object.assign(village.walk, data.village.walk || {});
         }
     } catch (error) {
         console.error("Failed to load game:", error);
