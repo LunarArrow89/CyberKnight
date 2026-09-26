@@ -2,7 +2,7 @@ const village = {
     unlocked: false,
     resources: { wood: 0, stone: 0, food: 0 },
     buildings: { campfire: false, shelter: false, workshop: false },
-    walk: { active: false, startTime: 0, lastRewardCount: 0, duration: 20 * 60 * 1000 }
+    walk: { active: false, startTime: 0, lastRewardCount: 0, nextEncounterTime: 30, duration: 20 * 60 * 1000 }
 };
 
 const buildingCosts = {
@@ -150,12 +150,16 @@ function updateVillageUI() {
 
 function startVillageWalk() {
     if (!village.unlocked || village.walk.active) return;
+
     village.walk.active = true;
     village.walk.startTime = Date.now();
     village.walk.lastRewardCount = 0;
+    village.walk.nextEncounterTime = 30 + Math.floor(Math.random() * 31);
+
     document.getElementById("villageWalkScreen")?.classList.remove("hidden");
     addVillageLog("You set out for a 20 minute walk.");
     saveGame();
+
     clearInterval(villageWalkTimer);
     villageWalkTimer = setInterval(updateVillageWalk, 1000);
     updateVillageWalk();
@@ -163,47 +167,179 @@ function startVillageWalk() {
 
 function updateVillageWalk() {
     if (!village.walk.active) return;
+
     const elapsed = Date.now() - village.walk.startTime;
     const progress = Math.min(1, elapsed / village.walk.duration);
-    const walkBar = document.getElementById("villageWalkBar");
-    const walkText = document.getElementById("villageWalkText");
-    const nextRewardText = document.getElementById("nextWalkRewardText");
-    if (walkBar) walkBar.style.width = (progress * 100) + "%";
+
+    const bar = document.getElementById("villageWalkBar");
+    const text = document.getElementById("villageWalkText");
+    const next = document.getElementById("nextWalkRewardText");
+
+    if (bar) bar.style.width = (progress * 100) + "%";
+
     const remaining = Math.max(0, village.walk.duration - elapsed);
     const minutes = Math.floor(remaining / 60000);
     const seconds = Math.floor((remaining % 60000) / 1000);
-    if (walkText) walkText.textContent = minutes + ":" + String(seconds).padStart(2, "0") + " remaining";
+
+    if (text) text.textContent = minutes + ":" + String(seconds).padStart(2, "0") + " remaining";
+
     const rewardCount = Math.floor(elapsed / 15000);
+
     while (village.walk.lastRewardCount < rewardCount) {
         village.walk.lastRewardCount++;
+
         const resources = ["wood", "stone", "food"];
         const resource = resources[Math.floor(Math.random() * resources.length)];
+
         village.resources[resource]++;
-        addVillageLog("Your walk helped you find 1 " + resource + ".");
+        addVillageWalkLog("You found 1 " + resource + ".");
     }
-    if (nextRewardText) {
+
+    if (elapsed >= village.walk.nextEncounterTime * 1000) {
+        villageWalkBattle();
+        village.walk.nextEncounterTime =
+            Math.floor(elapsed / 1000) + 30 + Math.floor(Math.random() * 31);
+    }
+
+    if (next) {
         const secondsUntilReward = 15 - Math.floor((elapsed % 15000) / 1000);
-        nextRewardText.textContent = secondsUntilReward + " seconds until your next resource";
+        next.textContent = secondsUntilReward + " seconds until your next resource";
     }
-    updateVillageUI();
-    if (elapsed >= village.walk.duration) finishVillageWalk();
-    else saveGame();
+
+    updateVillageWalkUI();
+
+    if (elapsed >= village.walk.duration) {
+        finishVillageWalk();
+    } else {
+        saveGame();
+    }
 }
 
-function finishVillageWalk() {
+function villageWalkBattle() {
+    const enemy = enemies[Math.floor(Math.random() * enemies.length)];
+    const damageTaken = Math.max(0, enemy.attack - player.attack);
+
+    if (damageTaken <= 0) {
+        addVillageWalkLog("You defeated " + enemy.name + ".");
+        player.gold += enemy.gold;
+        giveXP(enemy.xp);
+    } else {
+        player.hp -= damageTaken;
+        addVillageWalkLog(enemy.name + " attacked you for " + damageTaken + " damage.");
+
+        if (player.hp <= 0) {
+            player.hp = 0;
+            addVillageWalkLog(enemy.name + " defeated you.");
+            villageWalkRest();
+        }
+    }
+
+    updateHP();
+    updateGold();
+    updateVillageWalkUI();
+}
+
+function villageWalkRest() {
+    const missingHp = Math.max(0, player.maxHp - player.hp);
+
+    if (missingHp <= 0) return;
+
+    const restDuration = missingHp * 0.5 * 60 * 1000;
+    const startTime = Date.now();
+
+    clearInterval(villageWalkTimer);
+
+    const bar = document.getElementById("villageWalkRestBar");
+    const text = document.getElementById("villageWalkRestText");
+
+    if (text) text.textContent = "Forced Rest";
+
+    const timer = setInterval(() => {
+        const progress = Math.min(1, (Date.now() - startTime) / restDuration);
+
+        if (bar) bar.style.width = (progress * 100) + "%";
+
+        if (progress >= 1) {
+            clearInterval(timer);
+            player.hp = player.maxHp;
+
+            if (bar) bar.style.width = "0%";
+            if (text) text.textContent = "Rested! The walk continues.";
+
+            updateHP();
+            saveGame();
+
+            villageWalkTimer = setInterval(updateVillageWalk, 1000);
+        }
+    }, 1000);
+}
+
+function updateVillageWalkUI() {
+    const hpText = document.getElementById("villageWalkHpText");
+    const hpBar = document.getElementById("villageWalkHpBar");
+    const xpText = document.getElementById("villageWalkXpText");
+    const xpBar = document.getElementById("villageWalkXpBar");
+    const goldText = document.getElementById("villageWalkGoldText");
+    const level = document.getElementById("villageWalkLevelText");
+    const attack = document.getElementById("villageWalkAttackText");
+
+    if (hpText) hpText.textContent = player.hp + " / " + player.maxHp;
+    if (hpBar) hpBar.style.width = (player.hp / player.maxHp * 100) + "%";
+    if (xpText) xpText.textContent = player.xp + " / " + player.xpToNext + " XP";
+    if (xpBar) xpBar.style.width = (player.xp / player.xpToNext * 100) + "%";
+    if (goldText) goldText.textContent = player.gold;
+    if (level) level.textContent = player.level;
+    if (attack) attack.textContent = player.attack;
+}
+
+function addVillageWalkLog(message) {
+    const log = document.getElementById("villageWalkLog");
+    if (!log) return;
+
+    const entry = document.createElement("div");
+    entry.className = "log-entry";
+    entry.textContent = message;
+    log.appendChild(entry);
+    log.scrollTop = log.scrollHeight;
+
+    while (log.children.length > 20) {
+        log.firstElementChild.remove();
+    }
+}
+
+function leaveVillageWalk() {
+    if (!village.walk.active) return;
+
     village.walk.active = false;
     clearInterval(villageWalkTimer);
     villageWalkTimer = null;
+
     document.getElementById("villageWalkScreen")?.classList.add("hidden");
+
+    addVillageLog("You returned to Oakshade Village.");
+    updateVillageUI();
+    saveGame();
+}
+
+function finishVillageWalk() {
+    if (!village.walk.active) return;
+
+    village.walk.active = false;
+    clearInterval(villageWalkTimer);
+    villageWalkTimer = null;
+
+    document.getElementById("villageWalkScreen")?.classList.add("hidden");
+
     addVillageLog("You finished your 20 minute walk and returned to Oakshade Village.");
     updateVillageUI();
     saveGame();
 }
+
 function resetVillage() {
     village.unlocked = false;
     village.resources = { wood: 0, stone: 0, food: 0 };
     village.buildings = { campfire: false, shelter: false, workshop: false };
-    village.walk = { active: false, startTime: 0, lastRewardCount: 0, duration: 20 * 60 * 1000 };
+    village.walk = { active: false, startTime: 0, lastRewardCount: 0, nextEncounterTime: 30, duration: 20 * 60 * 1000 };
     clearInterval(villageWalkTimer);
     villageWalkTimer = null;
     document.getElementById("villageWalkScreen")?.classList.add("hidden");
@@ -220,7 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener("click", () => buildBuilding(button.dataset.build));
     });
 
-    document.getElementById("takeWalkButton")?.addEventListener("click", startVillageWalk);
+    document.getElementById("takeWalkButton")?.addEventListener("click", startVillageWalk);\n    document.getElementById("leaveVillageWalkButton")?.addEventListener("click", leaveVillageWalk);
 
     updateVillageUI();
 
