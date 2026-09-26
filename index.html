@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Whispering Woods</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
 <body>
+
+<div id="forestGame" class="game-screen">
 
 <div class="game">
 
@@ -65,79 +57,6 @@
 
 </div>
 
-<div id="villageScreen" class="hidden">
-
-<div class="section village-intro">
-<div class="section-title">🏚️ The Forgotten Village</div>
-<p class="village-description">
-The village has been abandoned for years. Gather what you can and slowly bring it back to life.
-</p>
-</div>
-
-<div class="section">
-<div class="section-title">🧺 Resources</div>
-
-<div class="resource-grid">
-<div class="resource-card">
-<div class="resource-icon">🪵</div>
-<div class="resource-name">Wood</div>
-<div class="resource-value" id="woodText">0</div>
-<button data-gather="wood">Gather</button>
-</div>
-
-<div class="resource-card">
-<div class="resource-icon">🪨</div>
-<div class="resource-name">Stone</div>
-<div class="resource-value" id="stoneText">0</div>
-<button data-gather="stone">Gather</button>
-</div>
-
-<div class="resource-card">
-<div class="resource-icon">🥕</div>
-<div class="resource-name">Food</div>
-<div class="resource-value" id="foodText">0</div>
-<button data-gather="food">Gather</button>
-</div>
-</div>
-</div>
-
-<div class="section">
-<div class="section-title">🔨 Rebuild the Village</div>
-
-<div class="building-list">
-
-<div class="building-card" id="campfireBuilding">
-<div>
-<div class="building-name">🔥 Campfire</div>
-<div class="building-description">A warm place to gather.</div>
-<div class="building-cost">10 wood · 5 stone</div>
-</div>
-<button id="campfireBuildButton" data-build="campfire">Build</button>
-</div>
-
-<div class="building-card" id="shelterBuilding">
-<div>
-<div class="building-name">🏠 Shelter</div>
-<div class="building-description">A safe roof over the village.</div>
-<div class="building-cost">20 wood · 10 stone</div>
-</div>
-<button id="shelterBuildButton" data-build="shelter">Build</button>
-</div>
-
-<div class="building-card" id="workshopBuilding">
-<div>
-<div class="building-name">🛠️ Workshop</div>
-<div class="building-description">A place for future village projects.</div>
-<div class="building-cost">35 wood · 25 stone</div>
-</div>
-<button id="workshopBuildButton" data-build="workshop">Build</button>
-</div>
-
-</div>
-</div>
-
-</div>
-
 <div class="section">
 <div class="section-title">📖 Adventure Log</div>
 <div class="log" id="log"></div>
@@ -153,16 +72,73 @@ The village has been abandoned for years. Gather what you can and slowly bring i
 </div>
 </div>
 
+</div>
+
 <div id="arrivalScene" class="arrival-scene hidden">
 <div class="arrival-box">
 <div class="arrival-label">THE FOREST ENDS</div>
-<div class="arrival-text" id="arrivalText">
-You finally find your way out of the Whispering Woods...
-</div>
+<div class="arrival-text" id="arrivalText">You finally find your way out of the Whispering Woods...</div>
 <button id="arrivalContinue" data-step="1">Continue</button>
 </div>
 </div>
 
+<div id="villageScreen" class="village-screen hidden">
+
+<div class="village-header">
+<div>
+<div class="village-kicker">A NEW BEGINNING</div>
+<h1>Oakshade Village</h1>
+<p>The forest is behind you. Now, rebuild what was left behind.</p>
+</div>
+<div class="village-status">Village Hub</div>
+</div>
+
+<div class="village-content">
+
+<div class="village-overview">
+<div class="village-art">
+<div class="village-sky"></div>
+<div class="village-hill hill-one"></div>
+<div class="village-hill hill-two"></div>
+<div class="ruined-house house-one">🏚️</div>
+<div class="ruined-house house-two">🪵</div>
+<div class="village-tree tree-one">🌳</div>
+<div class="village-tree tree-two">🌲</div>
+<div class="village-ground"></div>
+</div>
+<div class="village-message">
+<strong>The village is yours to restore.</strong>
+<span>Gather resources, repair important buildings, and turn this forgotten place into a home.</span>
+</div>
+</div>
+
+<div class="village-panel">
+<div class="village-panel-title">Resources</div>
+<div class="resource-grid">
+<div class="resource-card"><div class="resource-icon">🪵</div><div><div class="resource-name">Wood</div><div class="resource-value" id="woodText">0</div></div><button data-gather="wood">Gather</button></div>
+<div class="resource-card"><div class="resource-icon">🪨</div><div><div class="resource-name">Stone</div><div class="resource-value" id="stoneText">0</div></div><button data-gather="stone">Gather</button></div>
+<div class="resource-card"><div class="resource-icon">🥕</div><div><div class="resource-name">Food</div><div class="resource-value" id="foodText">0</div></div><button data-gather="food">Gather</button></div>
+</div>
+</div>
+
+<div class="village-panel">
+<div class="village-panel-heading">
+<div class="village-panel-title">Rebuild the Village</div>
+<div class="village-hint">Each building unlocks more of the village later.</div>
+</div>
+<div class="building-list">
+<div class="building-card" id="campfireBuilding"><div><div class="building-name">🔥 Campfire</div><div class="building-description">A warm place to gather.</div><div class="building-cost">10 wood · 5 stone</div></div><button id="campfireBuildButton" data-build="campfire">Build</button></div>
+<div class="building-card" id="shelterBuilding"><div><div class="building-name">🏠 Shelter</div><div class="building-description">A safe roof over the village.</div><div class="building-cost">20 wood · 10 stone</div></div><button id="shelterBuildButton" data-build="shelter">Build</button></div>
+<div class="building-card" id="workshopBuilding"><div><div class="building-name">🛠️ Workshop</div><div class="building-description">A place for future village projects.</div><div class="building-cost">35 wood · 25 stone</div></div><button id="workshopBuildButton" data-build="workshop">Build</button></div>
+</div>
+</div>
+
+<div class="village-footer">
+<div id="villageLog" class="village-log"></div>
+<button id="villageResetButton" class="danger-button">Reset Game</button>
+</div>
+
+</div>
 </div>
 
 <script src="player.js"></script>

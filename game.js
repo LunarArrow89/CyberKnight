@@ -3,7 +3,10 @@ function tick() {
         updatePath();
     }
 
-    updateRest();
+    if (!village.unlocked) {
+        updateRest();
+    }
+
     saveGame();
 }
 
@@ -14,9 +17,10 @@ document.addEventListener("DOMContentLoaded", () => {
     updateGold();
     updateForest();
 
-    if (village.unlocked) {
+    if (village.unlocked && paths.forest.completed) {
         showVillage();
-    } else if (gameEnded && paths.forest.completed) {
+    } else if (paths.forest.completed) {
+        gameEnded = true;
         showArrivalScene();
     }
 });
